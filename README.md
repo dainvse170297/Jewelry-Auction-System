@@ -7,4 +7,5 @@ The online jewelry auction management software of the auction company.
 4. Nguyễn Đức Đạt (vào r này :v)
 5. Trần Gia Huy
 6. Nguyễn Hà Viết Anh
-
+## Database   
+![Database](database/database_img.png)
