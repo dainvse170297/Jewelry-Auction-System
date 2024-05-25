@@ -156,7 +156,6 @@ ALTER TABLE `auction session` ADD CONSTRAINT `FKauction se446696` FOREIGN KEY (s
 ALTER TABLE bids ADD CONSTRAINT FKbids696697 FOREIGN KEY (member_id) REFERENCES member (member_id);
 ALTER TABLE bids ADD CONSTRAINT FKbids184881 FOREIGN KEY (lot_id) REFERENCES lot (lot_id);
 ALTER TABLE member ADD CONSTRAINT FKmember953629 FOREIGN KEY (credit_card_id) REFERENCES `credit card` (credit_card_id);
-ALTER TABLE account ADD CONSTRAINT FKaccount957206 FOREIGN KEY (role_id) REFERENCES role (role_id);
 ALTER TABLE staff ADD CONSTRAINT FKstaff741179 FOREIGN KEY (account_id) REFERENCES account (account_id);
 ALTER TABLE `valuation request` ADD CONSTRAINT `FKvaluation 416756` FOREIGN KEY (staff_Id) REFERENCES staff (staff_Id);
 ALTER TABLE `auction register` ADD CONSTRAINT `FKauction re509374` FOREIGN KEY (member_id) REFERENCES member (member_id);
@@ -166,3 +165,4 @@ ALTER TABLE notify ADD CONSTRAINT FKnotify982105 FOREIGN KEY (member_id) REFEREN
 ALTER TABLE `financial proof image` ADD CONSTRAINT `FKfinancial 489750` FOREIGN KEY (financial_proof_request_id) REFERENCES `financial proof request` (financial_proof_request_id);
 ALTER TABLE `financial proof request` ADD CONSTRAINT `FKfinancial 501101` FOREIGN KEY (member_id) REFERENCES member (member_id);
 ALTER TABLE `financial proof request` ADD CONSTRAINT `FKfinancial 178982` FOREIGN KEY (staff_Id) REFERENCES staff (staff_Id);
+ALTER TABLE account ADD CONSTRAINT FKaccount957206 FOREIGN KEY (role_id) REFERENCES role (role_id);
