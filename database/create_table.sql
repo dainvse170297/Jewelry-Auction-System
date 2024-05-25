@@ -1,4 +1,3 @@
-
 CREATE TABLE account (
   account_id  int(10) NOT NULL AUTO_INCREMENT, 
   role_id     int(10) NOT NULL, 
@@ -122,8 +121,8 @@ CREATE TABLE role (
   description varchar(255), 
   PRIMARY KEY (role_id));
 CREATE TABLE staff (
-  staff_Id          int(10) NOT NULL AUTO_INCREMENT, 
-  accountaccount_id int(10) NOT NULL, 
+  staff_Id   int(10) NOT NULL AUTO_INCREMENT, 
+  account_id int(10) NOT NULL, 
   PRIMARY KEY (staff_Id));
 CREATE TABLE `valuation image` (
   image_id      int(10) NOT NULL AUTO_INCREMENT, 
@@ -158,7 +157,7 @@ ALTER TABLE bids ADD CONSTRAINT FKbids696697 FOREIGN KEY (member_id) REFERENCES 
 ALTER TABLE bids ADD CONSTRAINT FKbids184881 FOREIGN KEY (lot_id) REFERENCES lot (lot_id);
 ALTER TABLE member ADD CONSTRAINT FKmember953629 FOREIGN KEY (credit_card_id) REFERENCES `credit card` (credit_card_id);
 ALTER TABLE account ADD CONSTRAINT FKaccount957206 FOREIGN KEY (role_id) REFERENCES role (role_id);
-ALTER TABLE staff ADD CONSTRAINT FKstaff286016 FOREIGN KEY (accountaccount_id) REFERENCES account (account_id);
+ALTER TABLE staff ADD CONSTRAINT FKstaff741179 FOREIGN KEY (account_id) REFERENCES account (account_id);
 ALTER TABLE `valuation request` ADD CONSTRAINT `FKvaluation 416756` FOREIGN KEY (staff_Id) REFERENCES staff (staff_Id);
 ALTER TABLE `auction register` ADD CONSTRAINT `FKauction re509374` FOREIGN KEY (member_id) REFERENCES member (member_id);
 ALTER TABLE `auction register` ADD CONSTRAINT `FKauction re974032` FOREIGN KEY (lot_id) REFERENCES lot (lot_id);
