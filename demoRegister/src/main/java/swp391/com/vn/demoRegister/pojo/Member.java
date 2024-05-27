@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table
@@ -20,6 +22,19 @@ public class Member {
     @OneToOne
     @JoinColumn(name = "account_id",unique = true)
     private Account account;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "member_id")
+    private List<Notify> notify;
+
+    @OneToOne
+    @JoinColumn(name = "credit_card_id")
+    private CreditCard creditCard;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "member_id")
+    private List<FinancialProofRequest> financialProofRequestList;
+
     @Column(precision = 19, scale = 1)
     private BigDecimal price;
     @Column(length = 100)
@@ -30,5 +45,6 @@ public class Member {
     private String fullname;
     @Column(length = 50)
     private String email;
+
 
 }

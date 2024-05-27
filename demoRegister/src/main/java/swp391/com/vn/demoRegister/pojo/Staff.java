@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "staff")
 @AllArgsConstructor
@@ -18,4 +20,8 @@ public class Staff {
     @OneToOne
     @JoinColumn(name = "account_id",  unique = true)
     private Account account;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "staff_id")
+    private List<FinancialProofRequest> financialProofRequestList;
 }
