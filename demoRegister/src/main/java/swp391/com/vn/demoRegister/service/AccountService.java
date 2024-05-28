@@ -23,18 +23,6 @@ public class AccountService implements IAccountService{
         if (accountRepository.existsByUsername(username)) {
             return "Username already exists!";
         }
-        if (username.length() <= 8) {
-            return "Username must be longer than 8 characters!";
-        }
-        if (password.isEmpty()) {
-            return "Password must not empty";
-        }
-        if (password.length() <= 8) {
-            return "Password must be longer than 8 characters!";
-        }
-        if (!password.matches(".*[a-zA-Z].*") || !password.matches(".*[0-9].*")) {
-            return "Password must contain both letters and numbers!";
-        }
         if (!password.equals(confirmPassword)) {
             return "Password and Confirm Password do not match!";
         }
@@ -42,7 +30,6 @@ public class AccountService implements IAccountService{
         if(role == null){
             return "role not found!";
         }
-
 
         Account account = new Account();
         account.setUsername(username);
