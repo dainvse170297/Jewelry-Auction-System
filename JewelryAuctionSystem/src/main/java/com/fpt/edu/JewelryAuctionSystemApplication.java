@@ -1,4 +1,4 @@
-package com.fpt.edu.main;
+package com.fpt.edu;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
