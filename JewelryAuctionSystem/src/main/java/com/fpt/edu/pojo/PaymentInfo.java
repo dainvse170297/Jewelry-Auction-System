@@ -1,29 +1,37 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "payment_info")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class PaymentInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int paymentInfoId;
+    @Column(name = "payment_id", nullable = false)
+    private Integer id;
 
+    @Column(name = "image_url")
     private String imageUrl;
-    private Date createTime;
-    @Column(precision = 19,scale = 1)
+
+    @Column(name = "status")
+    private Integer status;
+
+    @Column(name = "creation_time")
+    private LocalDate creationTime;
+
+    @Column(name = "amount", precision = 19, scale = 1)
     private BigDecimal amount;
-    // còn status
 
-
+    @OneToMany(mappedBy = "payment")
+    private Set<AuctionRegister> auctionRegisters = new LinkedHashSet<>();
 
 }

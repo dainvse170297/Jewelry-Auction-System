@@ -1,23 +1,32 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "credit_card")
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
 public class CreditCard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int credit_card_id;
-    @Column(length = 50)
-    private String account_holder;
-    @Column(length = 20)
-    private String bank_number;
-    @Column(length = 50)
-    private String bank_name;
+    @Column(name = "credit_card_id", nullable = false)
+    private Integer id;
+
+    @Column(name = "account_holder", length = 50)
+    private String accountHolder;
+
+    @Column(name = "bank_number", length = 20)
+    private String bankNumber;
+
+    @Column(name = "bank_name", length = 50)
+    private String bankName;
+
+    @OneToMany(mappedBy = "creditCard")
+    private Set<Member> members = new LinkedHashSet<>();
+
 }

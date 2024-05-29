@@ -1,38 +1,39 @@
 package com.fpt.edu.pojo;
 
-
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.util.Date;
-
+import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 @Entity
+@Data
 @Table(name = "account")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data //Ok
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int accountId;
-    @Column(length = 50)
-    private String username;
-    @Column(length = 50)
-    private String password;
-    private Date createdDate;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id")
+    @Column(name = "account_id", nullable = false)
+    private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY
-            , optional = true,mappedBy = "account")
-    private Staff staff;
+    @Column(name = "username", length = 50)
+    private String username;
 
-    @OneToOne(mappedBy = "account",cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,optional = true)
-    private Member member;
+    @Column(name = "password", length = 50)
+    private String password;
 
+    @Column(name = "create_date")
+    private LocalDate createDate;
+
+    @OneToMany(mappedBy = "account")
+    private Set<Member> members = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "account")
+    private Set<Staff> staff = new LinkedHashSet<>();
 
 }

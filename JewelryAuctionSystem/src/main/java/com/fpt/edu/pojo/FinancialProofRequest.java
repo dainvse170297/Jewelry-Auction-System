@@ -1,38 +1,41 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "financial_proof_request")
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 public class FinancialProofRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int financialProofRequestId;
+    @Column(name = "financial_proof_request_id", nullable = false)
+    private Integer id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "staff_id")
-    private Staff staff;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "financial_proof_request_id")
-    private List<FinancialProofImage> financialProofImages;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "member_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Column(length = 255)
-    private  String image;
-    private  int status; // enum?
-    @Column(precision = 19, scale = 1)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "staff_Id", nullable = false)
+    private Staff staff;
+
+    @Column(name = "image")
+    private String image;
+
+    @Column(name = "status")
+    private Integer status;
+
+    @Column(name = "financial_proof_amount", precision = 19, scale = 1)
     private BigDecimal financialProofAmount;
+
+    @OneToMany(mappedBy = "financialProofRequest")
+    private Set<FinancialProofImage> financialProofImages = new LinkedHashSet<>();
+
 }

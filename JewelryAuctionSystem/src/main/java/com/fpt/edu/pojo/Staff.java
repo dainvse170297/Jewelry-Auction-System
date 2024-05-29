@@ -1,28 +1,30 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "staff")
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 public class Staff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int staff_id;
+    @Column(name = "staff_Id", nullable = false)
+    private Integer id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id",  unique = true)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "staff")
-    private List<FinancialProofRequest> financialProofRequestList;
+    @OneToMany(mappedBy = "staff")
+    private Set<FinancialProofRequest> financialProofRequests = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "staff")
+    private Set<ValuationRequest> valuationRequests = new LinkedHashSet<>();
 
 }

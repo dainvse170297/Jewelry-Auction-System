@@ -1,23 +1,27 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "financial_proof_image")
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 public class FinancialProofImage {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int image_id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "image_id", nullable = false)
+    private Integer id;
 
-        @ManyToOne(cascade = CascadeType.ALL)
-        @JoinColumn(name = "financial_proof_request_id")
-        private FinancialProofRequest financialProofRequest;
-        private String imageUrl;
-        private String defaulImage;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "financial_proof_request_id", nullable = false)
+    private FinancialProofRequest financialProofRequest;
+
+    @Column(name = "image_url")
+    private String imageUrl;
+
+    @Column(name = "default_image")
+    private String defaultImage;
+
 }

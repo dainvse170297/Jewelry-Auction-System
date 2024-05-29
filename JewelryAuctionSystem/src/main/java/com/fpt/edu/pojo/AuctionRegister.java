@@ -1,33 +1,46 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "auction_register")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class AuctionRegister {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int registerId;
+    @EmbeddedId
+    private AuctionRegisterId id;
 
-    @Column(precision = 19,scale = 1)
-    private BigDecimal previousPrice;
+    @MapsId("memberId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
-    @Column(precision = 19,scale = 1)
+    @MapsId("lotId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "lot_id", nullable = false)
+    private Lot lot;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "payment_id", nullable = false)
+    private PaymentInfo payment;
+
+    @Column(name = "pre_price", precision = 19, scale = 1)
+    private BigDecimal prePrice;
+
+    @Column(name = "is_win")
+    private Boolean isWin;
+
+    @Column(name = "current_price", precision = 19, scale = 1)
     private BigDecimal currentPrice;
 
-    @Column(precision = 19,scale = 1)
+    @Column(name = "final_price", precision = 19, scale = 1)
     private BigDecimal finalPrice;
 
-    // còn status,is_win
-
-
+    @Column(name = "status")
+    private Integer status;
 
 }

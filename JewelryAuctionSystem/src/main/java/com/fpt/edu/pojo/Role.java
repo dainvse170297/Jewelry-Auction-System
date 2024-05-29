@@ -1,25 +1,29 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "role")
-@AllArgsConstructor
-@NoArgsConstructor
-@Data //OK
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int roleId;
-    @Column(length = 50)
+    @Column(name = "role_id", nullable = false)
+    private Integer id;
+
+    @Column(name = "name", length = 50)
     private String name;
+
+    @Column(name = "description")
     private String description;
+
     @OneToMany(mappedBy = "role")
-    private Set<Account> accounts;
+    private Set<Account> accounts = new LinkedHashSet<>();
 
 }

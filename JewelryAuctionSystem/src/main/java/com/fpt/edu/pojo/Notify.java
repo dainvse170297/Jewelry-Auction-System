@@ -1,29 +1,32 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "notify")
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 public class Notify {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int notify_id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "notify_id", nullable = false)
+    private Integer id;
 
-        @ManyToOne(cascade = CascadeType.ALL)
-        @JoinColumn(name = "member_id")
-        private Member member;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
-        @Column(length = 50)
-        private String title;
-        @Column(length = 255)
-        private String desciption;
-        private Date date;
+    @Column(name = "title", length = 50)
+    private String title;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "date")
+    private LocalDate date;
+
 }
