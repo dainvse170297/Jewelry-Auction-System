@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "financial_proof_request")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -32,7 +32,7 @@ public class FinancialProofRequest {
 
     @Column(length = 255)
     private  String image;
-    private  int status;
+    private  int status; // enum?
     @Column(precision = 19, scale = 1)
     private BigDecimal financialProofAmount;
 }

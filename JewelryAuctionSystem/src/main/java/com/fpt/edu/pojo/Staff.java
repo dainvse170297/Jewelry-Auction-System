@@ -17,11 +17,12 @@ public class Staff {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int staff_id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id",  unique = true)
     private Account account;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "staff_id")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "staff")
     private List<FinancialProofRequest> financialProofRequestList;
+
+
 }

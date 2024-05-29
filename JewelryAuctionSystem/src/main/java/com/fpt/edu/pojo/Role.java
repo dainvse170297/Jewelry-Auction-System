@@ -11,16 +11,15 @@ import java.util.Set;
 @Table(name = "role")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Data //OK
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int role_id;
+    private int roleId;
     @Column(length = 50)
     private String name;
     private String description;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id")
+    @OneToMany(mappedBy = "role")
     private Set<Account> accounts;
 
 }
