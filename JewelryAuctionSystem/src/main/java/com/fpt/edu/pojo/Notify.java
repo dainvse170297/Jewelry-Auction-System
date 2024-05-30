@@ -1,16 +1,17 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "notify")
 public class Notify {
+    //done
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notify_id", nullable = false)

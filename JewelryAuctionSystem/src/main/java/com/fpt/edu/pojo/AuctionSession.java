@@ -1,18 +1,19 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "auction_session")
 public class AuctionSession {
+    //done
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "auction_session_id", nullable = false)
@@ -20,8 +21,7 @@ public class AuctionSession {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "staff_id", nullable = false)
-    private Member staff;
-
+    private Staff staff;
 
     @Column(name = "starting_bid")
     private LocalDate startingBid;

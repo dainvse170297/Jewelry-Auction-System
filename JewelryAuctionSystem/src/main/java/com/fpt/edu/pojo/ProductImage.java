@@ -1,25 +1,26 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "product_image")
 public class ProductImage {
+    //done
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "productimage_id", nullable = false)
+    @Column(name = "product_image_id", nullable = false)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @Column(name = "imageurl")
-    private String imageurl;
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @Column(name = "default_image")
     private String defaultImage;

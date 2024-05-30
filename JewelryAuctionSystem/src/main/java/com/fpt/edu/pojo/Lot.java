@@ -1,18 +1,19 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "lot")
 public class Lot {
+//done
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lot_id", nullable = false)

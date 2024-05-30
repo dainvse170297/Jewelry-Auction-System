@@ -4,19 +4,19 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
-@Entity
+
 @Data
+@Entity
 @Table(name = "account")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
+public class Account { //OK
+    //ok
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id", nullable = false)
     private Integer id;
-
+    //ok
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
@@ -30,10 +30,10 @@ public class Account {
     @Column(name = "create_date")
     private LocalDate createDate;
 
-    @OneToMany(mappedBy = "account")
-    private Set<Member> members = new LinkedHashSet<>();
+    @OneToOne(mappedBy = "account",optional = true)
+    private Member members;
 
-    @OneToMany(mappedBy = "account")
-    private Set<Staff> staff = new LinkedHashSet<>();
+    @OneToOne(mappedBy = "account",optional = true)
+    private Staff staff;
 
 }

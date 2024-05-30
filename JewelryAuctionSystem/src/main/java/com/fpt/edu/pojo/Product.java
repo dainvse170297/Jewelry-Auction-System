@@ -1,24 +1,25 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "product")
 public class Product {
+    //  done
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "valuation_request_id", nullable = false)
     private ValuationRequest valuationRequest;
 

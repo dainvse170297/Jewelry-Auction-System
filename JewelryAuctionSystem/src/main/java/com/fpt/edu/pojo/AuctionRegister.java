@@ -1,38 +1,39 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@Getter
-@Setter
+
 @Entity
 @Table(name = "auction_register")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuctionRegister {
-    @EmbeddedId
-    private AuctionRegisterId id;
+//done
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "auction_register_id", nullable = false)
+    private Integer id;
 
-    @MapsId("memberId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @MapsId("lotId")
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "lot_id", nullable = false)
     private Lot lot;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "payment_id", nullable = false)
-    private PaymentInfo payment;
+    @Column(name = "status")
+    private Integer status;
 
-    @Column(name = "pre_price", precision = 19, scale = 1)
-    private BigDecimal prePrice;
-
-    @Column(name = "is_win")
-    private Boolean isWin;
+    @Column(name = "previous_price", precision = 19, scale = 1)
+    private BigDecimal previousPrice;
 
     @Column(name = "current_price", precision = 19, scale = 1)
     private BigDecimal currentPrice;
@@ -40,7 +41,7 @@ public class AuctionRegister {
     @Column(name = "final_price", precision = 19, scale = 1)
     private BigDecimal finalPrice;
 
-    @Column(name = "status")
-    private Integer status;
+    @OneToMany(mappedBy = "auctionRegister")
+    private Set<PaymentInfo> paymentInfos = new LinkedHashSet<>();
 
 }

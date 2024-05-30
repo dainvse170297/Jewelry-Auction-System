@@ -1,14 +1,15 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "valuation_image")
 public class ValuationImage {
+    //done
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "image_id", nullable = false)

@@ -1,26 +1,27 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "bids")
+@Table(name = "bid")
 public class Bid {
-    @EmbeddedId
-    private BidId id;
+    //done
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "bid_id", nullable = false)
+    private Integer id;
 
-    @MapsId("memberId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @MapsId("lotId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "lot_id", nullable = false)
     private Lot lot;

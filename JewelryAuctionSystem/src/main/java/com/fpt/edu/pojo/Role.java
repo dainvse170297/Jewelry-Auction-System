@@ -1,17 +1,18 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "role")
 public class Role {
+    //DONE
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id", nullable = false)

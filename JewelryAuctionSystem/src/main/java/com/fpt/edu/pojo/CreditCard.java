@@ -1,17 +1,15 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "credit_card")
 public class CreditCard {
+    //done
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "credit_card_id", nullable = false)
@@ -26,7 +24,7 @@ public class CreditCard {
     @Column(name = "bank_name", length = 50)
     private String bankName;
 
-    @OneToMany(mappedBy = "creditCard")
-    private Set<Member> members = new LinkedHashSet<>();
+    @OneToOne(mappedBy = "creditCard")
+    private Member members;
 
 }

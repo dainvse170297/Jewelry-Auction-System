@@ -1,14 +1,15 @@
 package com.fpt.edu.pojo;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "financial_proof_image")
 public class FinancialProofImage {
+    //done
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "image_id", nullable = false)
