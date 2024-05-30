@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -47,5 +48,9 @@ public class ValuationRequestMapper {
                 valuationRequestDTO.getResponseRequestValuations(),
                 valuationRequestDTO.getValuationImages()
         );
+    }
+
+    public List<ValuationRequestDTO> mapToValuationRequestDTOList(List<ValuationRequest> valuationRequests){
+        return valuationRequests.stream().map(this::mapToValuationRequestDTO).toList();
     }
 }

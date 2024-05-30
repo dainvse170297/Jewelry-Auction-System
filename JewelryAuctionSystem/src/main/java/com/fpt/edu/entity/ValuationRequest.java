@@ -1,5 +1,6 @@
 package com.fpt.edu.entity;
 
+import com.fpt.edu.enums.ValuationRequestStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,28 +25,29 @@ public class ValuationRequest {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-        @Column(name = "time_request")
+    @Column(name = "time_request")
     private LocalDate timeRequest;
 
-        @Column(name = "valuation_status")
-        private Integer valuationStatus;
+    @Column(name = "valuation_status")
+    @Enumerated(EnumType.STRING)
+    private ValuationRequestStatus valuationStatus;
 
-        @Column(name = "estimate_price_max", precision = 19, scale = 1)
-        private BigDecimal estimatePriceMax;
+    @Column(name = "estimate_price_max", precision = 19, scale = 1)
+    private BigDecimal estimatePriceMax;
 
-        @Column(name = "estimate_price_min", precision = 19, scale = 1)
-        private BigDecimal estimatePriceMin;
+    @Column(name = "estimate_price_min", precision = 19, scale = 1)
+    private BigDecimal estimatePriceMin;
 
-        @Column(name = "description")
-        private String description;
+    @Column(name = "description")
+    private String description;
 
-        @OneToOne(mappedBy = "valuationRequest")
-        private Product products;
+    @OneToOne(mappedBy = "valuationRequest")
+    private Product products;
 
-        @OneToOne(mappedBy = "valuationRequest")
-        private ResponseRequestValuation responseRequestValuations;
+    @OneToOne(mappedBy = "valuationRequest")
+    private ResponseRequestValuation responseRequestValuations;
 
-        @OneToMany(mappedBy = "request")
-        private Set<ValuationImage> valuationImages = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "request")
+    private Set<ValuationImage> valuationImages = new LinkedHashSet<>();
 
 }

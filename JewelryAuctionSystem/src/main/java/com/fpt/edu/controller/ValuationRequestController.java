@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/valuation")
@@ -26,6 +27,10 @@ public class ValuationRequestController {
             return ResponseEntity.ok(valuationRequestService.create(memberId, description, estimateMin, estimateMax));
         }
 
+        @GetMapping("/requested")
+        public ResponseEntity<List<ValuationRequestDTO>> getRequestedValuationRequest() {
+            return ResponseEntity.ok().build();
+        }
 //        @RequestMapping("/all")
 //        public ResponseEntity<ValuationRequest> getAllValuationRequest() {
 //            return ResponseEntity.ok().build();
