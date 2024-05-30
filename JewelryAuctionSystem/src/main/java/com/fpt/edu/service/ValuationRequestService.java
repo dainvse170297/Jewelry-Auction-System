@@ -1,7 +1,9 @@
 package com.fpt.edu.service;
 
-import com.fpt.edu.pojo.Member;
-import com.fpt.edu.pojo.ValuationRequest;
+import com.fpt.edu.dto.ValuationRequestDTO;
+import com.fpt.edu.entity.Member;
+import com.fpt.edu.entity.ValuationRequest;
+import com.fpt.edu.mapper.ValuationRequestMapper;
 import com.fpt.edu.repository.IMemberRepository;
 import com.fpt.edu.repository.IValuationRequestRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +17,10 @@ public class ValuationRequestService implements IValuationRequestService{
 
     private final IValuationRequestRepository iValuationRequestRepository;
     private final IMemberRepository iMemberRepository;
+    private final ValuationRequestMapper valuationRequestMapper;
 
     @Override
-    public ValuationRequest create(Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax) {
+    public ValuationRequestDTO create(Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax) {
         ValuationRequest valuationRequest = new ValuationRequest();
         Member member = iMemberRepository.getReferenceById(memberId);
 
@@ -26,13 +29,12 @@ public class ValuationRequestService implements IValuationRequestService{
         valuationRequest.setEstimatePriceMin(estimateMin);
         valuationRequest.setEstimatePriceMax(estimateMax);
         valuationRequest.setResponseRequestValuations(null);
-        System.out.println("Member: " + member);
-        System.out.println("Have: " +
-                "Member id: " + memberId +
-                "Des: " + description +
-                "Estimate min: " + estimateMin +
-                "Estimate max: " + estimateMax);
-
-        return iValuationRequestRepository.save(valuationRequest);
+//        System.out.println("Member: " + member);
+//        System.out.println("Have: " +
+//                "Member id: " + memberId +
+//                "Des: " + description +
+//                "Estimate min: " + estimateMin +
+//                "Estimate max: " + estimateMax);
+        return valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
     }
 }

@@ -1,6 +1,7 @@
 package com.fpt.edu.controller;
 
-import com.fpt.edu.pojo.ValuationRequest;
+import com.fpt.edu.dto.ValuationRequestDTO;
+import com.fpt.edu.entity.ValuationRequest;
 import com.fpt.edu.service.ValuationRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +18,10 @@ public class ValuationRequestController {
         private final ValuationRequestService valuationRequestService;
 
         @PostMapping("/create")
-        public ResponseEntity<ValuationRequest> addValuationRequest(@RequestParam("memberId") Integer memberId,
-                                                                    @RequestParam("description") String description,
-                                                                    @RequestParam("estimateMin") BigDecimal estimateMin,
-                                                                    @RequestParam("estimateMax") BigDecimal estimateMax
+        public ResponseEntity<ValuationRequestDTO> addValuationRequest(@RequestParam("memberId") Integer memberId,
+                                                                       @RequestParam("description") String description,
+                                                                       @RequestParam("estimateMin") BigDecimal estimateMin,
+                                                                       @RequestParam("estimateMax") BigDecimal estimateMax
                                                                     ) throws IOException {
             return ResponseEntity.ok(valuationRequestService.create(memberId, description, estimateMin, estimateMax));
         }
