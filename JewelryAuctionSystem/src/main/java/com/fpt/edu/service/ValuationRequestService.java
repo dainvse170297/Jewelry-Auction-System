@@ -40,10 +40,13 @@ public class ValuationRequestService implements IValuationRequestService{
     public ValuationRequestDTO create( ValuationRequestDTO valuationRequestDTO) {
         //  Member member = iMemberRepository.getReferenceById(valuationRequestDTO.getMemberId());
         // map sang entity de luu
+
         ValuationRequest valuationRequest = valuationRequestMapper.mapToValuationRequest(valuationRequestDTO);
+
         ValuationRequest savedRequest =  iValuationRequestRepository.save(valuationRequest);
 
         return valuationRequestMapper.mapToValuationRequestDTO(savedRequest);
+
     }
 
     @Override
@@ -60,10 +63,10 @@ public class ValuationRequestService implements IValuationRequestService{
             if(valuationRequest.getValuationStatus().equals(ValuationRequestStatus.PRODUCT_RECEIVED) ){
                 valuationRequest.setValuationStatus(ValuationRequestStatus.PENDING_MANAGER_APPROVAL);
                 iValuationRequestRepository.save(valuationRequest);
-                response.put("message", "ValuationRequest with id: is sent to manager for approval");
+                response.put("message", "ValuationRequest with id: " + id + " has been sent to manager for approval");
                 return response;
             } else {
-                response.put("message", "ValuationRequest with id: is not in REQUESTED status");
+                response.put("message", "ValuationRequest with id: " + id + " is not in PRODUCT_RECEIVED status");
                  return  response;
                // throw new IllegalArgumentException("ValuationRequest with id: " + id + " is not in REQUESTED status");
             }
@@ -71,7 +74,7 @@ public class ValuationRequestService implements IValuationRequestService{
         } else {
             // Handle the case where no ValuationRequest with the given id is found
            // throw new EntityNotFoundException("No ValuationRequest found with id: " + id);
-            response.put("message", "No ValuationRequest found with id: ");
+            response.put("message", "No ValuationRequest found with id: " + id);
             return  response;
         }
     }
