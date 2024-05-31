@@ -15,9 +15,9 @@ import java.util.Set;
 public class Product {
     //  done
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "product_id", nullable = false)
-    private Integer id;
+    private String id;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "valuation_request_id", nullable = false)

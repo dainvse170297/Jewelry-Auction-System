@@ -1,5 +1,6 @@
 package com.fpt.edu.entity;
 
+import com.fpt.edu.enums.ResponseValuationRequestStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,7 +24,8 @@ public class ResponseRequestValuation {
     private ValuationRequest valuationRequest;
 
     @Column(name = "status")
-    private Byte status;
+    @Enumerated(EnumType.STRING)
+    private ResponseValuationRequestStatus valuationStatus;
 
     @Column(name = "valuation_price", precision = 19, scale = 2)
     private BigDecimal valuationPrice;

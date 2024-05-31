@@ -50,4 +50,18 @@ public class ValuationRequest {
     @OneToMany(mappedBy = "request")
     private Set<ValuationImage> valuationImages = new LinkedHashSet<>();
 
+    public ValuationRequest(Member member, LocalDate timeRequest, ValuationRequestStatus valuationStatus,
+                            BigDecimal estimatePriceMax, BigDecimal estimatePriceMin, String description,
+                            Product products, ResponseRequestValuation responseRequestValuations,
+                            Set<ValuationImage> valuationImages) {
+        this.member = member;
+        this.timeRequest = timeRequest;
+        this.valuationStatus = valuationStatus;
+        this.estimatePriceMax = estimatePriceMax;
+        this.estimatePriceMin = estimatePriceMin;
+        this.description = description;
+        this.setProducts(products);
+        this.setResponseRequestValuations(responseRequestValuations);
+        this.setValuationImages(valuationImages);
+    }
 }
