@@ -31,6 +31,11 @@ public class ValuationRequestController {
         public ResponseEntity<List<ValuationRequestDTO>> getRequestedValuationRequest() {
             return ResponseEntity.ok().build();
         }
+
+        @PostMapping("/productReceived")
+        public ResponseEntity<ValuationRequestDTO> productReceived(@RequestParam("id") Long id) {
+            return ResponseEntity.ok(valuationRequestService.productReceived(id));
+        }
 //        @RequestMapping("/all")
 //        public ResponseEntity<ValuationRequest> getAllValuationRequest() {
 //            return ResponseEntity.ok().build();

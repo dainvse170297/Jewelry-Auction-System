@@ -45,4 +45,11 @@ public class ValuationRequestService implements IValuationRequestService{
     public List<ValuationRequestDTO> getRequestedValuationRequest() {
         return valuationRequestMapper.mapToValuationRequestDTOList(iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.REQUESTED));
     }
+
+    @Override
+    public ValuationRequestDTO productReceived(Long id) {
+        ValuationRequest valuationRequest = iValuationRequestRepository.findById(id);
+        valuationRequest.setValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED);
+        return valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
+    }
 }

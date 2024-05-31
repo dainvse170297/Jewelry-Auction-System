@@ -11,4 +11,6 @@ public interface IValuationRequestService {
     public ValuationRequestDTO create(Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax);
 
     public List<ValuationRequestDTO> getRequestedValuationRequest();
+
+    public ValuationRequestDTO productReceived(Long id);
 }
