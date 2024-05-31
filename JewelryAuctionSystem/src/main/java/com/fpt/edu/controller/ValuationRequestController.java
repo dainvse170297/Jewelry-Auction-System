@@ -20,13 +20,11 @@ public class ValuationRequestController {
 
         @PostMapping("/create")
         public ResponseEntity<ValuationRequestDTO> addValuationRequest(
-                @RequestParam("memberId") Integer memberId,
-                @RequestParam("description") String description,
-                @RequestParam("estimateMin") BigDecimal estimateMin,
-                @RequestParam("estimateMax") BigDecimal estimateMax
 
-                                                                    ) throws IOException {
-            return ResponseEntity.ok(valuationRequestService.create(memberId, description, estimateMin, estimateMax));
+                @RequestBody ValuationRequestDTO valuationRequestDTO) throws
+                IOException {
+            //System.out.println(valuationRequestDTO.getMemberId());
+            return ResponseEntity.ok(valuationRequestService.create(valuationRequestDTO));
         }
 
         @GetMapping("/requested")

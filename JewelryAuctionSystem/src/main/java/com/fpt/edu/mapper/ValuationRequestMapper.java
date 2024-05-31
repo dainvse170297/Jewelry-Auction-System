@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Component
 public class ValuationRequestMapper {
-
+    @Autowired
     private IMemberRepository iMemberRepository;
 
     public ValuationRequestDTO mapToValuationRequestDTO(ValuationRequest valuationRequest){
@@ -38,7 +38,6 @@ public class ValuationRequestMapper {
 
     public ValuationRequest mapToValuationRequest(ValuationRequestDTO valuationRequestDTO){
         return new ValuationRequest(
-                valuationRequestDTO.getId(),
                 iMemberRepository.getReferenceById(valuationRequestDTO.getMemberId()),
                 valuationRequestDTO.getTimeRequest(),
                 valuationRequestDTO.getValuationStatus(),

@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface IValuationRequestService {
-    public ValuationRequestDTO create(Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax);
+    public ValuationRequestDTO create(ValuationRequestDTO valuationRequestDTO);
 
     public List<ValuationRequestDTO> getRequestedValuationRequest();
 }

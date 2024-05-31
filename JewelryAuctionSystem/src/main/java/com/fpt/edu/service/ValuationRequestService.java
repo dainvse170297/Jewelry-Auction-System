@@ -8,9 +8,11 @@ import com.fpt.edu.mapper.ValuationRequestMapper;
 import com.fpt.edu.repository.IMemberRepository;
 import com.fpt.edu.repository.IValuationRequestRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -21,20 +23,25 @@ public class ValuationRequestService implements IValuationRequestService{
     private final IMemberRepository iMemberRepository;
     private final ValuationRequestMapper valuationRequestMapper;
 
+    @Autowired
+    public ValuationRequestService(IMemberRepository iMemberRepository,
+                                   IValuationRequestRepository iValuationRequestRepository,
+                                   ValuationRequestMapper valuationRequestMapper) {
+        this.iMemberRepository = iMemberRepository;
+        this.iValuationRequestRepository = iValuationRequestRepository;
+        this.valuationRequestMapper = valuationRequestMapper;
+    }
+
+
+
     @Override
-    public ValuationRequestDTO create(
-            Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax) {
-        ValuationRequest valuationRequest = new ValuationRequest();
-        Member member = iMemberRepository.getReferenceById(memberId);
+    public ValuationRequestDTO create( ValuationRequestDTO valuationRequestDTO) {
+        //  Member member = iMemberRepository.getReferenceById(valuationRequestDTO.getMemberId());
+        // map sang entity de luu
+        ValuationRequest valuationRequest = valuationRequestMapper.mapToValuationRequest(valuationRequestDTO);
+        ValuationRequest savedRequest =  iValuationRequestRepository.save(valuationRequest);
 
-        valuationRequest.setMember(member);
-        valuationRequest.setDescription(description);
-        valuationRequest.setEstimatePriceMin(estimateMin);
-        valuationRequest.setEstimatePriceMax(estimateMax);
-        valuationRequest.setResponseRequestValuations(null);
-        valuationRequest.setValuationStatus(ValuationRequestStatus.REQUESTED);
-
-        return valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
+        return valuationRequestMapper.mapToValuationRequestDTO(savedRequest);
     }
 
     @Override

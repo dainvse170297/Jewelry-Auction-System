@@ -20,6 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ValuationRequestDTO {
+
     private int id;
     private Integer memberId;
     private LocalDate timeRequest;
