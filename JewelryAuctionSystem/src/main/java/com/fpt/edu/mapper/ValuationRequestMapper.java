@@ -1,5 +1,6 @@
 package com.fpt.edu.mapper;
 
+import com.fpt.edu.dto.FinalValuationRequestDTO;
 import com.fpt.edu.dto.ValuationRequestDTO;
 import com.fpt.edu.entity.*;
 import com.fpt.edu.repository.IMemberRepository;
@@ -35,6 +36,17 @@ public class ValuationRequestMapper {
         );
     }
 
+    public FinalValuationRequestDTO mapToFinalValuationRequestDTO(ValuationRequest valuationRequest){
+        return new FinalValuationRequestDTO(
+                valuationRequest.getMember().getId(),
+                valuationRequest.getTimeRequest(),
+                valuationRequest.getValuationStatus(),
+                valuationRequest.getEstimatePriceMax(),
+                valuationRequest.getEstimatePriceMin(),
+                valuationRequest.getDescription()
+        );
+    }
+
 
     public ValuationRequest mapToValuationRequest(ValuationRequestDTO valuationRequestDTO){
         return new ValuationRequest(
@@ -53,4 +65,10 @@ public class ValuationRequestMapper {
     public List<ValuationRequestDTO> mapToValuationRequestDTOList(List<ValuationRequest> valuationRequests){
         return valuationRequests.stream().map(this::mapToValuationRequestDTO).toList();
     }
+
+    public List<FinalValuationRequestDTO> mapToFinalValuationRequestDTOList(List<ValuationRequest> valuationRequests){
+        return valuationRequests.stream().map(this::mapToFinalValuationRequestDTO).toList();
+    }
+
+
 }

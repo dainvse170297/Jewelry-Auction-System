@@ -1,5 +1,6 @@
 package com.fpt.edu.service;
 
+import com.fpt.edu.dto.FinalValuationRequestDTO;
 import com.fpt.edu.dto.ValuationRequestDTO;
 import com.fpt.edu.entity.Member;
 import com.fpt.edu.entity.ValuationImage;
@@ -42,7 +43,8 @@ public class ValuationRequestService implements IValuationRequestService{
         // map sang entity de luu
 
         ValuationRequest valuationRequest = valuationRequestMapper.mapToValuationRequest(valuationRequestDTO);
-
+        Set<ValuationImage> valuationImagesCopy = new HashSet<>(valuationRequest.getValuationImages());
+        valuationRequest.setValuationImages(valuationImagesCopy);
         ValuationRequest savedRequest =  iValuationRequestRepository.save(valuationRequest);
 
         return valuationRequestMapper.mapToValuationRequestDTO(savedRequest);
@@ -53,7 +55,7 @@ public class ValuationRequestService implements IValuationRequestService{
     public List<ValuationRequestDTO> getRequestedValuationRequest() {
         return valuationRequestMapper.mapToValuationRequestDTOList(iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.REQUESTED));
     }
-
+    @Override
     public Map<String,String> sendRequestValuationToManager(Integer id) {
         Optional<ValuationRequest> valuationRequestOpt = iValuationRequestRepository.findById(id);
         Map<String, String> response = new HashMap<>();
@@ -78,5 +80,9 @@ public class ValuationRequestService implements IValuationRequestService{
             return  response;
         }
     }
-
+    @Override
+    public List<FinalValuationRequestDTO> getListFinalValuationRequest() {
+        return valuationRequestMapper.mapToFinalValuationRequestDTOList(
+                iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PENDING_MANAGER_APPROVAL));
+    }
 }

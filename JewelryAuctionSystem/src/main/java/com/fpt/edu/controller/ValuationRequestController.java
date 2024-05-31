@@ -1,5 +1,6 @@
 package com.fpt.edu.controller;
 
+import com.fpt.edu.dto.FinalValuationRequestDTO;
 import com.fpt.edu.dto.ValuationRequestDTO;
 import com.fpt.edu.entity.ValuationRequest;
 import com.fpt.edu.service.ValuationRequestService;
@@ -19,38 +20,32 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ValuationRequestController {
 
-        @Autowired
-        private final ValuationRequestService valuationRequestService;
+    @Autowired
+    private final ValuationRequestService valuationRequestService;
 
-        @PostMapping("/create")
-        public ResponseEntity<ValuationRequestDTO>
-        addValuationRequest(@RequestBody ValuationRequestDTO valuationRequestDTO)  {
-            //System.out.println(valuationRequestDTO.getMemberId());
-            return ResponseEntity.ok(valuationRequestService.create(valuationRequestDTO));
+    @PostMapping("/create")
+    public ResponseEntity<ValuationRequestDTO>
+    addValuationRequest(@RequestBody ValuationRequestDTO valuationRequestDTO) {
+        //System.out.println(valuationRequestDTO.getMemberId());
+        return ResponseEntity.ok(valuationRequestService.create(valuationRequestDTO));
 
-        }
+    }
 
-        @GetMapping("/requested")
-        public ResponseEntity<List<ValuationRequestDTO>> getRequestedValuationRequest() {
-            return ResponseEntity.ok().build();
-        }
-    // nhận id request
-
-    //trả về thông báo thành công
-        @PostMapping("/sendToManager/{id}")
-        public ResponseEntity<Map<String,String>> sendRequestToManager(@PathVariable Integer id) {
-
-            return new ResponseEntity<>(valuationRequestService.sendRequestValuationToManager(id)
-                    , HttpStatus.OK);
-
-        }
+    @GetMapping("/requested")
+    public ResponseEntity<List<ValuationRequestDTO>> getRequestedValuationRequest() {
+        return ResponseEntity.ok().build();
+    }
 
 
+    @PostMapping("/sendToManager/{id}")
+    public ResponseEntity<Map<String, String>> sendRequestToManager(@PathVariable Integer id) {
+        return ResponseEntity.ok(valuationRequestService.sendRequestValuationToManager(id));
+    }
 
-
-
-
-
+    @GetMapping("/getAllFinalValuations")
+    public ResponseEntity<List<FinalValuationRequestDTO>> getListFinalValuationRequest() {
+        return ResponseEntity.ok(valuationRequestService.getListFinalValuationRequest());
+    }
 
 
 //        @RequestMapping("/all")
