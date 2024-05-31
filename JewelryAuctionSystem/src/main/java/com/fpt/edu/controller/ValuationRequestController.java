@@ -32,9 +32,13 @@ public class ValuationRequestController {
             return ResponseEntity.ok().build();
         }
 
-        @PostMapping("/productReceived")
+        @PostMapping("/product-received")
         public ResponseEntity<ValuationRequestDTO> productReceived(@RequestParam("id") Long id) {
             return ResponseEntity.ok(valuationRequestService.productReceived(id));
+        }
+        @PostMapping("/preliminary-valuation")
+        public ResponseEntity<ValuationRequestDTO> preliminaryValuation(@RequestParam("id") Long id, @RequestParam("estimateMin") BigDecimal estimatePrice, @RequestParam("estimateMax") BigDecimal estimateMax) {
+            return ResponseEntity.ok(valuationRequestService.preliminaryValuation(id, estimatePrice, estimateMax));
         }
 //        @RequestMapping("/all")
 //        public ResponseEntity<ValuationRequest> getAllValuationRequest() {

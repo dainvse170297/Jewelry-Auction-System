@@ -28,6 +28,8 @@ public class ValuationRequestService implements IValuationRequestService{
     private final String RECEIVED_TITLE = "Product Received";
     private final String RECEIVED_MESSAGE = "Your product has been received. We will contact you soon.";
 
+    private final String PRELIMINARY_VALUATED_TITLE = "Product Preliminary Valuated";
+    private final String PRELIMINARY_VALUATED_MESSAGE = "We have done the preliminary valuation for your product. We will contact you soon.";
     @Override
     public ValuationRequestDTO create(Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax) {
         ValuationRequest valuationRequest = new ValuationRequest();
@@ -66,4 +68,21 @@ public class ValuationRequestService implements IValuationRequestService{
         iNotifyRepository.save(notify);
         return valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
     }
+
+    @Override
+    public ValuationRequestDTO preliminaryValuation(Long id, BigDecimal estimateMin, BigDecimal estimateMax) {
+        ValuationRequest valuationRequest = iValuationRequestRepository.findById(id);
+        valuationRequest.setValuationStatus(ValuationRequestStatus.PRELIMINARY_VALUATED);
+        valuationRequest.setEstimatePriceMin(estimateMin);
+        valuationRequest.setEstimatePriceMax(estimateMax);
+        Member member = valuationRequest.getMember();
+        Notify notify = new Notify();
+        notify.setMember(member);
+        notify.setTitle(PRELIMINARY_VALUATED_TITLE);
+        notify.setDescription(PRELIMINARY_VALUATED_MESSAGE);
+        notify.setDate(LocalDate.now());
+        iNotifyRepository.save(notify);
+        return valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
+    }
+
 }

@@ -13,4 +13,6 @@ public interface IValuationRequestService {
     public List<ValuationRequestDTO> getRequestedValuationRequest();
 
     public ValuationRequestDTO productReceived(Long id);
+
+    ValuationRequestDTO preliminaryValuation(Long id, BigDecimal estimateMin, BigDecimal estimateMax);
 }
