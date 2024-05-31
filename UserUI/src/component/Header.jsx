@@ -1,6 +1,6 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.css';
-import ValuationRequest from "./ValuationRequest";
+import ValuationRequest from "./CreateValuation";
 import { BrowserRouter as Router, Route, Routes, Link, NavLink } from 'react-router-dom'
 
 class Header extends React.Component {

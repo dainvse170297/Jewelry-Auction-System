@@ -24,6 +24,7 @@ public class ValuationRequestController {
                                                                        @RequestParam("estimateMin") BigDecimal estimateMin,
                                                                        @RequestParam("estimateMax") BigDecimal estimateMax
                                                                     ) throws IOException {
+            System.out.println("Time:" + System.currentTimeMillis() + " - " + memberId + " - " + description + " - " + estimateMin + " - " + estimateMax);
             return ResponseEntity.ok(valuationRequestService.create(memberId, description, estimateMin, estimateMax));
         }
 
