@@ -35,6 +35,7 @@ public class ValuationRequestMapper {
         );
     }
 
+
     public ValuationRequest mapToValuationRequest(ValuationRequestDTO valuationRequestDTO){
         return new ValuationRequest(
                 valuationRequestDTO.getId(),

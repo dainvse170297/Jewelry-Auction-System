@@ -22,7 +22,8 @@ public class ValuationRequestService implements IValuationRequestService{
     private final ValuationRequestMapper valuationRequestMapper;
 
     @Override
-    public ValuationRequestDTO create(Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax) {
+    public ValuationRequestDTO create(
+            Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax) {
         ValuationRequest valuationRequest = new ValuationRequest();
         Member member = iMemberRepository.getReferenceById(memberId);
 
@@ -32,12 +33,7 @@ public class ValuationRequestService implements IValuationRequestService{
         valuationRequest.setEstimatePriceMax(estimateMax);
         valuationRequest.setResponseRequestValuations(null);
         valuationRequest.setValuationStatus(ValuationRequestStatus.REQUESTED);
-//        System.out.println("Member: " + member);
-//        System.out.println("Have: " +
-//                "Member id: " + memberId +
-//                "Des: " + description +
-//                "Estimate min: " + estimateMin +
-//                "Estimate max: " + estimateMax);
+
         return valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
     }
 

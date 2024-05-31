@@ -19,10 +19,12 @@ public class ValuationRequestController {
         private final ValuationRequestService valuationRequestService;
 
         @PostMapping("/create")
-        public ResponseEntity<ValuationRequestDTO> addValuationRequest(@RequestParam("memberId") Integer memberId,
-                                                                       @RequestParam("description") String description,
-                                                                       @RequestParam("estimateMin") BigDecimal estimateMin,
-                                                                       @RequestParam("estimateMax") BigDecimal estimateMax
+        public ResponseEntity<ValuationRequestDTO> addValuationRequest(
+                @RequestParam("memberId") Integer memberId,
+                @RequestParam("description") String description,
+                @RequestParam("estimateMin") BigDecimal estimateMin,
+                @RequestParam("estimateMax") BigDecimal estimateMax
+
                                                                     ) throws IOException {
             return ResponseEntity.ok(valuationRequestService.create(memberId, description, estimateMin, estimateMax));
         }
@@ -31,6 +33,16 @@ public class ValuationRequestController {
         public ResponseEntity<List<ValuationRequestDTO>> getRequestedValuationRequest() {
             return ResponseEntity.ok().build();
         }
+
+
+
+
+
+
+
+
+
+
 //        @RequestMapping("/all")
 //        public ResponseEntity<ValuationRequest> getAllValuationRequest() {
 //            return ResponseEntity.ok().build();
