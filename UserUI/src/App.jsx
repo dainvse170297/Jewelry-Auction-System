@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Route, Routes, BrowserRouter} from 'react-router-dom'
-import ValuationRequest from './component/ValuationRequest.jsx';
+import CreateValuation from './component/CreateValuation.jsx';
 import './App.scss'; 
 import './index.scss'
 import 'bootstrap/dist/css/bootstrap.css';
-import Home from './component/Home';
 import Header from './component/Header.jsx';
+import Home from './component/Home.jsx';
 
 function App() {
     
@@ -15,20 +15,23 @@ function App() {
   //   </Router>
   return (
     <>
-    <Router>
+    <BrowserRouter>
 
       <div className="App">
         
         <header className="App-header">
           <Header />
         </header>
+
           <Routes>
-            <Route path='/home' element={<Home />} />
-            <Route path='/create-valuation' element={<ValuationRequest />} />
+            <Route path="/home" element={<Home />}> </Route>
+            <Route path="/create-valuation" element={<CreateValuation />}></Route>
           </Routes>
       </div>
-    </Router>
+    </BrowserRouter>
+
     </>
+
   );
 }
 

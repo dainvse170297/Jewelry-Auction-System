@@ -15,6 +15,7 @@ export default function CreateValuation(){
     });
 
     function handleDescriptionChange(e) {
+        console.log(e.target.value)
         setValuation({
             ...valuation, 
             description: e.target.value });

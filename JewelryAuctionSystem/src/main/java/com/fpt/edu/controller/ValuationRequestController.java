@@ -1,53 +1,37 @@
 package com.fpt.edu.controller;
 
-import com.fpt.edu.dto.FinalValuationRequestDTO;
 import com.fpt.edu.dto.ValuationRequestDTO;
 import com.fpt.edu.entity.ValuationRequest;
 import com.fpt.edu.service.ValuationRequestService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/valuation")
 @RequiredArgsConstructor
 public class ValuationRequestController {
 
-    @Autowired
-    private final ValuationRequestService valuationRequestService;
+        private final ValuationRequestService valuationRequestService;
 
-    @PostMapping("/create")
-    public ResponseEntity<ValuationRequestDTO>
-    addValuationRequest(@RequestBody ValuationRequestDTO valuationRequestDTO) {
-        //System.out.println(valuationRequestDTO.getMemberId());
-        return ResponseEntity.ok(valuationRequestService.create(valuationRequestDTO));
+        @PostMapping("/create")
+        public ResponseEntity<ValuationRequestDTO> addValuationRequest(@RequestParam("memberId") Integer memberId,
+                                                                       @RequestParam("description") String description,
+                                                                       @RequestParam("estimateMin") BigDecimal estimateMin,
+                                                                       @RequestParam("estimateMax") BigDecimal estimateMax
+                                                                    ) throws IOException {
+            System.out.println("Time:" + System.currentTimeMillis() + " - " + memberId + " - " + description + " - " + estimateMin + " - " + estimateMax);
+            return ResponseEntity.ok(valuationRequestService.create(memberId, description, estimateMin, estimateMax));
+        }
 
-    }
-
-    @GetMapping("/requested")
-    public ResponseEntity<List<ValuationRequestDTO>> getRequestedValuationRequest() {
-        return ResponseEntity.ok().build();
-    }
-
-
-    @PostMapping("/sendToManager/{id}")
-    public ResponseEntity<Map<String, String>> sendRequestToManager(@PathVariable Integer id) {
-        return ResponseEntity.ok(valuationRequestService.sendRequestValuationToManager(id));
-    }
-
-    @GetMapping("/getAllFinalValuations")
-    public ResponseEntity<List<FinalValuationRequestDTO>> getListFinalValuationRequest() {
-        return ResponseEntity.ok(valuationRequestService.getListFinalValuationRequest());
-    }
-
-
+        @GetMapping("/requested")
+        public ResponseEntity<List<ValuationRequestDTO>> getRequestedValuationRequest() {
+            return ResponseEntity.ok().build();
+        }
 //        @RequestMapping("/all")
 //        public ResponseEntity<ValuationRequest> getAllValuationRequest() {
 //            return ResponseEntity.ok().build();
