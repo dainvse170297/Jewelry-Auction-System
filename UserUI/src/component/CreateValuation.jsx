@@ -50,6 +50,7 @@ export default function CreateValuation(){
         .then(response => {
             // console.log(response.data)
             // alert(response.data.message)
+            console.log(response.data.message)
             alert("Valuation Request Sent")
 
         }).catch(error => {
