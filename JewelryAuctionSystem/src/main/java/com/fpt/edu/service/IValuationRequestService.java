@@ -12,7 +12,7 @@ public interface IValuationRequestService {
 
     public List<ValuationRequestDTO> getRequestedValuationRequest();
 
-    public ValuationRequestDTO productReceived(Long id);
+    public ValuationRequestDTO productReceived(Integer id);
 
-    ValuationRequestDTO preliminaryValuation(Long id, BigDecimal estimateMin, BigDecimal estimateMax);
+    ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax);
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -56,22 +57,29 @@ public class ValuationRequestService implements IValuationRequestService{
     }
 
     @Override
-    public ValuationRequestDTO productReceived(Long id) {
-        ValuationRequest valuationRequest = iValuationRequestRepository.findById(id);
+    public ValuationRequestDTO productReceived(Integer id) {
+        System.out.println("ID: " + id);
+        ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
+        System.out.println('1');
         valuationRequest.setValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED);
-        Member member = valuationRequest.getMember();
+        System.out.println('2');
+        Member member = iMemberRepository.getReferenceById(valuationRequestMapper.mapToValuationRequestDTO(valuationRequest).getMemberId());
+        LocalDate createDate = LocalDate.now();
+        System.out.println('3');
         Notify notify = new Notify();
         notify.setMember(member);
         notify.setTitle(RECEIVED_TITLE);
         notify.setDescription(RECEIVED_MESSAGE);
-        notify.setDate(LocalDate.now());
+        notify.setDate(createDate);
         iNotifyRepository.save(notify);
-        return valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
+        ValuationRequestDTO dto = valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
+        System.out.println("DTO: " + dto);
+        return dto;
     }
 
     @Override
-    public ValuationRequestDTO preliminaryValuation(Long id, BigDecimal estimateMin, BigDecimal estimateMax) {
-        ValuationRequest valuationRequest = iValuationRequestRepository.findById(id);
+    public ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax) {
+        ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
         valuationRequest.setValuationStatus(ValuationRequestStatus.PRELIMINARY_VALUATED);
         valuationRequest.setEstimatePriceMin(estimateMin);
         valuationRequest.setEstimatePriceMax(estimateMax);
@@ -84,5 +92,4 @@ public class ValuationRequestService implements IValuationRequestService{
         iNotifyRepository.save(notify);
         return valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
     }
-
 }

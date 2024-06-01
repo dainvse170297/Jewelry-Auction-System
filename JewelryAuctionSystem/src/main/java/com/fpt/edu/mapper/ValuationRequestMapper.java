@@ -3,6 +3,7 @@ package com.fpt.edu.mapper;
 import com.fpt.edu.dto.ValuationRequestDTO;
 import com.fpt.edu.entity.*;
 import com.fpt.edu.repository.IMemberRepository;
+import com.fpt.edu.repository.IResponseRequestValuationRepository;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -18,9 +19,17 @@ import java.util.Set;
 @Component
 public class ValuationRequestMapper {
 
+    private final ValuationImageMapper valuationImageMapper;
     private IMemberRepository iMemberRepository;
+    private IResponseRequestValuationRepository iResponseRequestValuationRepository;
+
+    public ValuationRequestMapper(ValuationImageMapper valuationImageMapper) {
+        this.valuationImageMapper = valuationImageMapper;
+    }
 
     public ValuationRequestDTO mapToValuationRequestDTO(ValuationRequest valuationRequest){
+        ResponseRequestValuation responseRequestValuation = valuationRequest.getResponseRequestValuations();
+        Integer responseRequestValuationId = responseRequestValuation == null ? null : responseRequestValuation.getId();
         return new ValuationRequestDTO(
                 valuationRequest.getId(),
                 valuationRequest.getMember().getId(),
@@ -30,8 +39,8 @@ public class ValuationRequestMapper {
                 valuationRequest.getEstimatePriceMin(),
                 valuationRequest.getDescription(),
                 valuationRequest.getProducts(),
-                valuationRequest.getResponseRequestValuations(),
-                valuationRequest.getValuationImages()
+                responseRequestValuationId,
+                valuationImageMapper.mapToValuationImageIdList(valuationRequest.getValuationImages())
         );
     }
 
@@ -45,8 +54,8 @@ public class ValuationRequestMapper {
                 valuationRequestDTO.getEstimatePriceMin(),
                 valuationRequestDTO.getDescription(),
                 valuationRequestDTO.getProducts(),
-                valuationRequestDTO.getResponseRequestValuations(),
-                valuationRequestDTO.getValuationImages()
+                iResponseRequestValuationRepository.getReferenceById(valuationRequestDTO.getResponseRequestValuationsId()),
+                valuationImageMapper.mapIdToValuationImageList(valuationRequestDTO.getValuationImages())
         );
     }
 
