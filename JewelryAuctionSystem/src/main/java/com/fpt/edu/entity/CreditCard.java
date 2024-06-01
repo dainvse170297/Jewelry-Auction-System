@@ -25,6 +25,6 @@ public class CreditCard {
     private String bankName;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "creditCard")
-    private Member members;
+    private Member member;
 
 }

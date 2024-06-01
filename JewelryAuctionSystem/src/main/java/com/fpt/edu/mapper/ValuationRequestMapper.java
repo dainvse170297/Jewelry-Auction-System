@@ -1,9 +1,9 @@
 package com.fpt.edu.mapper;
 
-import com.fpt.edu.dto.FinalValuationRequestDTO;
 import com.fpt.edu.dto.ValuationRequestDTO;
 import com.fpt.edu.entity.*;
 import com.fpt.edu.repository.IMemberRepository;
+import com.fpt.edu.repository.IResponseRequestValuationRepository;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -18,10 +18,18 @@ import java.util.Set;
 
 @Component
 public class ValuationRequestMapper {
-    @Autowired
+
+    private final ValuationImageMapper valuationImageMapper;
     private IMemberRepository iMemberRepository;
+    private IResponseRequestValuationRepository iResponseRequestValuationRepository;
+
+    public ValuationRequestMapper(ValuationImageMapper valuationImageMapper) {
+        this.valuationImageMapper = valuationImageMapper;
+    }
 
     public ValuationRequestDTO mapToValuationRequestDTO(ValuationRequest valuationRequest){
+        ResponseRequestValuation responseRequestValuation = valuationRequest.getResponseRequestValuations();
+        Integer responseRequestValuationId = responseRequestValuation == null ? null : responseRequestValuation.getId();
         return new ValuationRequestDTO(
                 valuationRequest.getId(),
                 valuationRequest.getMember().getId(),
@@ -31,25 +39,14 @@ public class ValuationRequestMapper {
                 valuationRequest.getEstimatePriceMin(),
                 valuationRequest.getDescription(),
                 valuationRequest.getProducts(),
-                valuationRequest.getResponseRequestValuations(),
-                valuationRequest.getValuationImages()
+                responseRequestValuationId,
+                valuationImageMapper.mapToValuationImageIdList(valuationRequest.getValuationImages())
         );
     }
-
-    public FinalValuationRequestDTO mapToFinalValuationRequestDTO(ValuationRequest valuationRequest){
-        return new FinalValuationRequestDTO(
-                valuationRequest.getMember().getId(),
-                valuationRequest.getTimeRequest(),
-                valuationRequest.getValuationStatus(),
-                valuationRequest.getEstimatePriceMax(),
-                valuationRequest.getEstimatePriceMin(),
-                valuationRequest.getDescription()
-        );
-    }
-
 
     public ValuationRequest mapToValuationRequest(ValuationRequestDTO valuationRequestDTO){
         return new ValuationRequest(
+                valuationRequestDTO.getId(),
                 iMemberRepository.getReferenceById(valuationRequestDTO.getMemberId()),
                 valuationRequestDTO.getTimeRequest(),
                 valuationRequestDTO.getValuationStatus(),
@@ -57,18 +54,12 @@ public class ValuationRequestMapper {
                 valuationRequestDTO.getEstimatePriceMin(),
                 valuationRequestDTO.getDescription(),
                 valuationRequestDTO.getProducts(),
-                valuationRequestDTO.getResponseRequestValuations(),
-                valuationRequestDTO.getValuationImages()
+                iResponseRequestValuationRepository.getReferenceById(valuationRequestDTO.getResponseRequestValuationsId()),
+                valuationImageMapper.mapIdToValuationImageList(valuationRequestDTO.getValuationImages())
         );
     }
 
     public List<ValuationRequestDTO> mapToValuationRequestDTOList(List<ValuationRequest> valuationRequests){
         return valuationRequests.stream().map(this::mapToValuationRequestDTO).toList();
     }
-
-    public List<FinalValuationRequestDTO> mapToFinalValuationRequestDTOList(List<ValuationRequest> valuationRequests){
-        return valuationRequests.stream().map(this::mapToFinalValuationRequestDTO).toList();
-    }
-
-
 }

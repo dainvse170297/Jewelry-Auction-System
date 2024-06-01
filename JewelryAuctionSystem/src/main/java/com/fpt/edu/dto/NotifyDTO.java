@@ -5,13 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ValuationImageDTO {
+public class NotifyDTO {
     private int id;
-    private int requestId;
-    private String imageUrl;
-    private String defaultImage;
+    private Integer memberId;
+    private String title;
+    private String description;
 }
