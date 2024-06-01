@@ -1,5 +1,6 @@
 package com.fpt.edu.entity;
 
+import com.fpt.edu.status.PaymentInfoStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,17 +13,18 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "payment_info")
 public class PaymentInfo {
-    //done
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "payment_id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private AuctionRegister auctionRegister;
 
     @Column(name = "status")
-    private Integer status;
+    @Enumerated(EnumType.STRING)
+    private PaymentInfoStatus status;
 
     @Column(name = "amount", precision = 19, scale = 1)
     private BigDecimal amount;

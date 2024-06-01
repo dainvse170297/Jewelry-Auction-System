@@ -13,17 +13,17 @@ import java.util.Set;
 @Entity
 @Table(name = "product")
 public class Product {
-    //  done
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id", nullable = false)
-    private String id;
+    private Integer id;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "valuation_request_id", nullable = false)
-    private ValuationRequest valuationRequest;
+//    @OneToOne(cascade = CascadeType.ALL, optional = false)
+//    @JoinColumn(name = "valuation_request_id", referencedColumnName = "valuation_request_id", nullable = false)
+//    private ValuationRequest valuationRequest;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
@@ -39,10 +39,10 @@ public class Product {
     @Column(name = "estimate_price_min", precision = 19, scale = 1)
     private BigDecimal estimatePriceMin;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private Set<Lot> lots = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private Set<ProductImage> productImages = new LinkedHashSet<>();
 
 }

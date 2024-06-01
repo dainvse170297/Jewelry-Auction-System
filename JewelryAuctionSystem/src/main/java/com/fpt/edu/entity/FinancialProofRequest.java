@@ -1,5 +1,6 @@
 package com.fpt.edu.entity;
 
+import com.fpt.edu.status.FinancialProofRequestStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,21 +20,22 @@ public class FinancialProofRequest {
     @Column(name = "financial_proof_request_id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "staff_id", nullable = false)
     private Staff staff;
 
     @Column(name = "status")
-    private Integer status;
+    @Enumerated(EnumType.STRING)
+    private FinancialProofRequestStatus status;
 
     @Column(name = "financial_proof_amount", precision = 19, scale = 1)
     private BigDecimal financialProofAmount;
 
-    @OneToMany(mappedBy = "financialProofRequest")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "financialProofRequest")
     private Set<FinancialProofImage> financialProofImages = new LinkedHashSet<>();
 
 }

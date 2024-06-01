@@ -1,5 +1,6 @@
 package com.fpt.edu.entity;
 
+import com.fpt.edu.status.LotStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,17 +14,17 @@ import java.util.Set;
 @Entity
 @Table(name = "lot")
 public class Lot {
-//done
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lot_id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "product_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "product_id", nullable = true)
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "auction_session_id", nullable = false)
     private AuctionSession auctionSession;
 
@@ -31,12 +32,13 @@ public class Lot {
     private BigDecimal currentPrice;
 
     @Column(name = "status")
-    private Integer status;
+    @Enumerated(EnumType.STRING)
+    private LotStatus status;
 
-    @OneToMany(mappedBy = "lot")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "lot")
     private Set<AuctionRegister> auctionRegisters = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "lot")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "lot")
     private Set<Bid> bids = new LinkedHashSet<>();
 
 }

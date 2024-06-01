@@ -3,7 +3,7 @@ package com.fpt.edu.dto;
 
 import com.fpt.edu.entity.Staff;
 import com.fpt.edu.entity.ValuationRequest;
-import com.fpt.edu.enums.ResponseValuationRequestStatus;
+import com.fpt.edu.status.ResponseValuationRequestStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

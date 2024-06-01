@@ -18,7 +18,9 @@ public class ValuationRequestController {
 
         private final ValuationRequestService valuationRequestService;
 
+        //Member create valuation request by description and estimate price
         @PostMapping("/create")
+        @CrossOrigin(origins = "*")
         public ResponseEntity<ValuationRequestDTO> addValuationRequest(@RequestParam("memberId") Integer memberId,
                                                                        @RequestParam("description") String description,
                                                                        @RequestParam("estimateMin") BigDecimal estimateMin,
@@ -29,16 +31,23 @@ public class ValuationRequestController {
         }
 
         @GetMapping("/requested")
+        @CrossOrigin(origins = "*")
         public ResponseEntity<List<ValuationRequestDTO>> getRequestedValuationRequest() {
             return ResponseEntity.ok().build();
         }
 
         @PostMapping("/product-received")
+        @CrossOrigin(origins = "*")
         public ResponseEntity<ValuationRequestDTO> productReceived(@RequestParam("id") Integer id) {
             return ResponseEntity.ok(valuationRequestService.productReceived(id));
         }
+
+
         @PostMapping("/preliminary-valuation")
-        public ResponseEntity<ValuationRequestDTO> preliminaryValuation(@RequestParam("id") Integer id, @RequestParam("estimateMin") BigDecimal estimatePrice, @RequestParam("estimateMax") BigDecimal estimateMax) {
+        @CrossOrigin(origins = "*")
+        public ResponseEntity<ValuationRequestDTO> preliminaryValuation(@RequestParam("id") Integer id,
+                                                                        @RequestParam("estimateMin") BigDecimal estimatePrice,
+                                                                        @RequestParam("estimateMax") BigDecimal estimateMax) {
             return ResponseEntity.ok(valuationRequestService.preliminaryValuation(id, estimatePrice, estimateMax));
         }
 //        @RequestMapping("/all")
