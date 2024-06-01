@@ -27,7 +27,7 @@ class ValuationRequest extends React.Component{
         })
     }
 
-    Create = () => {
+    Create = async () => {
 
         console.log("Valuation Request Created")
         this.setMemberId('1')
@@ -38,15 +38,15 @@ class ValuationRequest extends React.Component{
         formData.append("estimateMin", this.state.estimateMin);
         formData.append("estimateMax", this.state.estimateMax);
         console.log(formData)
-        axios.post("http://localhost:8080/valuation/create", formData)
-        .then(response => {
-            console.log(response.headers)
-        })
-        .catch(error => {
+        try {
+            const response = await axios.post("http://localhost:8080/valuation/create", formData)
+            console.log(response.data)
+        } catch (error) {
             console.log(error)
-        })
-
-        
+        }
+        // const response = await axios.post("http://localhost:8080/valuation/create", formData)
+        // trconsole.log(response.data)
+       
         console.log("Valuation Request Created")
         alert("Valuation Request Created")
         this.props.history.push('/home')
