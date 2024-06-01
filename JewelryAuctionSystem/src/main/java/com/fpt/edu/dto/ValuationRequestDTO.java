@@ -1,10 +1,7 @@
 package com.fpt.edu.dto;
 
-import com.fpt.edu.entity.Member;
 import com.fpt.edu.entity.Product;
-import com.fpt.edu.entity.ResponseRequestValuation;
-import com.fpt.edu.entity.ValuationImage;
-import com.fpt.edu.enums.ValuationRequestStatus;
+import com.fpt.edu.status.ValuationRequestStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ValuationRequestDTO {
+
     private int id;
     private Integer memberId;
     private LocalDate timeRequest;
@@ -27,7 +25,7 @@ public class ValuationRequestDTO {
     private BigDecimal estimatePriceMax;
     private BigDecimal estimatePriceMin;
     private String description;
-    private Product products;
-    private ResponseRequestValuation responseRequestValuations;
-    private Set<ValuationImage> valuationImages = new LinkedHashSet<>();
+    private Integer productId;
+    private Integer responseRequestValuationsId;
+    private Set<Integer> valuationImages = new LinkedHashSet<>();
 }

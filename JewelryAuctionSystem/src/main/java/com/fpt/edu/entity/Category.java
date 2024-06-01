@@ -12,7 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "category")
 public class Category {
-    //done
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id", nullable = false)
@@ -24,7 +24,7 @@ public class Category {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
     private Set<Product> products = new LinkedHashSet<>();
 
 }

@@ -21,13 +21,13 @@ public class Staff {
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
-    @OneToMany(mappedBy = "staff")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "staff")
     private Set<AuctionSession> auctionSessions = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "staff")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "staff")
     private Set<FinancialProofRequest> financialProofRequests = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "staff")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "staff")
     private Set<ResponseRequestValuation> responseRequestValuations= new LinkedHashSet<>();
 
 }

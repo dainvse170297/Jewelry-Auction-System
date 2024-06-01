@@ -9,13 +9,13 @@ import lombok.*;
 @Entity
 @Table(name = "financial_proof_image")
 public class FinancialProofImage {
-    //done
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "image_id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "financial_proof_request_id", nullable = false)
     private FinancialProofRequest financialProofRequest;
 

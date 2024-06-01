@@ -1,4 +1,4 @@
-package com.fpt.edu.enums;
+package com.fpt.edu.status;
 
 public enum ValuationRequestStatus {
     REQUESTED,

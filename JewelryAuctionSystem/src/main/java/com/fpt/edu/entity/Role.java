@@ -12,7 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "role")
 public class Role {
-    //DONE
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id", nullable = false)
@@ -24,7 +24,7 @@ public class Role {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "role")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
     private Set<Account> accounts = new LinkedHashSet<>();
 
 }
