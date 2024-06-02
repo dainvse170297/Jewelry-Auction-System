@@ -3,8 +3,8 @@ import ValuationRequest from './component/ValuationRequest.jsx';
 import './App.scss';
 import './index.scss'
 import 'bootstrap/dist/css/bootstrap.css';
-import Home from './component/Home';
-import Header from './component/Header.jsx';
+import Home from './component/Home.jsx';
+import Header from './component/header/Header';
 import StaffBody from './component/staff/StaffBody'
 import ValuationRequestList from './component/staff/ValuationRequestList'
 import StaffFunction from './component/staff/StaffFunction'
