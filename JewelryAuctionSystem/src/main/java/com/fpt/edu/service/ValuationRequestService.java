@@ -88,6 +88,11 @@ public class ValuationRequestService implements IValuationRequestService{
     }
 
     @Override
+    public ValuationRequestDTO getRequestByIdAndStatusProductReceived(int id) {
+        return valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.findByIdAndValuationStatus(id, ValuationRequestStatus.PRODUCT_RECEIVED));
+    }
+
+    @Override
     public ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax) {
         ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
         valuationRequest.setValuationStatus(ValuationRequestStatus.PRELIMINARY_VALUATED);
