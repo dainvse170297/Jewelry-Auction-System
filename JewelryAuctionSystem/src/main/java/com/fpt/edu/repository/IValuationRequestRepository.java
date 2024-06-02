@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface IValuationRequestRepository extends JpaRepository<ValuationRequest, Integer> {
     public List<ValuationRequest> findByValuationStatus(ValuationRequestStatus status);
+
 }

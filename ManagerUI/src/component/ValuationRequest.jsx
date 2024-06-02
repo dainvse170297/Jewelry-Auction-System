@@ -1,8 +1,5 @@
-// import { render } from '@testing-library/react';
 import axios, { toFormData } from 'axios';
 import React, { useState } from 'react';
-// import { toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 class ValuationRequest extends React.Component{
@@ -38,13 +35,15 @@ class ValuationRequest extends React.Component{
         formData.append("estimateMin", this.state.estimateMin);
         formData.append("estimateMax", this.state.estimateMax);
         console.log(formData)
-        axios.post("http://localhost:8080/valuation/create", formData)
-        .then(response => {
-            console.log(response.headers)
-        })
-        .catch(error => {
-            console.log(error)
-        })
+        const res = axios.post("http://localhost:8080/valuation/create", formData);
+
+        console.log(res.data)
+        // .then(response => {
+        //     console.log(response.headers)
+        // })
+        // .catch(error => {
+        //     console.log(error)
+        // })
 
         
         console.log("Valuation Request Created")

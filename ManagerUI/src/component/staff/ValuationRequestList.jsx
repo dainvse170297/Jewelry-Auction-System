@@ -46,6 +46,7 @@ const ValuationRequestList = () => {
                 axios.get("http://localhost:8080/valuation/request/status/product-received").then((result) => {
                     setValuationRequests(result.data)
                 })
+                console.log("Valuation Request: ", valuationRequests.data)
                 setIsLoading(false)
 
             } catch (error) {
