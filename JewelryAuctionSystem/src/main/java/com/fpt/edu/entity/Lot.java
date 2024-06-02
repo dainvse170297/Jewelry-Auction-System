@@ -31,7 +31,7 @@ public class Lot {
     private BigDecimal currentPrice;
 
     @Column(name = "status")
-    private Integer status;
+    private String status;
 
     @OneToMany(mappedBy = "lot")
     private Set<AuctionRegister> auctionRegisters = new LinkedHashSet<>();

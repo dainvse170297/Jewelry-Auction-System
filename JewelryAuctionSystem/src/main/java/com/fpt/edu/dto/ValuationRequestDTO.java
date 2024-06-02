@@ -5,29 +5,23 @@ import com.fpt.edu.entity.Product;
 import com.fpt.edu.entity.ResponseRequestValuation;
 import com.fpt.edu.entity.ValuationImage;
 import com.fpt.edu.enums.ValuationRequestStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder(toBuilder = true)
 public class ValuationRequestDTO {
-    private int id;
-    private Integer memberId;
+    private Integer id;
+    private MemberDTO memberDTO;
     private LocalDate timeRequest;
     private ValuationRequestStatus valuationStatus;
     private BigDecimal estimatePriceMax;
     private BigDecimal estimatePriceMin;
     private String description;
-    private Product products;
-    private ResponseRequestValuation responseRequestValuations;
-    private Set<ValuationImage> valuationImages = new LinkedHashSet<>();
+    private ResponseRequestValuationDTO responseRequestValuations;
 }

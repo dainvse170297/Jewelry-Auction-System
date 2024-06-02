@@ -7,9 +7,8 @@ import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "product")
 public class Product {
@@ -27,7 +26,7 @@ public class Product {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @Column(name = "name", length = 50)
+    @Column(name = "name")
     private String name;
 
     @Column(name = "description")
@@ -45,4 +44,17 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private Set<ProductImage> productImages = new LinkedHashSet<>();
 
+    public Product() {
+    }
+
+    public Product(Integer id, ValuationRequest valuationRequest, Category category, String name, String description, BigDecimal estimatePriceMax, BigDecimal estimatePriceMin) {
+        this.id = id;
+        this.valuationRequest = valuationRequest;
+        this.category = category;
+        this.name = name;
+        this.description = description;
+        this.estimatePriceMax = estimatePriceMax;
+        this.estimatePriceMin = estimatePriceMin;
+
+    }
 }

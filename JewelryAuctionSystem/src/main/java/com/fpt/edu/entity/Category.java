@@ -7,8 +7,8 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+
+
 @Entity
 @Table(name = "category")
 public class Category {
@@ -27,4 +27,13 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private Set<Product> products = new LinkedHashSet<>();
 
+    public Category(int id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+
+    }
+    public Category() {
+
+    }
 }

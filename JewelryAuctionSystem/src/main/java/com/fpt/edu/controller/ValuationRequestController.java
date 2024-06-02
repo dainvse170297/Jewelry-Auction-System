@@ -2,8 +2,10 @@ package com.fpt.edu.controller;
 
 import com.fpt.edu.dto.ValuationRequestDTO;
 import com.fpt.edu.entity.ValuationRequest;
+import com.fpt.edu.enums.ValuationRequestStatus;
 import com.fpt.edu.service.ValuationRequestService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +17,8 @@ import java.util.List;
 @RequestMapping("/valuation")
 @RequiredArgsConstructor
 public class ValuationRequestController {
-
-        private final ValuationRequestService valuationRequestService;
+        @Autowired
+        private  ValuationRequestService valuationRequestService;
 
         @PostMapping("/create")
         public ResponseEntity<ValuationRequestDTO> addValuationRequest(@RequestParam("memberId") Integer memberId,
@@ -40,4 +42,16 @@ public class ValuationRequestController {
 //        public ResponseEntity<ValuationRequest> getValuationRequestById(@RequestParam("id") Long id) {
 //            return ResponseEntity.ok().build();
 //        }
+            @GetMapping("/requests/valuationStatus")
+            public List<ValuationRequestDTO> getRequestedValuationStatus(@RequestParam ValuationRequestStatus valuationStatus) {
+
+                List<ValuationRequestDTO> valuationRequestDTO =  valuationRequestService.getRequestedValuationRequestByMemberStatus(valuationStatus);
+                return valuationRequestDTO;
+            }
+            @GetMapping("/requests/{id}")
+            public ValuationRequestDTO getRequestedValuationRequestById(@PathVariable("id") Integer id) {
+                ValuationRequestDTO valuationRequestDTO = valuationRequestService.getValuationRequestById(id);
+                return valuationRequestDTO;
+            }
+
 }
