@@ -9,14 +9,16 @@ import StaffBody from './component/staff/StaffBody'
 import ValuationRequestList from './component/staff/ValuationRequestList'
 import StaffFunction from './component/staff/StaffFunction'
 import ValuationRequestDetail from './component/staff/ValuationRequestDetail'
+import Layout from './component/layouts/Layout.jsx';
 
 function App() {
 
   return (
     <>
-      <Router>
+      {/* <Router> */}
 
-        <div className="App">
+        <Layout />
+        {/* <div className="App">
 
           <header className="App-header">
             <Header />
@@ -29,8 +31,8 @@ function App() {
             <Route path='/valuation-request' element={<ValuationRequestList />} />
             <Route path='/valuation-request-detail/:id' element={<ValuationRequestDetail />} />
           </Routes>
-        </div>
-      </Router>
+        </div> */}
+      {/* </Router> */}
     </>
   );
 }
