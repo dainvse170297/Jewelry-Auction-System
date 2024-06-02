@@ -1,5 +1,4 @@
-import { BrowserRouter as Router, Route, Routes, BrowserRouter } from 'react-router-dom'
-import ValuationRequest from './component/ValuationRequest.jsx';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import './App.scss';
 import './index.scss'
 import 'bootstrap/dist/css/bootstrap.css';
@@ -22,8 +21,8 @@ function App() {
             <Header />
           </header>
           <Routes>
+            <Route path='/' element={<Navigate to='/home' />} />
             <Route path='/home' element={<Home />} />
-            <Route path='/create-valuation' element={<ValuationRequest />} />
             <Route path='/staff' element={<StaffBody />} />
             <Route path='/staff-function' element={<StaffFunction />} />
             <Route path='/valuation-request' element={<ValuationRequestList />} />

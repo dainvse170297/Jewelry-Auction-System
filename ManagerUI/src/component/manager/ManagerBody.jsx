@@ -7,8 +7,7 @@ const StaffBody = () => {
     return (
         <div className="container">
             <div>
-                <h1 className='text-center mt-3'>WELCOME TO COMPANY</h1>
-                <h1 className='text-center mt-3'>You are <strong>Staff</strong></h1>
+                <h1 className='text-center mt-3'>Welcome to COMPANY</h1>
                 <label htmlFor="">
                     <h5>Choose Your role:</h5>
                 </label><br></br>

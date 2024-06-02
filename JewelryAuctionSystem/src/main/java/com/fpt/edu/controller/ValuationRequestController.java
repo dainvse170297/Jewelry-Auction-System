@@ -31,7 +31,7 @@ public class ValuationRequestController {
             return ResponseEntity.ok(valuationRequestService.create(memberId, description, estimateMin, estimateMax));
         }
 
-        @GetMapping("/requested")
+        @GetMapping("/all-requested")
         public ResponseEntity<List<ValuationRequestDTO>> getRequestedValuationRequest() {
             return ResponseEntity.ok().build();
         }

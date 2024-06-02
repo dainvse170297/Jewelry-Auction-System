@@ -39,20 +39,20 @@ const ValuationRequestList = () => {
     }
 
     useEffect(() => {
-        setIsLoading(true)
+        // setIsLoading(true)
         const getAll = async () => {
 
             try {
                 axios.get("http://localhost:8080/valuation/request/status/product-received").then((result) => {
                     setValuationRequests(result.data)
                 })
-                console.log("Valuation Request: ", valuationRequests.data)
-                setIsLoading(false)
+                // console.log("Valuation Request: ", valuationRequests.data)
+                // setIsLoading(false)
 
             } catch (error) {
                 console.log("Error nek:", error.message)
                 setErrorMsg("Error fetching data from server")
-                setIsLoading(false)
+                // setIsLoading(false)
             }
         }
         getAll()
@@ -74,11 +74,11 @@ const ValuationRequestList = () => {
                 <div className="">
                     <Link to={"/staff-function"}><FaBackward /></Link>
                 </div>
-                {isLoading ? (
+                {/* {isLoading ? (
                     <>
                         <CircularProgress />
                     </>
-                ) : (
+                ) : ( */}
                     <div className="col-lg-6">
                         {currentItems.map((request) => (
                             <div className="mb-3 mt-3" key={request.id}>
@@ -105,7 +105,7 @@ const ValuationRequestList = () => {
                             ></Paginator>
                         </div>
                     </div>
-                )}
+                {/* )} */}
             </div>
         </div >
     )

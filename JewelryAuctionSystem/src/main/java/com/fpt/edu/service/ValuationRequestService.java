@@ -80,7 +80,10 @@ public class ValuationRequestService implements IValuationRequestService{
     @Override
     public List<ValuationRequestDTO> getRequestStatusProductReceived() {
         List<ValuationRequestDTO> result = valuationRequestMapper.mapToValuationRequestDTOList(iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED));
-        System.out.println("Result: " + result.size());
+        System.out.println("Result: ");
+        for (ValuationRequestDTO dto : result) {
+            System.out.println(dto);
+        }
         return result;
     }
 
