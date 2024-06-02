@@ -57,7 +57,7 @@ const ValuationRequestList = () => {
         }
         getAll()
 
-    }, [valuationRequests])
+    }, [])
 
     const calculateTotalPage = (itemPerPage, valuationRequests) => {
         const totalItem = valuationRequests.length
