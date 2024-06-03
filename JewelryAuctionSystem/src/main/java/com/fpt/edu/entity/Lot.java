@@ -25,7 +25,7 @@ public class Lot {
     private Product product;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "auction_session_id", nullable = false)
+    @JoinColumn(name = "auction_session_id", nullable = true)
     private AuctionSession auctionSession;
 
     @Column(name = "current_price", precision = 19, scale = 1)
