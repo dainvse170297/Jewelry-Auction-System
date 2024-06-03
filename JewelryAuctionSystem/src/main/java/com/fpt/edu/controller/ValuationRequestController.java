@@ -6,10 +6,12 @@ import com.fpt.edu.service.ValuationRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/valuation")
@@ -18,31 +20,33 @@ import java.util.List;
 public class ValuationRequestController {
 
         private final ValuationRequestService valuationRequestService;
-
         //Member create valuation request by description and estimate price
         @PostMapping("/create")
-
+        @CrossOrigin(origins = "*")
         public ResponseEntity<ValuationRequestDTO> addValuationRequest(@RequestParam("memberId") Integer memberId,
                                                                        @RequestParam("description") String description,
                                                                        @RequestParam("estimateMin") BigDecimal estimateMin,
-                                                                       @RequestParam("estimateMax") BigDecimal estimateMax
+                                                                       @RequestParam("estimateMax") BigDecimal estimateMax,
+                                                                       @RequestParam("image") Set<MultipartFile> files
                                                                     ) throws IOException {
-            System.out.println("Time:" + System.currentTimeMillis() + " - " + memberId + " - " + description + " - " + estimateMin + " - " + estimateMax);
-            return ResponseEntity.ok(valuationRequestService.create(memberId, description, estimateMin, estimateMax));
+            return ResponseEntity.ok(valuationRequestService.create(memberId, description, estimateMin, estimateMax,files));
         }
 
-        @GetMapping("/all-requested")
+        @GetMapping("/requested")
+        @CrossOrigin(origins = "*")
         public ResponseEntity<List<ValuationRequestDTO>> getRequestedValuationRequest() {
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(valuationRequestService.getRequestedValuationRequest());
         }
 
         @PostMapping("/product-received")
+        @CrossOrigin(origins = "*")
         public ResponseEntity<ValuationRequestDTO> productReceived(@RequestParam("id") Integer id) {
             return ResponseEntity.ok(valuationRequestService.productReceived(id));
         }
 
 
         @PostMapping("/preliminary-valuation")
+        @CrossOrigin(origins = "*")
         public ResponseEntity<ValuationRequestDTO> preliminaryValuation(@RequestParam("id") Integer id,
                                                                         @RequestParam("estimateMin") BigDecimal estimatePrice,
                                                                         @RequestParam("estimateMax") BigDecimal estimateMax) {
