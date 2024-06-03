@@ -14,12 +14,12 @@ import java.time.LocalDate;
 public class AuctionSessionDTO {
     private Integer id;
     private StaffDTO staffDTO;
-    private LocalDate startingBid;
+    private int  startingBid;
     private LocalDate startTime;
     private LocalDate endTime;
     private String name;
     private String description;
-    private int status;
+    private String status;
 
 
 

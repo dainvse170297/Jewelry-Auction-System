@@ -23,5 +23,4 @@ public class ValuationRequestDTO {
     private BigDecimal estimatePriceMax;
     private BigDecimal estimatePriceMin;
     private String description;
-    private ResponseRequestValuationDTO responseRequestValuations;
 }

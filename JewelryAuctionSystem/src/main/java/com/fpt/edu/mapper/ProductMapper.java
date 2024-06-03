@@ -7,7 +7,7 @@ public class ProductMapper {
     public static ProductDTO mapToDTO(Product product) {
         return new ProductDTO(
                 product.getId(),
-                ValuationRequestMapper.mapToValuationRequestDTO(product.getValuationRequest()),
+                ValuationRequestMapper.mapToDTO(product.getValuationRequest()),
                 CategoryM.mapCategoryToCategoryDTO(product.getCategory()),
                 product.getName(),
                 product.getDescription(),
@@ -19,7 +19,7 @@ public class ProductMapper {
     public static Product mapToEntity(ProductDTO productDTO) {
         return new Product(
                 productDTO.getId(),
-                ValuationRequestMapper.mapToValuationRequest(productDTO.getValuationRequestDTO()),
+                ValuationRequestMapper.mapToEntity(productDTO.getValuationRequestDTO()),
                 CategoryM.mapToCategory(productDTO.getCategoryDTO()),
                 productDTO.getName(),
                 productDTO.getDescription(),

@@ -24,7 +24,7 @@ public class AuctionSession {
     private Staff staff;
 
     @Column(name = "starting_bid")
-    private LocalDate startingBid;
+    private int startingBid;
 
     @Column(name = "start_time")
     private LocalDate startTime;
@@ -39,12 +39,12 @@ public class AuctionSession {
     private String description;
 
     @Column(name = "status")
-    private Integer status;
+    private String status;
 
     @OneToMany(mappedBy = "auctionSession")
     private Set<Lot> lots = new LinkedHashSet<>();
 
-    public AuctionSession(Integer id, Staff staff, LocalDate startingBid, LocalDate startTime, LocalDate endTime, String name, String description, Integer status) {
+    public AuctionSession(Integer id, Staff staff, int startingBid, LocalDate startTime, LocalDate endTime, String name, String description, String status) {
         this.id = id;
         this.staff = staff;
         this.startingBid = startingBid;

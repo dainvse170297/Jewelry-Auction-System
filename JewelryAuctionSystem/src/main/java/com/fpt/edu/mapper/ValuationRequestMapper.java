@@ -7,15 +7,29 @@ import lombok.Data;
 
 @Data
 public class ValuationRequestMapper {
-    public static ValuationRequestDTO mapToValuationRequestDTO(ValuationRequest valuationRequest) {
-        return ValuationRequestDTO.builder()
-                .id(valuationRequest.getId())
-                .memberDTO(new MemberDTO())
-                .build();
+    public static ValuationRequestDTO mapToDTO(ValuationRequest valuationRequest) {
+        return new ValuationRequestDTO(
+                valuationRequest.getId(),
+                MemberM.mapToDTO(valuationRequest.getMember()),
+                valuationRequest.getTimeRequest(),
+                valuationRequest.getValuationStatus(),
+                valuationRequest.getEstimatePriceMax(),
+                valuationRequest.getEstimatePriceMin(),
+                valuationRequest.getDescription()
+        );
     }
 
-    public static ValuationRequest mapToValuationRequest(ValuationRequestDTO valuationRequestDTO) {
-        return new ValuationRequest();
+    public static ValuationRequest mapToEntity(ValuationRequestDTO valuationRequestDTO) {
+        return new ValuationRequest(
+                valuationRequestDTO.getId(),
+                MemberM.mapToEntity(valuationRequestDTO.getMemberDTO()),
+                valuationRequestDTO.getTimeRequest(),
+                valuationRequestDTO.getValuationStatus(),
+                valuationRequestDTO.getEstimatePriceMax(),
+                valuationRequestDTO.getEstimatePriceMin(),
+                valuationRequestDTO.getDescription()
+
+        );
     }
 }
 

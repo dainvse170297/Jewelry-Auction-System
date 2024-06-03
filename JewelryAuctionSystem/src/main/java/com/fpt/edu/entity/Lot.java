@@ -1,5 +1,6 @@
 package com.fpt.edu.entity;
 
+import com.fpt.edu.enums.LotStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,8 +31,10 @@ public class Lot {
     @Column(name = "current_price", precision = 19, scale = 1)
     private BigDecimal currentPrice;
 
+
     @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private LotStatus status;
 
     @OneToMany(mappedBy = "lot")
     private Set<AuctionRegister> auctionRegisters = new LinkedHashSet<>();
@@ -39,7 +42,9 @@ public class Lot {
     @OneToMany(mappedBy = "lot")
     private Set<Bid> bids = new LinkedHashSet<>();
 
-    public Lot(Integer id, Product product, AuctionSession auctionSession, BigDecimal currentPrice, String status) {
+
+
+    public Lot(Integer id, Product product, AuctionSession auctionSession, BigDecimal currentPrice, LotStatus status) {
         this.id = id;
         this.product = product;
         this.auctionSession = auctionSession;

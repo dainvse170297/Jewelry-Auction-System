@@ -13,7 +13,7 @@ public class StaffM {
     public static Staff maptoEntity(StaffDTO staffDTO) {
         return new Staff(
                 staffDTO.getId(),
-                AccountM.mapToEntity(staffDTO.getAccount())
+                AccountM.mapToEntity(staffDTO.getAccountDTO())
         );
     }
 }
