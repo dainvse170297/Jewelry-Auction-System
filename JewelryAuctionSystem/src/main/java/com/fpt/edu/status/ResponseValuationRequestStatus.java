@@ -1,7 +1,8 @@
 package com.fpt.edu.status;
 
 public enum ResponseValuationRequestStatus {
-    NONE,
-    APPROVED
-
+    PRELIMINARY,
+    FINAL,
+    REJECTED,
+    ACCEPTED
 }
