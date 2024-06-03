@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "credit_card")
-public class CreditCard {
+public class    CreditCard {
     //done
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

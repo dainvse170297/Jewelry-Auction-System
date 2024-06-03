@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class MemberDTO {
     private Integer id;
-    private CreditCardDTO creditCardID;
-    private AccountDTO accountID;
+    private CreditCardDTO creditCardDTO;
+    private AccountDTO accountDTO;
     private BigDecimal financialProofAmount;
     private String email;
     private String fullname;

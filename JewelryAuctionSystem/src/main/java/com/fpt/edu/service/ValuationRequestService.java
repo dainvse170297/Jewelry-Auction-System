@@ -47,9 +47,9 @@ public class ValuationRequestService implements IValuationRequestService {
     }
 
 
-    public List<ValuationRequestDTO> getRequestedValuationRequestByMemberStatus(ValuationRequestStatus valuationStatus) {
+    public List<ValuationRequestDTO> getRequestedValuationRequestByMemberStatusReceive(ValuationRequestStatus status) {
         List<ValuationRequestDTO> valuationRequestDTOList = new ArrayList<>();
-        List<ValuationRequest> valuationRequestList = iValuationRequestRepository.findByValuationStatus(valuationStatus);
+        List<ValuationRequest> valuationRequestList = iValuationRequestRepository.findByValuationStatus(status);
         for (ValuationRequest valuationRequest : valuationRequestList) {
             valuationRequestDTOList.add(ValuationRequestMapper.mapToValuationRequestDTO(valuationRequest));
             return valuationRequestDTOList;

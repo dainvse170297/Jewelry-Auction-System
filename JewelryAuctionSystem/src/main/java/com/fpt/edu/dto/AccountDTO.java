@@ -14,11 +14,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class AccountDTO {
     private Integer id;
-    private Role role;
+    private RoleDTO role;
     private String username;
     private String password;
     private LocalDate createDate;
-    private Member members;
-    private Staff staff;
-
 }

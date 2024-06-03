@@ -12,6 +12,6 @@ public interface IValuationRequestService {
     public ValuationRequestDTO create(Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax);
 
 
-    public List<ValuationRequestDTO> getRequestedValuationRequestByMemberStatus(ValuationRequestStatus valuationStatus);
+    public List<ValuationRequestDTO> getRequestedValuationRequestByMemberStatusReceive(ValuationRequestStatus valuationStatus);
     public ValuationRequestDTO getValuationRequestById(Integer id);
 }

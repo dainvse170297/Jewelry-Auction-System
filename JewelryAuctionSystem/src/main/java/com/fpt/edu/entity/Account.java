@@ -36,4 +36,13 @@ public class Account { //OK
     @OneToOne(mappedBy = "account",optional = true)
     private Staff staff;
 
+
+
+    public Account(Integer id, Role role, String username, String password, LocalDate createDate) {
+        this.id = id;
+        this.role = role;
+        this.username = username;
+        this.password = password;
+        this.createDate = createDate;
+    }
 }

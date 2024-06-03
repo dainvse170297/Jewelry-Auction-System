@@ -42,10 +42,10 @@ public class ValuationRequestController {
 //        public ResponseEntity<ValuationRequest> getValuationRequestById(@RequestParam("id") Long id) {
 //            return ResponseEntity.ok().build();
 //        }
-            @GetMapping("/requests/valuationStatus")
-            public List<ValuationRequestDTO> getRequestedValuationStatus(@RequestParam ValuationRequestStatus valuationStatus) {
-
-                List<ValuationRequestDTO> valuationRequestDTO =  valuationRequestService.getRequestedValuationRequestByMemberStatus(valuationStatus);
+            @GetMapping("/requests/status")
+            public List<ValuationRequestDTO> getRequestedValuationStatusReceive() {
+                ValuationRequestStatus status = ValuationRequestStatus.RECEIVE;
+                List<ValuationRequestDTO> valuationRequestDTO =  valuationRequestService.getRequestedValuationRequestByMemberStatusReceive(status);
                 return valuationRequestDTO;
             }
             @GetMapping("/requests/{id}")
