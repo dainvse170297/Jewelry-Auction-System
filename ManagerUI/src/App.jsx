@@ -1,14 +1,10 @@
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
-import './App.scss';
-import './index.scss'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
-import Home from './component/Home';
-import Header from './component/header/Header.jsx';
+import Home from './component/home/Home.jsx';
 import StaffBody from './component/staff/StaffBody'
 import ValuationRequestList from './component/staff/ValuationRequestList'
 import StaffFunction from './component/staff/StaffFunction'
 import ValuationRequestDetail from './component/staff/ValuationRequestDetail'
-import Layout from './component/layouts/Layout.jsx';
 
 function App() {
 
@@ -32,6 +28,7 @@ function App() {
           </Routes>
         </div> */}
       {/* </Router> */}
+
     </>
   );
 }
