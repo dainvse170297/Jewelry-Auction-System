@@ -16,6 +16,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/valuation")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class ValuationRequestController {
 
         private final ValuationRequestService valuationRequestService;
@@ -50,6 +51,16 @@ public class ValuationRequestController {
                                                                         @RequestParam("estimateMin") BigDecimal estimatePrice,
                                                                         @RequestParam("estimateMax") BigDecimal estimateMax) {
             return ResponseEntity.ok(valuationRequestService.preliminaryValuation(id, estimatePrice, estimateMax));
+        }
+
+        @GetMapping("/request/status/product-received")
+        public ResponseEntity<List<ValuationRequestDTO>> getRequestStatusProductReceived() {
+            return ResponseEntity.ok(valuationRequestService.getRequestStatusProductReceived());
+        }
+
+        @GetMapping("/request/status/product-received/{id}")
+        public ResponseEntity<ValuationRequestDTO> getRequestStatusProductReceivedById(@PathVariable Integer id) {
+            return ResponseEntity.ok(valuationRequestService.getRequestByIdAndStatusProductReceived(id));
         }
 //        @RequestMapping("/all")
 //        public ResponseEntity<ValuationRequest> getAllValuationRequest() {

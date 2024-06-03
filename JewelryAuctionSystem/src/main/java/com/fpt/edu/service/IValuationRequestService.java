@@ -2,6 +2,7 @@ package com.fpt.edu.service;
 
 import com.fpt.edu.dto.ValuationRequestDTO;
 import org.springframework.web.multipart.MultipartFile;
+import com.fpt.edu.entity.ValuationRequest;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -13,6 +14,10 @@ public interface IValuationRequestService {
     public List<ValuationRequestDTO> getRequestedValuationRequest();
 
     public ValuationRequestDTO productReceived(Integer id);
+
+    public List<ValuationRequestDTO> getRequestStatusProductReceived();
+
+    ValuationRequestDTO getRequestByIdAndStatusProductReceived(int id);
 
     ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax);
 }

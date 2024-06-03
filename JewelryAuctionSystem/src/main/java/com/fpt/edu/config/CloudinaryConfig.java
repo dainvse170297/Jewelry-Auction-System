@@ -23,4 +23,5 @@ public class CloudinaryConfig {
                 "api_key", "562518983843875",
                 "api_secret", "h7RxZOm5lHsmQ5xkQI675-9sFMg"));
     }
+
 }

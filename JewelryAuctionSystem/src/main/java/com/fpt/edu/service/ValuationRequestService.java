@@ -37,7 +37,7 @@ public class ValuationRequestService implements IValuationRequestService{
         ValuationRequest valuationRequest = new ValuationRequest();
         //set request
         Member member = iMemberRepository.getReferenceById(memberId);
-
+        System.out.println("Member: " + member);
         valuationRequest.setMember(member);
         valuationRequest.setDescription(description);
         valuationRequest.setTimeRequest(LocalDate.now());
@@ -90,6 +90,21 @@ public class ValuationRequestService implements IValuationRequestService{
         iNotifyRepository.save(notify);
         ValuationRequestDTO dto = valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
         return dto;
+    }
+
+    @Override
+    public List<ValuationRequestDTO> getRequestStatusProductReceived() {
+        List<ValuationRequestDTO> result = valuationRequestMapper.mapToValuationRequestDTOList(iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED));
+        System.out.println("Result: ");
+        for (ValuationRequestDTO dto : result) {
+            System.out.println(dto);
+        }
+        return result;
+    }
+
+    @Override
+    public ValuationRequestDTO getRequestByIdAndStatusProductReceived(int id) {
+        return valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.findByIdAndValuationStatus(id, ValuationRequestStatus.PRODUCT_RECEIVED));
     }
 
     @Override
