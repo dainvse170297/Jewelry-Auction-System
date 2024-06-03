@@ -24,7 +24,7 @@ public class Product {
 //    private ValuationRequest valuationRequest;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id", nullable = true)
     private Category category;
 
     @Column(name = "name", length = 50)
