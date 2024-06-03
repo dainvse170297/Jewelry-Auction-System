@@ -13,8 +13,8 @@ public class CreditCardMapper {
         return new CreditCardDTO(creditCard.getId(),
                 creditCard.getAccountHolder(),
                 creditCard.getBankNumber(),
-                creditCard.getBankName(),
-                creditCard.getMember().getId()
+                creditCard.getBankName()
+//                creditCard.getMember().getId()
         );
     }
 
@@ -24,9 +24,8 @@ public class CreditCardMapper {
         creditCard.setAccountHolder(creditCardDTO.getAccountHolder());
         creditCard.setBankNumber(creditCardDTO.getBankNumber());
         creditCard.setBankName(creditCardDTO.getBankName());
-        creditCard.setMember(creditCardRepository.getReferenceById(creditCardDTO.getMemberId()));
+//        creditCard.setMember(memberRepository.getReferenceById(creditCardDTO.getMemberId()));
         return creditCard;
     }
-
 
 }

@@ -16,5 +16,5 @@ public class CreditCardDTO {
     private String accountHolder;
     private String bankNumber;
     private String bankName;
-    private Integer memberId;
+//    private Integer memberId;
 }

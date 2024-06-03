@@ -10,14 +10,14 @@ import java.time.LocalDate;
 @Table(name = "account")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account { //OK
-    //ok
+public class Account {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id", nullable = false)
-    private Integer id;
-    //ok
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private int id;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
@@ -30,10 +30,12 @@ public class Account { //OK
     @Column(name = "create_date")
     private LocalDate createDate;
 
-    @OneToOne(mappedBy = "account",optional = true)
+//    @OneToOne(fetch = FetchType.EAGER, mappedBy = "account",optional = true)
+//    @JoinColumn(name = "member_id", nullable = true)
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
     private Member members;
 
-    @OneToOne(mappedBy = "account",optional = true)
+    @OneToOne(fetch = FetchType.EAGER,mappedBy = "account",optional = true)
     private Staff staff;
 
 }

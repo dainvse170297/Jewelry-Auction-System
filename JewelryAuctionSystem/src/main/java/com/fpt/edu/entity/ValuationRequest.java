@@ -1,6 +1,6 @@
 package com.fpt.edu.entity;
 
-import com.fpt.edu.enums.ValuationRequestStatus;
+import com.fpt.edu.status.ValuationRequestStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +15,7 @@ import java.util.Set;
 @Entity
 @Table(name = "valuation_request")
 public class ValuationRequest {
-//done
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "valuation_request_id", nullable = false)
@@ -41,13 +41,15 @@ public class ValuationRequest {
     @Column(name = "description")
     private String description;
 
-    @OneToOne(mappedBy = "valuationRequest")
-    private Product products;
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
+    @JoinColumn(name = "product_id", nullable = true)
+    private Product product;
 
-    @OneToOne(mappedBy = "valuationRequest")
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
+    @JoinColumn(name = "response_id", nullable = true)
     private ResponseRequestValuation responseRequestValuations;
 
-    @OneToMany(mappedBy = "request")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "request")
     private Set<ValuationImage> valuationImages = new LinkedHashSet<>();
 
 }

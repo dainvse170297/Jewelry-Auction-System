@@ -1,5 +1,6 @@
 package com.fpt.edu.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,7 +13,7 @@ import java.util.Set;
 @Entity
 @Table(name = "category")
 public class Category {
-    //done
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id", nullable = false)
@@ -24,7 +25,8 @@ public class Category {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "category")
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
     private Set<Product> products = new LinkedHashSet<>();
 
 }

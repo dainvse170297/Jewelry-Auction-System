@@ -1,5 +1,6 @@
 package com.fpt.edu.entity;
 
+import com.fpt.edu.status.AuctionSessionStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,13 +14,13 @@ import java.util.Set;
 @Entity
 @Table(name = "auction_session")
 public class AuctionSession {
-    //done
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "auction_session_id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "staff_id", nullable = false)
     private Staff staff;
 
@@ -39,9 +40,10 @@ public class AuctionSession {
     private String description;
 
     @Column(name = "status")
-    private Integer status;
+    @Enumerated(EnumType.STRING)
+    private AuctionSessionStatus status;
 
-    @OneToMany(mappedBy = "auctionSession")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "auctionSession")
     private Set<Lot> lots = new LinkedHashSet<>();
 
 }
