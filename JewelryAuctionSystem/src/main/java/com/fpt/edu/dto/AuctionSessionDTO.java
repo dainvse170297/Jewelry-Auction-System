@@ -19,7 +19,9 @@ public class AuctionSessionDTO {
     private LocalDate endTime;
     private String name;
     private String description;
-    private Integer status;
+    private int status;
+
+
 
 
 }

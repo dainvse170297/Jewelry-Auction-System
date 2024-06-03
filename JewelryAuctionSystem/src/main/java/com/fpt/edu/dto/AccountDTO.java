@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class AccountDTO {
     private Integer id;
-    private RoleDTO role;
+    private RoleDTO roleDTO;
     private String username;
     private String password;
     private LocalDate createDate;

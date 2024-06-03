@@ -17,7 +17,7 @@ public class AccountM {
     public static Account mapToEntity(AccountDTO accountDTO) {
         return new Account(
                 accountDTO.getId(),
-                RoleM.mapToEntity(accountDTO.getRole()),
+                RoleM.mapToEntity(accountDTO.getRoleDTO()),
                 accountDTO.getUsername(),
                 accountDTO.getPassword(),
                 accountDTO.getCreateDate()

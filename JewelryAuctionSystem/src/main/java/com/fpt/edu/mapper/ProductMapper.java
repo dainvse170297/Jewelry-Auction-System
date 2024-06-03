@@ -16,7 +16,7 @@ public class ProductMapper {
         );
     }
 
-    public static Product mapToProduct(ProductDTO productDTO) {
+    public static Product mapToEntity(ProductDTO productDTO) {
         return new Product(
                 productDTO.getId(),
                 ValuationRequestMapper.mapToValuationRequest(productDTO.getValuationRequestDTO()),

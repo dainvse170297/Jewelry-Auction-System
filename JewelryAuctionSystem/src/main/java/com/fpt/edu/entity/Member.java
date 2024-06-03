@@ -58,4 +58,16 @@ public class Member {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     private Set<ValuationRequest> valuationRequests = new LinkedHashSet<>();
 
+    public Member(Integer id, CreditCard creditCard, Account account, BigDecimal financialProofAmount, String email, String fullname, String address, String phone) {
+        this.id = id;
+        this.creditCard = creditCard;
+        this.account = account;
+        this.financialProofAmount = financialProofAmount;
+        this.email = email;
+        this.fullname = fullname;
+        this.address = address;
+        this.phone = phone;
+    }
+
+
 }

@@ -5,14 +5,30 @@ import com.fpt.edu.dto.StaffDTO;
 import com.fpt.edu.entity.AuctionSession;
 
 public class AuctionSessionM {
-    public static AuctionSession getAuctionSession(AuctionSessionDTO sessionDTO){
-        return new AuctionSession();
+    public static AuctionSession maptoEntity(AuctionSessionDTO sessionDTO) {
+        return new AuctionSession(
+                sessionDTO.getId(),
+                StaffM.maptoEntity(sessionDTO.getStaffDTO()),
+                sessionDTO.getStartingBid(),
+                sessionDTO.getStartTime(),
+                sessionDTO.getEndTime(),
+                sessionDTO.getName(),
+                sessionDTO.getDescription(),
+                sessionDTO.getStatus()
+        );
     }
-    public static AuctionSessionDTO getAuctionSessionDTO(AuctionSession session){
-        return AuctionSessionDTO.builder()
-                        .id(session.getId())
-                        .staffDTO(new StaffDTO())
-                        .build();
+
+    public static AuctionSessionDTO mapToDTO(AuctionSession session) {
+        return new AuctionSessionDTO(
+          session.getId(),
+          StaffM.maptoDTO(session.getStaff()),
+          session.getStartingBid(),
+          session.getStartTime(),
+          session.getEndTime(),
+          session.getName(),
+          session.getDescription(),
+          session.getStatus()
+        );
 
     }
 }

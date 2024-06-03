@@ -8,13 +8,23 @@ import com.fpt.edu.entity.Product;
 
 public class LotM {
     public static LotDTO mapToDTO(Lot lot) {
-        return LotDTO.builder()
-                .id(lot.getId())
-                .product(new ProductDTO())
-                .auctionSession(new AuctionSession())
-                .build();
+        return new LotDTO(
+                lot.getId(),
+                ProductMapper.mapToDTO(lot.getProduct()),
+                AuctionSessionM.mapToDTO(lot.getAuctionSession()),
+                lot.getCurrentPrice(),
+                lot.getStatus()
+        );
     }
-    public static Lot mapToLot(LotDTO lotDTO) {
-        return new Lot();
+    public static Lot mapToEntity(LotDTO lotDTO) {
+        return new Lot(
+                lotDTO.getId(),
+                ProductMapper.mapToEntity(lotDTO.getProduct()),
+                AuctionSessionM.maptoEntity(lotDTO.getAuctionSession()),
+                lotDTO.getCurrentPrice(),
+                lotDTO.getStatus()
+
+
+        );
     }
 }

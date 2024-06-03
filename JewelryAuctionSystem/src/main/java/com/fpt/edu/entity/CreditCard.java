@@ -27,4 +27,10 @@ public class    CreditCard {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "creditCard")
     private Member members;
 
+    public CreditCard(Integer id, String accountHolder, String bankNumber, String bankName) {
+        this.id = id;
+        this.accountHolder = accountHolder;
+        this.bankNumber = bankNumber;
+        this.bankName = bankName;
+    }
 }

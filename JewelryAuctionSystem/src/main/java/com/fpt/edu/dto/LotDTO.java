@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 public class LotDTO {
     private Integer id;
     private ProductDTO product;
-    private AuctionSession auctionSession;
+    private AuctionSessionDTO auctionSession;
     private BigDecimal currentPrice;
     private String status;
 

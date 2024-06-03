@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class StaffDTO {
     private Integer id;
-    private Account account;
+    private AccountDTO account;
 
 
 }

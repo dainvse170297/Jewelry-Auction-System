@@ -39,4 +39,11 @@ public class Lot {
     @OneToMany(mappedBy = "lot")
     private Set<Bid> bids = new LinkedHashSet<>();
 
+    public Lot(Integer id, Product product, AuctionSession auctionSession, BigDecimal currentPrice, String status) {
+        this.id = id;
+        this.product = product;
+        this.auctionSession = auctionSession;
+        this.currentPrice = currentPrice;
+        this.status = status;
+    }
 }

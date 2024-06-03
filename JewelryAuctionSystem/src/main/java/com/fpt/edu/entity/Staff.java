@@ -30,4 +30,8 @@ public class Staff {
     @OneToMany(mappedBy = "staff")
     private Set<ResponseRequestValuation> responseRequestValuations= new LinkedHashSet<>();
 
+    public Staff(Integer id, Account account) {
+        this.id = id;
+        this.account = account;
+    }
 }

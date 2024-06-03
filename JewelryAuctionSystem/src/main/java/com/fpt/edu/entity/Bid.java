@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "bid")
 public class Bid {
@@ -32,4 +31,11 @@ public class Bid {
     @Column(name = "time")
     private LocalDate time;
 
+    public Bid(Integer id, Member member, Lot lot, BigDecimal price, LocalDate time) {
+        this.id = id;
+        this.member = member;
+        this.lot = lot;
+        this.price = price;
+        this.time = time;
+    }
 }
