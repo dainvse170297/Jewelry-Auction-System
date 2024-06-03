@@ -10,14 +10,9 @@ function App() {
 
   return (
     <>
-      {/* <Router> */}
+      <BrowserRouter>
 
-        <Layout />
-        {/* <div className="App">
-
-          <header className="App-header">
-            <Header />
-          </header>
+        <div className="App">
           <Routes>
             <Route path='/' element={<Navigate to='/home' />} />
             <Route path='/home' element={<Home />} />
@@ -26,8 +21,9 @@ function App() {
             <Route path='/valuation-request' element={<ValuationRequestList />} />
             <Route path='/valuation-request-detail/:id' element={<ValuationRequestDetail />} />
           </Routes>
-        </div> */}
-      {/* </Router> */}
+        </div>
+
+      </BrowserRouter>
 
     </>
   );
