@@ -1,6 +1,4 @@
-import { BrowserRouter as Router, Route, Routes, BrowserRouter } from 'react-router-dom'
-import './App.scss';
-import './index.scss'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
 import Home from './component/home/Home.jsx';
 import StaffBody from './component/staff/StaffBody'
@@ -12,7 +10,6 @@ function App() {
 
   return (
     <>
-
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Navigate to='/home' />} />
