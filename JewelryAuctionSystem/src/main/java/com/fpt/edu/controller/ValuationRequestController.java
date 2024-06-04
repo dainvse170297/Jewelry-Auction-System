@@ -1,5 +1,6 @@
 package com.fpt.edu.controller;
 
+import com.fpt.edu.dto.FinalValuationRequestDTO;
 import com.fpt.edu.dto.ValuationRequestDTO;
 import com.fpt.edu.entity.ValuationRequest;
 import com.fpt.edu.service.ValuationRequestService;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -62,6 +64,33 @@ public class ValuationRequestController {
         public ResponseEntity<ValuationRequestDTO> getRequestStatusProductReceivedById(@PathVariable Integer id) {
             return ResponseEntity.ok(valuationRequestService.getRequestByIdAndStatusProductReceived(id));
         }
+
+        // linh dep trai ok
+        @GetMapping("/get-all-final-valuations")
+        public ResponseEntity<List<FinalValuationRequestDTO>> getListFinalValuationRequest() {
+            return ResponseEntity.ok(valuationRequestService.getListFinalValuationRequest());
+        }
+
+        @PostMapping("/approve-final-valuation/{id}")
+        public ResponseEntity<Map<String, String>> approveFinalValuationRequest(@PathVariable Integer id) {
+            return ResponseEntity.ok(valuationRequestService.ApproveFinalValuationRequest(id));
+        }
+        @PostMapping("/cancel-final-valuation/{id}")
+        public ResponseEntity<Map<String, String>> cancelFinalValuationRequest(@PathVariable Integer id) {
+            return ResponseEntity.ok(valuationRequestService.CancelFinalValuationRequest(id));
+        }
+        //bao gom sendNotifyToMember service
+        @PostMapping("/send-final-valuation-to-member/{id}")
+        public ResponseEntity<List<Map<String,String>>> sendFinalValuationToMember(@PathVariable Integer id) {
+            return ResponseEntity.ok(valuationRequestService.sendFinalValuationToMember(id));
+        }
+
+        @GetMapping("/get-all-valuation-manager-approved")
+        public ResponseEntity<List<FinalValuationRequestDTO>> getListManagerApproveValuationRequest() {
+            return ResponseEntity.ok(valuationRequestService.getListManagerApproveValuationRequest());
+        }
+        // linh dep trai ok
+
 //        @RequestMapping("/all")
 //        public ResponseEntity<ValuationRequest> getAllValuationRequest() {
 //            return ResponseEntity.ok().build();

@@ -1,11 +1,15 @@
 package com.fpt.edu.service;
 
+import com.fpt.edu.dto.FinalValuationRequestDTO;
+import com.fpt.edu.dto.ProductDTO;
 import com.fpt.edu.dto.ValuationRequestDTO;
+import com.fpt.edu.entity.Product;
 import org.springframework.web.multipart.MultipartFile;
 import com.fpt.edu.entity.ValuationRequest;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface IValuationRequestService {
@@ -20,4 +24,18 @@ public interface IValuationRequestService {
     ValuationRequestDTO getRequestByIdAndStatusProductReceived(int id);
 
     ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax);
+
+    public List<FinalValuationRequestDTO> getListFinalValuationRequest();
+
+    public ProductDTO viewProductDetails(Integer productId);
+
+    public Map<String,String> ApproveFinalValuationRequest(Integer id);
+
+    public Map<String,String> CancelFinalValuationRequest(Integer id);
+
+    public List<FinalValuationRequestDTO> getListManagerApproveValuationRequest();
+
+    public List<Map<String,String>> sendFinalValuationToMember(Integer id);
+
+    public Map<String,String> sendNotifyToMember(ValuationRequest valuationRequest, Product product);
 }
