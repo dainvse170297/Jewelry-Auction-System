@@ -1,14 +1,16 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { FaBackward } from 'react-icons/fa'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { ToastContainer, toast } from 'react-toastify';
+import { CircularProgress } from '@mui/material';
 
 const ValuationRequestDetail = () => {
 
     const { id } = useParams()
+    const [isWaiting, setIsWaiting] = useState(false)
 
     const [valuationRequest, setValuationRequest] = useState({
         memberId: '',
@@ -94,6 +96,8 @@ const ValuationRequestDetail = () => {
         }
     }
 
+    const navigate = useNavigate()
+
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         if (product.name.trim() === '' || product.description.trim() === '' || product.categoryId.trim() === '' || product.estimatePriceMax.trim() === '' || product.estimatePriceMin.trim() === '') {
@@ -111,24 +115,30 @@ const ValuationRequestDetail = () => {
                 product.photos.forEach((photo, index) => {
                     formData.append("photos", photo)
                 })
+                setIsWaiting(true)
                 const addProduct = await axios.post('http://localhost:8080/product/add-product', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 }).then(response => {
                     console.log('Form submitted:', response.data)
-                    toast.success('Form submitted successfully!')
+                    toast.success('Product submitted successfully!')
+                    setIsWaiting(false)
+                    setTimeout(() => {
+                        navigate("/valuation-request")
+                    }, 6000)
                 }).catch(error => {
                     console.error('Error submitting form:', error)
                     toast.error('Error submitting form')
+                    setIsWaiting(false)
                 })
-                if (addProduct.status === 200) {
-                    toast.success('Add Product Information Successfully!')
-                    toast('Sended to Manager')
-                    console.log(product)
-                } else {
-                    toast.error("Error adding Product!")
-                }
+                // if (addProduct.status === 200) {
+                //     toast.success('Add Product Information Successfully!')
+                //     toast('Sended to Manager')
+                //     console.log(product)
+                // } else {
+                //     toast.error("Error adding Product!")
+                // }
             } catch (error) {
                 console.log(error.message)
             }
@@ -196,7 +206,14 @@ const ValuationRequestDetail = () => {
                                 onBlur={handleBlur}
                             />
                             <div className="mt-4">
-                                <Button variant="success" type='submit'>Submit</Button>
+                                {!isWaiting ? (
+                                    <Button variant="success" type='submit'>Submit</Button>
+                                ) : (
+                                    <>
+                                        <CircularProgress />
+                                    </>
+                                )}
+
                             </div>
                         </div>
                         <div className="col-lg-6">
