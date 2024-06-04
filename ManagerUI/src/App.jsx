@@ -5,6 +5,8 @@ import StaffBody from './component/staff/StaffBody'
 import ValuationRequestList from './component/staff/ValuationRequestList'
 import StaffFunction from './component/staff/StaffFunction'
 import ValuationRequestDetail from './component/staff/ValuationRequestDetail'
+import ManagerBody from './component/manager/ManagerBody.jsx';
+import CreateAuction from './component/manager/CreateAuction.jsx';
 
 function App() {
 
@@ -20,6 +22,8 @@ function App() {
             <Route path='/staff-function' element={<StaffFunction />} />
             <Route path='/valuation-request' element={<ValuationRequestList />} />
             <Route path='/valuation-request-detail/:id' element={<ValuationRequestDetail />} />
+            <Route path='/manager' element={<ManagerBody />} />
+            <Route path='/create-auction' element={<CreateAuction />} />
           </Routes>
         </div>
 

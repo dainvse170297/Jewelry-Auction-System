@@ -9,11 +9,10 @@ const ManagerBody = () => {
                 <h1 className='text-center mt-3'>WELCOME TO COMPANY</h1>
                 <h1 className='text-center mt-3'>You are <strong>Manager</strong></h1>
                 <label htmlFor="">
-                    <h5>Choose Your role:</h5>
                 </label><br></br>
 
-                <Link to={'/staff-function'} style={{ textDecoration: 'none' }}>
-                    Staff
+                <Link to={'/create-auction'} style={{ textDecoration: 'none' }}>
+                    Create Auction Session
                 </Link>
             </div>
         </div>

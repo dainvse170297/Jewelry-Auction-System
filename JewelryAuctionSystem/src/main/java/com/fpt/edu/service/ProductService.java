@@ -69,6 +69,7 @@ public class ProductService implements IProductService {
             productImageRepository.save(image);
         }
 
+        valuationRequest.setProduct(product);
         valuationRequestRepository.save(valuationRequest);
         Lot lot = new Lot();
         lot.setProduct(product);
