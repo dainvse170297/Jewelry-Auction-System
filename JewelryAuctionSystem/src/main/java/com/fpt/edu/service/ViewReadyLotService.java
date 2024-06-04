@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ViewReadyLotService {
+public class ViewReadyLotService implements IViewReadyLotService{
     @Autowired
     private LotRepository lotRepository;
 

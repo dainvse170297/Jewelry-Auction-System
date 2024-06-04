@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class CreateNewProductService {
+public class CreateNewProductService  implements ICreateNewProductService{
     @Autowired
     private IValuationRequestRepository iValuationRequestRepository;
     @Autowired

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreateAuctionSessionService {
+public class CreateAuctionSessionService implements ICreateAuctionSessionService {
     @Autowired
     private AuctionSessionRepository sessionRepository;
 
