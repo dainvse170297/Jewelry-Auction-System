@@ -33,7 +33,7 @@ public class ResponseRequestValuation {
     @Column(name = "time_response")
     private LocalDate timeResponse;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "staff_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "staff_id", nullable = true)
     private Staff staff;
 }

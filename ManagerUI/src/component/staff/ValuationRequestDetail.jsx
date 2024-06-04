@@ -24,10 +24,32 @@ const ValuationRequestDetail = () => {
         name: '',
         description: '',
         estimatePriceMax: '',
-        estimatePriceMin: ''
+        estimatePriceMin: '',
+        photos: [],
+        photoPreview: []
     })
 
+
     const [categories, setCategories] = useState([])
+
+    const generatePhotoPreview = (files) => {
+        const previews = files.map(file => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader()
+                reader.onload = () => resolve(reader.result)
+                reader.onerror = reject
+                reader.readAsDataURL(file)
+            })
+        })
+
+        Promise.all(previews)
+            .then(previews => {
+                setProduct(preState => ({
+                    ...preState,
+                    photoPreview: previews
+                }))
+            }).catch(err => toast.error('Error generating photo previews'))
+    }
 
     useEffect(() => {
         const fetchRequest = async () => {
@@ -54,26 +76,62 @@ const ValuationRequestDetail = () => {
     }, [])
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target
-        setProduct({ ...product, [name]: value })
+        const { name, value, files } = e.target
+        if (name === 'photos') {
+            const selectedFiles = Array.from(files)
+            setProduct({ ...product, photos: selectedFiles })
+            generatePhotoPreview(selectedFiles)
+        } else {
+            setProduct({ ...product, [name]: value })
+        }
+
     }
 
     const handleBlur = (e) => {
         const { name, value } = e.target
-        if (value.trim() === '') {
+        if (value.trim() === '' && name !== 'photos') {
             toast.error(`${name} is required`)
         }
     }
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault()
         if (product.name.trim() === '' || product.description.trim() === '' || product.categoryId.trim() === '' || product.estimatePriceMax.trim() === '' || product.estimatePriceMin.trim() === '') {
             toast.warning('Need to fill all fields')
         } else {
-            //todo
-            console.log(product)
-            toast.success('Add Product Information Successfully!')
-            toast('Sended to Manager')
+            try {
+                //http://localhost:8080/product/add-product
+                const formData = new FormData()
+                formData.append("valuationRequestId", product.valuationRequestId)
+                formData.append("categoryId", product.categoryId)
+                formData.append("name", product.name)
+                formData.append("description", product.description)
+                formData.append("estimatePriceMax", product.estimatePriceMax)
+                formData.append("estimatePriceMin", product.estimatePriceMin)
+                product.photos.forEach((photo, index) => {
+                    formData.append("photos", photo)
+                })
+                const addProduct = await axios.post('http://localhost:8080/product/add-product', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(response => {
+                    console.log('Form submitted:', response.data)
+                    toast.success('Form submitted successfully!')
+                }).catch(error => {
+                    console.error('Error submitting form:', error)
+                    toast.error('Error submitting form')
+                })
+                if (addProduct.status === 200) {
+                    toast.success('Add Product Information Successfully!')
+                    toast('Sended to Manager')
+                    console.log(product)
+                } else {
+                    toast.error("Error adding Product!")
+                }
+            } catch (error) {
+                console.log(error.message)
+            }
         }
 
     }
@@ -137,6 +195,9 @@ const ValuationRequestDetail = () => {
                                 onChange={handleInputChange}
                                 onBlur={handleBlur}
                             />
+                            <div className="mt-4">
+                                <Button variant="success" type='submit'>Submit</Button>
+                            </div>
                         </div>
                         <div className="col-lg-6">
                             <Form.Label htmlFor="estimatePriceMin">Estimate Min Price <span style={{ color: 'red' }}>*</span></Form.Label>
@@ -159,14 +220,27 @@ const ValuationRequestDetail = () => {
                                 onChange={handleInputChange}
                                 onBlur={handleBlur}
                             />
-                            <div className="mt-4">
-                                <Button variant="success" type='submit'>Submit</Button>
-
+                            <Form.Group controlId="formFileMultiple" className="mb-3">
+                                <Form.Label>Photos <span style={{ color: 'red' }}>*</span></Form.Label>
+                                <Form.Control
+                                    type="file"
+                                    multiple
+                                    id='photos'
+                                    name='photos'
+                                    onChange={handleInputChange}
+                                    onBlur={handleBlur} />
+                            </Form.Group>
+                            <label htmlFor="" className='text-secondary'>Photo preview</label>
+                            <div className="">
+                                {product.photoPreview.map((preview, index) => (
+                                    <img key={index} src={preview} alt={`Preview ${index}`} style={{ width: '200px', height: '200px', objectFit: 'cover', margin: '20px' }} />
+                                ))}
                             </div>
                         </div>
                     </div>
                     <ToastContainer />
                 </form>
+
             </div>
         </div>
     )

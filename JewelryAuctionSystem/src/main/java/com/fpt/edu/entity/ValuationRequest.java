@@ -21,7 +21,7 @@ public class ValuationRequest {
     @Column(name = "valuation_request_id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "member_id", nullable = true)
     private Member member;
 

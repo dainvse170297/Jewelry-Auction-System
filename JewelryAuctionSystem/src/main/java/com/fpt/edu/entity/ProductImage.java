@@ -17,8 +17,8 @@ public class ProductImage {
     private Integer id;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "product_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "product_id", nullable = true)
     private Product product;
 
     @Column(name = "image_url")

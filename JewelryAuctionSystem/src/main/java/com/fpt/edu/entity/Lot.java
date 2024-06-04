@@ -20,7 +20,7 @@ public class Lot {
     @Column(name = "lot_id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "product_id", nullable = true)
     private Product product;
 

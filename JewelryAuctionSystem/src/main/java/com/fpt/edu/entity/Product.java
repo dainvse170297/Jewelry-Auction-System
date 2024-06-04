@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -23,7 +25,7 @@ public class Product {
 //    @JoinColumn(name = "valuation_request_id", referencedColumnName = "valuation_request_id", nullable = false)
 //    private ValuationRequest valuationRequest;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "category_id", nullable = true)
     private Category category;
 
@@ -43,6 +45,6 @@ public class Product {
     private Set<Lot> lots = new LinkedHashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
-    private Set<ProductImage> productImages = new LinkedHashSet<>();
+    private List<ProductImage> productImages = new ArrayList<>();
 
 }
