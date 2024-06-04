@@ -1,11 +1,15 @@
 package com.fpt.edu.mapper;
 
 import com.fpt.edu.dto.FinalValuationRequestDTO;
+import com.fpt.edu.dto.ValuationImageDTO;
 import com.fpt.edu.dto.ValuationRequestDTO;
+import com.fpt.edu.dto.ViewValuationRequestDTO;
 import com.fpt.edu.entity.*;
 import com.fpt.edu.repository.IMemberRepository;
 import com.fpt.edu.repository.IProductRepository;
 import com.fpt.edu.repository.IResponseRequestValuationRepository;
+import com.fpt.edu.repository.IValuationImageRepository;
+import com.fpt.edu.status.ValuationRequestStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -25,7 +29,7 @@ public class ValuationRequestMapper {
     private IMemberRepository iMemberRepository;
     private IResponseRequestValuationRepository iResponseRequestValuationRepository;
     private IProductRepository iProductRepository;
-
+    private IValuationImageRepository IValuationImageRepository;
     public ValuationRequestMapper(ValuationImageMapper valuationImageMapper) {
         this.valuationImageMapper = valuationImageMapper;
     }
@@ -68,6 +72,11 @@ public class ValuationRequestMapper {
         return valuationRequests.stream().map(this::mapToValuationRequestDTO).toList();
     }
 
+    public List<ViewValuationRequestDTO> mapToViewValuationRequestDTOList(List<ValuationRequest> valuationRequests){
+        return valuationRequests.stream().map(this::mapToViewValuationRequestDTO).toList();
+    }
+
+
     public FinalValuationRequestDTO mapToFinalValuationRequestDTO(ValuationRequest valuationRequest){
         return new FinalValuationRequestDTO(
                 valuationRequest.getId(),
@@ -82,5 +91,22 @@ public class ValuationRequestMapper {
     }
     public List<FinalValuationRequestDTO> mapToFinalValuationRequestDTOList(List<ValuationRequest> valuationRequests){
         return valuationRequests.stream().map(this::mapToFinalValuationRequestDTO).toList();
+    }
+
+    public ViewValuationRequestDTO mapToViewValuationRequestDTO(ValuationRequest valuationRequest) {
+
+        Set<ValuationImage> valuationImages = valuationRequest.getValuationImages();
+        return new ViewValuationRequestDTO(
+                valuationRequest.getId(),
+                valuationRequest.getMember().getId(),
+                valuationRequest.getTimeRequest(),
+                valuationRequest.getValuationStatus(),
+                valuationRequest.getEstimatePriceMax(),
+                valuationRequest.getEstimatePriceMin(),
+                valuationRequest.getDescription(),
+                valuationRequest.getProduct() == null ? null : valuationRequest.getProduct().getId(),
+                valuationRequest.getResponseRequestValuations()== null ? null : valuationRequest.getResponseRequestValuations().getId(),
+                valuationImages
+        );
     }
 }

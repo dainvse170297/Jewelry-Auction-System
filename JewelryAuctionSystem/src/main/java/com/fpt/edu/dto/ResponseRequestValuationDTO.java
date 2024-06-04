@@ -17,10 +17,9 @@ import java.time.LocalDate;
 public class ResponseRequestValuationDTO {
 
     private Integer id;
-    private ValuationRequest valuationRequest;
     private ResponseValuationRequestStatus status;
     private BigDecimal valuationPrice;
     private LocalDate timeResponse;
-    private Staff staff;
+    private Integer staffId;
 
 }

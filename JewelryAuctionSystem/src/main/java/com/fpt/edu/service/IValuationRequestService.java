@@ -3,6 +3,7 @@ package com.fpt.edu.service;
 import com.fpt.edu.dto.FinalValuationRequestDTO;
 import com.fpt.edu.dto.ProductDTO;
 import com.fpt.edu.dto.ValuationRequestDTO;
+import com.fpt.edu.dto.ViewValuationRequestDTO;
 import com.fpt.edu.entity.Product;
 import org.springframework.web.multipart.MultipartFile;
 import com.fpt.edu.entity.ValuationRequest;
@@ -38,4 +39,7 @@ public interface IValuationRequestService {
     public List<Map<String,String>> sendFinalValuationToMember(Integer id);
 
     public Map<String,String> sendNotifyToMember(ValuationRequest valuationRequest, Product product);
+
+    public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId);
+
 }

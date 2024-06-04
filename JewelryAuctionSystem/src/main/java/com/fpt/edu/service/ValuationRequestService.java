@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.text.View;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
@@ -261,6 +262,12 @@ public class ValuationRequestService implements IValuationRequestService{
         return status;
 
     }
+    @Override
+    public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId) {
+        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByMemberId(memberId);
+        return valuationRequestMapper.mapToViewValuationRequestDTOList(valuationRequests);
+    }
+
     //Create Notify by specific format message
     private String createRequestTitle(ValuationRequest valuationRequest) {
         return "#" + valuationRequest.getId() + ": Your Valuation Request has been sent.";
