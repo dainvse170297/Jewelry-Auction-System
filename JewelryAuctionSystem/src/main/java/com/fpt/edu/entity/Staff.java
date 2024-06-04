@@ -17,9 +17,9 @@ public class Staff {
     @Column(name = "staff_id", nullable = false)
     private Integer id;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "account_id", nullable = false)
-    private Account account;
+//    @OneToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "account_id", nullable = false)
+//    private Account account;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "staff")
     private Set<AuctionSession> auctionSessions = new LinkedHashSet<>();
