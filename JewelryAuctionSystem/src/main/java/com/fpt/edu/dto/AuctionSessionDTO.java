@@ -1,6 +1,7 @@
 package com.fpt.edu.dto;
 
 import com.fpt.edu.entity.Staff;
+import com.fpt.edu.enums.AuctionSessionStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +20,7 @@ public class AuctionSessionDTO {
     private LocalDate endTime;
     private String name;
     private String description;
-    private String status;
+    private AuctionSessionStatus status;
 
 
 

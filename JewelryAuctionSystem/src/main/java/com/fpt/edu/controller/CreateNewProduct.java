@@ -18,33 +18,29 @@ public class CreateNewProduct {
 
     @GetMapping("/requests/status")
     public List<ValuationRequestDTO> getRequestedValuationStatusReceive() {
-        ValuationRequestStatus status = ValuationRequestStatus.RECEIVE;
-        List<ValuationRequestDTO> valuationRequestDTO = createNewProductService.getRequestedValuationRequestByMemberStatusReceive(status);
-        return valuationRequestDTO;
+        ValuationRequestStatus status = ValuationRequestStatus.PRODUCT_RECEIVED;
+        return createNewProductService.getRequestedValuationRequestByMemberStatusReceive(status);
     }
 
     @GetMapping("/requests/{id}")
     public ValuationRequestDTO getRequestedValuationRequestById(@PathVariable("id") Integer id) {
-        ValuationRequestDTO valuationRequestDTO = createNewProductService.getValuationRequestById(id);
-        return valuationRequestDTO;
+        return createNewProductService.getValuationRequestById(id);
     }
 
     @PostMapping("/create/newproduct")
-    public  ProductDTO createProduct(@RequestBody ProductDTO productDTO) {
-        ProductDTO newProductDTO = createNewProductService.createProduct(productDTO);
-        return newProductDTO;
+    public ProductDTO createProduct(@RequestBody ProductDTO productDTO) {
+        return createNewProductService.createProduct(productDTO);
     }
 
 
     @PostMapping("/createlot")
-    public  LotDTO createLot(@RequestBody LotDTO lot) {
-        LotDTO newlot = createNewProductService.createLot(lot);
-        return newlot;
+    public LotDTO createLot(@RequestBody LotDTO lot) {
+        return createNewProductService.createLot(lot);
     }
+
     @PutMapping("/update/{id}")
-    public   ValuationRequestDTO updateStatus(@PathVariable("id") int id, @RequestBody ValuationRequestDTO valuationRequestDTO) {
-        ValuationRequestDTO valuationRequestDTO1 =createNewProductService.update(id,valuationRequestDTO);
-        return valuationRequestDTO1;
+    public ValuationRequestDTO updateStatus(@PathVariable("id") int id, @RequestBody ValuationRequestDTO valuationRequestDTO) {
+        return createNewProductService.update(id, valuationRequestDTO);
     }
 
 

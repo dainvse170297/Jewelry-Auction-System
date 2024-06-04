@@ -1,4 +1,9 @@
 package com.fpt.edu.repository;
 
-public interface AccountRepository {
+import com.fpt.edu.entity.Account;
+import com.fpt.edu.entity.AuctionRegister;
+import com.fpt.edu.entity.AuctionSession;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AccountRepository  extends JpaRepository<Account, Integer> {
 }

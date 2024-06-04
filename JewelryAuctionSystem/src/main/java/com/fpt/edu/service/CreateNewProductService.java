@@ -20,16 +20,17 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+
 @Service
 public class CreateNewProductService {
     @Autowired
-    private  IValuationRequestRepository iValuationRequestRepository;
+    private IValuationRequestRepository iValuationRequestRepository;
     @Autowired
-    private  LotRepository lotRepository;
+    private LotRepository lotRepository;
     @Autowired
-    private  ProductRepository productRepository;
+    private ProductRepository productRepository;
 
-    public  List<ValuationRequestDTO> getRequestedValuationRequestByMemberStatusReceive(ValuationRequestStatus status) {
+    public List<ValuationRequestDTO> getRequestedValuationRequestByMemberStatusReceive(ValuationRequestStatus status) {
         List<ValuationRequestDTO> valuationRequestDTOList = new ArrayList<>();
         List<ValuationRequest> valuationRequestList = iValuationRequestRepository.findByValuationStatus(status);
         for (ValuationRequest valuationRequest : valuationRequestList) {
@@ -39,25 +40,27 @@ public class CreateNewProductService {
         return List.of();
     }
 
-    public  ValuationRequestDTO getValuationRequestById(Integer id) {
+    public ValuationRequestDTO getValuationRequestById(Integer id) {
         ValuationRequest valuationRequest = iValuationRequestRepository.findById(id).orElseThrow(() -> new NoSuchElementException("NO EXIST ID:" + id));
         return ValuationRequestMapper.mapToDTO(valuationRequest);
     }
-    public  ProductDTO createProduct(ProductDTO productDTO) {
+
+    public ProductDTO createProduct(ProductDTO productDTO) {
         Product newProduct = ProductMapper.mapToEntity(productDTO);
         newProduct = productRepository.save(newProduct);
         return ProductMapper.mapToDTO(newProduct);
     }
 
 
-    public  LotDTO createLot(LotDTO lotDTO) {
+    public LotDTO createLot(LotDTO lotDTO) {
         Lot lot = LotM.mapToEntity(lotDTO);
         lot.setStatus(LotStatus.WAITING);
         lot = lotRepository.save(lot);
         return LotM.mapToDTO(lot);
     }
-    public  ValuationRequestDTO update (int id, ValuationRequestDTO valuationRequestDTO) {
-        ValuationRequest valuationRequest = iValuationRequestRepository.findById(id).orElseThrow(()-> new NoSuchElementException("No Exit ID " + id));
+
+    public ValuationRequestDTO update(int id, ValuationRequestDTO valuationRequestDTO) {
+        ValuationRequest valuationRequest = iValuationRequestRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No Exit ID " + id));
         valuationRequest.setValuationStatus(ValuationRequestStatus.PENDING_MANAGER_APPROVAL);
         valuationRequest = iValuationRequestRepository.save(valuationRequest);
         return ValuationRequestMapper.mapToDTO(valuationRequest);

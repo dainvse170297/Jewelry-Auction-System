@@ -1,5 +1,6 @@
 package com.fpt.edu.entity;
 
+import com.fpt.edu.enums.AuctionSessionStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -39,12 +40,14 @@ public class AuctionSession {
     private String description;
 
     @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private AuctionSessionStatus status;
+
 
     @OneToMany(mappedBy = "auctionSession")
     private Set<Lot> lots = new LinkedHashSet<>();
 
-    public AuctionSession(Integer id, Staff staff, int startingBid, LocalDate startTime, LocalDate endTime, String name, String description, String status) {
+    public AuctionSession(Integer id, Staff staff, int startingBid, LocalDate startTime, LocalDate endTime, String name, String description, AuctionSessionStatus status) {
         this.id = id;
         this.staff = staff;
         this.startingBid = startingBid;
