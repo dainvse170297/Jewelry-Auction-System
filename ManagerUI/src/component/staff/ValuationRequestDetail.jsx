@@ -133,7 +133,6 @@ const ValuationRequestDetail = () => {
                 console.log(error.message)
             }
         }
-
     }
 
 

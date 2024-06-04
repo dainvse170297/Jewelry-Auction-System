@@ -19,8 +19,8 @@ import java.util.*;
 public class ProductService implements IProductService {
 
     private final IProductRepository productRepository;
-    private final CategoryRepository categoryRepository;
-    private final LotRepository lotRepository;
+    private final ICategoryRepository categoryRepository;
+    private final ILotRepository lotRepository;
     private final IValuationRequestRepository valuationRequestRepository;
     private final IProductImageRepository productImageRepository;
 
