@@ -18,6 +18,7 @@ public class ProductController {
 
     private final IProductService productService;
 
+    //Test by postman done
     @PostMapping("/add-product")
     public ResponseEntity<Product> addProduct(@RequestParam("valuationRequestId") int valuationRequestId,
                                               @RequestParam("categoryId") int categoryId,

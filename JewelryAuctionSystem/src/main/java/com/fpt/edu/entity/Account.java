@@ -35,7 +35,7 @@ public class Account {
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     private Member members;
 
-    @OneToOne(fetch = FetchType.EAGER,mappedBy = "account",optional = true)
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
     private Staff staff;
 
 }

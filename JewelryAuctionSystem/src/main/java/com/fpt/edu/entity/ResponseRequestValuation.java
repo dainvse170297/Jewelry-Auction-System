@@ -25,7 +25,7 @@ public class ResponseRequestValuation {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private ResponseValuationRequestStatus valuationStatus;
+    private ResponseValuationRequestStatus responseValuationRequestStatus;
 
     @Column(name = "valuation_price", precision = 19, scale = 2)
     private BigDecimal valuationPrice;

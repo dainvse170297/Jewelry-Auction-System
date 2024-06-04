@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.19",
     "@mui/material": "^5.15.19",
     "@tabler/icons": "^3.5.0",
     "@testing-library/jest-dom": "^5.17.0",
@@ -16,6 +17,7 @@
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.3.1",
     "react-icons": "^5.2.1",
+    "react-pro-sidebar": "^0.7.1",
     "react-router-dom": "^6.23.1",
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.5",

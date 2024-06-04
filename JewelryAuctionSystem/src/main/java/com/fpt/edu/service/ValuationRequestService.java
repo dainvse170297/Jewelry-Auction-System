@@ -3,18 +3,23 @@ package com.fpt.edu.service;
 import com.fpt.edu.dto.ValuationRequestDTO;
 import com.fpt.edu.entity.Member;
 import com.fpt.edu.entity.Notify;
+import com.fpt.edu.entity.ValuationImage;
 import com.fpt.edu.entity.ValuationRequest;
 import com.fpt.edu.status.ValuationRequestStatus;
 import com.fpt.edu.mapper.ValuationRequestMapper;
 import com.fpt.edu.repository.IMemberRepository;
 import com.fpt.edu.repository.INotifyRepository;
+import com.fpt.edu.repository.IValuationImageRepository;
 import com.fpt.edu.repository.IValuationRequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -24,31 +29,46 @@ public class ValuationRequestService implements IValuationRequestService{
     private final IMemberRepository iMemberRepository;
     private final ValuationRequestMapper valuationRequestMapper;
     private final INotifyRepository iNotifyRepository;
+    private final IValuationImageRepository iValuationImageRepository;
+    private final CloudinaryService cloudinaryService;
 
-    private final String RECEIVED_TITLE = "Product Received";
-    private final String RECEIVED_MESSAGE = "Your product has been received. We will contact you soon.";
-
-    private final String PRELIMINARY_VALUATED_TITLE = "Product Preliminary Valuated";
-    private final String PRELIMINARY_VALUATED_MESSAGE = "We have done the preliminary valuation for your product. We will contact you soon.";
     @Override
-    public ValuationRequestDTO create(Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax) {
+    public ValuationRequestDTO create(Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax, Set<MultipartFile> files) {
         ValuationRequest valuationRequest = new ValuationRequest();
+        //set request
         Member member = iMemberRepository.getReferenceById(memberId);
         System.out.println("Member: " + member);
         valuationRequest.setMember(member);
         valuationRequest.setDescription(description);
+        valuationRequest.setTimeRequest(LocalDate.now());
         valuationRequest.setEstimatePriceMin(estimateMin);
         valuationRequest.setEstimatePriceMax(estimateMax);
         valuationRequest.setResponseRequestValuations(null);
         valuationRequest.setValuationStatus(ValuationRequestStatus.REQUESTED);
         valuationRequest.setProduct(null);
-//        System.out.println("Member: " + member);
-//        System.out.println("Have: " +
-//                "Member id: " + memberId +
-//                "Des: " + description +
-//                "Estimate min: " + estimateMin +
-//                "Estimate max: " + estimateMax);
-        return valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
+        ValuationRequestDTO valuationRequestDTO = valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
+        //set image
+        for (MultipartFile file : files) {
+            Map image;
+            try {
+                image = cloudinaryService.uploadFile(file);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            ValuationImage valuationImage = new ValuationImage();
+            valuationImage.setImageUrl(image.get("url").toString());
+            valuationImage.setImageId(image.get("public_id").toString());
+            valuationImage.setRequest(valuationRequest);
+            iValuationImageRepository.save(valuationImage);
+        }
+        //set notify
+        Notify notify = new Notify();
+        notify.setMember(member);
+        notify.setTitle(createRequestTitle(valuationRequest));
+        notify.setDescription(createRequestMessage(valuationRequest));
+        notify.setDate(LocalDate.now());
+        iNotifyRepository.save(notify);
+        return valuationRequestDTO;
     }
 
     @Override
@@ -58,22 +78,17 @@ public class ValuationRequestService implements IValuationRequestService{
 
     @Override
     public ValuationRequestDTO productReceived(Integer id) {
-        System.out.println("ID: " + id);
         ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
-        System.out.println('1');
         valuationRequest.setValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED);
-        System.out.println('2');
         Member member = iMemberRepository.getReferenceById(valuationRequestMapper.mapToValuationRequestDTO(valuationRequest).getMemberId());
         LocalDate createDate = LocalDate.now();
-        System.out.println('3');
         Notify notify = new Notify();
         notify.setMember(member);
-        notify.setTitle(RECEIVED_TITLE);
-        notify.setDescription(RECEIVED_MESSAGE);
+        notify.setTitle(productReceivedTitle(valuationRequest));
+        notify.setDescription(productReceivedMessage(valuationRequest));
         notify.setDate(createDate);
         iNotifyRepository.save(notify);
         ValuationRequestDTO dto = valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
-        System.out.println("DTO: " + dto);
         return dto;
     }
 
@@ -101,10 +116,31 @@ public class ValuationRequestService implements IValuationRequestService{
         Member member = valuationRequest.getMember();
         Notify notify = new Notify();
         notify.setMember(member);
-        notify.setTitle(PRELIMINARY_VALUATED_TITLE);
-        notify.setDescription(PRELIMINARY_VALUATED_MESSAGE);
+        notify.setTitle(preliminaryValuatedTitle(valuationRequest));
+        notify.setDescription(preliminaryValuatedMessage(valuationRequest));
         notify.setDate(LocalDate.now());
         iNotifyRepository.save(notify);
         return valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
+    }
+
+
+    //Create Notify by specific format message
+    private String createRequestTitle(ValuationRequest valuationRequest) {
+        return "#" + valuationRequest.getId() + ": Your Valuation Request has been sent.";
+    }
+    private String createRequestMessage(ValuationRequest valuationRequest) {
+        return "Your valuation request #"+ valuationRequest.getId() +" has been sent. Please wait for our response.";
+    }
+    private String productReceivedTitle(ValuationRequest valuationRequest) {
+        return "#" + valuationRequest.getId() + ":Product Received #"+ valuationRequest.getId();
+    }
+    private String productReceivedMessage(ValuationRequest valuationRequest) {
+        return "Your product has been received. We are processing the valuation. We will contact you as soon as your product is evaluated.";
+    }
+    private String preliminaryValuatedTitle(ValuationRequest valuationRequest) {
+        return "#" + valuationRequest.getId() + " :Product Preliminary Valuated";
+    }
+    private String preliminaryValuatedMessage(ValuationRequest valuationRequest) {
+        return "We have done the preliminary valuation for your product. We will contact you soon.";
     }
 }

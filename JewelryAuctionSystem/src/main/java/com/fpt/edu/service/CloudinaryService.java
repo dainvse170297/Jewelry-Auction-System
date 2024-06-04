@@ -21,6 +21,7 @@ public class CloudinaryService implements ICloudinaryService{
                 "api_key", cloudinaryConfig.getApiKey(),
                 "api_secret", cloudinaryConfig.getApiSecret()));
     }
+
     @Override
     public Map uploadFile(MultipartFile file)  {
         try{
@@ -30,7 +31,7 @@ public class CloudinaryService implements ICloudinaryService{
             throw new RuntimeException("Image upload fail");
         }
     }
-    @Override
+    
     public Map deleteFile(String publicId) throws IOException {
         return cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
     }
