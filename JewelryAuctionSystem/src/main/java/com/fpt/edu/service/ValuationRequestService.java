@@ -30,7 +30,7 @@ public class ValuationRequestService implements IValuationRequestService{
     private final ValuationRequestMapper valuationRequestMapper;
     private final INotifyRepository iNotifyRepository;
     private final IValuationImageRepository iValuationImageRepository;
-    private final ICloudinaryService cloudinaryService;
+    private final CloudinaryService cloudinaryService;
 
     @Override
     public ValuationRequestDTO create(Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax, Set<MultipartFile> files) {

@@ -44,11 +44,11 @@ public class ProductService implements IProductService {
         productRepository.save(product);
 
         valuationRequestRepository.save(valuationRequest);
-//        Lot lot = new Lot();
-//        lot.setProduct(product);
-//        lot.setStatus(LotStatus.WAITING);
-//        lot.setAuctionSession(null);
-//        lotRepository.save(lot);
+        Lot lot = new Lot();
+        lot.setProduct(product);
+        lot.setStatus(LotStatus.WAITING);
+        lot.setAuctionSession(null);
+        lotRepository.save(lot);
 
         return product;
     }
