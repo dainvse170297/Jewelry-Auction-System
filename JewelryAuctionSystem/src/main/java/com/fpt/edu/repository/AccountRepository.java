@@ -7,7 +7,4 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface AccountRepository extends JpaRepository<Account, Integer> {
-
-    @Query(value = "SELECT acc FROM Account acc JOIN Staff st ON acc.staff.id = st.id")
-    List<Account> findAccountByStaff();
 }

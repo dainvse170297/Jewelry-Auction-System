@@ -149,7 +149,7 @@ const ValuationRequestDetail = () => {
 
     return (
         <div className='container'>
-            <div className="">
+            <div className="mt-3">
                 <Link to={"/valuation-request"}><FaBackward /></Link>
             </div>
             <h3 className='text-center mt-5'>Valuation Request Detail</h3>
@@ -165,6 +165,7 @@ const ValuationRequestDetail = () => {
                 <form action="" onSubmit={handleFormSubmit}>
                     <div className="row">
                         <div className="col-lg-6">
+                            {/* SELECT CATEGORY */}
                             <Form.Label htmlFor="inputPassword5">Product category <span style={{ color: 'red' }}>*</span></Form.Label>
                             <Form.Select size=''
                                 aria-label="Default select example"
@@ -185,6 +186,7 @@ const ValuationRequestDetail = () => {
                                     </option>
                                 ))}
                             </Form.Select>
+                            {/* INPUT PRODUCT NAME */}
                             <Form.Label htmlFor="name">Product Name <span style={{ color: 'red' }}>*</span></Form.Label>
                             <Form.Control
                                 type="text"
@@ -195,6 +197,7 @@ const ValuationRequestDetail = () => {
                                 onChange={handleInputChange}
                                 onBlur={handleBlur}
                             />
+                            {/* INPUT PRODUCT DESCRIPTION */}
                             <Form.Label htmlFor="description">Product Description <span style={{ color: 'red' }}>*</span></Form.Label>
                             <Form.Control
                                 type="text"
@@ -216,6 +219,7 @@ const ValuationRequestDetail = () => {
 
                             </div>
                         </div>
+                        {/* INPUT PRODUCT ESTIMATE MIN PRICE */}
                         <div className="col-lg-6">
                             <Form.Label htmlFor="estimatePriceMin">Estimate Min Price <span style={{ color: 'red' }}>*</span></Form.Label>
                             <Form.Control
@@ -227,6 +231,7 @@ const ValuationRequestDetail = () => {
                                 onChange={handleInputChange}
                                 onBlur={handleBlur}
                             />
+                            {/* INPUT PRODUCT ESTIMATE MAX PRICE */}
                             <Form.Label htmlFor="estimatePriceMax">Estimate Max Price <span style={{ color: 'red' }}>*</span></Form.Label>
                             <Form.Control
                                 type="text"
@@ -237,6 +242,7 @@ const ValuationRequestDetail = () => {
                                 onChange={handleInputChange}
                                 onBlur={handleBlur}
                             />
+                            {/* INPUT PRODUCT PHOTO */}
                             <Form.Group controlId="formFileMultiple" className="mb-3">
                                 <Form.Label>Photos <span style={{ color: 'red' }}>*</span></Form.Label>
                                 <Form.Control
@@ -247,6 +253,7 @@ const ValuationRequestDetail = () => {
                                     onChange={handleInputChange}
                                     onBlur={handleBlur} />
                             </Form.Group>
+                            {/* SEE PHOTO WHEN INPUT FILE */}
                             <label htmlFor="" className='text-secondary'>Photo preview</label>
                             <div className="">
                                 {product.photoPreview.map((preview, index) => (
