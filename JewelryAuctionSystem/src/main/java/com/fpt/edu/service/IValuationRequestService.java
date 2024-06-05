@@ -6,6 +6,7 @@ import com.fpt.edu.entity.ValuationRequest;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface IValuationRequestService {
@@ -19,5 +20,7 @@ public interface IValuationRequestService {
 
     ValuationRequestDTO getRequestByIdAndStatusProductReceived(int id);
 
-    ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax);
+    ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax, Integer staffId);
+
+    public Map<String,Object> getValuationResponse(Integer id);
 }

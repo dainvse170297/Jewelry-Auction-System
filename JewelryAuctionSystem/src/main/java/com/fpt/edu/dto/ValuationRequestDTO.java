@@ -24,6 +24,6 @@ public class ValuationRequestDTO {
     private BigDecimal estimatePriceMin;
     private String description;
     private Integer productId;
-    private Integer responseRequestValuationsId;
+//    private Integer responseRequestValuationsId;
     private Set<Integer> valuationImages = new LinkedHashSet<>();
 }
