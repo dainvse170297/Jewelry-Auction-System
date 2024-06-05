@@ -28,8 +28,6 @@ public interface IValuationRequestService {
 
     public List<FinalValuationRequestDTO> getListFinalValuationRequest();
 
-    public ProductDTO viewProductDetails(Integer productId);
-
     public Map<String,String> ApproveFinalValuationRequest(Integer id);
 
     public Map<String,String> CancelFinalValuationRequest(Integer id);

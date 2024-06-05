@@ -27,9 +27,6 @@ public class ValuationRequestService implements IValuationRequestService{
     private final INotifyRepository iNotifyRepository;
     private final IValuationImageRepository iValuationImageRepository;
     private final CloudinaryService cloudinaryService;
-    private final IProductRepository iProductRepository;
-    private final ProductMapper ProductMapper;
-    private final IProductImageRepository IProductImageRepository;
     private final NotifyMapper NotifyMapper;
 
     @Override
@@ -128,25 +125,7 @@ public class ValuationRequestService implements IValuationRequestService{
         return valuationRequestMapper.mapToFinalValuationRequestDTOList(
                 iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PENDING_MANAGER_APPROVAL));
     }
-    @Override
-    public ProductDTO viewProductDetails(Integer productId) {
-        Optional<Product> productOpt = iProductRepository.findById(productId);
-        ValuationRequest valuationRequest = iValuationRequestRepository.findByProductId(productId);
 
-        if (productOpt.isPresent()) {
-
-            Product product = productOpt.get();
-
-            List<ProductImage> productImages = IProductImageRepository.findByProduct(product);
-
-            return ProductMapper.mapToProductDTO(product, productImages, valuationRequest);
-        } else {
-            // Handle the case where no Product with the given id is found
-            throw new EntityNotFoundException("No Product found with id: " + productId);
-        }
-
-
-    }
 
     @Override
     public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId) {
@@ -158,13 +137,6 @@ public class ValuationRequestService implements IValuationRequestService{
         }
         return valuationRequestMapper.mapToViewValuationRequestDTOList(valuationRequestImagesMap);
     }
-
-
-
-
-
-
-
     @Override
     public Map<String,String> ApproveFinalValuationRequest(Integer id) {
         // Find the ValuationRequest with the given id

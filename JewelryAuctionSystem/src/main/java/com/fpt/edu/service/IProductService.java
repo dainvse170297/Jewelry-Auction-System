@@ -1,5 +1,6 @@
 package com.fpt.edu.service;
 
+import com.fpt.edu.dto.ProductDTO;
 import com.fpt.edu.entity.Product;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,4 +18,5 @@ public interface IProductService {
                           BigDecimal estimatePriceMin,
                           MultipartFile[] photos) throws IOException;
 
+    public ProductDTO viewProductDetails(Integer productId);
 }
