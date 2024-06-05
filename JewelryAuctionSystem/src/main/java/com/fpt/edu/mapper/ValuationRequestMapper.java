@@ -20,7 +20,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class ValuationRequestMapper {
@@ -52,6 +54,7 @@ public class ValuationRequestMapper {
         );
     }
 
+    // ham nay khong thay dung nay be Dai oi
     public ValuationRequest mapToValuationRequest(ValuationRequestDTO valuationRequestDTO){
         return new ValuationRequest(
                 valuationRequestDTO.getId(),
@@ -72,8 +75,25 @@ public class ValuationRequestMapper {
         return valuationRequests.stream().map(this::mapToValuationRequestDTO).toList();
     }
 
-    public List<ViewValuationRequestDTO> mapToViewValuationRequestDTOList(List<ValuationRequest> valuationRequests){
-        return valuationRequests.stream().map(this::mapToViewValuationRequestDTO).toList();
+
+    public List<ViewValuationRequestDTO> mapToViewValuationRequestDTOList
+            (Map<ValuationRequest, Set<ValuationImage>> valuationRequestImagesMap){
+        return valuationRequestImagesMap.entrySet().stream().map(entry -> {
+            ValuationRequest valuationRequest = entry.getKey();
+            Set<ValuationImage> valuationImages = entry.getValue();
+            return new ViewValuationRequestDTO(
+                    valuationRequest.getId(),
+                    valuationRequest.getMember().getId(),
+                    valuationRequest.getTimeRequest(),
+                    valuationRequest.getValuationStatus(),
+                    valuationRequest.getEstimatePriceMax(),
+                    valuationRequest.getEstimatePriceMin(),
+                    valuationRequest.getDescription(),
+                    valuationRequest.getProduct() == null ? null : valuationRequest.getProduct().getId(),
+                    valuationRequest.getResponseRequestValuations()== null ? null : valuationRequest.getResponseRequestValuations().getId(),
+                    valuationImages
+            );
+        }).collect(Collectors.toList());
     }
 
 
@@ -93,20 +113,5 @@ public class ValuationRequestMapper {
         return valuationRequests.stream().map(this::mapToFinalValuationRequestDTO).toList();
     }
 
-    public ViewValuationRequestDTO mapToViewValuationRequestDTO(ValuationRequest valuationRequest) {
 
-        Set<ValuationImage> valuationImages = valuationRequest.getValuationImages();
-        return new ViewValuationRequestDTO(
-                valuationRequest.getId(),
-                valuationRequest.getMember().getId(),
-                valuationRequest.getTimeRequest(),
-                valuationRequest.getValuationStatus(),
-                valuationRequest.getEstimatePriceMax(),
-                valuationRequest.getEstimatePriceMin(),
-                valuationRequest.getDescription(),
-                valuationRequest.getProduct() == null ? null : valuationRequest.getProduct().getId(),
-                valuationRequest.getResponseRequestValuations()== null ? null : valuationRequest.getResponseRequestValuations().getId(),
-                valuationImages
-        );
-    }
 }

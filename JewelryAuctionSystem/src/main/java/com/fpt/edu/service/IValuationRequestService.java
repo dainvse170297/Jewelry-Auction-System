@@ -42,4 +42,5 @@ public interface IValuationRequestService {
 
     public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId);
 
+
 }

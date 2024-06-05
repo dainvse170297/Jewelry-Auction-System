@@ -31,6 +31,7 @@ public class ValuationRequestService implements IValuationRequestService{
     private final ProductMapper ProductMapper;
     private final IProductImageRepository IProductImageRepository;
     private final NotifyMapper NotifyMapper;
+
     @Override
     public ValuationRequestDTO create(Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax, Set<MultipartFile> files) {
         ValuationRequest valuationRequest = new ValuationRequest();
@@ -146,6 +147,24 @@ public class ValuationRequestService implements IValuationRequestService{
 
 
     }
+
+    @Override
+    public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId) {
+        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByMemberId(memberId);
+        Map<ValuationRequest, Set<ValuationImage>> valuationRequestImagesMap = new HashMap<>();
+        for(ValuationRequest valuationRequest : valuationRequests){
+            Set<ValuationImage> valuationImage = iValuationImageRepository.findByRequest(valuationRequest);
+            valuationRequestImagesMap.put(valuationRequest, valuationImage);
+        }
+        return valuationRequestMapper.mapToViewValuationRequestDTOList(valuationRequestImagesMap);
+    }
+
+
+
+
+
+
+
     @Override
     public Map<String,String> ApproveFinalValuationRequest(Integer id) {
         // Find the ValuationRequest with the given id
@@ -261,11 +280,6 @@ public class ValuationRequestService implements IValuationRequestService{
         status.put("Status:", "Notify has been sent to member");
         return status;
 
-    }
-    @Override
-    public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId) {
-        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByMemberId(memberId);
-        return valuationRequestMapper.mapToViewValuationRequestDTOList(valuationRequests);
     }
 
     //Create Notify by specific format message
