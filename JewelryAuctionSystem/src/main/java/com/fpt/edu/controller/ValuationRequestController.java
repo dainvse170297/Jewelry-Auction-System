@@ -1,8 +1,11 @@
 package com.fpt.edu.controller;
 
 import com.fpt.edu.dto.FinalValuationRequestDTO;
+import com.fpt.edu.dto.ResponseRequestValuationDTO;
 import com.fpt.edu.dto.ValuationRequestDTO;
+import com.fpt.edu.dto.ViewValuationRequestDTO;
 import com.fpt.edu.entity.ValuationRequest;
+import com.fpt.edu.service.ResponseRequestValuationService;
 import com.fpt.edu.service.ValuationRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,7 @@ import java.util.Set;
 public class ValuationRequestController {
 
         private final ValuationRequestService valuationRequestService;
+        private final ResponseRequestValuationService ResponseRequestValuationService;
         //Member create valuation request by description and estimate price
         @PostMapping("/create")
         @CrossOrigin(origins = "*")
@@ -90,7 +94,19 @@ public class ValuationRequestController {
         public ResponseEntity<List<FinalValuationRequestDTO>> getListManagerApproveValuationRequest() {
             return ResponseEntity.ok(valuationRequestService.getListManagerApproveValuationRequest());
         }
-        // linh dep trai ok
+
+        @GetMapping("/view-sent-request/{id}")
+        public ResponseEntity<List<ViewValuationRequestDTO>> viewSentRequest(@PathVariable Integer id) {
+            return ResponseEntity.ok(valuationRequestService.viewSentRequest(id));
+        }
+        @GetMapping("/view-my-response-request/{id}") // response id
+        public ResponseEntity<ResponseRequestValuationDTO> viewMyResponseRequest(@PathVariable Integer id) {
+            return ResponseEntity.ok(ResponseRequestValuationService.viewMyResponseRequestValuation(id));
+        }
+
+
+
+    // linh dep trai ok
 
 //        @RequestMapping("/all")
 //        public ResponseEntity<ValuationRequest> getAllValuationRequest() {

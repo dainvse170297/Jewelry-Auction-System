@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 public class ProductController {
 
     private final IProductService productService;
-    private final ValuationRequestService valuationRequestService;
+
 
     //Test by postman done
     @PostMapping("/add-product")
@@ -38,7 +38,7 @@ public class ProductController {
     // linh dep trai ok
     @PostMapping("/view-details-product/{id}")
     public ResponseEntity<ProductDTO> getDetailsProductById(@PathVariable  Integer id) {
-        return ResponseEntity.ok(valuationRequestService.viewProductDetails(id));
+        return ResponseEntity.ok(productService.viewProductDetails(id));
     }
 
 }
