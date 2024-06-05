@@ -66,6 +66,7 @@ public class ValuationRequestController {
         }
 
         // linh dep trai ok
+        // Dai dep tai hon Linh
         @GetMapping("/get-all-final-valuations")
         public ResponseEntity<List<FinalValuationRequestDTO>> getListFinalValuationRequest() {
             return ResponseEntity.ok(valuationRequestService.getListFinalValuationRequest());

@@ -5,6 +5,7 @@ import Register from './component/auth/register/Register.jsx';
 import CreateValuation from './component/valuation_request/create/CreateValuation.jsx';
 import Header from './component/layout/header/Header.jsx';
 import Selling from './component/selling/Selling.jsx';
+import Footer from './component/layout/footer/Footer.jsx';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
             <Route path='/selling' element={<Selling />} />
           </Routes>
 
+          {/* <Footer /> */}
       </BrowserRouter>
 
     </>
