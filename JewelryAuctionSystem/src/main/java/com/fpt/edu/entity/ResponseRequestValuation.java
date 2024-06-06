@@ -19,7 +19,7 @@ public class ResponseRequestValuation {
     @Column(name = "response_id", nullable = false)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "valuation_request_id",referencedColumnName = "valuation_request_id", nullable = false)
     private ValuationRequest valuationRequest;
 
