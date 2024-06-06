@@ -1,12 +1,14 @@
 package com.fpt.edu.dto;
 
 import com.fpt.edu.entity.Product;
+import com.fpt.edu.entity.ValuationImage;
 import com.fpt.edu.status.ValuationRequestStatus;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -14,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ValuationRequestDTO {
+public class ViewValuationRequestDTO {
 
     private int id;
     private Integer memberId;
@@ -24,6 +26,5 @@ public class ValuationRequestDTO {
     private BigDecimal estimatePriceMin;
     private String description;
     private Integer productId;
-//    private Integer responseRequestValuationsId;
-    private Set<Integer> valuationImages = new LinkedHashSet<>();
+    private Set<ValuationImage> valuationImages;
 }

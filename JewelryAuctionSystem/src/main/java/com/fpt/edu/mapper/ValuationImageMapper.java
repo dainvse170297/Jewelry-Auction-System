@@ -4,10 +4,8 @@ import com.fpt.edu.dto.ValuationImageDTO;
 import com.fpt.edu.entity.ValuationImage;
 import com.fpt.edu.repository.IValuationImageRepository;
 import com.fpt.edu.repository.IValuationRequestRepository;
-import com.fpt.edu.service.IValuationRequestService;
 import org.springframework.stereotype.Component;
 import java.util.stream.Collectors;
-import java.util.List;
 import java.util.Set;
 
 @Component

@@ -2,10 +2,14 @@ package com.fpt.edu.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.fpt.edu.dto.ProductDTO;
+import com.fpt.edu.dto.ProductDetailDTO;
 import com.fpt.edu.entity.*;
+import com.fpt.edu.mapper.ProductMapper;
 import com.fpt.edu.repository.*;
 import com.fpt.edu.status.LotStatus;
 import com.fpt.edu.status.ValuationRequestStatus;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,9 +27,10 @@ public class ProductService implements IProductService {
     private final ILotRepository lotRepository;
     private final IValuationRequestRepository valuationRequestRepository;
     private final IProductImageRepository productImageRepository;
-
     private final Cloudinary cloudinary;
-
+    private final IProductRepository iProductRepository;
+    private final IValuationRequestRepository iValuationRequestRepository;
+    private final ProductMapper ProductMapper;
 
     @Override
     public Product createProduct(int valuationRequestId,
@@ -78,5 +83,24 @@ public class ProductService implements IProductService {
         lotRepository.save(lot);
 
         return product;
+    }
+    @Override
+    public ProductDetailDTO viewProductDetails(Integer productId) {
+        Optional<Product> productOpt = iProductRepository.findById(productId);
+        ValuationRequest valuationRequest = iValuationRequestRepository.findByProductId(productId);
+
+        if (productOpt.isPresent()) {
+
+            Product product = productOpt.get();
+
+            List<ProductImage> productImages = productImageRepository.findByProduct(product);
+
+            return ProductMapper.mapToProductDetailDTO(product, productImages, valuationRequest);
+        } else {
+            // Handle the case where no Product with the given id is found
+            throw new EntityNotFoundException("No Product found with id: " + productId);
+        }
+
+
     }
 }
