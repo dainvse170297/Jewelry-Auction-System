@@ -7,4 +7,6 @@ import java.util.List;
 public interface ILotService {
 
     List<Lot> getLotsByStatusReady();
+
+    Lot getLotsByStatusReadyById(int id);
 }
