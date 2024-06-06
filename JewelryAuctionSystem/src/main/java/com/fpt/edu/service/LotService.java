@@ -18,4 +18,10 @@ public class LotService implements ILotService{
     public List<Lot> getLotsByStatusReady() {
         return lotRepository.findByStatus(LotStatus.READY);
     }
+
+    @Override
+    public Lot getLotsByStatusReadyById(int id) {
+        Lot theLot = lotRepository.findById(id).orElseThrow(() -> new RuntimeException("Lot not found"));
+        return theLot;
+    }
 }

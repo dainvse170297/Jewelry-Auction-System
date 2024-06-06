@@ -4,6 +4,7 @@ import com.fpt.edu.entity.AuctionSession;
 import com.fpt.edu.entity.Staff;
 import com.fpt.edu.repository.AuctionSessionRepository;
 import com.fpt.edu.repository.StaffRepository;
+import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.AuctionSessionStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,4 +37,11 @@ public class AuctionSessionService implements IAuctionSessionService{
 
         return auctionSession;
     }
+
+    @Override
+    public List<AuctionSession> getAllAuctionSessionByCreatedStatus() {
+        return auctionSessionRepository.findByStatus(AuctionSessionStatus.CREATED);
+    }
+
+
 }
