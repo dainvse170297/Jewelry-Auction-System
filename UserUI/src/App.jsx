@@ -5,8 +5,12 @@ import Register from './component/auth/register/Register.jsx';
 import CreateValuation from './component/valuation_request/create/CreateValuation.jsx';
 import Header from './component/layout/header/Header.jsx';
 import Selling from './component/selling/Selling.jsx';
+<<<<<<< HEAD
 import ValuationRequest from './component/valuation_request/ValuationRequest.jsx';
 import ValuationRespone from './component/valuation_response/ValuationResponse.jsx';
+=======
+import Footer from './component/layout/footer/Footer.jsx';
+>>>>>>> 4abb512ba57a424244c3c5ebe9bf759eb1a6dddb
 
 function App() {
 
@@ -26,6 +30,7 @@ function App() {
           <Route path='/valuation-response/:id' element={<ValuationRespone />} />
         </Routes>
 
+          {/* <Footer /> */}
       </BrowserRouter>
 
     </>

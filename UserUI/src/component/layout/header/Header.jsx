@@ -47,13 +47,13 @@ class Header extends React.Component {
                                 <li className="nav-item">
                                     <a className="nav-link mx-5" href="#!">Contact</a>
                                 </li>
-                                <li className="nav-item">
-                                    <AvatarDropdown />
-                                </li>
+                                
+                                <AvatarDropdown />
                             </ul>
                         </div>
                     </div>
                 </nav>
+                <hr/>
             </div>
         )
     }
