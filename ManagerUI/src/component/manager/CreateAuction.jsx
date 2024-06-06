@@ -5,6 +5,9 @@ import { Button, Form } from 'react-bootstrap'
 import { FaBackward } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
+import '../home/home.scss'
+import Navbar from '../layout/navbar/Navbar'
+import Sidebar from '../layout/sidebar/Sidebar'
 
 const CreateAuction = () => {
 
@@ -77,93 +80,99 @@ const CreateAuction = () => {
     }
 
     return (
-        <div className='container'>
-            <div className="mt-3">
-                <Link to={"/manager"}><FaBackward /></Link>
-            </div>
-            <h1 className='text-center mt-3'>Create Auction Session</h1>
-            <div className="mt-3">
-                <form action="" onSubmit={handleFormSubmit}>
-                    <div className="row">
-                        <div className="col-lg-4"></div>
-                        <div className="col-lg-4">
-
-                            {/* Input session name */}
-
-                            <Form.Label htmlFor='name'>Session Name <span style={{ color: 'red' }}>*</span></Form.Label>
-                            <Form.Control
-                                type="text"
-                                id='name'
-                                name='name'
-                                value={auctionSession.name}
-                                onChange={handleInputChange}
-                            />
-
-
-                            {/* Input session description */}
-
-                            <Form.Label htmlFor='description'>Session Description <span style={{ color: 'red' }}>*</span></Form.Label>
-                            <Form.Control
-                                type="text" as="textarea"
-                                id='description'
-                                name='description'
-                                value={auctionSession.description}
-                                onChange={handleInputChange}
-                            />
-
-
-                            {/* Input session start date */}
-
-                            <Form.Label htmlFor='startTime'>Start Date <span style={{ color: 'red' }}>*</span></Form.Label>
-                            <Form.Control
-                                type="date"
-                                id='startTime'
-                                name='startTime'
-                                value={auctionSession.startTime}
-                                min={moment().format("MM Do, YYYY")}
-                                onChange={handleInputChange}
-                            />
-
-
-                            {/* Select staff to manage session */}
-
-                            <Form.Label>Choose Staff <span style={{ color: 'red' }}>*</span></Form.Label>
-                            <Form.Select size=''
-                                aria-label="Default select example"
-                                name='staffId'
-                                value={auctionSession.staffId}
-                                onChange={handleInputChange}
-                            >
-                                <option value="" className='text-secondary'>
-                                    -- Select Staff --
-                                </option>
-                                {staffs.map((staff) => (
-                                    <option key={staff.staffId} value={staff.staffId} className=''>
-                                        {staff.username}
-                                    </option>
-                                ))}
-                            </Form.Select>
-
-                            {/* Input session starting bid date */}
-
-                            <Form.Label>Starting Bid Date <span style={{ color: 'red' }}>*</span></Form.Label>
-                            <Form.Control
-                                type="date"
-                                id='startingBid'
-                                name='startingBid'
-                                value={auctionSession.startingBid}
-                                min={moment().format("MM Do, YYYY")}
-                                onChange={handleInputChange}
-                            />
-
-                            <Button variant='success' type='submit' className='mt-3'>
-                                Submit
-                            </Button>
-                        </div>
-                        <div className="col-lg-4"></div>
+        <div className='home'>
+            <Sidebar />
+            <div className="homeContainer">
+                <Navbar />
+                <div className="ms-5 me-5">
+                    <div className="mt-3">
+                        <Link to={"/manager"}><FaBackward /></Link>
                     </div>
-                </form>
-                <ToastContainer />
+                    <h1 className='text-center mt-3'>Create Auction Session</h1>
+                    <div className="mt-3">
+                        <form action="" onSubmit={handleFormSubmit}>
+                            <div className="row">
+                                <div className="col-lg-4"></div>
+                                <div className="col-lg-4">
+
+                                    {/* Input session name */}
+
+                                    <Form.Label htmlFor='name'>Session Name <span style={{ color: 'red' }}>*</span></Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        id='name'
+                                        name='name'
+                                        value={auctionSession.name}
+                                        onChange={handleInputChange}
+                                    />
+
+
+                                    {/* Input session description */}
+
+                                    <Form.Label htmlFor='description'>Session Description <span style={{ color: 'red' }}>*</span></Form.Label>
+                                    <Form.Control
+                                        type="text" as="textarea"
+                                        id='description'
+                                        name='description'
+                                        value={auctionSession.description}
+                                        onChange={handleInputChange}
+                                    />
+
+
+                                    {/* Input session start date */}
+
+                                    <Form.Label htmlFor='startTime'>Start Date <span style={{ color: 'red' }}>*</span></Form.Label>
+                                    <Form.Control
+                                        type="date"
+                                        id='startTime'
+                                        name='startTime'
+                                        value={auctionSession.startTime}
+                                        min={moment().format("MM Do, YYYY")}
+                                        onChange={handleInputChange}
+                                    />
+
+
+                                    {/* Select staff to manage session */}
+
+                                    <Form.Label>Choose Staff <span style={{ color: 'red' }}>*</span></Form.Label>
+                                    <Form.Select size=''
+                                        aria-label="Default select example"
+                                        name='staffId'
+                                        value={auctionSession.staffId}
+                                        onChange={handleInputChange}
+                                    >
+                                        <option value="" className='text-secondary'>
+                                            -- Select Staff --
+                                        </option>
+                                        {staffs.map((staff) => (
+                                            <option key={staff.staffId} value={staff.staffId} className=''>
+                                                {staff.username}
+                                            </option>
+                                        ))}
+                                    </Form.Select>
+
+                                    {/* Input session starting bid date */}
+
+                                    <Form.Label>Starting Bid Date <span style={{ color: 'red' }}>*</span></Form.Label>
+                                    <Form.Control
+                                        type="date"
+                                        id='startingBid'
+                                        name='startingBid'
+                                        value={auctionSession.startingBid}
+                                        min={moment().format("MM Do, YYYY")}
+                                        onChange={handleInputChange}
+                                    />
+
+                                    <Button variant='success' type='submit' className='mt-3'>
+                                        Submit
+                                    </Button>
+                                </div>
+                                <div className="col-lg-4"></div>
+                            </div>
+                        </form>
+                        <ToastContainer />
+                    </div>
+                </div>
             </div>
         </div>
     )

@@ -1,15 +1,15 @@
-import "./sidebar.scss";
+import { FolderShared, ManageAccounts } from "@mui/icons-material";
+import ProfileIcon from '@mui/icons-material/AccountCircle';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import ProductIcon from '@mui/icons-material/Diamond';
 import ValuationRequestIcon from '@mui/icons-material/DocumentScanner';
 import AuctionIcon from '@mui/icons-material/Gavel';
-import ProductIcon from '@mui/icons-material/Diamond';
-import UserIcon from '@mui/icons-material/ManageAccounts';
-import ProfileIcon from '@mui/icons-material/AccountCircle';
-import SettingsIcon from '@mui/icons-material/Settings';
-import NightModeIcon from '@mui/icons-material/NightsStay';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import UserIcon from '@mui/icons-material/ManageAccounts';
+import NightModeIcon from '@mui/icons-material/NightsStay';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { Link } from "react-router-dom";
-import { FolderShared, ManageAccounts } from "@mui/icons-material";
+import "./sidebar.scss";
 
 const Sidebar = () => {
 
@@ -17,8 +17,8 @@ const Sidebar = () => {
         <div className="sidebar">
             {/* Top of side bar */}
             <div className="top">
-                <Link to={"/home"} className="non-deco">
-                    <span className="logo">Team 6 Vjp</span>
+                <Link to={"/home"} className="non-deco" style={{ textDecoration: 'none' }}>
+                    <span className="logo">Office Employee</span>
                 </Link>
             </div>
             <hr />
