@@ -9,12 +9,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class AuctionSessionService implements IAuctionSessionService{
     private final AuctionSessionRepository auctionSessionRepository;
     private final StaffRepository staffRepository;
+
+    @Override
+    public List<AuctionSession> getAllAuctionSession() {
+        return auctionSessionRepository.findAll();
+    }
+
     @Override
     public AuctionSession createSession(String name, String description, LocalDate startDate, LocalDate startingBid, int staffId) {
         Staff staff = staffRepository.findById(staffId).get();
