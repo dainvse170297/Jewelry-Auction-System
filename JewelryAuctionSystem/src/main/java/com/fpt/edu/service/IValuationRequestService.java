@@ -40,9 +40,4 @@ public interface IValuationRequestService {
 
     public ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax, Integer staffId);
 
-    public Map<String,String> confirmFinalValuationByMember(Integer id, boolean status);
-
-    public Map<String,Object> getValuationResponse(Integer id);
-
-
 }

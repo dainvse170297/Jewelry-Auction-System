@@ -12,11 +12,11 @@ import com.fpt.edu.dto.ResponseRequestValuationDTO;
 
 public interface IResponseRequestValuationService {
 
-    ResponseRequestValuationDTO viewMyResponseRequestValuation(Integer responseId);
+    public ResponseRequestValuationDTO viewMyResponseRequestValuation(Integer responseId);
 
     public Map<String,Object> getValuationResponse(Integer id);
 
-    ResponseRequestValuationDTO insertResponseRequestValuation(ResponseValuationRequestStatus status, BigDecimal valuationPriceMin, BigDecimal valuationPriceMax, Staff staff, ValuationRequest valuationRequest);
+    public ResponseRequestValuationDTO insertResponseRequestValuation(ResponseValuationRequestStatus status, BigDecimal valuationPriceMin, BigDecimal valuationPriceMax, Staff staff, ValuationRequest valuationRequest);
 
-    ResponseRequestValuationDTO confirmFinalValuationByMember(Integer id, boolean status);
+    public ResponseRequestValuationDTO confirmFinalValuationByMember(Integer id, boolean status);
 }

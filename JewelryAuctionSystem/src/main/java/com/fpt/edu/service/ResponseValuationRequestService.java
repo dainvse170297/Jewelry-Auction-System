@@ -35,8 +35,7 @@ public class ResponseValuationRequestService implements IResponseRequestValuatio
     private final IResponseRequestValuationRepository iResponseRequestValuationRepository;
     private final IValuationRequestRepository iValuationRequestRepository;
     private final ILotRepository iLotRepository;
-    private final IValuationRequestRepository iValuationRequestRepository;
-    
+
     private final ResponseValuationRequestMapper responseValuationRequestMapper;
     private final ValuationRequestMapper valuationRequestMapper;
     private final ProductMapper productMapper;
@@ -70,12 +69,13 @@ public class ResponseValuationRequestService implements IResponseRequestValuatio
             map.put("valuationRequestDTO", valuationRequestMapper.mapToValuationRequestDTO(valuationRequest));
             map.put("responseRequestValuationDTOS", responseRequestValuationDTOS);
             return map;
-        }else {
+        } else {
             ProductDTO productDTO = productMapper.toProductDTO(valuationRequest.getProduct());
             map.put("productDTO", productDTO);
             map.put("valuationRequestDTO", valuationRequestMapper.mapToValuationRequestDTO(valuationRequest));
             map.put("responseRequestValuationDTOS", responseRequestValuationDTOS);
             return map;
+        }
     }
 
     @Override
