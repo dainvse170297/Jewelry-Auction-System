@@ -225,25 +225,7 @@ const ValuationResponseList = () => {
 
 
 
-                    {/* <h2>Valuation Request</h2>
-                    <p>{data.valuationRequestDTO.description}</p>
-                    <p>Min Estimate: {data.valuationRequestDTO.estimatePriceMin}</p>
-                    <p>Max Estimate: {data.valuationRequestDTO.estimatePriceMax}</p>
-
-                    <h2>Product</h2>
-                    <p>{data.productDTO.name}</p>
-                    <p>{data.productDTO.description}</p>
-                    <p>Min Estimate: {data.productDTO.estimatePriceMin}</p>
-                    <p>Max Estimate: {data.productDTO.estimatePriceMax}</p>
-
-                    <h2>Responses</h2>
-                    {data.responseRequestValuationDTOS.map((response, index) => (
-                        <div key={index}>
-                            <p>Status: {response.status}</p>
-                            <p>Min Valuation: {response.valuationPriceMin}</p>
-                            <p>Max Valuation: {response.valuationPriceMax}</p>
-                        </div>
-                    ))} */}
+                    
                 </div>
             )}
         </div>

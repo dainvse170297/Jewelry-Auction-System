@@ -112,7 +112,6 @@ export default function CreateValuation(){
 
     return (
         <div className='createValuation container-fluid'>
-            <Link to='/home' className='btn btn-primary'>Back</Link>
             <div className="row d-flex justify-content-center mt-3">
                 <h2>This is the Create Valuation Page</h2>
             </div>
