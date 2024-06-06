@@ -18,8 +18,8 @@ public class ViewDetailValuationRequestFinalApprovedDTO {
     private Integer memberId;
     private LocalDate timeRequest;
     private ValuationRequestStatus valuationStatus;
-    private BigDecimal estimatePriceMax;
-    private BigDecimal estimatePriceMin;
+    private BigDecimal estimatePriceMaxProduct;
+    private BigDecimal estimatePriceMinProduct;
     private String description;
     private Integer productId;
     private List<ProductImage> productImages;
