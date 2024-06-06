@@ -7,6 +7,10 @@ import StaffFunction from './component/staff/StaffFunction'
 import ValuationRequestDetail from './component/staff/ValuationRequestDetail'
 import ManagerBody from './component/manager/ManagerBody.jsx';
 import CreateAuction from './component/manager/CreateAuction.jsx';
+import FinalValuationRequestList from './component/manager/FinalValuationRequestList.jsx';
+import FinalValuationRequestDetail from './component/manager/FinalValuationRequestDetail.jsx';
+import ManagerApprovedList from './component/staff/ManagerApprovedList.jsx';
+import ManagerApprovedDetail from './component/staff/ManagerApprovedDetail.jsx';
 
 function App() {
 
@@ -24,6 +28,10 @@ function App() {
             <Route path='/valuation-request-detail/:id' element={<ValuationRequestDetail />} />
             <Route path='/manager' element={<ManagerBody />} />
             <Route path='/create-auction' element={<CreateAuction />} />
+            <Route path='/final-valuation-request-list' element={<FinalValuationRequestList />} />
+            <Route path='/final-valuation-request-detail/:id' element={<FinalValuationRequestDetail />} />
+            <Route path='/manager-approved-List' element={<ManagerApprovedList />} />
+            <Route path='/manager-approved-detail/:id' element={<ManagerApprovedDetail />} />
           </Routes>
         </div>
 
