@@ -14,4 +14,6 @@ public interface IResponseRequestValuationService {
     ResponseRequestValuationDTO viewMyResponseRequestValuation(Integer responseId);
 
     ResponseRequestValuationDTO insertResponseRequestValuation(ResponseValuationRequestStatus status, BigDecimal valuationPriceMin, BigDecimal valuationPriceMax, Staff staff, ValuationRequest valuationRequest);
+
+    ResponseRequestValuationDTO confirmFinalValuationByMember(Integer id, boolean status);
 }
