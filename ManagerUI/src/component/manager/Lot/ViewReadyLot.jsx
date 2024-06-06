@@ -51,8 +51,8 @@ const ViewReadyLot = () => {
                                             <p className="card-text">Estimate Max Price: <strong>{lot.product.estimatePriceMax}</strong></p>
                                             <p className="card-text">Estimate Min Price: <strong>{lot.product.estimatePriceMin}</strong></p>
                                             <p className="card-text">Current Price: <strong>{lot.currentPrice}</strong></p>
-                                            <button className='button'>
-                                                Add to Session
+                                            <button className='link-btn'>
+                                                <Link to={`/add-session/${lot.id}`}>Add to Session</Link>
                                             </button>
                                         </div>
                                     </div>

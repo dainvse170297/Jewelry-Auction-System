@@ -33,5 +33,10 @@ public class AuctionSessionController {
         return ResponseEntity.ok(auctionSessionService.getAllAuctionSession());
     }
 
+    @GetMapping("/all-created-session")
+    public ResponseEntity<List<AuctionSession>> getAllAuctionSessionByCreatedStatus() {
+        return ResponseEntity.ok(auctionSessionService.getAllAuctionSessionByCreatedStatus());
+    }
+
 
 }

@@ -19,6 +19,9 @@ const StaffFunction = () => {
                     <Link to={'/valuation-request'} style={{ textDecoration: 'none' }}>
                         View All ProductReceived Valuation Requests
                     </Link>
+                    <Link to={'/valuation-request-list'} style={{ textDecoration: 'none' }}>
+                        View All Valuation Requests
+                    </Link>
                 </div>
             </div>
         </div>
