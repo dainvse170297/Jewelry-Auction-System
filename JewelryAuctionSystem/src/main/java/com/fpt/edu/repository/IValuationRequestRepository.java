@@ -12,4 +12,7 @@ public interface IValuationRequestRepository extends JpaRepository<ValuationRequ
 
     ValuationRequest findByIdAndValuationStatus(int id, ValuationRequestStatus status);
 
+    ValuationRequest findByProductId(int productId);
+
+    List<ValuationRequest> findByMemberId(Integer memberId);
 }

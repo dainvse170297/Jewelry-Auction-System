@@ -1,5 +1,12 @@
 package com.fpt.edu.service;
-
+import com.fpt.edu.dto.*;
+import com.fpt.edu.entity.*;
+import com.fpt.edu.mapper.NotifyMapper;
+import com.fpt.edu.mapper.ProductMapper;
+import com.fpt.edu.repository.*;
+import com.fpt.edu.status.ValuationRequestStatus;
+import com.fpt.edu.mapper.ValuationRequestMapper;
+import jakarta.persistence.EntityNotFoundException;
 import com.fpt.edu.dto.ProductDTO;
 import com.fpt.edu.dto.ResponseRequestValuationDTO;
 import com.fpt.edu.dto.ValuationRequestDTO;
@@ -15,8 +22,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.text.View;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,12 +40,14 @@ public class ValuationRequestService implements IValuationRequestService{
     private final IValuationImageRepository iValuationImageRepository;
     private final IResponseRequestValuationRepository iResponseRequestValuationRepository;
     private final IStaffRepository iStaffRepository;
+    private final INotifyRepository iNotifyRepository;
 
     private final ValuationRequestMapper valuationRequestMapper;
     private final ProductMapper productMapper;
     private final ResponseValuationRequestMapper responseValuationRequestMapper;
 
     private final CloudinaryService cloudinaryService;
+    private final NotifyMapper NotifyMapper;
     private final INotifyService iNotifyService;
     private final IResponseRequestValuationService iResponseRequestValuationService;
 
@@ -106,6 +117,11 @@ public class ValuationRequestService implements IValuationRequestService{
     }
 
     @Override
+    public ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax) {
+        return null;
+    }
+
+    @Override
     public ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax, Integer staffId) {
         //create request
         ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
@@ -122,6 +138,138 @@ public class ValuationRequestService implements IValuationRequestService{
     }
 
     @Override
+    public List<FinalValuationRequestDTO> getListFinalValuationRequest() {
+        return valuationRequestMapper.mapToFinalValuationRequestDTOList(
+                iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PENDING_MANAGER_APPROVAL));
+    }
+
+
+    @Override
+    public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId) {
+        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByMemberId(memberId);
+        Map<ValuationRequest, Set<ValuationImage>> valuationRequestImagesMap = new HashMap<>();
+        for(ValuationRequest valuationRequest : valuationRequests){
+            Set<ValuationImage> valuationImage = iValuationImageRepository.findByRequest(valuationRequest);
+            valuationRequestImagesMap.put(valuationRequest, valuationImage);
+        }
+        return valuationRequestMapper.mapToViewValuationRequestDTOList(valuationRequestImagesMap);
+    }
+    @Override
+    public Map<String,String> ApproveFinalValuationRequest(Integer id) {
+        // Find the ValuationRequest with the given id
+        Optional<ValuationRequest> valuationRequestOpt = iValuationRequestRepository.findById(id);
+        Map<String, String> response = new HashMap<>();
+        if (valuationRequestOpt.isPresent()) {
+            ValuationRequest valuationRequest = valuationRequestOpt.get();
+
+            if(valuationRequest.getValuationStatus().equals(ValuationRequestStatus.PENDING_MANAGER_APPROVAL) ){
+                valuationRequest.setValuationStatus(ValuationRequestStatus.MANAGER_APPROVED);
+                iValuationRequestRepository.save(valuationRequest);
+                response.put("message", "ValuationRequest with id: " + id + " has been approved by manager");
+                return response;
+            } else {
+                response.put("message", "ValuationRequest with id: " + id + " is not in PENDING_MANAGER_APPROVAL status");
+                return  response;
+                // throw new IllegalArgumentException("ValuationRequest with id: " + id + " is not in PENDING_MANAGER_APPROVAL status");
+            }
+
+        } else {
+            // Handle the case where no ValuationRequest with the given id is found
+            // throw new EntityNotFoundException("No ValuationRequest found with id: " + id);
+            response.put("message", "No ValuationRequest found with id: " + id);
+            return  response;
+        }
+
+    }
+    @Override
+    public Map<String,String> CancelFinalValuationRequest(Integer id) {
+        // Find the ValuationRequest with the given id
+        Optional<ValuationRequest> valuationRequestOpt = iValuationRequestRepository.findById(id);
+        Map<String, String> response = new HashMap<>();
+        if (valuationRequestOpt.isPresent()) {
+
+            ValuationRequest valuationRequest = valuationRequestOpt.get();
+
+            if(valuationRequest.getValuationStatus().equals(ValuationRequestStatus.PENDING_MANAGER_APPROVAL) ){
+                valuationRequest.setValuationStatus(ValuationRequestStatus.CANCELED);
+                iValuationRequestRepository.save(valuationRequest);
+                response.put("message", "ValuationRequest with id: " + id + " has been rejected by manager");
+                return response;
+            } else {
+                response.put("message", "ValuationRequest with id: " + id + " is not in PENDING_MANAGER_APPROVAL status");
+                return  response;
+                // throw new IllegalArgumentException("ValuationRequest with id: " + id + " is not in PENDING_MANAGER_APPROVAL status");
+            }
+
+        } else {
+            // Handle the case where no ValuationRequest with the given id is found
+            // throw new EntityNotFoundException("No ValuationRequest found with id: " + id);
+            response.put("message", "No ValuationRequest found with id: " + id);
+            return  response;
+        }
+    }
+
+    @Override
+    public List<FinalValuationRequestDTO> getListManagerApproveValuationRequest() {
+        return valuationRequestMapper.mapToFinalValuationRequestDTOList(
+                iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.MANAGER_APPROVED));
+    }
+
+
+    @Override
+    public List<Map<String,String>> sendFinalValuationToMember(Integer id) {
+        // Find the ValuationRequest with the given id
+        Optional<ValuationRequest> valuationRequestOpt = iValuationRequestRepository.findById(id);
+        List<Map<String, String>> responseList = new ArrayList<>();
+        Map<String, String> response = new HashMap<>();
+
+        if (valuationRequestOpt.isPresent()) {
+            ValuationRequest valuationRequest = valuationRequestOpt.get();
+
+            if (valuationRequest.getValuationStatus().equals(ValuationRequestStatus.MANAGER_APPROVED)) {
+                valuationRequest.setValuationStatus(ValuationRequestStatus.PENDING_MEMBER_ACCEPTANCE);
+                iValuationRequestRepository.save(valuationRequest);
+
+                Product product = valuationRequest.getProduct();
+
+                Map<String, String> response1 = sendNotifyToMember(valuationRequest, product);
+
+                // Add response1 to the response list
+                responseList.add(response1);
+
+                response.put("message", "ValuationRequest with id: " + id + " has been sent to member for acceptance");
+                responseList.add(response);
+
+                return responseList;
+            } else {
+                response.put("message", "ValuationRequest with id: " + id + " is "+valuationRequest.getValuationStatus()+" status");
+                responseList.add(response);
+                return responseList;
+            }
+
+        } else {
+            // Handle the case where no ValuationRequest with the given id is found
+            response.put("message", "No ValuationRequest found with id: " + id);
+            responseList.add(response);
+            return responseList;
+        }
+    }
+
+    @Override
+    public Map<String,String> sendNotifyToMember(ValuationRequest valuationRequest, Product product) {
+
+        NotifyFinalValuationDTO notifyFinalValuationDTO = NotifyMapper.mapToNotifyFinalValuationDTO(product, valuationRequest);
+        Notify notify = new Notify();
+        notify.setTitle(notifyFinalValuationDTO.getTitle());
+        notify.setDescription(notifyFinalValuationDTO.getDescriptionOfProduct());
+        notify.setMember(valuationRequest.getMember());
+        notify.setDate(LocalDate.now());
+        iNotifyRepository.save(notify);
+        Map<String, String> status = new HashMap<>();
+        status.put("Status:", "Notify has been sent to member");
+        return status;
+
+    }
     public Map<String,Object> getValuationResponse(Integer id) {
         Map<String, Object> map = new HashMap<>();
         ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);

@@ -18,7 +18,6 @@ public class AccountDTO {
     private int id;
     private Integer role;
     private String username;
-    private String password;
     private LocalDate createDate;
     private Integer memberId;
     private Integer staffId;

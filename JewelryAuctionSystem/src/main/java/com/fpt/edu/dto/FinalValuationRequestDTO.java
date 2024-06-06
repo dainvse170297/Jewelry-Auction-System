@@ -13,13 +13,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class FinalValuationRequestDTO {
 
-
+    private Integer id;
     private Integer memberId;
     private LocalDate timeRequest;
     private ValuationRequestStatus valuationStatus;
     private BigDecimal estimatePriceMax;
     private BigDecimal estimatePriceMin;
     private String description;
-
+    private Integer productId;
 
 }

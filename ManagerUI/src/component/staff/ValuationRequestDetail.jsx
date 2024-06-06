@@ -1,14 +1,16 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { FaBackward } from 'react-icons/fa'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { ToastContainer, toast } from 'react-toastify';
+import { CircularProgress } from '@mui/material';
 
 const ValuationRequestDetail = () => {
 
     const { id } = useParams()
+    const [isWaiting, setIsWaiting] = useState(false)
 
     const [valuationRequest, setValuationRequest] = useState({
         memberId: '',
@@ -94,6 +96,8 @@ const ValuationRequestDetail = () => {
         }
     }
 
+    const navigate = useNavigate()
+
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         if (product.name.trim() === '' || product.description.trim() === '' || product.categoryId.trim() === '' || product.estimatePriceMax.trim() === '' || product.estimatePriceMin.trim() === '') {
@@ -111,35 +115,40 @@ const ValuationRequestDetail = () => {
                 product.photos.forEach((photo, index) => {
                     formData.append("photos", photo)
                 })
+                setIsWaiting(true)
                 const addProduct = await axios.post('http://localhost:8080/product/add-product', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 }).then(response => {
                     console.log('Form submitted:', response.data)
-                    toast.success('Form submitted successfully!')
+                    toast.success('Product submitted successfully!')
+                    setIsWaiting(false)
+                    setTimeout(() => {
+                        navigate("/valuation-request")
+                    }, 6000)
                 }).catch(error => {
                     console.error('Error submitting form:', error)
                     toast.error('Error submitting form')
+                    setIsWaiting(false)
                 })
-                if (addProduct.status === 200) {
-                    toast.success('Add Product Information Successfully!')
-                    toast('Sended to Manager')
-                    console.log(product)
-                } else {
-                    toast.error("Error adding Product!")
-                }
+                // if (addProduct.status === 200) {
+                //     toast.success('Add Product Information Successfully!')
+                //     toast('Sended to Manager')
+                //     console.log(product)
+                // } else {
+                //     toast.error("Error adding Product!")
+                // }
             } catch (error) {
                 console.log(error.message)
             }
         }
-
     }
 
 
     return (
         <div className='container'>
-            <div className="">
+            <div className="mt-3">
                 <Link to={"/valuation-request"}><FaBackward /></Link>
             </div>
             <h3 className='text-center mt-5'>Valuation Request Detail</h3>
@@ -155,6 +164,7 @@ const ValuationRequestDetail = () => {
                 <form action="" onSubmit={handleFormSubmit}>
                     <div className="row">
                         <div className="col-lg-6">
+                            {/* SELECT CATEGORY */}
                             <Form.Label htmlFor="inputPassword5">Product category <span style={{ color: 'red' }}>*</span></Form.Label>
                             <Form.Select size=''
                                 aria-label="Default select example"
@@ -175,6 +185,7 @@ const ValuationRequestDetail = () => {
                                     </option>
                                 ))}
                             </Form.Select>
+                            {/* INPUT PRODUCT NAME */}
                             <Form.Label htmlFor="name">Product Name <span style={{ color: 'red' }}>*</span></Form.Label>
                             <Form.Control
                                 type="text"
@@ -185,6 +196,7 @@ const ValuationRequestDetail = () => {
                                 onChange={handleInputChange}
                                 onBlur={handleBlur}
                             />
+                            {/* INPUT PRODUCT DESCRIPTION */}
                             <Form.Label htmlFor="description">Product Description <span style={{ color: 'red' }}>*</span></Form.Label>
                             <Form.Control
                                 type="text"
@@ -196,9 +208,17 @@ const ValuationRequestDetail = () => {
                                 onBlur={handleBlur}
                             />
                             <div className="mt-4">
-                                <Button variant="success" type='submit'>Submit</Button>
+                                {!isWaiting ? (
+                                    <Button variant="success" type='submit'>Submit</Button>
+                                ) : (
+                                    <>
+                                        <CircularProgress />
+                                    </>
+                                )}
+
                             </div>
                         </div>
+                        {/* INPUT PRODUCT ESTIMATE MIN PRICE */}
                         <div className="col-lg-6">
                             <Form.Label htmlFor="estimatePriceMin">Estimate Min Price <span style={{ color: 'red' }}>*</span></Form.Label>
                             <Form.Control
@@ -210,6 +230,7 @@ const ValuationRequestDetail = () => {
                                 onChange={handleInputChange}
                                 onBlur={handleBlur}
                             />
+                            {/* INPUT PRODUCT ESTIMATE MAX PRICE */}
                             <Form.Label htmlFor="estimatePriceMax">Estimate Max Price <span style={{ color: 'red' }}>*</span></Form.Label>
                             <Form.Control
                                 type="text"
@@ -220,6 +241,7 @@ const ValuationRequestDetail = () => {
                                 onChange={handleInputChange}
                                 onBlur={handleBlur}
                             />
+                            {/* INPUT PRODUCT PHOTO */}
                             <Form.Group controlId="formFileMultiple" className="mb-3">
                                 <Form.Label>Photos <span style={{ color: 'red' }}>*</span></Form.Label>
                                 <Form.Control
@@ -230,6 +252,7 @@ const ValuationRequestDetail = () => {
                                     onChange={handleInputChange}
                                     onBlur={handleBlur} />
                             </Form.Group>
+                            {/* SEE PHOTO WHEN INPUT FILE */}
                             <label htmlFor="" className='text-secondary'>Photo preview</label>
                             <div className="">
                                 {product.photoPreview.map((preview, index) => (

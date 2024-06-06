@@ -1,8 +1,7 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.css';
 
-class Header extends React.Component {
-    render() {
+const Header = () =>{
         return (
             // <!-- Navbar 1 - Bootstrap Brain Component -->
             <nav className="navbar navbar-expand-md bg-light bsb-navbar bsb-navbar-hover bsb-navbar-caret">
@@ -22,10 +21,10 @@ class Header extends React.Component {
                     <div className="offcanvas-body">
                         <ul className="navbar-nav justify-content-end flex-grow-1">
                             <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" href="/home">Home</a>
+                                <a class="nav-link active" aria-current="page" href="/home">Home</a>
                             </li>
                             <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#!" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Auction</a>
+                                <a className="nav-link dropdown-toggle " href="#!" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Auction</a>
                                 <ul className="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="accountDropdown">
                                     <li><a className="dropdown-item" href="#!">Live auction</a></li>
                                     <li><a className="dropdown-item" href="#!">Upcoming auction</a></li>
@@ -58,7 +57,6 @@ class Header extends React.Component {
                 </div>
             </nav>
         )
-    }
 }
 
 export default Header;

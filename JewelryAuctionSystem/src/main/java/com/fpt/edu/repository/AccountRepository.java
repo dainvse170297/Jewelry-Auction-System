@@ -1,7 +1,11 @@
 package com.fpt.edu.repository;
 
-import org.springframework.stereotype.Repository;
+import com.fpt.edu.entity.Account;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
-@Repository
-public interface AccountRepository {
+import java.util.List;
+
+public interface AccountRepository extends JpaRepository<Account, Integer> {
+
 }
