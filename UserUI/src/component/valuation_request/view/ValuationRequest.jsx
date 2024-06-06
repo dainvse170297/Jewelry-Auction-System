@@ -64,7 +64,7 @@ export default function ValuationRequest() {
                         <div className="mb-3 mt-3" key={request.id}>
                             <div className="card">
                                 <div className="card-body">
-                                    <p>Member Id: <strong>{request.memberId}</strong></p>
+                                    <p>Request Date: <strong>{request.timeRequest}</strong></p>
                                     <p>Description: <strong>{request.description}</strong></p>
                                     <div className="">
                                         <Button className='btn-success'>
