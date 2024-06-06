@@ -11,6 +11,7 @@ import FinalValuationRequestList from './component/manager/FinalValuationRequest
 import FinalValuationRequestDetail from './component/manager/FinalValuationRequestDetail.jsx';
 import ManagerApprovedList from './component/staff/ManagerApprovedList.jsx';
 import ManagerApprovedDetail from './component/staff/ManagerApprovedDetail.jsx';
+import ViewReadyLot from './component/manager/Lot/ViewReadyLot.jsx';
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
             <Route path='/final-valuation-request-detail/:id' element={<FinalValuationRequestDetail />} />
             <Route path='/manager-approved-List' element={<ManagerApprovedList />} />
             <Route path='/manager-approved-detail/:id' element={<ManagerApprovedDetail />} />
+            <Route path='/ready-lots' element={<ViewReadyLot />} />
           </Routes>
         </div>
 
