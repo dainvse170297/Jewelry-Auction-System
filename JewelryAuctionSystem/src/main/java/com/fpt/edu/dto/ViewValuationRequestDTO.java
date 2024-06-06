@@ -26,6 +26,5 @@ public class ViewValuationRequestDTO {
     private BigDecimal estimatePriceMin;
     private String description;
     private Integer productId;
-    private Integer responseRequestValuationsId;
     private Set<ValuationImage> valuationImages;
 }

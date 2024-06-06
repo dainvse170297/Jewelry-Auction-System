@@ -1,24 +1,17 @@
 package com.fpt.edu.mapper;
 
 import com.fpt.edu.dto.FinalValuationRequestDTO;
-import com.fpt.edu.dto.ValuationImageDTO;
 import com.fpt.edu.dto.ValuationRequestDTO;
 import com.fpt.edu.dto.ViewValuationRequestDTO;
 import com.fpt.edu.entity.*;
 import com.fpt.edu.repository.IMemberRepository;
 import com.fpt.edu.repository.IProductRepository;
 import com.fpt.edu.repository.IResponseRequestValuationRepository;
+
 import com.fpt.edu.repository.IValuationImageRepository;
-import com.fpt.edu.status.ValuationRequestStatus;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,7 +24,10 @@ public class ValuationRequestMapper {
     private IMemberRepository iMemberRepository;
     private IResponseRequestValuationRepository iResponseRequestValuationRepository;
     private IProductRepository iProductRepository;
-    private IValuationImageRepository IValuationImageRepository;
+
+    private IValuationImageRepository iValuationImageRepository;
+
+
     public ValuationRequestMapper(ValuationImageMapper valuationImageMapper) {
         this.valuationImageMapper = valuationImageMapper;
     }
@@ -90,7 +86,6 @@ public class ValuationRequestMapper {
                     valuationRequest.getEstimatePriceMin(),
                     valuationRequest.getDescription(),
                     valuationRequest.getProduct() == null ? null : valuationRequest.getProduct().getId(),
-                    valuationRequest.getResponseRequestValuations()== null ? null : valuationRequest.getResponseRequestValuations().getId(),
                     valuationImages
             );
         }).collect(Collectors.toList());

@@ -6,6 +6,8 @@ import com.fpt.edu.entity.ValuationImage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface IProductImageRepository extends JpaRepository<ProductImage, Integer> {
 

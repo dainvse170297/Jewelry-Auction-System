@@ -4,8 +4,7 @@ import com.fpt.edu.dto.FinalValuationRequestDTO;
 import com.fpt.edu.dto.ResponseRequestValuationDTO;
 import com.fpt.edu.dto.ValuationRequestDTO;
 import com.fpt.edu.dto.ViewValuationRequestDTO;
-import com.fpt.edu.entity.ValuationRequest;
-import com.fpt.edu.service.ResponseRequestValuationService;
+import com.fpt.edu.service.ResponseValuationRequestService;
 import com.fpt.edu.service.ValuationRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +24,7 @@ import java.util.Set;
 public class ValuationRequestController {
 
     private final ValuationRequestService valuationRequestService;
+    private final ResponseValuationRequestService responseValuationRequestService;
 
     //Member create valuation request by description and estimate price
     @PostMapping("/create")
@@ -65,65 +65,49 @@ public class ValuationRequestController {
         return ResponseEntity.ok(valuationRequestService.getRequestStatusProductReceived());
     }
 
-        @GetMapping("/request/status/product-received/{id}")
-        public ResponseEntity<ValuationRequestDTO> getRequestStatusProductReceivedById(@PathVariable Integer id) {
-            return ResponseEntity.ok(valuationRequestService.getRequestByIdAndStatusProductReceived(id));
-        }
-
-        // linh dep trai ok
-        // Dai dep tai hon Linh
-        @GetMapping("/get-all-final-valuations")
-        public ResponseEntity<List<FinalValuationRequestDTO>> getListFinalValuationRequest() {
-            return ResponseEntity.ok(valuationRequestService.getListFinalValuationRequest());
-        }
-
-        @PostMapping("/approve-final-valuation/{id}")
-        public ResponseEntity<Map<String, String>> approveFinalValuationRequest(@PathVariable Integer id) {
-            return ResponseEntity.ok(valuationRequestService.ApproveFinalValuationRequest(id));
-        }
-        @PostMapping("/cancel-final-valuation/{id}")
-        public ResponseEntity<Map<String, String>> cancelFinalValuationRequest(@PathVariable Integer id) {
-            return ResponseEntity.ok(valuationRequestService.CancelFinalValuationRequest(id));
-        }
-        //bao gom sendNotifyToMember service
-        @PostMapping("/send-final-valuation-to-member/{id}")
-        public ResponseEntity<List<Map<String,String>>> sendFinalValuationToMember(@PathVariable Integer id) {
-            return ResponseEntity.ok(valuationRequestService.sendFinalValuationToMember(id));
-        }
-
-        @GetMapping("/get-all-valuation-manager-approved")
-        public ResponseEntity<List<FinalValuationRequestDTO>> getListManagerApproveValuationRequest() {
-            return ResponseEntity.ok(valuationRequestService.getListManagerApproveValuationRequest());
-        }
-
-        @GetMapping("/view-sent-request/{id}")
-        public ResponseEntity<List<ViewValuationRequestDTO>> viewSentRequest(@PathVariable Integer id) {
-            return ResponseEntity.ok(valuationRequestService.viewSentRequest(id));
-        }
-        @GetMapping("/view-my-response-request/{id}") // response id
-        public ResponseEntity<ResponseRequestValuationDTO> viewMyResponseRequest(@PathVariable Integer id) {
-            return ResponseEntity.ok(ResponseRequestValuationService.viewMyResponseRequestValuation(id));
-        }
-
-
-
-
     @GetMapping("/request/status/product-received/{id}")
     public ResponseEntity<ValuationRequestDTO> getRequestStatusProductReceivedById(@PathVariable Integer id) {
         return ResponseEntity.ok(valuationRequestService.getRequestByIdAndStatusProductReceived(id));
+    }
+
+    // linh dep trai ok
+    // Dai dep tai hon Linh
+    @GetMapping("/get-all-final-valuations")
+    public ResponseEntity<List<FinalValuationRequestDTO>> getListFinalValuationRequest() {
+        return ResponseEntity.ok(valuationRequestService.getListFinalValuationRequest());
+    }
+
+    @PostMapping("/approve-final-valuation/{id}")
+    public ResponseEntity<Map<String, String>> approveFinalValuationRequest(@PathVariable Integer id) {
+        return ResponseEntity.ok(valuationRequestService.ApproveFinalValuationRequest(id));
+    }
+    @PostMapping("/cancel-final-valuation/{id}")
+    public ResponseEntity<Map<String, String>> cancelFinalValuationRequest(@PathVariable Integer id) {
+        return ResponseEntity.ok(valuationRequestService.CancelFinalValuationRequest(id));
+    }
+    //bao gom sendNotifyToMember service
+    @PostMapping("/send-final-valuation-to-member/{id}")
+    public ResponseEntity<List<Map<String,String>>> sendFinalValuationToMember(@PathVariable Integer id) {
+        return ResponseEntity.ok(valuationRequestService.sendFinalValuationToMember(id));
+    }
+
+    @GetMapping("/get-all-valuation-manager-approved")
+    public ResponseEntity<List<FinalValuationRequestDTO>> getListManagerApproveValuationRequest() {
+        return ResponseEntity.ok(valuationRequestService.getListManagerApproveValuationRequest());
+    }
+
+    @GetMapping("/view-sent-request/{id}")
+    public ResponseEntity<List<ViewValuationRequestDTO>> viewSentRequest(@PathVariable Integer id) {
+        return ResponseEntity.ok(valuationRequestService.viewSentRequest(id));
+    }
+    @GetMapping("/view-my-response-request/{id}") // response id
+    public ResponseEntity<ResponseRequestValuationDTO> viewMyResponseRequest(@PathVariable Integer id) {
+        return ResponseEntity.ok(responseValuationRequestService.viewMyResponseRequestValuation(id));
     }
 
     @GetMapping("/view-valuation-response/{id}")
     public ResponseEntity<Map<String, Object>> getValuationResponseById(@PathVariable Integer id) {
         return ResponseEntity.ok(valuationRequestService.getValuationResponse(id));
     }
-//        @RequestMapping("/all")
-//        public ResponseEntity<ValuationRequest> getAllValuationRequest() {
-//            return ResponseEntity.ok().build();
-//        }
-//
-//        @RequestMapping("/item/{id}")
-//        public ResponseEntity<ValuationRequest> getValuationRequestById(@RequestParam("id") Long id) {
-//            return ResponseEntity.ok().build();
-//        }
+
 }

@@ -3,6 +3,7 @@ package com.fpt.edu.service;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.fpt.edu.dto.ProductDTO;
+import com.fpt.edu.dto.ProductDetailDTO;
 import com.fpt.edu.entity.*;
 import com.fpt.edu.mapper.ProductMapper;
 import com.fpt.edu.repository.*;
@@ -30,6 +31,7 @@ public class ProductService implements IProductService {
     private final IProductRepository iProductRepository;
     private final IValuationRequestRepository iValuationRequestRepository;
     private final ProductMapper ProductMapper;
+
     @Override
     public Product createProduct(int valuationRequestId,
                                  int categoryId,
@@ -83,7 +85,7 @@ public class ProductService implements IProductService {
         return product;
     }
     @Override
-    public ProductDTO viewProductDetails(Integer productId) {
+    public ProductDetailDTO viewProductDetails(Integer productId) {
         Optional<Product> productOpt = iProductRepository.findById(productId);
         ValuationRequest valuationRequest = iValuationRequestRepository.findByProductId(productId);
 
@@ -93,7 +95,7 @@ public class ProductService implements IProductService {
 
             List<ProductImage> productImages = productImageRepository.findByProduct(product);
 
-            return ProductMapper.mapToProductDTO(product, productImages, valuationRequest);
+            return ProductMapper.mapToProductDetailDTO(product, productImages, valuationRequest);
         } else {
             // Handle the case where no Product with the given id is found
             throw new EntityNotFoundException("No Product found with id: " + productId);

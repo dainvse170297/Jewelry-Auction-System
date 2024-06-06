@@ -1,6 +1,7 @@
 package com.fpt.edu.controller;
 
 import com.fpt.edu.dto.ProductDTO;
+import com.fpt.edu.dto.ProductDetailDTO;
 import com.fpt.edu.entity.Product;
 import com.fpt.edu.service.IProductService;
 import com.fpt.edu.service.ValuationRequestService;
@@ -37,7 +38,7 @@ public class ProductController {
     }
     // linh dep trai ok
     @PostMapping("/view-details-product/{id}")
-    public ResponseEntity<ProductDTO> getDetailsProductById(@PathVariable  Integer id) {
+    public ResponseEntity<ProductDetailDTO> getDetailsProductById(@PathVariable  Integer id) {
         return ResponseEntity.ok(productService.viewProductDetails(id));
     }
 

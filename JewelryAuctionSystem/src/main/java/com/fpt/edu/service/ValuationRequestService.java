@@ -40,6 +40,7 @@ public class ValuationRequestService implements IValuationRequestService{
     private final IValuationImageRepository iValuationImageRepository;
     private final IResponseRequestValuationRepository iResponseRequestValuationRepository;
     private final IStaffRepository iStaffRepository;
+    private final INotifyRepository iNotifyRepository;
 
     private final ValuationRequestMapper valuationRequestMapper;
     private final ProductMapper productMapper;
@@ -113,6 +114,11 @@ public class ValuationRequestService implements IValuationRequestService{
     @Override
     public ValuationRequestDTO getRequestByIdAndStatusProductReceived(int id) {
         return valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.findByIdAndValuationStatus(id, ValuationRequestStatus.PRODUCT_RECEIVED));
+    }
+
+    @Override
+    public ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax) {
+        return null;
     }
 
     @Override
