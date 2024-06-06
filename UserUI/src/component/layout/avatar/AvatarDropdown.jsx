@@ -6,6 +6,7 @@ import AuctionIcon from '@mui/icons-material/Gavel';
 import Valuation from '@mui/icons-material/Diamond';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from 'react-router-dom';
 
 const AvatarDropdown = () =>{
     return (
@@ -52,7 +53,6 @@ const AvatarDropdown = () =>{
             </ul>
       </li>
     );
-}
 
 // Custom toggle to work with hover
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
