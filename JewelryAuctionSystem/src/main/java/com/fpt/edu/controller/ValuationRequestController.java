@@ -24,45 +24,46 @@ import java.util.Set;
 @CrossOrigin(origins = "*")
 public class ValuationRequestController {
 
-        private final ValuationRequestService valuationRequestService;
-        private final ResponseRequestValuationService ResponseRequestValuationService;
-        //Member create valuation request by description and estimate price
-        @PostMapping("/create")
-        @CrossOrigin(origins = "*")
-        public ResponseEntity<ValuationRequestDTO> addValuationRequest(@RequestParam("memberId") Integer memberId,
-                                                                       @RequestParam("description") String description,
-                                                                       @RequestParam("estimateMin") BigDecimal estimateMin,
-                                                                       @RequestParam("estimateMax") BigDecimal estimateMax,
-                                                                       @RequestParam("image") Set<MultipartFile> files
-                                                                    ) throws IOException {
-            return ResponseEntity.ok(valuationRequestService.create(memberId, description, estimateMin, estimateMax,files));
-        }
+    private final ValuationRequestService valuationRequestService;
 
-        @GetMapping("/requested")
-        @CrossOrigin(origins = "*")
-        public ResponseEntity<List<ValuationRequestDTO>> getRequestedValuationRequest() {
-            return ResponseEntity.ok(valuationRequestService.getRequestedValuationRequest());
-        }
+    //Member create valuation request by description and estimate price
+    @PostMapping("/create")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<ValuationRequestDTO> addValuationRequest(@RequestParam("memberId") Integer memberId,
+                                                                   @RequestParam("description") String description,
+                                                                   @RequestParam("estimateMin") BigDecimal estimateMin,
+                                                                   @RequestParam("estimateMax") BigDecimal estimateMax,
+                                                                   @RequestParam("image") Set<MultipartFile> files
+    ) throws IOException {
+        return ResponseEntity.ok(valuationRequestService.create(memberId, description, estimateMin, estimateMax, files));
+    }
 
-        @PostMapping("/product-received")
-        @CrossOrigin(origins = "*")
-        public ResponseEntity<ValuationRequestDTO> productReceived(@RequestParam("id") Integer id) {
-            return ResponseEntity.ok(valuationRequestService.productReceived(id));
-        }
+    @GetMapping("/requested")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<List<ValuationRequestDTO>> getRequestedValuationRequest() {
+        return ResponseEntity.ok(valuationRequestService.getRequestedValuationRequest());
+    }
+
+    @PostMapping("/product-received")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<ValuationRequestDTO> productReceived(@RequestParam("id") Integer id) {
+        return ResponseEntity.ok(valuationRequestService.productReceived(id));
+    }
 
 
-        @PostMapping("/preliminary-valuation")
-        @CrossOrigin(origins = "*")
-        public ResponseEntity<ValuationRequestDTO> preliminaryValuation(@RequestParam("id") Integer id,
-                                                                        @RequestParam("estimateMin") BigDecimal estimatePrice,
-                                                                        @RequestParam("estimateMax") BigDecimal estimateMax) {
-            return ResponseEntity.ok(valuationRequestService.preliminaryValuation(id, estimatePrice, estimateMax));
-        }
+    @PostMapping("/preliminary-valuation")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<ValuationRequestDTO> preliminaryValuation(@RequestParam("id") Integer id,
+                                                                    @RequestParam("estimateMin") BigDecimal estimatePrice,
+                                                                    @RequestParam("estimateMax") BigDecimal estimateMax,
+                                                                    @RequestParam("staffId") Integer staffId) {
+        return ResponseEntity.ok(valuationRequestService.preliminaryValuation(id, estimatePrice, estimateMax, staffId));
+    }
 
-        @GetMapping("/request/status/product-received")
-        public ResponseEntity<List<ValuationRequestDTO>> getRequestStatusProductReceived() {
-            return ResponseEntity.ok(valuationRequestService.getRequestStatusProductReceived());
-        }
+    @GetMapping("/request/status/product-received")
+    public ResponseEntity<List<ValuationRequestDTO>> getRequestStatusProductReceived() {
+        return ResponseEntity.ok(valuationRequestService.getRequestStatusProductReceived());
+    }
 
         @GetMapping("/request/status/product-received/{id}")
         public ResponseEntity<ValuationRequestDTO> getRequestStatusProductReceivedById(@PathVariable Integer id) {
@@ -106,8 +107,16 @@ public class ValuationRequestController {
 
 
 
-    // linh dep trai ok
 
+    @GetMapping("/request/status/product-received/{id}")
+    public ResponseEntity<ValuationRequestDTO> getRequestStatusProductReceivedById(@PathVariable Integer id) {
+        return ResponseEntity.ok(valuationRequestService.getRequestByIdAndStatusProductReceived(id));
+    }
+
+    @GetMapping("/view-valuation-response/{id}")
+    public ResponseEntity<Map<String, Object>> getValuationResponseById(@PathVariable Integer id) {
+        return ResponseEntity.ok(valuationRequestService.getValuationResponse(id));
+    }
 //        @RequestMapping("/all")
 //        public ResponseEntity<ValuationRequest> getAllValuationRequest() {
 //            return ResponseEntity.ok().build();

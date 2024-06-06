@@ -37,8 +37,8 @@ public class ValuationRequestMapper {
     }
 
     public ValuationRequestDTO mapToValuationRequestDTO(ValuationRequest valuationRequest){
-        ResponseRequestValuation responseRequestValuation = valuationRequest.getResponseRequestValuations();
-        Integer responseRequestValuationId = responseRequestValuation == null ? null : responseRequestValuation.getId();
+//        ResponseRequestValuation responseRequestValuation = valuationRequest.getResponseRequestValuations();
+//        Integer responseRequestValuationId = responseRequestValuation == null ? null : responseRequestValuation.getId();
         Integer productId = valuationRequest.getProduct() == null ? null : valuationRequest.getProduct().getId();
         return new ValuationRequestDTO(
                 valuationRequest.getId(),
@@ -49,7 +49,7 @@ public class ValuationRequestMapper {
                 valuationRequest.getEstimatePriceMin(),
                 valuationRequest.getDescription(),
                 productId,
-                responseRequestValuationId,
+//                responseRequestValuationId,
                 valuationImageMapper.mapToValuationImageIdList(valuationRequest.getValuationImages())
         );
     }
@@ -65,7 +65,7 @@ public class ValuationRequestMapper {
                 valuationRequestDTO.getEstimatePriceMin(),
                 valuationRequestDTO.getDescription(),
                 iProductRepository.getReferenceById(valuationRequestDTO.getProductId()),
-                iResponseRequestValuationRepository.getReferenceById(valuationRequestDTO.getResponseRequestValuationsId()),
+//                iResponseRequestValuationRepository.getReferenceById(valuationRequestDTO.getResponseRequestValuationsId()),
                 valuationImageMapper.mapIdToValuationImageList(valuationRequestDTO.getValuationImages())
         );
     }

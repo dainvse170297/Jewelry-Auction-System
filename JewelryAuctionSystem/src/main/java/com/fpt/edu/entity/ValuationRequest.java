@@ -44,10 +44,10 @@ public class ValuationRequest {
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     @JoinColumn(name = "product_id", nullable = true)
     private Product product;
-
-    @OneToOne(cascade = CascadeType.ALL, optional = true)
-    @JoinColumn(name = "response_id", nullable = true)
-    private ResponseRequestValuation responseRequestValuations;
+//
+//    @OneToOne(cascade = CascadeType.ALL, optional = true)
+//    @JoinColumn(name = "response_id", nullable = true)
+//    private ResponseRequestValuation responseRequestValuations;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "request")
     private Set<ValuationImage> valuationImages = new LinkedHashSet<>();

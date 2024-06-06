@@ -41,4 +41,7 @@ public interface IValuationRequestService {
     public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId);
 
 
+    ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax, Integer staffId);
+
+    public Map<String,Object> getValuationResponse(Integer id);
 }

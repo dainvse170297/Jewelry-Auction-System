@@ -18,8 +18,10 @@ public class ResponseRequestValuationDTO {
 
     private Integer id;
     private ResponseValuationRequestStatus status;
-    private BigDecimal valuationPrice;
+//    private BigDecimal valuationPrice;
+    private BigDecimal valuationPriceMin;
+    private BigDecimal valuationPriceMax;
     private LocalDate timeResponse;
     private Integer staffId;
-
+    private Integer valuationRequestId;
 }

@@ -22,4 +22,14 @@ public class ResponseRequestValuationService implements IResponseRequestValuatio
         return ResponseValuationRequestMapper.MaptoResponseRequestValuationDTO(responseRequestValuation);
     }
 
+    public ResponseRequestValuationDTO insertResponseRequestValuation(ResponseValuationRequestStatus status, BigDecimal valuationPriceMin, BigDecimal valuationPriceMax, Staff staff, ValuationRequest valuationRequest) {
+        ResponseRequestValuation responseRequestValuation = new ResponseRequestValuation();
+        responseRequestValuation.setValuationPriceMin(valuationPriceMin);
+        responseRequestValuation.setValuationPriceMax(valuationPriceMax);
+        responseRequestValuation.setResponseValuationRequestStatus(status);
+        responseRequestValuation.setStaff(staff);
+        responseRequestValuation.setValuationRequest(valuationRequest);
+        responseRequestValuation.setTimeResponse(LocalDate.now());
+        return responseValuationRequestMapper.toResponseValuationRequestDTO(iResponseRequestValuationRepository.save(responseRequestValuation));
+    }
 }
