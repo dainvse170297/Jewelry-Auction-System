@@ -105,10 +105,6 @@ public class ValuationRequestController {
         return ResponseEntity.ok(responseValuationRequestService.viewMyResponseRequestValuation(id));
     }
 
-    @GetMapping("/view-valuation-response/{id}")
-    public ResponseEntity<Map<String, Object>> getValuationResponseById(@PathVariable Integer id) {
-        return ResponseEntity.ok(valuationRequestService.getValuationResponse(id));
-    }
 
     @PostMapping("/confirm-final-valuation-by-member")
     public ResponseEntity<Map<String, String>> confirmFinalValuation(@RequestParam("id") Integer id, // id response

@@ -44,7 +44,6 @@ public class ValuationRequestService implements IValuationRequestService{
     private final INotifyRepository iNotifyRepository;
 
     private final ValuationRequestMapper valuationRequestMapper;
-    private final ProductMapper productMapper;
     private final ResponseValuationRequestMapper responseValuationRequestMapper;
 
     private final CloudinaryService cloudinaryService;
@@ -271,23 +270,6 @@ public class ValuationRequestService implements IValuationRequestService{
         status.put("Status:", "Notify has been sent to member");
         return status;
 
-    }
-    public Map<String,Object> getValuationResponse(Integer id) {
-        Map<String, Object> map = new HashMap<>();
-        ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
-        List<ResponseRequestValuationDTO> responseRequestValuationDTOS = responseValuationRequestMapper.toResponseValuationRequestDTOList(iResponseRequestValuationRepository.findByValuationRequest(valuationRequest));
-        if (valuationRequest.getProduct() == null) {
-            map.put("productDTO", null);
-            map.put("valuationRequestDTO", valuationRequestMapper.mapToValuationRequestDTO(valuationRequest));
-            map.put("responseRequestValuationDTOS", responseRequestValuationDTOS);
-            return map;
-        }else {
-            ProductDTO productDTO = productMapper.toProductDTO(valuationRequest.getProduct());
-            map.put("productDTO", productDTO);
-            map.put("valuationRequestDTO", valuationRequestMapper.mapToValuationRequestDTO(valuationRequest));
-            map.put("responseRequestValuationDTOS", responseRequestValuationDTOS);
-            return map;
-        }
     }
 
     @Override
