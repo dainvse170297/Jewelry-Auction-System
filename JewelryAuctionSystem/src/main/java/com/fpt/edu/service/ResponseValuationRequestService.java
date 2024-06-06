@@ -8,11 +8,9 @@ import com.fpt.edu.entity.ValuationRequest;
 import com.fpt.edu.mapper.ProductMapper;
 import com.fpt.edu.mapper.ResponseValuationRequestMapper;
 import com.fpt.edu.mapper.ValuationRequestMapper;
-import com.fpt.edu.repository.IResponseRequestValuationRepository;
-import com.fpt.edu.repository.IValuationRequestRepository;
+import com.fpt.edu.repository.*;
 import com.fpt.edu.entity.*;
 import com.fpt.edu.mapper.ResponseValuationRequestMapper;
-import com.fpt.edu.repository.ILotRepository;
 import com.fpt.edu.repository.IResponseRequestValuationRepository;
 import com.fpt.edu.repository.IValuationRequestRepository;
 import com.fpt.edu.status.LotStatus;
@@ -35,6 +33,7 @@ public class ResponseValuationRequestService implements IResponseRequestValuatio
     private final IResponseRequestValuationRepository iResponseRequestValuationRepository;
     private final IValuationRequestRepository iValuationRequestRepository;
     private final ILotRepository iLotRepository;
+    private final IValuationImageRepository iValuationRequestImageRepository;
 
     private final ResponseValuationRequestMapper responseValuationRequestMapper;
     private final ValuationRequestMapper valuationRequestMapper;
@@ -63,16 +62,17 @@ public class ResponseValuationRequestService implements IResponseRequestValuatio
     public Map<String,Object> getValuationResponse(Integer id) {
         Map<String, Object> map = new HashMap<>();
         ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
+        valuationRequest.setValuationImages(iValuationRequestImageRepository.findByRequest(valuationRequest));
         List<ResponseRequestValuationDTO> responseRequestValuationDTOS = responseValuationRequestMapper.toResponseValuationRequestDTOList(iResponseRequestValuationRepository.findByValuationRequest(valuationRequest));
         if (valuationRequest.getProduct() == null) {
             map.put("productDTO", null);
-            map.put("valuationRequestDTO", valuationRequestMapper.mapToValuationRequestDTO(valuationRequest));
+            map.put("valuationRequestDTO", valuationRequestMapper.mapToValuationRequestDetailDTO(valuationRequest));
             map.put("responseRequestValuationDTOS", responseRequestValuationDTOS);
             return map;
         } else {
             ProductDTO productDTO = productMapper.toProductDTO(valuationRequest.getProduct());
             map.put("productDTO", productDTO);
-            map.put("valuationRequestDTO", valuationRequestMapper.mapToValuationRequestDTO(valuationRequest));
+            map.put("valuationRequestDTO", valuationRequestMapper.mapToValuationRequestDetailDTO(valuationRequest));
             map.put("responseRequestValuationDTOS", responseRequestValuationDTOS);
             return map;
         }
