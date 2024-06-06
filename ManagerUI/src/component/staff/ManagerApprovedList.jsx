@@ -1,6 +1,6 @@
-import React from 'react'
 import React, { useEffect, useState } from 'react'
-import { Button, Pagination } from 'react-bootstrap'
+import axios from 'axios'
+import { Button } from 'react-bootstrap'
 import { FaBackward } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import Paginator from '../common/Paginator'
@@ -9,6 +9,7 @@ export default function ManagerApprovedList() {
 
 
     const [ManagerApproval, setManagerApproval] = useState([])
+    const [errorMsg, setErrorMsg] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(5)
 
@@ -27,11 +28,11 @@ export default function ManagerApprovedList() {
                 })
 
             } catch (error) {
-                console.log("Error nek:", error.message)
+                console.log("Error:", error.message)
                 setErrorMsg("Error fetching data from server")
             }
         }
-        getAll()
+        getList()
 
     }, [])
 
@@ -66,7 +67,7 @@ export default function ManagerApprovedList() {
                                     <div className="">
                                         <Button className='btn-success'>
                                             <Link to={`/manager-approved-detail/${request.id}`} style={{ color: 'white', textDecoration: 'none' }}>
-                                                Confirm Information
+                                                View detail
                                             </Link>
                                         </Button>
                                     </div>

@@ -23,7 +23,7 @@ export default function ValuationRequest() {
         const getList = async () => {
 
             try {
-                axios.get("http://localhost:8080/valuation/get-all-final-valuations"+id).then((result) => {
+                axios.get("http://localhost:8080/valuation/view-sent-request/"+id).then((result) => {
                     setValuationRequest(result.data)
                 })
 

@@ -8,9 +8,9 @@ import Paginator from '../common/Paginator'
 export default function FinalValuationRequestList() {
 
     const [Finalvaluation, setFinalValuation] = useState([])
+    const [errorMsg, setErrorMsg] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(5)
-
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber)
         console.log('New Page:', pageNumber)
@@ -30,7 +30,7 @@ export default function FinalValuationRequestList() {
                 setErrorMsg("Error fetching data from server")
             }
         }
-        getAll()
+        getList()
 
     }, [])
 
