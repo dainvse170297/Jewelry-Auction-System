@@ -1,22 +1,20 @@
 package com.fpt.edu.dto;
 
-import com.fpt.edu.entity.Product;
+import com.fpt.edu.entity.ProductImage;
 import com.fpt.edu.status.ValuationRequestStatus;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.List;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-public class ValuationRequestDTO {
-
-    private int id;
+public class ViewDetailValuationRequestFinalApprovedDTO {
+    private Integer id;
     private Integer memberId;
     private LocalDate timeRequest;
     private ValuationRequestStatus valuationStatus;
@@ -24,6 +22,5 @@ public class ValuationRequestDTO {
     private BigDecimal estimatePriceMin;
     private String description;
     private Integer productId;
-//    private Integer responseRequestValuationsId;
-    private Set<Integer> valuationImages;
+    private List<ProductImage> productImages;
 }

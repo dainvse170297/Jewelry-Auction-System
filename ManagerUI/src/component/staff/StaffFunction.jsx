@@ -22,6 +22,11 @@ const StaffFunction = () => {
                     <Link to={'/valuation-request-list'} style={{ textDecoration: 'none' }}>
                         View All Valuation Requests
                     </Link>
+                    <div className="mt-3"> 
+                        <Link to={'/manager-approved-list'} style={{ textDecoration: 'none' }}>
+                            View All Manager Approved List
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

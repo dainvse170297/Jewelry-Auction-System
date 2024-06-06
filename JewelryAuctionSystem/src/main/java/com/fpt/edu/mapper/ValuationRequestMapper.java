@@ -2,6 +2,7 @@ package com.fpt.edu.mapper;
 
 import com.fpt.edu.dto.FinalValuationRequestDTO;
 import com.fpt.edu.dto.ValuationRequestDTO;
+import com.fpt.edu.dto.ViewDetailValuationRequestFinalApprovedDTO;
 import com.fpt.edu.dto.ViewValuationRequestDTO;
 import com.fpt.edu.entity.*;
 import com.fpt.edu.repository.IMemberRepository;
@@ -9,9 +10,12 @@ import com.fpt.edu.repository.IProductRepository;
 import com.fpt.edu.repository.IResponseRequestValuationRepository;
 
 import com.fpt.edu.repository.IValuationImageRepository;
+import com.fpt.edu.status.ValuationRequestStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -106,6 +110,22 @@ public class ValuationRequestMapper {
     }
     public List<FinalValuationRequestDTO> mapToFinalValuationRequestDTOList(List<ValuationRequest> valuationRequests){
         return valuationRequests.stream().map(this::mapToFinalValuationRequestDTO).toList();
+    }
+
+    public ViewDetailValuationRequestFinalApprovedDTO
+    mapToViewDetailValuationRequestFinalApprovedDTO(ValuationRequest valuationRequest, Product product){
+        return new ViewDetailValuationRequestFinalApprovedDTO(
+                valuationRequest.getId(),
+                valuationRequest.getMember().getId(),
+                valuationRequest.getTimeRequest(),
+                valuationRequest.getValuationStatus(),
+                valuationRequest.getEstimatePriceMax(),
+                valuationRequest.getEstimatePriceMin(),
+                valuationRequest.getDescription(),
+                product.getId(),
+                product.getProductImages()
+        );
+
     }
 
 

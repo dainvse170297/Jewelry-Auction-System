@@ -49,7 +49,7 @@ export default function ManagerApprovedList() {
         <div className='container'>
             <div className="row">
                 <div className="">
-                    <Link to={"/staff"}><FaBackward /></Link>
+                    <Link to={"/staff-function"}><FaBackward /></Link>
                 </div>
                 {/* {isLoading ? (
                     <>

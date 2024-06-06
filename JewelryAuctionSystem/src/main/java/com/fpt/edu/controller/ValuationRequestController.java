@@ -1,9 +1,6 @@
 package com.fpt.edu.controller;
 
-import com.fpt.edu.dto.FinalValuationRequestDTO;
-import com.fpt.edu.dto.ResponseRequestValuationDTO;
-import com.fpt.edu.dto.ValuationRequestDTO;
-import com.fpt.edu.dto.ViewValuationRequestDTO;
+import com.fpt.edu.dto.*;
 import com.fpt.edu.service.ResponseValuationRequestService;
 import com.fpt.edu.service.ValuationRequestService;
 import lombok.RequiredArgsConstructor;
@@ -105,6 +102,10 @@ public class ValuationRequestController {
         return ResponseEntity.ok(responseValuationRequestService.viewMyResponseRequestValuation(id));
     }
 
+    @GetMapping("/view-manager-approved-detail/{id}") // id valuation request
+    public ResponseEntity<ViewDetailValuationRequestFinalApprovedDTO> viewManagerApprovedDetail(@PathVariable Integer id) {
+        return ResponseEntity.ok(valuationRequestService.ViewDetailValuationRequestFinalApproved(id));
+    }
 
 
 
