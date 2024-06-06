@@ -1,14 +1,14 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Button, Pagination } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { FaBackward } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
-import Paginator from '../common/Paginator'
+import { Link, useParams } from 'react-router-dom'
+import Paginator from '../../common/Paginator'
 
 export default function ValuationRequest() {
 
     // memberID
-    const { id } = useState(1)
+    const { id } = useParams()
 
     const [ValuationRequest, setValuationRequest] = useState([])
     const [errorMsg, setErrorMsg] = useState('')
@@ -25,7 +25,7 @@ export default function ValuationRequest() {
         const getInfo = async () => {
 
             try {
-                axios.get("http://localhost:8080/valuation/view-sent-request/"+id).then((result) => {
+                axios.get(`http://localhost:8080/valuation/view-sent-request/${id}`).then((result) => {
                     setValuationRequest(result.data)
                 })
 

@@ -6,52 +6,54 @@ import AuctionIcon from '@mui/icons-material/Gavel';
 import Valuation from '@mui/icons-material/Diamond';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from 'react-router-dom';
 
-const AvatarDropdown = () =>{
-    return (
-      <li className="nav-item dropdown">
-            <div id="accountDropdown">
-              <Avatar />
-            </div>         
-            <ul className="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="accountDropdown">
-                <li className='src/component/valuation_request/create/CreateValuation.jsx'>
-                  <a className="dropdown-item" href="#!">
-                    <div className="px-1">
-                      <PersonIcon/> Profile
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#!">
-                    <div className="px-1">
-                      <AuctionIcon/> My Auction
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#!">
-                    <div className="px-1">
-                      <Valuation/> My Valuation
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#!">
-                    <div className="px-1">
-                      <SettingsIcon/> Settings
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#!">
-                    <div className="px-1">
-                     <LogoutIcon/> Logout
-                    </div>
-                  </a>
-                </li>
-            </ul>
-      </li>
-    );
+const AvatarDropdown = () => {
+
+  return (
+    <li className="nav-item dropdown">
+      <div id="accountDropdown">
+        <Avatar />
+      </div>
+      <ul className="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="accountDropdown">
+        <li className='src/component/valuation_request/create/CreateValuation.jsx'>
+          <a className="dropdown-item" href="#!">
+            <div className="px-1">
+              <PersonIcon /> Profile
+            </div>
+          </a>
+        </li>
+        <li>
+          <a className="dropdown-item" href="#!">
+            <div className="px-1">
+              <AuctionIcon /> My Auction
+            </div>
+          </a>
+        </li>
+        <li>
+          <a className="dropdown-item" href="/valuation-request/1">
+            <div className="px-1">
+              <Valuation /> My Valuation
+            </div>
+          </a>
+        </li>
+        <li>
+          <a className="dropdown-item" href="#!">
+            <div className="px-1">
+              <SettingsIcon /> Settings
+            </div>
+          </a>
+        </li>
+        <li>
+          <a className="dropdown-item" href="#!">
+            <div className="px-1">
+              <LogoutIcon /> Logout
+            </div>
+          </a>
+        </li>
+      </ul>
+    </li>
+  );
 }
 
 // Custom toggle to work with hover
