@@ -16,10 +16,11 @@ const StaffFunction = () => {
                     <label htmlFor="">
                         <h6>Staff's services</h6>
                     </label><br></br>
-                    <Link to={'/valuation-request'} style={{ textDecoration: 'none' }}>
+                    <Link to={'/valuation-request-received'} style={{ textDecoration: 'none' }}>
                         View All ProductReceived Valuation Requests
                     </Link>
-                    <Link to={'/valuation-request-list'} style={{ textDecoration: 'none' }}>
+                    <br />
+                    <Link to={'/requested-valuation'} style={{ textDecoration: 'none' }}>
                         View All Valuation Requests
                     </Link>
                 </div>
