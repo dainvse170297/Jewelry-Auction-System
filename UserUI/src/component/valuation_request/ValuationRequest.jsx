@@ -7,9 +7,11 @@ import Paginator from '../common/Paginator'
 
 export default function ValuationRequest() {
 
+    // memberID
     const { id } = useState(1)
 
     const [ValuationRequest, setValuationRequest] = useState([])
+    const [errorMsg, setErrorMsg] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(5)
 
@@ -20,7 +22,7 @@ export default function ValuationRequest() {
 
     useEffect(() => {
         // setIsLoading(true)
-        const getList = async () => {
+        const getInfo = async () => {
 
             try {
                 axios.get("http://localhost:8080/valuation/view-sent-request/"+id).then((result) => {
@@ -28,11 +30,11 @@ export default function ValuationRequest() {
                 })
 
             } catch (error) {
-                console.log("Error nek:", error.message)
+                console.log("Error:", error.message)
                 setErrorMsg("Error fetching data from server")
             }
         }
-        getAll()
+        getInfo()
 
     }, [])
 
