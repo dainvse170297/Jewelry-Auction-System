@@ -10,6 +10,12 @@ import { useNavigate } from 'react-router-dom';
 
 const AvatarDropdown = () => {
 
+  const navigate = useNavigate();
+
+  const navigateToValuationRequest = () => {
+    navigate('/valuation-request/1');
+  }
+
   return (
     <li className="nav-item dropdown">
       <div id="accountDropdown">
@@ -31,7 +37,7 @@ const AvatarDropdown = () => {
           </a>
         </li>
         <li>
-          <a className="dropdown-item" href="/valuation-request/1">
+          <a className="dropdown-item" onClick={navigateToValuationRequest}>
             <div className="px-1">
               <Valuation /> My Valuation
             </div>
