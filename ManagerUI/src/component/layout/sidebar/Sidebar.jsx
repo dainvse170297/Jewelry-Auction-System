@@ -63,7 +63,7 @@ const Sidebar = () => {
                         <span>Profile</span>
                     </li>
                     <li>
-                        <Link to={"/staff"} className="non-deco">
+                        <Link to={"/staff-function"} className="non-deco">
                             <FolderShared className="icon" />
                             <span>Staff</span>
                         </Link>
