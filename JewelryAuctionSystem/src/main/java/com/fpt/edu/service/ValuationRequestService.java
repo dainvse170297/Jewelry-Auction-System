@@ -291,9 +291,16 @@ public class ValuationRequestService implements IValuationRequestService{
     }
 
     @Override
-    public Map<String,String> confirmFinalValuationByMember(Integer id, boolean status) { // id response
+    public Map<String,String> confirmFinalValuationByMember(Integer id, boolean status) { // id response 6
 
         ResponseRequestValuation responseValuation = iResponseRequestValuationRepository.getReferenceById(id);
+
+        System.out.println(responseValuation.getResponseValuationRequestStatus());
+
+
+
+
+
         ValuationRequest valuationRequest = responseValuation.getValuationRequest();
       //  int idValuationRequest = iResponseRequestValuationRepository.getReferenceById(id).getValuationRequest().getId();
         System.out.println("idValuationRequest: " + valuationRequest.getId());
@@ -305,6 +312,7 @@ public class ValuationRequestService implements IValuationRequestService{
             iValuationRequestRepository.save(valuationRequest);
 
             responseRequestValuation.setResponseValuationRequestStatus(ResponseValuationRequestStatus.ACCEPTED);
+            iResponseRequestValuationRepository.save(responseRequestValuation);
             Product product = valuationRequest.getProduct();
             List<Lot> lot = iLotRepository.findLotByProduct_Id(product.getId());
             for (Lot l : lot) {
@@ -314,8 +322,10 @@ public class ValuationRequestService implements IValuationRequestService{
             response.put("message", "ValuationRequest with id: " + id + " has been confirmed by member");
             return response;
         } else {
-            responseRequestValuation.setResponseValuationRequestStatus(ResponseValuationRequestStatus.REJECTED);
+            responseValuation.setResponseValuationRequestStatus(ResponseValuationRequestStatus.REJECTED);
+            iResponseRequestValuationRepository.save(responseValuation);
             valuationRequest.setValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED);
+            iValuationRequestRepository.save(valuationRequest);
             response.put("message", "ValuationRequest with id: " + id + " has been rejected by member");
             return response;
         }
