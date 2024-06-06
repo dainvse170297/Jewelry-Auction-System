@@ -17,4 +17,6 @@ public interface IResponseRequestValuationService {
     public Map<String,Object> getValuationResponse(Integer id);
 
     ResponseRequestValuationDTO insertResponseRequestValuation(ResponseValuationRequestStatus status, BigDecimal valuationPriceMin, BigDecimal valuationPriceMax, Staff staff, ValuationRequest valuationRequest);
+
+    ResponseRequestValuationDTO confirmFinalValuationByMember(Integer id, boolean status);
 }

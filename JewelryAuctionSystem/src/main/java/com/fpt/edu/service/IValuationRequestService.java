@@ -1,9 +1,6 @@
 package com.fpt.edu.service;
 
-import com.fpt.edu.dto.FinalValuationRequestDTO;
-import com.fpt.edu.dto.ProductDTO;
-import com.fpt.edu.dto.ValuationRequestDTO;
-import com.fpt.edu.dto.ViewValuationRequestDTO;
+import com.fpt.edu.dto.*;
 import com.fpt.edu.entity.Product;
 import org.springframework.web.multipart.MultipartFile;
 import com.fpt.edu.entity.ValuationRequest;
@@ -22,9 +19,9 @@ public interface IValuationRequestService {
 
     public List<ValuationRequestDTO> getRequestStatusProductReceived();
 
-    ValuationRequestDTO getRequestByIdAndStatusProductReceived(int id);
+    public ValuationRequestDTO getRequestByIdAndStatusProductReceived(int id);
 
-    ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax);
+    public ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax);
 
     public List<FinalValuationRequestDTO> getListFinalValuationRequest();
 
@@ -41,7 +38,11 @@ public interface IValuationRequestService {
     public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId);
 
 
-    ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax, Integer staffId);
+    public ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax, Integer staffId);
 
-    Map<String,String> confirmFinalValuationByMember(Integer id, boolean status);
+    public Map<String,String> confirmFinalValuationByMember(Integer id, boolean status);
+
+    public Map<String,Object> getValuationResponse(Integer id);
+
+
 }
