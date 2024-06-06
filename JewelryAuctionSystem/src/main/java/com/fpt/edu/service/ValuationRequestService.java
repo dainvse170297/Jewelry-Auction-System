@@ -200,6 +200,9 @@ public class ValuationRequestService implements IValuationRequestService{
 
     @Override
     public List<FinalValuationRequestDTO> getListManagerApproveValuationRequest() {
+
+
+
         return valuationRequestMapper.mapToFinalValuationRequestDTOList(
                 iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.MANAGER_APPROVED));
     }

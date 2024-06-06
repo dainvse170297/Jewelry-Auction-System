@@ -102,8 +102,6 @@ public class ValuationRequestMapper {
                 valuationRequest.getMember().getId(),
                 valuationRequest.getTimeRequest(),
                 valuationRequest.getValuationStatus(),
-                valuationRequest.getEstimatePriceMax(),
-                valuationRequest.getEstimatePriceMin(),
                 valuationRequest.getDescription(),
                 valuationRequest.getProduct().getId()
         );
