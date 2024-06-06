@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Pagination } from 'react-bootstrap'
 import { FaBackward } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
-import Paginator from '../common/Paginator'
+import Paginator from '../../common/Paginator'
 
 export default function ValuationRequest() {
 

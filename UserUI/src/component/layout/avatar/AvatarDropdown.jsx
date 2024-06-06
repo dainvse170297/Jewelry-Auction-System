@@ -29,7 +29,7 @@ const AvatarDropdown = () =>{
                   </a>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="#!">
+                  <a className="dropdown-item" href="/valuation-request">
                     <div className="px-1">
                       <Valuation/> My Valuation
                     </div>
