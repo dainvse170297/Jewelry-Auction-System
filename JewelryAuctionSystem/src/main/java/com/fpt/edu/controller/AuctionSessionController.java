@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -25,6 +26,11 @@ public class AuctionSessionController {
     AuctionSession auction = auctionSessionService.createSession(name, description, startDate, startingBid, staffId);
 
         return ResponseEntity.ok(auction);
+    }
+
+    @GetMapping("/all-session")
+    public ResponseEntity<List<AuctionSession>> getAllAuctionSession() {
+        return ResponseEntity.ok(auctionSessionService.getAllAuctionSession());
     }
 
 
