@@ -119,8 +119,10 @@ public class ValuationRequestMapper {
                 valuationRequest.getValuationStatus(),
                 product.getEstimatePriceMax(),
                 product.getEstimatePriceMin(),
-                valuationRequest.getDescription(),
+                product.getDescription(),
                 product.getId(),
+                product.getName(),
+                product.getCategory().getName(),
                 product.getProductImages()
         );
 

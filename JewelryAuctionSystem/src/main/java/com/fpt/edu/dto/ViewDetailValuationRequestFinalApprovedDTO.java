@@ -20,7 +20,9 @@ public class ViewDetailValuationRequestFinalApprovedDTO {
     private ValuationRequestStatus valuationStatus;
     private BigDecimal estimatePriceMaxProduct;
     private BigDecimal estimatePriceMinProduct;
-    private String description;
+    private String productDescription;
     private Integer productId;
+    private String productName;
+    private String category;
     private List<ProductImage> productImages;
 }

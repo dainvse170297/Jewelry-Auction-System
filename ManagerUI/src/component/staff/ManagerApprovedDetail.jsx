@@ -16,12 +16,16 @@ const ManagerApprovedDetail = () => {
     const { id } = useParams()
     const [isWaiting, setIsWaiting] = useState(false)
 
+    // my name is Linh
     const [valuationRequest, setValuationRequest] = useState({
         memberId: '',
-        estimatePriceMax: '',
-        estimatePriceMin: '',
-        valuationStatus: '',
-        description: ''
+        estimatePriceMaxProduct: '',
+        estimatePriceMinProduct: '',
+        productName: '',
+        productDescription: '',
+        category: '',
+        productImages: []
+
     })
 
     const [product, setProduct] = useState({
@@ -60,7 +64,7 @@ const ManagerApprovedDetail = () => {
     useEffect(() => {
         const fetchRequest = async () => {
             try {
-                const requestData = await axios.get(`http://localhost:8080/valuation/request/status/product-received/${id}`)
+                const requestData = await axios.get(`http://localhost:8080/valuation/view-manager-approved-detail/${id}`)
                 setValuationRequest(requestData.data)
             } catch (error) {
                 console.log("Error ai fetchRequest: ", error)
@@ -69,17 +73,17 @@ const ManagerApprovedDetail = () => {
         fetchRequest()
     }, [id])
 
-    useEffect(() => {
-        const fetchCategory = async () => {
-            try {
-                const categoryData = await axios.get(`http://localhost:8080/category/all`)
-                setCategories(categoryData.data)
-            } catch (error) {
-                console.log("Error fetchCategory: ", error)
-            }
-        }
-        fetchCategory()
-    }, [])
+    // useEffect(() => {
+    //     const fetchCategory = async () => {
+    //         try {
+    //             const categoryData = await axios.get(`http://localhost:8080/category/all`)
+    //             setCategories(categoryData.data)
+    //         } catch (error) {
+    //             console.log("Error fetchCategory: ", error)
+    //         }
+    //     }
+    //     fetchCategory()
+    // }, [])
 
     const handleInputChange = (e) => {
         const { name, value, files } = e.target
@@ -159,13 +163,16 @@ const ManagerApprovedDetail = () => {
                     <div className="mt-3">
                         <Link to={"/manager-approved-list"}><FaBackward /></Link>
                     </div>
-                    <h3 className='text-center mt-5'>Final Valuation Request Detail</h3>
+                    <h3 className='text-center mt-5' style={{ color: 'red' }}  >Final Valuation Request Detail</h3>
                     <div className="card">
                         <div className="card-body">
                             <p>Member ID: <strong>{valuationRequest.memberId}</strong></p>
-                            <p>Description: <strong>{valuationRequest.description}</strong></p>
-                            <p>Min Price: <strong>{valuationRequest.estimatePriceMin}</strong></p>
-                            <p>Max Price: <strong>{valuationRequest.estimatePriceMax}</strong></p>
+                            <p>Product Name: <strong>{valuationRequest.productName}</strong></p>
+                            <p>Product Description: <strong>{valuationRequest.productDescription}</strong></p>
+                            <p>Category: <strong>{valuationRequest.category}</strong></p>
+                            <p>Estimate Min Price: <strong>{valuationRequest.estimatePriceMinProduct}</strong></p>
+                            <p>Estimate Max Price: <strong>{valuationRequest.estimatePriceMaxProduct}</strong></p>
+       
                         </div>
                     </div>
                     <div className="mt-3">
