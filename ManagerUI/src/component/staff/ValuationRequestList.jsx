@@ -5,6 +5,9 @@ import { FaBackward } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import Paginator from '../common/Paginator'
 import { CircularProgress } from '@mui/material'
+import Sidebar from '../layout/sidebar/Sidebar'
+import '../home/home.scss'
+import Navbar from '../layout/navbar/Navbar'
 
 const ValuationRequestList = () => {
 
@@ -69,47 +72,51 @@ const ValuationRequestList = () => {
     const currentItems = valuationRequests.slice(indexOfFirstItem, indexOfLastItem)
 
     return (
-        <div className='container'>
-            <div className="row">
-                <div className="">
-                    <Link to={"/staff-function"}><FaBackward /></Link>
-                </div>
-                {/* {isLoading ? (
+        <div className='home'>
+            <Sidebar />
+            <div className="homeContainer">
+                <Navbar />
+                <div className="ms-5">
+                    <div className="">
+                        <Link to={"/staff-function"}><FaBackward /></Link>
+                    </div>
+                    {/* {isLoading ? (
                     <>
                         <CircularProgress />
                     </>
                 ) : ( */}
-                <div className="col-lg-3"></div>
-                <div className="col-lg-6">
-                    {currentItems.map((request) => (
-                        <div className="mb-3 mt-3" key={request.id}>
-                            <div className="card">
-                                <div className="card-body">
-                                    <p>Member Id: <strong>{request.memberId}</strong></p>
-                                    <p>Description: <strong>{request.description}</strong></p>
-                                    <div className="">
-                                        <Button className='btn-success'>
-                                            <Link to={`/valuation-request-detail/${request.id}`} style={{ color: 'white', textDecoration: 'none' }}>
-                                                Confirm Information
-                                            </Link>
-                                        </Button>
+                    <div className="col-lg-3"></div>
+                    <div className="col-lg-6">
+                        {currentItems.map((request) => (
+                            <div className="mb-3 mt-3" key={request.id}>
+                                <div className="card">
+                                    <div className="card-body">
+                                        <p>Member Id: <strong>{request.memberId}</strong></p>
+                                        <p>Description: <strong>{request.description}</strong></p>
+                                        <div className="">
+                                            <Button className='btn-success'>
+                                                <Link to={`/valuation-request-detail/${request.id}`} style={{ color: 'white', textDecoration: 'none' }}>
+                                                    Confirm Information
+                                                </Link>
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
+                        ))}
+                        <div className="flex align-items-center justify-content-center">
+                            <Paginator currentPage={currentPage}
+                                totalPages={calculateTotalPage(itemPerPage, valuationRequests)}
+                                onPageChange={handlePageChange}
+                            ></Paginator>
                         </div>
-                    ))}
-                    <div className="flex align-items-center justify-content-center">
-                        <Paginator currentPage={currentPage}
-                            totalPages={calculateTotalPage(itemPerPage, valuationRequests)}
-                            onPageChange={handlePageChange}
-                        ></Paginator>
                     </div>
+                    <div className="col-lg-3"></div>
+                    {/* )} */}
                 </div>
-                <div className="col-lg-3"></div>
-                {/* )} */}
-            </div>
-        </div >
+            </div >
+        </div>
     )
 }
 
