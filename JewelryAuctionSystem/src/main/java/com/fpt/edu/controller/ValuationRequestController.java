@@ -110,4 +110,12 @@ public class ValuationRequestController {
         return ResponseEntity.ok(valuationRequestService.getValuationResponse(id));
     }
 
+    @PostMapping("/confirm-final-valuation-by-member")
+    public ResponseEntity<Map<String, String>> confirmFinalValuation(@RequestParam("id") Integer id, // id response
+                                                                     @RequestParam("status") Boolean status ) { // status response
+
+        return ResponseEntity.ok(valuationRequestService.confirmFinalValuationByMember(id,status));
+    }
+
+
 }

@@ -4,6 +4,7 @@ import com.fpt.edu.entity.*;
 import com.fpt.edu.mapper.NotifyMapper;
 import com.fpt.edu.mapper.ProductMapper;
 import com.fpt.edu.repository.*;
+import com.fpt.edu.status.LotStatus;
 import com.fpt.edu.status.ValuationRequestStatus;
 import com.fpt.edu.mapper.ValuationRequestMapper;
 import jakarta.persistence.EntityNotFoundException;
@@ -51,6 +52,7 @@ public class ValuationRequestService implements IValuationRequestService{
     private final INotifyService iNotifyService;
     private final IResponseRequestValuationService iResponseRequestValuationService;
 
+    private final ILotRepository iLotRepository;
 
     @Override
     public ValuationRequestDTO create(Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax, Set<MultipartFile> files) {
@@ -287,6 +289,40 @@ public class ValuationRequestService implements IValuationRequestService{
             return map;
         }
     }
+
+    @Override
+    public Map<String,String> confirmFinalValuationByMember(Integer id, boolean status) { // id response
+
+        ResponseRequestValuation responseValuation = iResponseRequestValuationRepository.getReferenceById(id);
+        ValuationRequest valuationRequest = responseValuation.getValuationRequest();
+      //  int idValuationRequest = iResponseRequestValuationRepository.getReferenceById(id).getValuationRequest().getId();
+        System.out.println("idValuationRequest: " + valuationRequest.getId());
+        //ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
+        Map<String, String> response = new HashMap<>();
+        ResponseRequestValuation responseRequestValuation = iResponseRequestValuationRepository.getReferenceById(id);
+        if(status){
+            valuationRequest.setValuationStatus(ValuationRequestStatus.MEMBER_ACCEPTED);
+            iValuationRequestRepository.save(valuationRequest);
+
+            responseRequestValuation.setResponseValuationRequestStatus(ResponseValuationRequestStatus.ACCEPTED);
+            Product product = valuationRequest.getProduct();
+            List<Lot> lot = iLotRepository.findLotByProduct_Id(product.getId());
+            for (Lot l : lot) {
+                l.setStatus(LotStatus.READY);
+                iLotRepository.save(l);
+            }
+            response.put("message", "ValuationRequest with id: " + id + " has been confirmed by member");
+            return response;
+        } else {
+            responseRequestValuation.setResponseValuationRequestStatus(ResponseValuationRequestStatus.REJECTED);
+            valuationRequest.setValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED);
+            response.put("message", "ValuationRequest with id: " + id + " has been rejected by member");
+            return response;
+        }
+
+
+    }
+
 
     //Create Notify by specific format message
     private String createRequestTitle(ValuationRequest valuationRequest) {
