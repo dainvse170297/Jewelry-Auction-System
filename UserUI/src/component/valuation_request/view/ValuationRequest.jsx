@@ -2,11 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { FaBackward } from 'react-icons/fa'
-<<<<<<<< HEAD:UserUI/src/component/valuation_request/view/ValuationRequest.jsx
-import { Link } from 'react-router-dom'
-========
 import { Link, useParams } from 'react-router-dom'
->>>>>>>> duc-dat:UserUI/src/component/valuation_request/view_request/ValuationRequest.jsx
 import Paginator from '../../common/Paginator'
 
 export default function ValuationRequest() {
@@ -29,7 +25,7 @@ export default function ValuationRequest() {
         const getInfo = async () => {
 
             try {
-                axios.get(`http://localhost:8080/valuation/view-sent-request/${id}`).then((result) => {
+                axios.get(`http://localhost:8080/valuation/view-sent-request/2`).then((result) => {
                     setValuationRequest(result.data)
                 })
 
@@ -72,8 +68,8 @@ export default function ValuationRequest() {
                                     <p>Description: <strong>{request.description}</strong></p>
                                     <div className="">
                                         <Button className='btn-success'>
-                                            <Link to={`/valuation-response/${request.id}`} style={{ color: 'white', textDecoration: 'none' }}>
-                                                Confirm Information
+                                            <Link to={`/response-valuation-request/${request.id}`} style={{ color: 'white', textDecoration: 'none' }}>
+                                                Show response
                                             </Link>
                                         </Button>
                                     </div>

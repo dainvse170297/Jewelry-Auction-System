@@ -30,7 +30,7 @@ const AvatarDropdown = () =>{
                   </a>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/valuation-request">
+                  <a className="dropdown-item" href="/valuation-request/1">
                     <div className="px-1">
                       <Valuation/> My Valuation
                     </div>
@@ -53,7 +53,7 @@ const AvatarDropdown = () =>{
             </ul>
       </li>
     );
-
+}
 // Custom toggle to work with hover
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
   <a
