@@ -112,6 +112,12 @@ public class ValuationRequestController {
     public ResponseEntity<ProductDetailDTO> getDetailsProductById(@PathVariable  Integer id) {//valuation request id
         return ResponseEntity.ok(valuationRequestService.getProductDetail(id));
     }
+    
+    @GetMapping("/view-manager-approved-detail/{id}") // id valuation request
+    public ResponseEntity<ViewDetailValuationRequestFinalApprovedDTO> viewManagerApprovedDetail(@PathVariable Integer id) {
+        return ResponseEntity.ok(valuationRequestService.ViewDetailValuationRequestFinalApproved(id));
+    }
+
 
 
 }

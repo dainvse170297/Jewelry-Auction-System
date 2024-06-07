@@ -16,6 +16,7 @@ import ViewReadyLot from './component/manager/Lot/ViewReadyLot.jsx';
 import AddLotToSession from './component/manager/Session/AddLotToSession.jsx'
 import PreliminaryValuationList from './component/staff/PreliminaryValuationList.jsx';
 
+
 function App() {
 
   return (
@@ -37,10 +38,11 @@ function App() {
             <Route path='/create-auction' element={<CreateAuction />} />
             <Route path='/final-valuation-request-list' element={<FinalValuationRequestList />} />
             <Route path='/final-valuation-request-detail/:id' element={<FinalValuationRequestDetail />} />
-            <Route path='/manager-approved-List' element={<ManagerApprovedList />} />
+            <Route path='/manager-approved-list' element={<ManagerApprovedList />} />
             <Route path='/manager-approved-detail/:id' element={<ManagerApprovedDetail />} />
             <Route path='/ready-lots' element={<ViewReadyLot />} />
             <Route path='/add-session/:id' element={<AddLotToSession />} />
+
           </Routes>
         </div>
 

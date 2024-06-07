@@ -2,28 +2,16 @@ package com.fpt.edu.service;
 import com.fpt.edu.dto.*;
 import com.fpt.edu.entity.*;
 import com.fpt.edu.mapper.NotifyMapper;
-import com.fpt.edu.mapper.ProductMapper;
 import com.fpt.edu.repository.*;
-import com.fpt.edu.status.LotStatus;
 import com.fpt.edu.status.ValuationRequestStatus;
 import com.fpt.edu.mapper.ValuationRequestMapper;
-import jakarta.persistence.EntityNotFoundException;
-import com.fpt.edu.dto.ProductDTO;
-import com.fpt.edu.dto.ResponseRequestValuationDTO;
 import com.fpt.edu.dto.ValuationRequestDTO;
-import com.fpt.edu.entity.*;
-import com.fpt.edu.mapper.ProductMapper;
 import com.fpt.edu.mapper.ResponseValuationRequestMapper;
-import com.fpt.edu.repository.*;
 import com.fpt.edu.status.ResponseValuationRequestStatus;
-import com.fpt.edu.status.ValuationRequestStatus;
-import com.fpt.edu.mapper.ValuationRequestMapper;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.text.View;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
@@ -155,6 +143,7 @@ public class ValuationRequestService implements IValuationRequestService{
 
     @Override
     public List<FinalValuationRequestDTO> getListFinalValuationRequest() {
+
         return valuationRequestMapper.mapToFinalValuationRequestDTOList(
                 iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PENDING_MANAGER_APPROVAL));
     }
@@ -227,6 +216,9 @@ public class ValuationRequestService implements IValuationRequestService{
 
     @Override
     public List<FinalValuationRequestDTO> getListManagerApproveValuationRequest() {
+
+
+
         return valuationRequestMapper.mapToFinalValuationRequestDTOList(
                 iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.MANAGER_APPROVED));
     }
@@ -291,6 +283,13 @@ public class ValuationRequestService implements IValuationRequestService{
         status.put("Status:", "Notify has been sent to member");
         return status;
 
+    }
+
+    @Override
+    public ViewDetailValuationRequestFinalApprovedDTO ViewDetailValuationRequestFinalApproved(Integer id) {
+        ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
+        Product product = valuationRequest.getProduct();
+        return valuationRequestMapper.mapToViewDetailValuationRequestFinalApprovedDTO(valuationRequest, product);
     }
 
     //Create Notify by specific format message

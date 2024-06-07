@@ -25,5 +25,5 @@ public class ValuationRequestDTO {
     private String description;
     private Integer productId;
 //    private Integer responseRequestValuationsId;
-    private Set<Integer> valuationImages = new LinkedHashSet<>();
+    private Set<Integer> valuationImages;
 }
