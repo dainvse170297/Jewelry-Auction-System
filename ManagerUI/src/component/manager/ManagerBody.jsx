@@ -25,6 +25,11 @@ const ManagerBody = () => {
                             View Ready Lots
                         </Link>
                     </div>
+                    <div className="">
+                        <Link to={'/final-valuation-request-list'} style={{ textDecoration: 'none' }}>
+                            View Final Valuation Requests
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

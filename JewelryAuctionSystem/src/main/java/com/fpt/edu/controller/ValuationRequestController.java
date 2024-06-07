@@ -37,13 +37,13 @@ public class ValuationRequestController {
 
     @GetMapping("/requested")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<List<ValuationRequestDTO>> getRequestedValuationRequest() {
+    public ResponseEntity<List<ValuationRequestDetailDTO>> getRequestedValuationRequest() {
         return ResponseEntity.ok(valuationRequestService.getRequestedValuationRequest());
     }
 
     @PostMapping("/product-received")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<ValuationRequestDTO> productReceived(@RequestParam("id") Integer id) {
+    public ResponseEntity<ValuationRequestDTO> productReceived(@RequestParam("id") Integer id) {//valuation request id
         return ResponseEntity.ok(valuationRequestService.productReceived(id));
     }
 
@@ -55,6 +55,12 @@ public class ValuationRequestController {
                                                                     @RequestParam("estimateMax") BigDecimal estimateMax,
                                                                     @RequestParam("staffId") Integer staffId) {
         return ResponseEntity.ok(valuationRequestService.preliminaryValuation(id, estimatePrice, estimateMax, staffId));
+    }
+
+    @GetMapping("/get-preliminary-valuation")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<List<ValuationRequestDetailDTO>> getPreliminaryValuationRequest() {
+        return ResponseEntity.ok(valuationRequestService.getPreliminaryValuationRequest());
     }
 
     @GetMapping("/request/status/product-received")

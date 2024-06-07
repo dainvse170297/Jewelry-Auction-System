@@ -2,7 +2,11 @@ package com.fpt.edu.mapper;
 
 import com.fpt.edu.dto.FinalValuationRequestDTO;
 import com.fpt.edu.dto.ValuationRequestDTO;
+
 import com.fpt.edu.dto.ViewDetailValuationRequestFinalApprovedDTO;
+
+import com.fpt.edu.dto.ValuationRequestDetailDTO;
+
 import com.fpt.edu.dto.ViewValuationRequestDTO;
 import com.fpt.edu.entity.*;
 import com.fpt.edu.repository.IMemberRepository;
@@ -53,7 +57,27 @@ public class ValuationRequestMapper {
                 valuationImageMapper.mapToValuationImageIdList(valuationRequest.getValuationImages())
         );
     }
+    public ValuationRequestDetailDTO mapToValuationRequestDetailDTO(ValuationRequest valuationRequest){
+//        ResponseRequestValuation responseRequestValuation = valuationRequest.getResponseRequestValuations();
+//        Integer responseRequestValuationId = responseRequestValuation == null ? null : responseRequestValuation.getId();
+        Integer productId = valuationRequest.getProduct() == null ? null : valuationRequest.getProduct().getId();
+        return new ValuationRequestDetailDTO(
+                valuationRequest.getId(),
+                valuationRequest.getMember().getId(),
+                valuationRequest.getTimeRequest(),
+                valuationRequest.getValuationStatus(),
+                valuationRequest.getEstimatePriceMax(),
+                valuationRequest.getEstimatePriceMin(),
+                valuationRequest.getDescription(),
+                productId,
+//                responseRequestValuationId,
+                valuationImageMapper.toValuationImageUrls(valuationRequest.getValuationImages())
+        );
+    }
 
+    public List<ValuationRequestDetailDTO> mapToValuationRequestDetailDTOList(List<ValuationRequest> valuationRequests){
+        return valuationRequests.stream().map(this::mapToValuationRequestDetailDTO).toList();
+    }
     // ham nay khong thay dung nay be Dai oi
     public ValuationRequest mapToValuationRequest(ValuationRequestDTO valuationRequestDTO){
         return new ValuationRequest(

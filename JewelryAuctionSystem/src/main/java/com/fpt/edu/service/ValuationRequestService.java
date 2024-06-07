@@ -74,8 +74,23 @@ public class ValuationRequestService implements IValuationRequestService{
     }
 
     @Override
-    public List<ValuationRequestDTO> getRequestedValuationRequest() {
-        return valuationRequestMapper.mapToValuationRequestDTOList(iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.REQUESTED));
+    public List<ValuationRequestDetailDTO> getRequestedValuationRequest() {
+        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.REQUESTED);
+        for (ValuationRequest valuationRequest : valuationRequests) {
+            Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
+            valuationRequest.setValuationImages(valuationImages);
+        }
+        return valuationRequestMapper.mapToValuationRequestDetailDTOList(valuationRequests);
+    }
+
+    @Override
+    public List<ValuationRequestDetailDTO> getPreliminaryValuationRequest() {
+        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PRELIMINARY_VALUATED);
+        for (ValuationRequest valuationRequest : valuationRequests) {
+            Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
+            valuationRequest.setValuationImages(valuationImages);
+        }
+        return valuationRequestMapper.mapToValuationRequestDetailDTOList(valuationRequests);
     }
 
     @Override
