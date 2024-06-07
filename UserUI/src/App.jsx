@@ -8,9 +8,6 @@ import Selling from './component/selling/Selling.jsx';
 import ResponseValuationRequest from './component/valuation_request/response/ValuationResponseList.jsx';
 import ValuationRequest from './component/valuation_request/view/ValuationRequest.jsx';
 
-import ResponseValuationRequest from './component/valuation_request/response/ValuationResponseList.jsx';
-import ValuationRequest from './component/valuation_request/view/ValuationRequest.jsx';
-
 function App() {
 
   return (

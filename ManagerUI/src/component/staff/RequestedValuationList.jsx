@@ -18,7 +18,9 @@ const RequestedValuationList = () => {
 
     const [isLoading, setIsLoading] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
-    const [itemPerPage, setItemPerPage] = useState(5)
+    const [itemPerPage, setItemPerPage] = useState(10)
+
+    const [currentItemsDetail, setCurrentItemsDetail] = useState(null)
 
 
     const handlePageChange = (pageNumber) => {
@@ -46,6 +48,11 @@ const RequestedValuationList = () => {
         getAll()
 
     }, [])
+
+    const handleDetail = (item) => {
+        console.log("Detail: ", item)
+        setCurrentItemsDetail(item)
+    }
 
     const handleConfirm = async (e) => {
         try {
@@ -89,38 +96,113 @@ const RequestedValuationList = () => {
             <div className="homeContainer">
                 <Navbar />
                 <div className="ms-5">
+                    
                     <div className="">
                         <Link to={"/staff-function"}><FaBackward /></Link>
                     </div>
-                    {/* {isLoading ? (
-                    <>
-                        <CircularProgress />
-                    </>
-                ) : ( */}
-                    <div className="col-lg-3"></div>
-                    <div className="col-lg-6">
-                        {currentItems.map((request) => (
-                            <div className="mb-3 mt-3" key={request.id}>
-                                <div className="card">
-                                    <div className="card-body">
-                                        <p>Member Id: <strong>{request.memberId}</strong></p>
-                                        <p>Description: <strong>{request.description}</strong></p>
-                                        <div className="">
-                                            <Button className='btn-success' value={request.id} onClick={handleConfirm}>
-                                                    Confirm information
-                                            </Button>
-                                        </div>
+                    
+                    <div className="col">
+                        <div className="row">
+                            <div className="col-sm-7 text-center">
+                                <h2>Requested valuation request</h2>
+                                <div className="row">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">From</th>
+                                            <th scope="col">Time</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {/* <tr>
+                                                <th scope="row">1</th>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                            </tr> */}
+                                            {currentItems.map((request, key) => (
+                                                <>
+                                                
+                                                    <>
+                                                    
+                                                    <tr>                                                       
+                                                        <th scope="row">{key+1}</th>
+                                                        <td>Member {request.memberId}</td>
+                                                        <td>{request.timeRequest}</td>
+                                                        <td>{request.valuationStatus}</td>
+                                                        <td>
+                                                            <button onClick={() => handleDetail(request)} className="btn btn-primary" type="button">
+                                                                Detail
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    </>
+                                                    {/* <div className="card">
+                                                        <div className="card-body"> */}
+                                                            {/* <p>Member Id: <strong>{request.memberId}</strong></p>
+                                                            <p>Description: <strong>{request.description}</strong></p>
+                                                            <div className="">
+                                                                <Button className='btn-success' value={request.id} onClick={handleConfirm}>
+                                                                        Confirm information
+                                                                </Button> */}
+                                                            {/* </div>
+                                                        </div> */}
+                                                    {/* </div> */}
+
+                                                {/* // </div> */}
+                                                </>
+                                            ))}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div className="row">
+                                    <div className="flex align-items-center justify-content-center">
+                                        <Paginator currentPage={currentPage}
+                                            totalPages={calculateTotalPage(itemPerPage, valuationRequests)}
+                                            onPageChange={handlePageChange}
+                                        ></Paginator>
                                     </div>
                                 </div>
 
                             </div>
-                        ))}
-                        <div className="flex align-items-center justify-content-center">
-                            <Paginator currentPage={currentPage}
-                                totalPages={calculateTotalPage(itemPerPage, valuationRequests)}
-                                onPageChange={handlePageChange}
-                            ></Paginator>
+
+                            <div className="col-sm-5">
+                                <h3 className='text-center'>Valuation request detail</h3>
+                                <div className="row px-5">
+                                    {/* <div class="collapse" id="itemDetail"> */}
+                                        {currentItemsDetail && (
+                                            <>
+                                                <div class="card card-body">
+                                                    <p>Member Id: <strong>{currentItemsDetail.memberId}</strong></p>
+                                                    <p>Description: <strong>{currentItemsDetail.description}</strong></p>
+                                                    <div className="d-flex justify-content-center">
+                                                        <Button className='btn-success' value={currentItemsDetail.id} onClick={handleConfirm}>
+                                                            Confirm information
+                                                        </Button>
+                                                        <Button className='btn-danger ms-2' value={currentItemsDetail.id} onClick={handleConfirm}>
+
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        )}
+                                </div>
+                                
+                            </div>
                         </div>
+
+                    
+                    </div>
+
+                    <div className="col-lg-3"></div>
+                    <div className="col-lg-6">
+                        
+                       
                     </div>
                     <div className="col-lg-3"></div>
                     {/* )} */}
