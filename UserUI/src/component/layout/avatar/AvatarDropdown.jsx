@@ -14,7 +14,7 @@ const AvatarDropdown = () => {
   const navigate = useNavigate();
 
   const navigateToValuationRequest = () => {
-    navigate('/valuation-request/2');
+    navigate('/valuation-request/1');
   }
 
   return (

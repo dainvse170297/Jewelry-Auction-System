@@ -63,10 +63,6 @@ export default function CreateValuation(){
 
     async function Create (e) {
         e.defaultPrevented
-        console.log(valuation.description)
-        console.log(valuation.estimateMin)
-        console.log(valuation.estimateMax)
-        console.log(valuation.memberId)
 
         try{
 

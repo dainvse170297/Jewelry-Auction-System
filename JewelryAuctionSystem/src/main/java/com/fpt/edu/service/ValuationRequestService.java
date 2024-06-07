@@ -40,6 +40,8 @@ public class ValuationRequestService implements IValuationRequestService{
     private final IResponseRequestValuationService iResponseRequestValuationService;
     private final ProductService productService;
 
+    private final ResponseValuationRequestService responseValuationRequestService;
+
 
     @Override
     public ValuationRequestDTO create(Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax, Set<MultipartFile> files) {
@@ -231,7 +233,7 @@ public class ValuationRequestService implements IValuationRequestService{
 
 
     @Override
-    public List<Map<String,String>> sendFinalValuationToMember(Integer id) {
+    public List<Map<String,String>> sendFinalValuationToMember(Integer id, Integer staffId) {
         // Find the ValuationRequest with the given id
         Optional<ValuationRequest> valuationRequestOpt = iValuationRequestRepository.findById(id);
         List<Map<String, String>> responseList = new ArrayList<>();
@@ -253,6 +255,14 @@ public class ValuationRequestService implements IValuationRequestService{
 
                 response.put("message", "ValuationRequest with id: " + id + " has been sent to member for acceptance");
                 responseList.add(response);
+
+                responseValuationRequestService.insertResponseRequestValuation(
+                        ResponseValuationRequestStatus.FINAL,
+                        valuationRequest.getEstimatePriceMin(),
+                        valuationRequest.getEstimatePriceMax(),
+                        iStaffRepository.getReferenceById(staffId),
+                        valuationRequest
+                );
 
                 return responseList;
             } else {

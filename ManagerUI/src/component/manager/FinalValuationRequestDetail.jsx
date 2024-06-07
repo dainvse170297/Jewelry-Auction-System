@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaBackward } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
-import { Button } from 'react-bootstrap'
+import { Button, Carousel } from 'react-bootstrap'
 import Paginator from '../common/Paginator'
 import '../home/home.scss'
 import Sidebar from '../layout/sidebar/Sidebar'
@@ -70,23 +70,33 @@ export default function FinalValuationRequestDetail() {
                         <p>Estimate price min: <strong>{ProductInfo.estimatePriceMin}</strong></p>
                         <p>Estimate price max: <strong>{ProductInfo.estimatePriceMax}</strong></p>
                         <p>Product image: </p>
-                            {ProductInfo.productImages && ProductInfo.productImages.map((item, index) => (
-                                <>
-                                    <img style={{width:"200px"}} key={index} src={item.imageUrl} />
-                                </>
-                            ))}
+                            <div className="col-sm-3">
+                                <Carousel>
+                                    {ProductInfo.productImages && ProductInfo.productImages.map((item, index) => (
+
+                                        <Carousel.Item key={index}>
+                                            <img
+                                                // className="d-block w-100"
+                                                src={item.imageUrl}
+                                                alt={'photo'}
+                                                style={{ height: '300px', width: '100%' }}
+                                            />
+                                        </Carousel.Item>
+
+                                    ))}
+                                </Carousel>
+                            </div>
+                            
                     </div>
-                    <div className="">
-                        <Button className='btn-success' onClick={handleApprove}>
-                            Confirm
-                        </Button>
-                    </div>
-                    <div className="">
-                        <Button className='btn-success'>
-                            <Link to={`/cancel-final-valuation/${ProductInfo.productId}`} style={{ color: 'red', textDecoration: 'none' }}>
+                    <div className="col-sm-4 mt-3">
+                        <div className="d-flex justify-content-center">
+                            <Button className='btn-success mx-3' onClick={handleApprove}>
+                                Approve
+                            </Button>
+                            <Button className='btn-danger mx-3'>
                                 Reject
-                            </Link>
-                        </Button>
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -89,9 +89,10 @@ public class ValuationRequestController {
         return ResponseEntity.ok(valuationRequestService.CancelFinalValuationRequest(id));
     }
     //bao gom sendNotifyToMember service
-    @PostMapping("/send-final-valuation-to-member/{id}")
-    public ResponseEntity<List<Map<String,String>>> sendFinalValuationToMember(@PathVariable Integer id) {
-        return ResponseEntity.ok(valuationRequestService.sendFinalValuationToMember(id));
+    @PostMapping("/send-final-valuation-to-member")
+    public ResponseEntity<List<Map<String,String>>> sendFinalValuationToMember(@RequestParam Integer id, //valauation request id
+                                                                                @RequestParam Integer staffId) {
+        return ResponseEntity.ok(valuationRequestService.sendFinalValuationToMember(id, staffId));
     }
 
     @GetMapping("/get-all-valuation-manager-approved")

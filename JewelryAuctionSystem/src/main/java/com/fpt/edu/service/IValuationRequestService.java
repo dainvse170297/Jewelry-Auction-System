@@ -33,7 +33,7 @@ public interface IValuationRequestService {
 
     public List<FinalValuationRequestDTO> getListManagerApproveValuationRequest();
 
-    public List<Map<String,String>> sendFinalValuationToMember(Integer id);
+    public List<Map<String,String>> sendFinalValuationToMember(Integer id, Integer staffId);
 
     public Map<String,String> sendNotifyToMember(ValuationRequest valuationRequest, Product product);
 
