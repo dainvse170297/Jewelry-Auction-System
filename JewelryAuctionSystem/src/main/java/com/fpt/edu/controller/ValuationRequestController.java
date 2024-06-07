@@ -57,6 +57,12 @@ public class ValuationRequestController {
         return ResponseEntity.ok(valuationRequestService.preliminaryValuation(id, estimatePrice, estimateMax, staffId));
     }
 
+    @GetMapping("/get-preliminary-valuation")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<List<ValuationRequestDetailDTO>> getPreliminaryValuationRequest() {
+        return ResponseEntity.ok(valuationRequestService.getPreliminaryValuationRequest());
+    }
+
     @GetMapping("/request/status/product-received")
     public ResponseEntity<List<ValuationRequestDTO>> getRequestStatusProductReceived() {
         return ResponseEntity.ok(valuationRequestService.getRequestStatusProductReceived());

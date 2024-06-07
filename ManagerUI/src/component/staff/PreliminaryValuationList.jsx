@@ -8,37 +8,13 @@ import Sidebar from '../layout/sidebar/Sidebar'
 import '../home/home.scss'
 import Navbar from '../layout/navbar/Navbar'
 import {ToastContainer, toast } from 'react-toastify'
-import Form from 'react-bootstrap/Form';
 
-const RequestedValuationList = () => {
+const PreliminaryValuationList = () => {
 
     const [valuationRequests, setValuationRequests] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [itemPerPage, setItemPerPage] = useState(10)
     const [currentItemsDetail, setCurrentItemsDetail] = useState(null)
-    const [preliminaryValuation, setPreliminaryValuation] = useState({
-        id: '',
-        estimateMin: '',
-        estimateMax: '',
-    })
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target
-        setPreliminaryValuation({
-            ...preliminaryValuation,
-            [name]: value
-        })
-    }
-
-    const handleBlur = (e) => {
-        const { name, value } = e.target
-        if (value.trim() === '') {
-            if (name === 'estimateMin')
-            toast.error(`Estimate minimum price is required`)
-            if (name === 'estimateMax')
-            toast.error(`Estimate maximum price is required`)
-        }
-    }
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber)
@@ -50,7 +26,7 @@ const RequestedValuationList = () => {
         const getAll = async () => {
 
             try {
-                axios.get("http://localhost:8080/valuation/requested").then((result) => {
+                axios.get("http://localhost:8080/valuation/get-preliminary-valuation").then((result) => {
                     setValuationRequests(result.data)
                 })
             } catch (error) {
@@ -64,30 +40,19 @@ const RequestedValuationList = () => {
     const handleDetail = (item) => {
         console.log("Detail: ", item)
         setCurrentItemsDetail(item)
-        setPreliminaryValuation({
-            id: item.id,
-            estimateMin: '',
-            estimateMax: ''
-        })
     }
 
     const handleConfirm = async (e) => {
         try {
             const formData = new FormData()
 
-            formData.append('id', preliminaryValuation.id)
-            formData.append('estimateMin', preliminaryValuation.estimateMin)
-            formData.append('estimateMax', preliminaryValuation.estimateMax)
-            
-            //Default staff id
-            formData.append('staffId',1)
+            formData.append('id', currentItemsDetail.id)
 
-
-            const response = await axios.post(`http://localhost:8080/valuation/preliminary-valuation`, formData);
+            const response = await axios.post(`http://localhost:8080/valuation/product-received`, formData);
             
-            if (response.status === 200 && response.data.valuationStatus === "PRELIMINARY_VALUATED") {
+            if (response.status === 200 && response.data.valuationStatus === "PRODUCT_RECEIVED") {
                 console.log("Success")
-                toast.success("Preliminary successfully")
+                toast.success("Confirm product received successfully")
                 setValuationRequests(valuationRequests.filter((request) => request.id !== response.data.id))
                 setCurrentItemsDetail(null)
             }else{
@@ -96,7 +61,7 @@ const RequestedValuationList = () => {
 
         } catch (error) {
             console.log("Error:", error.message)
-            toast.error("Error when sending preliminary valuation")
+            toast.error("Error when confirm product received")
         }
     }
 
@@ -182,51 +147,11 @@ const RequestedValuationList = () => {
                                                     <p>Estimate Minimum Price: <strong>{currentItemsDetail.estimatePriceMin}$</strong></p>
                                                     <p>Estimate Maximum Price: <strong>{currentItemsDetail.estimatePriceMax}$</strong></p>
                                                     <div className="col">
-                                                        <div className="row mb-4">
-                                                            <span className='text-center'><strong>Preliminary valuation for request</strong></span>
-                                                        </div>
-                                                        <div className="row mb-3 mx-2 d-flex justify-content-center">
-                                                            <div className="col-sm-6">
-                                                                <Form.Label htmlFor="estimateMin">New Minimum Price <span style={{ color: 'red' }}>*</span></Form.Label>
-                                                            </div>
-                                                            <div className="col-sm-6">
-                                                                <Form.Control
-                                                                        type="number"
-                                                                        id="estimateMin"
-                                                                        aria-describedby="passwordHelpBlock"
-                                                                        name='estimateMin'
-                                                                        value={preliminaryValuation.estimateMin}
-                                                                        onChange={handleInputChange}
-                                                                        onBlur={handleBlur}
-                                                                />
-                                                            </div>
-                                                            
-                                                        </div>
-                                                        <div className="row mb-3 mx-2 d-flex justify-content-center">
-                                                            <div className="col-sm-6">
-                                                                <Form.Label htmlFor="estimateMax">New Maximum Price <span style={{ color: 'red' }}>*</span></Form.Label>
-                                                            </div>
-                                                            <div className="col-sm-6">
-                                                                <Form.Control
-                                                                        type="number"
-                                                                        id="estimateMax"
-                                                                        aria-describedby="passwordHelpBlock"
-                                                                        name='estimateMax'
-                                                                        value={preliminaryValuation.estimateMax}
-                                                                        onChange={handleInputChange}
-                                                                        onBlur={handleBlur}
-                                                                />
-                                                            </div>
-                                                            
-                                                        </div>
-                                                        
                                                         <div className="row-sm-9 d-flex justify-content-center">
                                                             <Button className='btn-success' onClick={handleConfirm}>
-                                                                Send preliminary valuation
+                                                                Confirm product received
                                                             </Button>
-                                                            
                                                         </div>
-                                                        
                                                     </div>
                                                 </div>
                                             </>
@@ -235,21 +160,12 @@ const RequestedValuationList = () => {
                                 
                             </div>
                         </div>
-
-                    
                     </div>
 
-                    <div className="col-lg-3"></div>
-                    <div className="col-lg-6">
-                        
-                       
-                    </div>
-                    <div className="col-lg-3"></div>
-                    {/* )} */}
                 </div>
             </div >
         </div>
     )
 }
 
-export default RequestedValuationList
+export default PreliminaryValuationList

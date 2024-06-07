@@ -15,6 +15,8 @@ public interface IValuationRequestService {
 
     public List<ValuationRequestDetailDTO> getRequestedValuationRequest();
 
+    public List<ValuationRequestDetailDTO> getPreliminaryValuationRequest();
+
     public ValuationRequestDTO productReceived(Integer id);
 
     public List<ValuationRequestDTO> getRequestStatusProductReceived();

@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Home from './component/home/Home.jsx';
 import StaffBody from './component/staff/StaffBody'
 import RequestedValuationList from './component/staff/RequestedValuationList.jsx'
-import RequestedValuationDetail from './component/staff/RequestedValuationDetail.jsx'
 import ValuationRequestProductReceivedList from './component/staff/ValuationRequestProductReceivedList.jsx'
 import StaffFunction from './component/staff/StaffFunction'
 import ValuationRequestDetail from './component/staff/ValuationRequestDetail'
@@ -15,6 +14,7 @@ import ManagerApprovedList from './component/staff/ManagerApprovedList.jsx';
 import ManagerApprovedDetail from './component/staff/ManagerApprovedDetail.jsx';
 import ViewReadyLot from './component/manager/Lot/ViewReadyLot.jsx';
 import AddLotToSession from './component/manager/Session/AddLotToSession.jsx'
+import PreliminaryValuationList from './component/staff/PreliminaryValuationList.jsx';
 
 function App() {
 
@@ -29,7 +29,7 @@ function App() {
             <Route path='/staff' element={<StaffBody />} />
             <Route path='/staff-function' element={<StaffFunction />} />
             <Route path='/requested-valuation' element={<RequestedValuationList />} />
-            <Route path='/requested-valuation-detail/:id' element={<RequestedValuationDetail />} />
+            <Route path='/preliminary-valuation' element={<PreliminaryValuationList />} />
             <Route path='/valuation-request-received' element={<ValuationRequestProductReceivedList />} />
             <Route path='/valuation-request' element={<ValuationRequestProductReceivedList />} />
             <Route path='/valuation-request-detail/:id' element={<ValuationRequestDetail />} />

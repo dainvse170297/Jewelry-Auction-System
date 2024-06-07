@@ -3,6 +3,8 @@ import axios from 'axios'
 import { useParams, Link } from 'react-router-dom'
 import './valuationResponseList.scss'
 import DownIcon from '@mui/icons-material/FileDownload';
+import { ToastContainer, toast } from 'react-toastify';
+import { Toast } from 'react-bootstrap';
 
 const ValuationResponseList = () => {
     const { id } = useParams()
@@ -58,18 +60,18 @@ const ValuationResponseList = () => {
 
             const re = await axios.post(`http://localhost:8080/response/confirm-final-valuation-by-member`, param)
             console.log(re.data)
-            console.log("okkkkkkkkkkkkkkkkkkkkkkkkkk")
             setMessage(inpStatus ? 'Accepted' : 'Rejected')
             setConfirm(true)
+            toast.success('Success confirm')
         } catch (error) {
+            toast.error('Something went wrong!')
             console.log("Error at fetchRequest: ", error)
         }
-        console.log('Confirm')
-
     }
 
     return (
         <div>
+            <ToastContainer />
             {data && (
                 <div className='valuationResponseList container-fluid'>
                     <div className="row d-flex justify-content-center">

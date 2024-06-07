@@ -9,6 +9,7 @@ import Navbar from '../../layout/navbar/Navbar'
 import Sidebar from '../../layout/sidebar/Sidebar'
 import ShowAuctionSessionDetail from './ShowAuctionSessionDetail'
 import './style.scss'
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddLotToSession = () => {
 
@@ -89,10 +90,14 @@ const AddLotToSession = () => {
     }
 
     return (
+        <>
+        
         <div className='home'>
+            
             <Sidebar />
             <div className="homeContainer">
                 <Navbar />
+                <ToastContainer />
                 <div className="ms-5 me-5">
                     <div className="mt-3">
                         <Link to={"/ready-lots"}><FaBackward /></Link>
@@ -170,8 +175,8 @@ const AddLotToSession = () => {
                     </form>
                 </div>
             </div>
-            <ToastContainer />
         </div>
+        </>
     )
 }
 
