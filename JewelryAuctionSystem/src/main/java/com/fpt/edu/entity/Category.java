@@ -29,4 +29,9 @@ public class Category {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
     private Set<Product> products = new LinkedHashSet<>();
 
+    public Category(int id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
 }

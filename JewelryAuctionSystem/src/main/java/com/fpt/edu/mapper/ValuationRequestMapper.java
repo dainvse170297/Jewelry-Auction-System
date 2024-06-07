@@ -58,7 +58,7 @@ public class ValuationRequestMapper {
     public ValuationRequest mapToValuationRequest(ValuationRequestDTO valuationRequestDTO){
         return new ValuationRequest(
                 valuationRequestDTO.getId(),
-                iMemberRepository.getReferenceById(valuationRequestDTO.getMemberId()),
+                iMemberRepository.getReferenceById(valuationRequestDTO.getId()),
                 valuationRequestDTO.getTimeRequest(),
                 valuationRequestDTO.getValuationStatus(),
                 valuationRequestDTO.getEstimatePriceMax(),

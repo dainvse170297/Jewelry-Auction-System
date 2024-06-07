@@ -30,4 +30,8 @@ public class Staff {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "staff")
     private Set<ResponseRequestValuation> responseRequestValuations= new LinkedHashSet<>();
 
+
+    public Staff(Integer id) {
+        this.id = id;
+    }
 }

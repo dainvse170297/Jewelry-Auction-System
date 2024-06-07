@@ -9,7 +9,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Data
-@NoArgsConstructor
+
 @AllArgsConstructor
 @Entity
 @Table(name = "member")
@@ -58,5 +58,21 @@ public class Member {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     private Set<ValuationRequest> valuationRequests = new LinkedHashSet<>();
+
+    public Member() {
+    }
+
+    public Member(Integer id, CreditCard creditCard, BigDecimal financialProofAmount, String email, String fullname, String address, String phone) {
+        this.id = id;
+        this.creditCard = creditCard;
+        this.financialProofAmount = financialProofAmount;
+        this.email = email;
+        this.fullname = fullname;
+        this.address = address;
+        this.phone = phone;
+
+    }
+
+
 
 }

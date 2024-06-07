@@ -1,7 +1,5 @@
 package com.fpt.edu.dto;
 
-import com.fpt.edu.entity.Member;
-import com.fpt.edu.entity.Product;
 import com.fpt.edu.status.ValuationRequestStatus;
 import lombok.*;
 
@@ -9,14 +7,15 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
-public class ValuationRequestDTO {
+public class ValuationRequestDTO1 {
+
     private int id;
-    private Integer memberId;
+    private MemberDTO1 memberDTO1;
     private LocalDate timeRequest;
     private ValuationRequestStatus valuationStatus;
     private BigDecimal estimatePriceMax;
@@ -26,16 +25,17 @@ public class ValuationRequestDTO {
     private Integer responseRequestValuationsId;
     private Set<Integer> valuationImages = new LinkedHashSet<>();
 
-    public ValuationRequestDTO(int id, Integer memberId, LocalDate timeRequest, ValuationRequestStatus valuationStatus, BigDecimal estimatePriceMax, BigDecimal estimatePriceMin, String description, Integer productId, Integer responseRequestValuationsId, Set<Integer> valuationImages) {
+
+
+    public ValuationRequestDTO1(Integer id, MemberDTO1 memberDTO1, LocalDate timeRequest, ValuationRequestStatus valuationStatus, BigDecimal estimatePriceMax, BigDecimal estimatePriceMin, String description) {
         this.id = id;
-        this.memberId = memberId;
+        this. memberDTO1 = memberDTO1;
         this.timeRequest = timeRequest;
         this.valuationStatus = valuationStatus;
         this.estimatePriceMax = estimatePriceMax;
         this.estimatePriceMin = estimatePriceMin;
         this.description = description;
-        this.productId = productId;
-        this.responseRequestValuationsId = responseRequestValuationsId;
-        this.valuationImages = valuationImages;
+
+
     }
 }

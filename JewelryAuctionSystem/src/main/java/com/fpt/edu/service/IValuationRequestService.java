@@ -1,10 +1,8 @@
 package com.fpt.edu.service;
 
-import com.fpt.edu.dto.FinalValuationRequestDTO;
-import com.fpt.edu.dto.ProductDTO;
-import com.fpt.edu.dto.ValuationRequestDTO;
-import com.fpt.edu.dto.ViewValuationRequestDTO;
+import com.fpt.edu.dto.*;
 import com.fpt.edu.entity.Product;
+import com.fpt.edu.status.ValuationRequestStatus;
 import org.springframework.web.multipart.MultipartFile;
 import com.fpt.edu.entity.ValuationRequest;
 
@@ -28,17 +26,19 @@ public interface IValuationRequestService {
 
     public List<FinalValuationRequestDTO> getListFinalValuationRequest();
 
-    public Map<String,String> ApproveFinalValuationRequest(Integer id);
+    public Map<String, String> ApproveFinalValuationRequest(Integer id);
 
-    public Map<String,String> CancelFinalValuationRequest(Integer id);
+    public Map<String, String> CancelFinalValuationRequest(Integer id);
 
     public List<FinalValuationRequestDTO> getListManagerApproveValuationRequest();
 
-    public List<Map<String,String>> sendFinalValuationToMember(Integer id);
+    public List<Map<String, String>> sendFinalValuationToMember(Integer id);
 
-    public Map<String,String> sendNotifyToMember(ValuationRequest valuationRequest, Product product);
+    public Map<String, String> sendNotifyToMember(ValuationRequest valuationRequest, Product product);
 
     public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId);
 
+    public List<ValuationRequestDTO1> getRequestedValuationRequestByMemberStatusReceive(ValuationRequestStatus status);
 
+    public ValuationRequestDTO1 getValuationRequestById(Integer id);
 }

@@ -46,4 +46,16 @@ public class AuctionSession {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "auctionSession")
     private Set<Lot> lots = new LinkedHashSet<>();
 
+    public AuctionSession(Integer id, Staff staff, LocalDate startingBid, LocalDate startTime, LocalDate endTime, String name, String description, AuctionSessionStatus status) {
+        this.id = id;
+        this.staff = staff;
+        this.startingBid =startingBid;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+
+
+    }
 }

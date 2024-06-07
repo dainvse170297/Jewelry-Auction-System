@@ -41,4 +41,12 @@ public class Lot {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "lot")
     private Set<Bid> bids = new LinkedHashSet<>();
 
+    public Lot(Integer id, Product product, AuctionSession auctionSession, BigDecimal currentPrice, LotStatus status) {
+     this.id = id;
+     this.product = product;
+     this.auctionSession = auctionSession;
+     this.currentPrice = currentPrice;
+     this.status = status;
+
+    }
 }

@@ -3,7 +3,9 @@ package com.fpt.edu.service;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.fpt.edu.dto.ProductDTO;
+import com.fpt.edu.dto.ProductDTO1;
 import com.fpt.edu.entity.*;
+import com.fpt.edu.mapper.ProductM;
 import com.fpt.edu.mapper.ProductMapper;
 import com.fpt.edu.repository.*;
 import com.fpt.edu.status.LotStatus;
@@ -100,5 +102,12 @@ public class ProductService implements IProductService {
         }
 
 
+    }
+
+    @Override
+    public ProductDTO1 createProduct(ProductDTO1 productDTO1) {
+        Product newProduct = ProductM.mapToEntity(productDTO1);
+        newProduct = productRepository.save(newProduct);
+        return ProductM.mapToDTO(newProduct);
     }
 }

@@ -52,4 +52,13 @@ public class ValuationRequest {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "request")
     private Set<ValuationImage> valuationImages = new LinkedHashSet<>();
 
+    public ValuationRequest(int id, Member member, LocalDate timeRequest, ValuationRequestStatus valuationStatus, BigDecimal estimatePriceMax, BigDecimal estimatePriceMin, String description) {
+        this.id = id;
+        this.member = member;
+        this.timeRequest = timeRequest;
+        this.valuationStatus = valuationStatus;
+        this.estimatePriceMax = estimatePriceMax;
+        this.estimatePriceMin = estimatePriceMin;
+        this.description = description;
+    }
 }

@@ -47,4 +47,17 @@ public class Product {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private List<ProductImage> productImages = new ArrayList<>();
 
+
+
+
+
+    public Product(int id, Category category, String name, String description, BigDecimal estimatePriceMax, BigDecimal estimatePriceMin) {
+            this.id = id;
+            this.category = category;
+            this.name = name;
+            this.description = description;
+            this.estimatePriceMax = estimatePriceMax;
+            this.estimatePriceMin = estimatePriceMin;
+
+    }
 }

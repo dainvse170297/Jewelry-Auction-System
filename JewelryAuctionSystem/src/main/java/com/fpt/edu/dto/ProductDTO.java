@@ -14,11 +14,14 @@ import java.util.List;
 public class ProductDTO
 {
     private Integer productId;
-    private Integer valuationRequestId;
+    private int valuationRequestDTO;
     private String categoryName;
     private String nameProduct;
     private String description;
     private BigDecimal estimatePriceMin;
     private BigDecimal estimatePriceMax;
     private List<ProductImage> productImages;
+
+
+
 }

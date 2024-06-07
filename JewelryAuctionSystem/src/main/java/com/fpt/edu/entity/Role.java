@@ -28,4 +28,10 @@ public class Role {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
     private Set<Account> accounts = new LinkedHashSet<>();
 
+    public Role(Integer id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+
+    }
 }

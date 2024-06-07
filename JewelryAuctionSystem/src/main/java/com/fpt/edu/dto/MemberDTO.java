@@ -1,10 +1,7 @@
 package com.fpt.edu.dto;
 
 import com.fpt.edu.entity.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashSet;
@@ -12,8 +9,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class MemberDTO {
     private Integer id;
     private Integer creditCardId;
@@ -28,4 +24,8 @@ public class MemberDTO {
     private Set<Integer> financialProofRequestIds = new LinkedHashSet<>();
     private Set<Integer> notifyIds = new LinkedHashSet<>();
     private Set<Integer> valuationRequestIds = new LinkedHashSet<>();
+
+
+
+
 }
