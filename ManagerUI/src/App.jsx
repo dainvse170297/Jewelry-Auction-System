@@ -30,6 +30,7 @@ function App() {
             <Route path='/requested-valuation' element={<RequestedValuationList />} />
             <Route path='/requested-valuation-detail/:id' element={<RequestedValuationDetail />} />
             <Route path='/valuation-request-received' element={<ValuationRequestProductReceivedList />} />
+            <Route path='/valuation-request' element={<ValuationRequestProductReceivedList />} />
             <Route path='/valuation-request-detail/:id' element={<ValuationRequestDetail />} />
             <Route path='/manager' element={<ManagerBody />} />
             <Route path='/create-auction' element={<CreateAuction />} />
