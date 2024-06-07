@@ -89,9 +89,6 @@ const Sidebar = () => {
                             <NightModeIcon className="night" />
                         </div>
                     </li>
-                    <li>
-                        <img src="src\assets\logos\main_logo.jpg" className="image"></img>
-                    </li>
                 </ul>
             </div>
         </div>

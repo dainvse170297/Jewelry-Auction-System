@@ -5,7 +5,7 @@ import { FaBackward } from 'react-icons/fa'
 import { Link, useParams } from 'react-router-dom'
 import Paginator from '../../common/Paginator'
 
-export default function ValuationRequest() {
+export default function MyValuationRequest() {
 
     // memberID
     const { id } = useParams()

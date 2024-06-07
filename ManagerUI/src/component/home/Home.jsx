@@ -9,8 +9,7 @@ const Home = () => {
             <div className="homeContainer">
                 <Navbar />
                 <div className="mt-3">
-                    <h1 className="text-center">Hello ! Welcome Anh Em đã đến với trang web của chúng tôi</h1>
-                    <h3 className="text-center text-danger">jewelryauction.bet</h3>
+                    <h1 className="text-center">Hello ! Welcome to my company</h1>
                 </div>
             </div>
         </div>
