@@ -46,7 +46,7 @@ public class ValuationRequestController {
 
     @PostMapping("/product-received")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<ValuationRequestDTO> productReceived(@RequestParam("id") Integer id) {
+    public ResponseEntity<ValuationRequestDTO> productReceived(@RequestParam("id") Integer id) {//valuation request id
         return ResponseEntity.ok(valuationRequestService.productReceived(id));
     }
 

@@ -26,7 +26,7 @@ public class ResponseValuationRequestController {
     }
 
     @PostMapping("/confirm-final-valuation-by-member")
-    public ResponseEntity<ResponseRequestValuationDTO> confirmFinalValuation(@RequestParam("id") Integer id,
+    public ResponseEntity<ResponseRequestValuationDTO> confirmFinalValuation(@RequestParam("id") Integer id,//response id
                                                                             @RequestParam("status") Boolean status ) { // status response
 
         return ResponseEntity.ok(responseValuationRequestService.confirmFinalValuationByMember(id,status));
