@@ -26,6 +26,13 @@ const ViewReadyLot = () => {
         fetchReadyLots()
     }, [])
 
+    const truncateText = (text, maxLength) => {
+        if (text.length <= maxLength) {
+            return text;
+        }
+        return text.slice(0, maxLength) + '...';
+    };
+
     return (
         <div className='home'>
             <Sidebar />
@@ -45,12 +52,12 @@ const ViewReadyLot = () => {
                                             {/* <productImages readyLots={lot} /> */}
                                             <img src={lot.product.productImages[0].imageUrl} alt={lot.product.name + ' photo'} />
                                             <h5 className="card-title"><strong>{lot.product.name}</strong></h5>
-                                            {/* <div className="">
-                                        <p className="card-text">{lot.product.description}</p>
-                                    </div> */}
+
+                                            <p className="card-subtitle mb-2 text-muted"><em>{truncateText(lot.product.description, 40)}</em></p>
+                                            <p className="card-text">Category: <strong>{lot.product.category.name}</strong></p>
                                             <p className="card-text">Estimate Max Price: <strong>{lot.product.estimatePriceMax}</strong></p>
                                             <p className="card-text">Estimate Min Price: <strong>{lot.product.estimatePriceMin}</strong></p>
-                                            <p className="card-text">Current Price: <strong>{lot.currentPrice}</strong></p>
+                                            {/* <p className="card-text">Current Price: <strong>{lot.currentPrice}</strong></p> */}
                                             <button className='link-btn'>
                                                 <Link to={`/add-session/${lot.id}`}>Add to Session</Link>
                                             </button>

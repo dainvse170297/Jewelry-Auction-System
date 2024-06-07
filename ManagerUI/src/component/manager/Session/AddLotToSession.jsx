@@ -2,16 +2,24 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Card, Carousel } from 'react-bootstrap'
 import { FaBackward } from 'react-icons/fa'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
 import '../../home/home.scss'
 import Navbar from '../../layout/navbar/Navbar'
 import Sidebar from '../../layout/sidebar/Sidebar'
+import ShowAuctionSessionDetail from './ShowAuctionSessionDetail'
+import './style.scss'
 
 const AddLotToSession = () => {
 
     const [lot, setLot] = useState([])
     const { id } = useParams()
 
+    const [data, setData] = useState({
+        lotId: id,
+        sessionId: ''
+    })
+    const [showAuctionSessionDetail, setShowAuctionSessionDetail] = useState(false)
     const [createdSessions, setCreatedSessions] = useState([])
 
     useEffect(() => {
@@ -40,7 +48,45 @@ const AddLotToSession = () => {
         getAllCreatedSession()
     }, [])
 
-    console.log(createdSessions)
+
+    const handleInputChange = (e) => {
+        e.preventDefault()
+        const { name, value } = e.target
+        if (e.target.value !== '') {
+            setShowAuctionSessionDetail(true)
+        }
+        if (e.target.value === '') {
+            setShowAuctionSessionDetail(false)
+        }
+        setData({ ...data, [name]: value })
+    }
+
+    const navigate = useNavigate()
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault()
+        if (data.sessionId === '') {
+            toast.warning("Please select a session")
+        } else {
+            const formData = new FormData()
+            formData.append("lotId", data.lotId)
+            formData.append("sessionId", data.sessionId)
+            axios.post('http://localhost:8080/auction/add-lot-to-session', formData)
+                .then((response) => {
+                    console.log("Lot added to session")
+                    toast.success("Lot added to session successfully!")
+                    setTimeout(() => {
+                        navigate("/ready-lots")
+                    }, 4000)
+                })
+                .catch((error) => {
+                    console.log("Error adding lot to session: ", error)
+                    toast.error("Error adding lot to session")
+                })
+            // console.log(formData)
+        }
+
+    }
 
     return (
         <div className='home'>
@@ -52,7 +98,7 @@ const AddLotToSession = () => {
                         <Link to={"/ready-lots"}><FaBackward /></Link>
                     </div>
                     <h1 className='text-center mt-3 mb-5'>Add Lot to Session</h1>
-                    <form action="">
+                    <form action="" onSubmit={handleFormSubmit}>
                         <div className="container">
                             <div className="ms-5">
                                 <div className="row">
@@ -75,36 +121,56 @@ const AddLotToSession = () => {
                                         </Carousel>
                                         <Card>
                                             <Card.Body>
-                                                <Card.Title className='text-center'>{lot.product?.name}</Card.Title>
+                                                <Card.Title className='text-center'><strong>{lot.product?.name}</strong></Card.Title>
                                                 <Card.Text>
+                                                    <p><em>{lot.product?.description}</em></p>
                                                     <p>Estimate Max Price: <strong>{lot.product?.estimatePriceMax}</strong></p>
                                                     <p>Estimate Min Price: <strong>{lot.product?.estimatePriceMin}</strong></p>
-                                                    <p>Current Price: <strong>{lot.currentPrice}</strong></p>
+                                                    {/* <p>Current Price: <strong>{lot.currentPrice}</strong></p> */}
                                                 </Card.Text>
                                             </Card.Body>
                                         </Card>
                                     </div>
-                                    <div className="col-lg-8">
-                                        <h3 className='text-center'>Sessions Information</h3>
+
+                                    <div className="col-lg-6">
+                                        <label htmlFor="session">Select Auction Session <span style={{ color: 'red' }}>*</span></label>
                                         <div className="">
-                                            <select name="" id="" className='form-select'>
+                                            <select name="sessionId" id="session" className='form-select'
+                                                value={data.sessionId}
+                                                onChange={handleInputChange}>
                                                 <option value="" className='text-secondary'>--Select Session--</option>
                                                 {createdSessions.map((session, index) => (
                                                     <option value={session.id} key={index}>
-                                                        <div className="">{session.name}</div>
+                                                        {session.name}
                                                     </option>
                                                 ))}
                                             </select>
                                         </div>
-                                    </div>
-                                </div>
+                                        <div className="mt-5 d-flex justify-content-center">
+                                            {showAuctionSessionDetail && (
+                                                <ShowAuctionSessionDetail sessionId={data.sessionId} />
+                                            )}
+                                        </div>
+                                        {showAuctionSessionDetail && (
+                                            <div className='btn-area'>
+                                                <button className='submit-btn' type='submit'>
+                                                    Submit
+                                                </button>
 
+                                                <button className='cancel-btn'>
+                                                    <Link to='/ready-lots'>Cancel</Link>
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="col-lg-3"></div>
+                                </div>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-
+            <ToastContainer />
         </div>
     )
 }

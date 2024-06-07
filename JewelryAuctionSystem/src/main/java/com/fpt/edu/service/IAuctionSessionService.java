@@ -14,4 +14,8 @@ public interface IAuctionSessionService {
     AuctionSession createSession(String name, String description, LocalDate startDate, LocalDate startingBid, int staffId);
 
     List<AuctionSession> getAllAuctionSessionByCreatedStatus();
+
+    AuctionSession addLotToSession(int lotId, int sessionId);
+
+    AuctionSession getAuctionSessionById(int id);
 }
