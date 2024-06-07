@@ -26,7 +26,7 @@ public class ValuationRequestController {
     //Member create valuation request by description and estimate price
     @PostMapping("/create")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<ValuationRequestDTO> addValuationRequest(@RequestParam("memberId") Integer memberId,
+    public ResponseEntity<ValuationRequestDetailDTO> addValuationRequest(@RequestParam("memberId") Integer memberId,
                                                                    @RequestParam("description") String description,
                                                                    @RequestParam("estimateMin") BigDecimal estimateMin,
                                                                    @RequestParam("estimateMax") BigDecimal estimateMax,
@@ -43,14 +43,14 @@ public class ValuationRequestController {
 
     @PostMapping("/product-received")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<ValuationRequestDTO> productReceived(@RequestParam("id") Integer id) {//valuation request id
+    public ResponseEntity<ValuationRequestDetailDTO> productReceived(@RequestParam("id") Integer id) {//valuation request id
         return ResponseEntity.ok(valuationRequestService.productReceived(id));
     }
 
 
     @PostMapping("/preliminary-valuation")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<ValuationRequestDTO> preliminaryValuation(@RequestParam("id") Integer id,
+    public ResponseEntity<ValuationRequestDetailDTO> preliminaryValuation(@RequestParam("id") Integer id,
                                                                     @RequestParam("estimateMin") BigDecimal estimatePrice,
                                                                     @RequestParam("estimateMax") BigDecimal estimateMax,
                                                                     @RequestParam("staffId") Integer staffId) {

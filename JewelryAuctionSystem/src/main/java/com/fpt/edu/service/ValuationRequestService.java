@@ -53,7 +53,7 @@ public class ValuationRequestService implements IValuationRequestService{
 
 
     @Override
-    public ValuationRequestDTO create(Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax, Set<MultipartFile> files) {
+    public ValuationRequestDetailDTO create(Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax, Set<MultipartFile> files) {
         ValuationRequest valuationRequest = new ValuationRequest();
         //set request
         Member member = iMemberRepository.getReferenceById(memberId);
@@ -65,8 +65,9 @@ public class ValuationRequestService implements IValuationRequestService{
         valuationRequest.setEstimatePriceMax(estimateMax);
         valuationRequest.setValuationStatus(ValuationRequestStatus.REQUESTED);
         valuationRequest.setProduct(null);
-        ValuationRequestDTO valuationRequestDTO = valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
+        iValuationRequestRepository.save(valuationRequest);
         //set image
+        Set<String> imageUrls = new HashSet<>();
         for (MultipartFile file : files) {
             Map image;
             try {
@@ -78,8 +79,11 @@ public class ValuationRequestService implements IValuationRequestService{
             valuationImage.setImageUrl(image.get("url").toString());
             valuationImage.setImageId(image.get("public_id").toString());
             valuationImage.setRequest(valuationRequest);
+            imageUrls.add(image.get("url").toString());
             iValuationImageRepository.save(valuationImage);
         }
+        ValuationRequestDetailDTO valuationRequestDTO = valuationRequestMapper.mapToValuationRequestDetailDTO(valuationRequest);
+        valuationRequestDTO.setValuationImagesUrls(imageUrls);
         //set notify
         iNotifyService.insertNotify(member, createRequestTitle(valuationRequest), createRequestMessage(valuationRequest));
         return valuationRequestDTO;
@@ -96,13 +100,15 @@ public class ValuationRequestService implements IValuationRequestService{
     }
 
     @Override
-    public ValuationRequestDTO productReceived(Integer id) {
+    public ValuationRequestDetailDTO productReceived(Integer id) {
         ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
         valuationRequest.setValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED);
         Member member = iMemberRepository.getReferenceById(valuationRequestMapper.mapToValuationRequestDTO(valuationRequest).getMemberId());
         LocalDate createDate = LocalDate.now();
         iNotifyService.insertNotify(member, productReceivedTitle(valuationRequest), productReceivedMessage(valuationRequest));
-        ValuationRequestDTO dto = valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
+        iValuationRequestRepository.save(valuationRequest);
+        valuationRequest.setValuationImages(iValuationImageRepository.findByRequest(valuationRequest));
+        ValuationRequestDetailDTO dto = valuationRequestMapper.mapToValuationRequestDetailDTO(valuationRequest);
         return dto;
     }
 
@@ -121,13 +127,9 @@ public class ValuationRequestService implements IValuationRequestService{
         return valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.findByIdAndValuationStatus(id, ValuationRequestStatus.PRODUCT_RECEIVED));
     }
 
-    @Override
-    public ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax) {
-        return null;
-    }
 
     @Override
-    public ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax, Integer staffId) {
+    public ValuationRequestDetailDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax, Integer staffId) {
         //create request
         ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
         valuationRequest.setValuationStatus(ValuationRequestStatus.PRELIMINARY_VALUATED);
@@ -138,8 +140,10 @@ public class ValuationRequestService implements IValuationRequestService{
         iResponseRequestValuationService.insertResponseRequestValuation(ResponseValuationRequestStatus.PRELIMINARY, estimateMin, estimateMax, staff, valuationRequest);
         //create notify
         Member member = valuationRequest.getMember();
+        iValuationRequestRepository.save(valuationRequest);
         iNotifyService.insertNotify(member, preliminaryValuatedTitle(valuationRequest), preliminaryValuatedMessage(valuationRequest));
-        return valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
+        valuationRequest.setValuationImages(iValuationImageRepository.findByRequest(valuationRequest));
+        return valuationRequestMapper.mapToValuationRequestDetailDTO(valuationRequest);
     }
 
     @Override

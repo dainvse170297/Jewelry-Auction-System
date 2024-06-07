@@ -33,7 +33,7 @@ public class ResponseValuationRequestService implements IResponseRequestValuatio
     private final IResponseRequestValuationRepository iResponseRequestValuationRepository;
     private final IValuationRequestRepository iValuationRequestRepository;
     private final ILotRepository iLotRepository;
-    private final IValuationImageRepository iValuationRequestImageRepository;
+    private final IValuationImageRepository iValuationImageRepository;
 
     private final ResponseValuationRequestMapper responseValuationRequestMapper;
     private final ValuationRequestMapper valuationRequestMapper;
@@ -62,7 +62,7 @@ public class ResponseValuationRequestService implements IResponseRequestValuatio
     public Map<String,Object> getValuationResponse(Integer id) {
         Map<String, Object> map = new HashMap<>();
         ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
-        valuationRequest.setValuationImages(iValuationRequestImageRepository.findByRequest(valuationRequest));
+        valuationRequest.setValuationImages(iValuationImageRepository.findByRequest(valuationRequest));
         List<ResponseRequestValuationDTO> responseRequestValuationDTOS = responseValuationRequestMapper.toResponseValuationRequestDTOList(iResponseRequestValuationRepository.findByValuationRequest(valuationRequest));
         if (valuationRequest.getProduct() == null) {
             map.put("productDTO", null);
