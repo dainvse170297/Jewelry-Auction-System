@@ -1,5 +1,6 @@
 package com.fpt.edu.service;
 
+import com.fpt.edu.dto.AuctionSessionDTO;
 import com.fpt.edu.entity.AuctionSession;
 import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.AuctionSessionStatus;
@@ -18,4 +19,6 @@ public interface IAuctionSessionService {
     AuctionSession addLotToSession(int lotId, int sessionId);
 
     AuctionSession getAuctionSessionById(int id);
+
+    List<AuctionSessionDTO> getUpcomingAuctionSession();
 }

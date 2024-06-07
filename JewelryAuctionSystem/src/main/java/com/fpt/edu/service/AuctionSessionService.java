@@ -1,8 +1,10 @@
 package com.fpt.edu.service;
 
+import com.fpt.edu.dto.AuctionSessionDTO;
 import com.fpt.edu.entity.AuctionSession;
 import com.fpt.edu.entity.Lot;
 import com.fpt.edu.entity.Staff;
+import com.fpt.edu.mapper.AuctionSessionMapper;
 import com.fpt.edu.repository.AuctionSessionRepository;
 import com.fpt.edu.repository.ILotRepository;
 import com.fpt.edu.repository.StaffRepository;
@@ -21,6 +23,8 @@ public class AuctionSessionService implements IAuctionSessionService{
     private final AuctionSessionRepository auctionSessionRepository;
     private final StaffRepository staffRepository;
     private final ILotRepository lotRepository;
+
+    private final AuctionSessionMapper auctionSessionMapper;
 
     @Override
     public List<AuctionSession> getAllAuctionSession() {
@@ -62,5 +66,9 @@ public class AuctionSessionService implements IAuctionSessionService{
         return auctionSessionRepository.findById(id).get();
     }
 
+    @Override
+    public List<AuctionSessionDTO> getUpcomingAuctionSession() {
+        return auctionSessionMapper.toAuctionSessionDTOList(auctionSessionRepository.findByStatus(AuctionSessionStatus.UPCOMING));
+    }
 
 }

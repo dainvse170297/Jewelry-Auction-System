@@ -67,6 +67,10 @@ public class ValuationRequestMapper {
                 valuationImageMapper.toValuationImageUrls(valuationRequest.getValuationImages())
         );
     }
+
+    public List<ValuationRequestDetailDTO> mapToValuationRequestDetailDTOList(List<ValuationRequest> valuationRequests){
+        return valuationRequests.stream().map(this::mapToValuationRequestDetailDTO).toList();
+    }
     // ham nay khong thay dung nay be Dai oi
     public ValuationRequest mapToValuationRequest(ValuationRequestDTO valuationRequestDTO){
         return new ValuationRequest(
