@@ -50,6 +50,7 @@ public class ValuationRequestService implements IValuationRequestService{
     private final NotifyMapper NotifyMapper;
     private final INotifyService iNotifyService;
     private final IResponseRequestValuationService iResponseRequestValuationService;
+    private final ProductService productService;
 
 
     @Override
@@ -230,6 +231,12 @@ public class ValuationRequestService implements IValuationRequestService{
                 iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.MANAGER_APPROVED));
     }
 
+    @Override
+    public ProductDetailDTO getProductDetail(Integer id) {
+        ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
+        return productService.viewProductDetails(valuationRequest.getProduct().getId());
+    }
+
 
     @Override
     public List<Map<String,String>> sendFinalValuationToMember(Integer id) {
@@ -286,8 +293,6 @@ public class ValuationRequestService implements IValuationRequestService{
 
     }
 
-
-
     //Create Notify by specific format message
     private String createRequestTitle(ValuationRequest valuationRequest) {
         return "#" + valuationRequest.getId() + ": Your Valuation Request has been sent.";
@@ -307,4 +312,6 @@ public class ValuationRequestService implements IValuationRequestService{
     private String preliminaryValuatedMessage(ValuationRequest valuationRequest) {
         return "We have done the preliminary valuation for your product. We will contact you soon.";
     }
+
+
 }

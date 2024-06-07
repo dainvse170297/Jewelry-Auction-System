@@ -36,10 +36,7 @@ public class ProductController {
 
         return ResponseEntity.ok(product);
     }
-    // linh dep trai ok
-    @PostMapping("/view-details-product/{id}")
-    public ResponseEntity<ProductDetailDTO> getDetailsProductById(@PathVariable  Integer id) {
-        return ResponseEntity.ok(productService.viewProductDetails(id));
-    }
+
+
 
 }

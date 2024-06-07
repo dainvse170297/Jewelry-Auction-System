@@ -39,7 +39,7 @@ public interface IValuationRequestService {
 
     public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId);
 
-
     public ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax, Integer staffId);
 
+    public ProductDetailDTO getProductDetail(Integer id);
 }

@@ -13,7 +13,7 @@ export default function FinalValuationRequestDetail() {
 
     const { id } = useParams()
 
-    const [ProductInfo, setProductInfo] = useState([])
+    const [ProductInfo, setProductInfo] = useState({})
     const [errorMsg, setErrorMsg] = useState('')
 
     useEffect(() => {
@@ -21,7 +21,7 @@ export default function FinalValuationRequestDetail() {
         const getInfoDetails = async () => {
 
             try {
-                axios.post(`http://localhost:8080/product/view-details-product/${id}`).then((result) => {
+                await axios.get(`http://localhost:8080/valuation/view-final-request-details/${id}`).then((result) => {
                     setProductInfo(result.data)
                 })
 
@@ -32,7 +32,23 @@ export default function FinalValuationRequestDetail() {
         }
         getInfoDetails()
 
-    }, [])
+    }, [id])
+
+    const handleApprove = async () => {
+        try {
+            const id = ProductInfo.valuationRequestId
+
+            const response = await axios.post(`http://localhost:8080/valuation/approve-final-valuation/${id}`);
+
+            if (response.status === 200) {
+                console.log("Success")
+            } else {
+                console.log("Failed")
+            }
+        } catch (error) {
+            console.log("Error: ", error)
+        }
+    }
 
     return (
         <div className="home">
@@ -53,15 +69,16 @@ export default function FinalValuationRequestDetail() {
                         <p>Description: <strong>{ProductInfo.description}</strong></p>
                         <p>Estimate price min: <strong>{ProductInfo.estimatePriceMin}</strong></p>
                         <p>Estimate price max: <strong>{ProductInfo.estimatePriceMax}</strong></p>
-                        <p>Product image: {ProductInfo.productImages.map((image, index) => (
-                            <img key={index} src={image} alt={`Hình ảnh ${index + 1}`} />
-                        ))}</p>
+                        <p>Product image: </p>
+                            {ProductInfo.productImages && ProductInfo.productImages.map((item, index) => (
+                                <>
+                                    <img style={{width:"200px"}} key={index} src={item.imageUrl} />
+                                </>
+                            ))}
                     </div>
                     <div className="">
-                        <Button className='btn-success'>
-                            <Link to={`/approve-final-valuation/${ProductInfo.productId}`} style={{ color: 'white', textDecoration: 'none' }}>
-                                Confirm
-                            </Link>
+                        <Button className='btn-success' onClick={handleApprove}>
+                            Confirm
                         </Button>
                     </div>
                     <div className="">

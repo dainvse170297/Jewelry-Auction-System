@@ -108,7 +108,10 @@ public class ValuationRequestController {
         return ResponseEntity.ok(responseValuationRequestService.viewMyResponseRequestValuation(id));
     }
 
-
+    @GetMapping("/view-final-request-details/{id}")
+    public ResponseEntity<ProductDetailDTO> getDetailsProductById(@PathVariable  Integer id) {//valuation request id
+        return ResponseEntity.ok(valuationRequestService.getProductDetail(id));
+    }
 
 
 }
