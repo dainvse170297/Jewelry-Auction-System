@@ -1,5 +1,6 @@
 package com.fpt.edu.controller;
 
+import com.fpt.edu.dto.AuctionSessionDTO;
 import com.fpt.edu.entity.AuctionSession;
 import com.fpt.edu.service.IAuctionSessionService;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +48,11 @@ public class AuctionSessionController {
     public ResponseEntity<AuctionSession> addLotToSession(@RequestParam("lotId") int lotId,
                                                           @RequestParam("sessionId") int sessionId) {
         return ResponseEntity.ok(auctionSessionService.addLotToSession(lotId, sessionId));
+    }
+
+    @GetMapping("/session/upcoming")
+    public ResponseEntity<List<AuctionSessionDTO>> getUpcomingAuctionSession() {
+        return ResponseEntity.ok(auctionSessionService.getUpcomingAuctionSession());
     }
 
 

@@ -51,5 +51,4 @@ public class ValuationRequest {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "request")
     private Set<ValuationImage> valuationImages = new LinkedHashSet<>();
-
 }

@@ -35,6 +35,10 @@ public class ValuationImageMapper {
         return valuationImages.stream().map(ValuationImage::getId).collect(Collectors.toSet());
     }
 
+    public Set<String> toValuationImageUrls(Set<ValuationImage> valuationImages) {
+        return valuationImages.stream().map(ValuationImage::getImageUrl).collect(Collectors.toSet());
+    }
+
     public Set<ValuationImage> mapIdToValuationImageList(Set<Integer> valuationImageIds) {
         return valuationImageIds.stream().map(iValuationImageRepository::getReferenceById).collect(Collectors.toSet());
     }
