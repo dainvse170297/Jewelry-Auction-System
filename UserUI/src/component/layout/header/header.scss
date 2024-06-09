@@ -1,4 +1,4 @@
-.header{
+.header {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -11,11 +11,15 @@
     //     padding: 10px;
     // }
 
-    hr{
+    hr {
         height: 0px;
         border: 0.5px solid rgb(143, 143, 143);
         margin: 0px;
         padding: 0px;
     }
 
+}
+
+.logo {
+    font-size: 26px;
 }
