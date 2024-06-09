@@ -24,6 +24,6 @@ public class AuthController {
             return ResponseEntity.ok(accountService.login(username, password));
 
         }
-    
+
 
 }
