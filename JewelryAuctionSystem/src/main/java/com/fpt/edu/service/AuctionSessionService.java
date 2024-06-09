@@ -1,5 +1,7 @@
 package com.fpt.edu.service;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.fpt.edu.dto.AuctionSessionDTO;
 import com.fpt.edu.entity.AuctionSession;
 import com.fpt.edu.entity.Lot;
@@ -13,9 +15,12 @@ import com.fpt.edu.status.AuctionSessionStatus;
 import com.fpt.edu.status.LotStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +28,7 @@ public class AuctionSessionService implements IAuctionSessionService{
     private final AuctionSessionRepository auctionSessionRepository;
     private final StaffRepository staffRepository;
     private final ILotRepository lotRepository;
-
+    private final Cloudinary cloudinary;
     private final AuctionSessionMapper auctionSessionMapper;
 
     @Override
@@ -32,15 +37,23 @@ public class AuctionSessionService implements IAuctionSessionService{
     }
 
     @Override
-    public AuctionSession createSession(String name, String description, LocalDate startDate, LocalDate startingBid, int staffId) {
+    public AuctionSession createSession(String name, String description, LocalDate startDate,LocalDate endDate, LocalDate startingBid, int staffId, MultipartFile image) throws IOException {
         Staff staff = staffRepository.findById(staffId).get();
         AuctionSession auctionSession = new AuctionSession();
         auctionSession.setName(name);
         auctionSession.setDescription(description);
         auctionSession.setStartTime(startDate);
+        auctionSession.setEndTime(endDate);
         auctionSession.setStartingBid(startingBid);
         auctionSession.setStaff(staff);
         auctionSession.setStatus(AuctionSessionStatus.CREATED);
+        if (image != null || image.getBytes().length != 0 || image.isEmpty() == false){
+            byte[] imageByte = image.getBytes();
+            Map r = cloudinary.uploader().upload(imageByte, ObjectUtils.emptyMap());
+            auctionSession.setImage((String) r.get("url"));
+        }else{
+            auctionSession.setImage("https://www.fortunaauction.com/wp-content/uploads/2019/12/Upcoming-Auction-Placeholder-Template.jpg");
+        }
         auctionSessionRepository.save(auctionSession);
 
         return auctionSession;

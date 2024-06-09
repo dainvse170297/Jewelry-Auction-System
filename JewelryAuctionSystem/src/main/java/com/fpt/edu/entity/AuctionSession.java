@@ -39,6 +39,8 @@ public class AuctionSession {
     @Column(name = "description")
     private String description;
 
+    private String image;
+
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private AuctionSessionStatus status;

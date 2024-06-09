@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import '../home/home.scss'
 import Navbar from '../layout/navbar/Navbar'
 import Sidebar from '../layout/sidebar/Sidebar'
+import { CircularProgress } from '@mui/material'
 
 const CreateAuction = () => {
 
@@ -17,11 +18,14 @@ const CreateAuction = () => {
         name: '',
         description: '',
         startTime: '',
+        endTime: '',
         startingBid: '',
-        staffId: ''
+        staffId: '',
+        image: ''
     })
 
     const [isWaiting, setIsWaiting] = useState(false)
+    const [imagePreview, setImagePreview] = useState("")
 
     useEffect(() => {
         const getStaffAccounts = async () => {
@@ -40,6 +44,12 @@ const CreateAuction = () => {
         setAuctionSession({ ...auctionSession, [name]: value })
     }
 
+    const handleImageChange = (e) => {
+        const imageFile = e.target.files[0]
+        setAuctionSession({ ...auctionSession, image: imageFile })
+        setImagePreview(URL.createObjectURL(imageFile))
+    }
+
 
     const navigate = useNavigate()
 
@@ -50,6 +60,9 @@ const CreateAuction = () => {
         }
         if (moment(auctionSession.startingBid).isAfter(moment(auctionSession.startTime))) {
             toast.error("Starting Bid Date must be before Start Date")
+        }
+        if (moment(auctionSession.startTime).isAfter(moment(auctionSession.endTime))) {
+            toast.error("Start Date must be before End Date")
         } else {
             try {
                 const formData = new FormData()
@@ -57,7 +70,9 @@ const CreateAuction = () => {
                 formData.append("name", auctionSession.name)
                 formData.append("description", auctionSession.description)
                 formData.append("startTime", auctionSession.startTime)
+                formData.append("endTime", auctionSession.endTime)
                 formData.append("startingBid", auctionSession.startingBid)
+                formData.append("image", auctionSession.image)
                 setIsWaiting(true)
                 const createSession = await axios.post("http://localhost:8080/auction/create-session", formData)
                     .then((response) => {
@@ -66,7 +81,7 @@ const CreateAuction = () => {
                         setIsWaiting(false)
                         setTimeout(() => {
                             navigate("/manager")
-                        }, 6000)
+                        }, 2000)
                     }).catch(error => {
                         console.log("Error create auction session")
                         toast.error("Error occurred when create Session, please try again!")
@@ -131,6 +146,16 @@ const CreateAuction = () => {
                                         onChange={handleInputChange}
                                     />
 
+                                    <Form.Label htmlFor='endTime'>End Date <span style={{ color: 'red' }}>*</span></Form.Label>
+                                    <Form.Control
+                                        type="date"
+                                        id='endTime'
+                                        name='endTime'
+                                        value={auctionSession.endTime}
+                                        min={moment().format("MM Do, YYYY")}
+                                        onChange={handleInputChange}
+                                    />
+
 
                                     {/* Select staff to manage session */}
 
@@ -163,9 +188,27 @@ const CreateAuction = () => {
                                         onChange={handleInputChange}
                                     />
 
-                                    <Button variant='success' type='submit' className='mt-3'>
-                                        Submit
-                                    </Button>
+                                    <Form.Label>Banner Photo</Form.Label>
+                                    <Form.Control
+                                        type="file"
+                                        id='image'
+                                        name='image'
+                                        onChange={handleImageChange}
+                                    />
+
+                                    {imagePreview && (
+                                        <img src={imagePreview} alt="Preview Auction Banner"
+                                            style={{ widows: "400px", maxHeight: "400px" }} />
+                                    )}
+
+                                    {!isWaiting ? (
+                                        <Button variant='success' type='submit' className='mt-3'>
+                                            Submit
+                                        </Button>
+                                    ) : (
+                                        <CircularProgress />
+                                    )}
+
                                 </div>
                                 <div className="col-lg-4"></div>
                             </div>

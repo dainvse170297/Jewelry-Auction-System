@@ -6,7 +6,9 @@ import com.fpt.edu.service.IAuctionSessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,9 +24,11 @@ public class AuctionSessionController {
     public ResponseEntity<AuctionSession> createAuctionSession(@RequestParam("name") String name,
                                                                @RequestParam("description") String description,
                                                                @RequestParam("startTime") LocalDate startDate,
+                                                               @RequestParam("endTime") LocalDate endDate,
                                                                @RequestParam("startingBid") LocalDate startingBid,
-                                                               @RequestParam("staffId") int staffId) {
-    AuctionSession auction = auctionSessionService.createSession(name, description, startDate, startingBid, staffId);
+                                                               @RequestParam("staffId") int staffId,
+                                                               @RequestParam("image") MultipartFile image) throws IOException {
+    AuctionSession auction = auctionSessionService.createSession(name, description, startDate, endDate, startingBid, staffId, image);
 
         return ResponseEntity.ok(auction);
     }
