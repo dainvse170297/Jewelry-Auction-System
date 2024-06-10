@@ -1,6 +1,7 @@
 package com.fpt.edu.controller;
 
 import com.fpt.edu.dto.AuctionSessionDTO;
+import com.fpt.edu.dto.ViewLiveAuctionSessionDetailDTO;
 import com.fpt.edu.entity.AuctionSession;
 import com.fpt.edu.service.IAuctionSessionService;
 import lombok.RequiredArgsConstructor;
@@ -55,5 +56,11 @@ public class AuctionSessionController {
         return ResponseEntity.ok(auctionSessionService.getUpcomingAuctionSession());
     }
 
+    @GetMapping("/session/view-live-auction-session-detail")
+    public ResponseEntity<?> viewLiveAuctionSessionDetail(@RequestParam("sessionId") Integer sessionId,
+                                                          @RequestParam("memberId") Integer memberId) {
+        ResponseEntity<?> response = auctionSessionService.viewLiveAuctionSessionDetail(sessionId, memberId);
+        return response;
+    }
 
 }

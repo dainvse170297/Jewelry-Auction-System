@@ -1,5 +1,6 @@
 package com.fpt.edu.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fpt.edu.status.LotStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,6 +24,7 @@ public class Lot {
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "product_id", nullable = true)
     private Product product;
+
 
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "auction_session_id", nullable = true)
