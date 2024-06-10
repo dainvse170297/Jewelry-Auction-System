@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,9 +15,9 @@ import java.util.Set;
 public class AuctionSessionDTO {
     private Integer id;
     private Integer staffId;
-    private LocalDate startingBid;
-    private LocalDate startTime;
-    private LocalDate endTime;
+    private LocalDateTime startingBid;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private String name;
     private String description;
     private AuctionSessionStatus status;

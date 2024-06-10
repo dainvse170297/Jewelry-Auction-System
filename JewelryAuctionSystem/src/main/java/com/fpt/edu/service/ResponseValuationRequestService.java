@@ -10,7 +10,6 @@ import com.fpt.edu.mapper.ResponseValuationRequestMapper;
 import com.fpt.edu.mapper.ValuationRequestMapper;
 import com.fpt.edu.repository.*;
 import com.fpt.edu.entity.*;
-import com.fpt.edu.mapper.ResponseValuationRequestMapper;
 import com.fpt.edu.repository.IResponseRequestValuationRepository;
 import com.fpt.edu.repository.IValuationRequestRepository;
 import com.fpt.edu.status.LotStatus;
@@ -20,11 +19,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 @Service
 @RequiredArgsConstructor
@@ -55,7 +53,7 @@ public class ResponseValuationRequestService implements IResponseRequestValuatio
         responseRequestValuation.setResponseValuationRequestStatus(status);
         responseRequestValuation.setStaff(staff);
         responseRequestValuation.setValuationRequest(valuationRequest);
-        responseRequestValuation.setTimeResponse(LocalDate.now());
+        responseRequestValuation.setTimeResponse(LocalDateTime.now());
         return responseValuationRequestMapper.toResponseValuationRequestDTO(iResponseRequestValuationRepository.save(responseRequestValuation));
     }
 

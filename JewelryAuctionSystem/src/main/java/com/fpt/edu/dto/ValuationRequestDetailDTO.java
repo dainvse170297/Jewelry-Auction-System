@@ -4,7 +4,7 @@ import com.fpt.edu.status.ValuationRequestStatus;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -17,7 +17,7 @@ public class ValuationRequestDetailDTO {
 
     private int id;
     private Integer memberId;
-    private LocalDate timeRequest;
+    private LocalDateTime timeRequest;
     private ValuationRequestStatus valuationStatus;
     private BigDecimal estimatePriceMax;
     private BigDecimal estimatePriceMin;

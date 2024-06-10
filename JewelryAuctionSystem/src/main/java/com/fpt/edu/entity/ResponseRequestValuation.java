@@ -6,12 +6,13 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "response_request_valuation")
+@Table(name = "response_valuation_request")
 public class ResponseRequestValuation {
 
     @Id
@@ -36,7 +37,7 @@ public class ResponseRequestValuation {
     private BigDecimal valuationPriceMax;
     
     @Column(name = "time_response")
-    private LocalDate timeResponse;
+    private LocalDateTime timeResponse;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "staff_id", nullable = true)

@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -16,7 +16,7 @@ import java.util.List;
 public class ViewDetailValuationRequestFinalApprovedDTO {
     private Integer id;
     private Integer memberId;
-    private LocalDate timeRequest;
+    private LocalDateTime timeRequest;
     private ValuationRequestStatus valuationStatus;
     private BigDecimal estimatePriceMaxProduct;
     private BigDecimal estimatePriceMinProduct;

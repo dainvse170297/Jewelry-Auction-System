@@ -4,7 +4,7 @@ import com.fpt.edu.status.AuctionSessionStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -25,13 +25,13 @@ public class AuctionSession {
     private Staff staff;
 
     @Column(name = "starting_bid")
-    private LocalDate startingBid;
+    private LocalDateTime startingBid;
 
     @Column(name = "start_time")
-    private LocalDate startTime;
+    private LocalDateTime startTime;
 
     @Column(name = "end_time")
-    private LocalDate endTime;
+    private LocalDateTime endTime;
 
     @Column(name = "name", length = 50)
     private String name;

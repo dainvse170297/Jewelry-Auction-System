@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +36,7 @@ public class AuctionSessionService implements IAuctionSessionService{
     }
 
     @Override
-    public AuctionSession createSession(String name, String description, LocalDate startDate,LocalDate endDate, LocalDate startingBid, int staffId, MultipartFile image) throws IOException {
+    public AuctionSession createSession(String name, String description, LocalDateTime startDate, LocalDateTime endDate, LocalDateTime startingBid, int staffId, MultipartFile image) throws IOException {
         Staff staff = staffRepository.findById(staffId).get();
         AuctionSession auctionSession = new AuctionSession();
         auctionSession.setName(name);

@@ -8,8 +8,8 @@ import com.fpt.edu.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class NotifyService implements INotifyService{
@@ -22,7 +22,7 @@ public class NotifyService implements INotifyService{
         notify.setMember(member);
         notify.setTitle(title);
         notify.setDescription(description);
-        notify.setDate(LocalDate.now());
+        notify.setDate(LocalDateTime.now());
         return NotifyMapper.toNotifyDTO(iNotifyRepository.save(notify));
     }
 

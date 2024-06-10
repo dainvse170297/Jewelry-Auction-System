@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -26,17 +26,20 @@ public class ValuationRequest {
     private Member member;
 
     @Column(name = "time_request")
-    private LocalDate timeRequest;
+    private LocalDateTime timeRequest;
 
-    @Column(name = "valuation_status")
+    @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private ValuationRequestStatus valuationStatus;
 
-    @Column(name = "estimate_price_max", precision = 19, scale = 1)
+    @Column(name = "estimate_price_max", precision = 19, scale = 1, nullable = true)
     private BigDecimal estimatePriceMax;
 
-    @Column(name = "estimate_price_min", precision = 19, scale = 1)
+    @Column(name = "estimate_price_min", precision = 19, scale = 1, nullable = true)
     private BigDecimal estimatePriceMin;
+
+    @Column(name = "member_estimate_price", precision = 19, scale = 1, nullable = true)
+    private BigDecimal memberEstimatePrice;
 
     @Column(name = "description")
     private String description;

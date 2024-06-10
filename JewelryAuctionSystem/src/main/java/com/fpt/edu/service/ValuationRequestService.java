@@ -6,19 +6,14 @@ import com.fpt.edu.repository.*;
 import com.fpt.edu.status.ValuationRequestStatus;
 import com.fpt.edu.mapper.ValuationRequestMapper;
 import com.fpt.edu.dto.ValuationRequestDTO;
-import com.fpt.edu.mapper.ResponseValuationRequestMapper;
 import com.fpt.edu.status.ResponseValuationRequestStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -27,12 +22,12 @@ public class ValuationRequestService implements IValuationRequestService{
     private final IValuationRequestRepository iValuationRequestRepository;
     private final IMemberRepository iMemberRepository;
     private final IValuationImageRepository iValuationImageRepository;
-    private final IResponseRequestValuationRepository iResponseRequestValuationRepository;
+//    private final IResponseRequestValuationRepository iResponseRequestValuationRepository;
     private final IStaffRepository iStaffRepository;
     private final INotifyRepository iNotifyRepository;
 
     private final ValuationRequestMapper valuationRequestMapper;
-    private final ResponseValuationRequestMapper responseValuationRequestMapper;
+//    private final ResponseValuationRequestMapper responseValuationRequestMapper;
 
     private final CloudinaryService cloudinaryService;
     private final NotifyMapper NotifyMapper;
@@ -51,7 +46,7 @@ public class ValuationRequestService implements IValuationRequestService{
         System.out.println("Member: " + member);
         valuationRequest.setMember(member);
         valuationRequest.setDescription(description);
-        valuationRequest.setTimeRequest(LocalDate.now());
+        valuationRequest.setTimeRequest(LocalDateTime.now());
         valuationRequest.setEstimatePriceMin(estimateMin);
         valuationRequest.setEstimatePriceMax(estimateMax);
         valuationRequest.setValuationStatus(ValuationRequestStatus.REQUESTED);
@@ -101,7 +96,7 @@ public class ValuationRequestService implements IValuationRequestService{
         ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
         valuationRequest.setValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED);
         Member member = iMemberRepository.getReferenceById(valuationRequestMapper.mapToValuationRequestDTO(valuationRequest).getMemberId());
-        LocalDate createDate = LocalDate.now();
+        LocalDateTime createDate = LocalDateTime.now();
         iNotifyService.insertNotify(member, productReceivedTitle(valuationRequest), productReceivedMessage(valuationRequest));
         ValuationRequestDTO dto = valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
         return dto;
@@ -287,7 +282,7 @@ public class ValuationRequestService implements IValuationRequestService{
         notify.setTitle(notifyFinalValuationDTO.getTitle());
         notify.setDescription(notifyFinalValuationDTO.getDescriptionOfProduct());
         notify.setMember(valuationRequest.getMember());
-        notify.setDate(LocalDate.now());
+        notify.setDate(LocalDateTime.now());
         iNotifyRepository.save(notify);
         Map<String, String> status = new HashMap<>();
         status.put("Status:", "Notify has been sent to member");

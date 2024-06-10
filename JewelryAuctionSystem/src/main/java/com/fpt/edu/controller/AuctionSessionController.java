@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -23,9 +24,9 @@ public class AuctionSessionController {
     @PostMapping("/create-session")
     public ResponseEntity<AuctionSession> createAuctionSession(@RequestParam("name") String name,
                                                                @RequestParam("description") String description,
-                                                               @RequestParam("startTime") LocalDate startDate,
-                                                               @RequestParam("endTime") LocalDate endDate,
-                                                               @RequestParam("startingBid") LocalDate startingBid,
+                                                               @RequestParam("startTime") LocalDateTime startDate,
+                                                               @RequestParam("endTime") LocalDateTime endDate,
+                                                               @RequestParam("startingBid") LocalDateTime startingBid,
                                                                @RequestParam("staffId") int staffId,
                                                                @RequestParam("image") MultipartFile image) throws IOException {
     AuctionSession auction = auctionSessionService.createSession(name, description, startDate, endDate, startingBid, staffId, image);

@@ -78,21 +78,21 @@ public class ValuationRequestMapper {
     public List<ValuationRequestDetailDTO> mapToValuationRequestDetailDTOList(List<ValuationRequest> valuationRequests){
         return valuationRequests.stream().map(this::mapToValuationRequestDetailDTO).toList();
     }
-    // ham nay khong thay dung nay be Dai oi
-    public ValuationRequest mapToValuationRequest(ValuationRequestDTO valuationRequestDTO){
-        return new ValuationRequest(
-                valuationRequestDTO.getId(),
-                iMemberRepository.getReferenceById(valuationRequestDTO.getMemberId()),
-                valuationRequestDTO.getTimeRequest(),
-                valuationRequestDTO.getValuationStatus(),
-                valuationRequestDTO.getEstimatePriceMax(),
-                valuationRequestDTO.getEstimatePriceMin(),
-                valuationRequestDTO.getDescription(),
-                iProductRepository.getReferenceById(valuationRequestDTO.getProductId()),
-//                iResponseRequestValuationRepository.getReferenceById(valuationRequestDTO.getResponseRequestValuationsId()),
-                valuationImageMapper.mapIdToValuationImageList(valuationRequestDTO.getValuationImages())
-        );
-    }
+//    // ham nay khong thay dung nay be Dai oi
+//    public ValuationRequest mapToValuationRequest(ValuationRequestDTO valuationRequestDTO){
+//        return new ValuationRequest(
+//                valuationRequestDTO.getId(),
+//                iMemberRepository.getReferenceById(valuationRequestDTO.getMemberId()),
+//                valuationRequestDTO.getTimeRequest(),
+//                valuationRequestDTO.getValuationStatus(),
+//                valuationRequestDTO.getEstimatePriceMax(),
+//                valuationRequestDTO.getEstimatePriceMin(),
+//                valuationRequestDTO.getDescription(),
+//                iProductRepository.getReferenceById(valuationRequestDTO.getProductId()),
+////                iResponseRequestValuationRepository.getReferenceById(valuationRequestDTO.getResponseRequestValuationsId()),
+//                valuationImageMapper.mapIdToValuationImageList(valuationRequestDTO.getValuationImages())
+//        );
+//    }
 
 
     public List<ValuationRequestDTO> mapToValuationRequestDTOList(List<ValuationRequest> valuationRequests){

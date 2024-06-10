@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -33,6 +33,6 @@ public class PaymentInfo {
     private String imageUrl;
 
     @Column(name = "creation_time")
-    private LocalDate creationTime;
+    private LocalDateTime creationTime;
 
 }
