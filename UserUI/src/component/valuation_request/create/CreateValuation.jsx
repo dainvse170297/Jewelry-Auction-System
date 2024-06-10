@@ -1,6 +1,6 @@
 import axios, { toFormData } from 'axios';
 import React, { useState } from 'react';
-import { BrowserRouter, Route, Routes, Navigate} from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import './createValuation.scss';
 import { FaBackward } from 'react-icons/fa'
@@ -10,8 +10,8 @@ import Button from 'react-bootstrap/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import ValuationInfo from '../../../info/valuation-request/ValuationInfo';
 
-export default function CreateValuation(){
- 
+export default function CreateValuation() {
+
     const navigate = useNavigate();
 
     const [valuation, setValuation] = useState({
@@ -61,14 +61,10 @@ export default function CreateValuation(){
         }
     }
 
-    async function Create (e) {
+    async function Create(e) {
         e.defaultPrevented
-        console.log(valuation.description)
-        console.log(valuation.estimateMin)
-        console.log(valuation.estimateMax)
-        console.log(valuation.memberId)
 
-        try{
+        try {
 
             const formData = new FormData();
             formData.append('memberId', '1');
@@ -79,22 +75,22 @@ export default function CreateValuation(){
                 formData.append("image", photo)
             })
 
-            const createValuation = await axios.post("http://localhost:8080/valuation/create", formData , {
+            const createValuation = await axios.post("http://localhost:8080/valuation/create", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             })
-            .then(response => {
-                // console.log(response.data)
-                // alert(response.data.message)
-                console.log(response.data.message)
-                toast.success("Valuation Request Send Successfully!")
+                .then(response => {
+                    // console.log(response.data)
+                    // alert(response.data.message)
+                    console.log(response.data.message)
+                    toast.success("Valuation Request Send Successfully!")
 
-            }).catch(error => {
-                console.log(error)
-                console.log(error.response)
-                toast.error("Request Failed!")
-            })
+                }).catch(error => {
+                    console.log(error)
+                    console.log(error.response)
+                    toast.error("Request Failed!")
+                })
 
             if (createValuation.status === 200) {
                 toast.success('Successfully')
@@ -103,15 +99,16 @@ export default function CreateValuation(){
             } else {
                 toast.error("Error set request!")
             }
-        }catch(error){
+        } catch (error) {
             console.log(error)
         }
-        
-        
+
+
     }
 
     return (
         <div className='createValuation container-fluid'>
+            <ToastContainer />
             <div className="row d-flex justify-content-center mt-3">
                 <h2>This is the Create Valuation Page</h2>
             </div>
@@ -127,34 +124,34 @@ export default function CreateValuation(){
                                 <div className="py-4">
                                     <div className="py-4">
                                         <Form.Label htmlFor="estimateMin">Estimate Minimum Price <span style={{ color: 'red' }}>*</span></Form.Label>
-                                            <Form.Control
-                                                type="number"
-                                                id="estimateMin"
-                                                aria-describedby="passwordHelpBlock"
-                                                name='estimateMin'
-                                                value={valuation.estimateMin}
-                                                onChange={handleInputChange}
-                                                onBlur={handleBlur}
+                                        <Form.Control
+                                            type="number"
+                                            id="estimateMin"
+                                            aria-describedby="passwordHelpBlock"
+                                            name='estimateMin'
+                                            value={valuation.estimateMin}
+                                            onChange={handleInputChange}
+                                            onBlur={handleBlur}
                                         />
                                     </div>
-                                    
+
                                 </div>
 
                                 {/* Estimate max */}
                                 <div className="py-3">
                                     <Form.Label htmlFor="description">Estimate Maximum Price <span style={{ color: 'red' }}>*</span></Form.Label>
-                                        <Form.Control
-                                            type="number"
-                                            id="estimateMax"
-                                            aria-describedby="passwordHelpBlock"
-                                            name='estimateMax'
-                                            value={valuation.estimateMax}
-                                            onChange={handleInputChange}
-                                            onBlur={handleBlur}
+                                    <Form.Control
+                                        type="number"
+                                        id="estimateMax"
+                                        aria-describedby="passwordHelpBlock"
+                                        name='estimateMax'
+                                        value={valuation.estimateMax}
+                                        onChange={handleInputChange}
+                                        onBlur={handleBlur}
                                     />
                                 </div>
-                                    
-                                
+
+
                             </div>
                             <div className="inputCol col-sm-5 px-2 py-3 mx-4">
 
@@ -162,7 +159,7 @@ export default function CreateValuation(){
                                 <div className="description">
                                     <Form.Label htmlFor="description">Description <span style={{ color: 'red' }}>*</span></Form.Label>
                                     <Form.Control
-                                        type="text" as = "textarea"
+                                        type="text" as="textarea"
                                         id="description"
                                         aria-describedby="passwordHelpBlock"
                                         name='description'
@@ -192,8 +189,8 @@ export default function CreateValuation(){
                                         </Form.Group>
                                     </div>
                                 </div>
-                                
-                                <div className="row">  
+
+                                <div className="row">
 
                                     <div className="row">
                                         <label htmlFor="" className='text-secondary'>Photo preview</label>
@@ -206,19 +203,19 @@ export default function CreateValuation(){
                                                 {/* Show review of images */}
                                                 {valuation.photoPreview.map((preview, index) => (
                                                     <div className="col-sm-3">
-                                                        <img key={index} src={preview} alt={`Preview ${index}`} className='img-fluid'/>
+                                                        <img key={index} src={preview} alt={`Preview ${index}`} className='img-fluid' />
                                                     </div>
                                                 ))}
                                             </div>
                                         </div>
-                                    </div>     
-                                    
-                                    
+                                    </div>
+
+
                                 </div>
-                                
-                                
+
+
                             </div>
-                            
+
 
                         </div>
                         <div className="row d-flex justify-content-center mt-3">
@@ -226,7 +223,7 @@ export default function CreateValuation(){
                                 <Button type="submit" className="btn btn-primary">Send Valuation Request</Button>
                             </div>
                         </div>
-                                                
+
                     </form>
 
 
@@ -238,7 +235,7 @@ export default function CreateValuation(){
                 </div>
 
             </div>
-            
+
         </div>
     );
 };

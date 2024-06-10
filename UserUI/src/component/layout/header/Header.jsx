@@ -17,15 +17,13 @@ class Header extends React.Component {
                         </svg>
                     </button>
                     <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                        <div className="offcanvas-header">
+                        {/* <div className="offcanvas-header">
                             <h5 className="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                        </div>
+                        </div> */}
                         <div className="offcanvas-body">
-                            <ul className="navbar-nav justify-content-end flex-grow-1">
-                                <li className="nav-item p">
-                                    <a className="nav-link active mx-5" aria-current="page" href="/home">Home</a>
-                                </li>
+                            <ul className="navbar-nav justify-content-center align-items-center flex-grow-1">
+
                                 <li className="nav-item dropdown">
                                     <a className="nav-link dropdown-toggle mx-5" href="#!" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Auction</a>
                                     <ul className="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="accountDropdown">
@@ -41,19 +39,22 @@ class Header extends React.Component {
                                         <li><a className="dropdown-item" href="/create-valuation">Send Valuation Request</a></li>
                                     </ul>
                                 </li>
+                                <li className="nav-item p logo">
+                                    <a className="nav-link mx-5" aria-current="page" href="/home">SWP</a>
+                                </li>
                                 <li className="nav-item">
                                     <a className="nav-link mx-5" href="#!">About</a>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link mx-5" href="#!">Contact</a>
                                 </li>
-                                <li className="nav-item">
-                                    <AvatarDropdown />
-                                </li>
+
+                                <AvatarDropdown />
                             </ul>
                         </div>
                     </div>
                 </nav>
+                <hr />
             </div>
         )
     }

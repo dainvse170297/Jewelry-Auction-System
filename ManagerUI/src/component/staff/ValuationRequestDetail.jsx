@@ -1,11 +1,14 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { FaBackward } from 'react-icons/fa'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import { ToastContainer, toast } from 'react-toastify';
 import { CircularProgress } from '@mui/material';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import { FaBackward } from 'react-icons/fa';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import '../home/home.scss';
+import Navbar from '../layout/navbar/Navbar';
+import Sidebar from '../layout/sidebar/Sidebar';
 
 const ValuationRequestDetail = () => {
 
@@ -147,123 +150,128 @@ const ValuationRequestDetail = () => {
 
 
     return (
-        <div className='container'>
-            <div className="mt-3">
-                <Link to={"/valuation-request"}><FaBackward /></Link>
-            </div>
-            <h3 className='text-center mt-5'>Valuation Request Detail</h3>
-            <div className="card">
-                <div className="card-body">
-                    <p>Member ID: <strong>{valuationRequest.memberId}</strong></p>
-                    <p>Description: <strong>{valuationRequest.description}</strong></p>
-                    <p>Min Price: <strong>{valuationRequest.estimatePriceMin}</strong></p>
-                    <p>Max Price: <strong>{valuationRequest.estimatePriceMax}</strong></p>
-                </div>
-            </div>
-            <div className="mt-3">
-                <form action="" onSubmit={handleFormSubmit}>
-                    <div className="row">
-                        <div className="col-lg-6">
-                            {/* SELECT CATEGORY */}
-                            <Form.Label htmlFor="inputPassword5">Product category <span style={{ color: 'red' }}>*</span></Form.Label>
-                            <Form.Select size=''
-                                aria-label="Default select example"
-                                name='categoryId'
-                                value={product.categoryId}
-                                onChange={handleInputChange}
-                                onBlur={handleBlur}
-                            >
-                                <option value="" className='text-secondary'>
-                                    -- Select Category --
-                                </option>
-                                {categories.map((category) => (
-                                    <option
-                                        key={category.id}
-                                        value={category.id}
-                                    >
-                                        {category.name}
-                                    </option>
-                                ))}
-                            </Form.Select>
-                            {/* INPUT PRODUCT NAME */}
-                            <Form.Label htmlFor="name">Product Name <span style={{ color: 'red' }}>*</span></Form.Label>
-                            <Form.Control
-                                type="text"
-                                id="name"
-                                aria-describedby="passwordHelpBlock"
-                                name='name'
-                                value={product.name}
-                                onChange={handleInputChange}
-                                onBlur={handleBlur}
-                            />
-                            {/* INPUT PRODUCT DESCRIPTION */}
-                            <Form.Label htmlFor="description">Product Description <span style={{ color: 'red' }}>*</span></Form.Label>
-                            <Form.Control
-                                type="text"
-                                id="description"
-                                aria-describedby="passwordHelpBlock"
-                                name='description'
-                                value={product.description}
-                                onChange={handleInputChange}
-                                onBlur={handleBlur}
-                            />
-                            <div className="mt-4">
-                                {!isWaiting ? (
-                                    <Button variant="success" type='submit'>Submit</Button>
-                                ) : (
-                                    <>
-                                        <CircularProgress />
-                                    </>
-                                )}
-
-                            </div>
-                        </div>
-                        {/* INPUT PRODUCT ESTIMATE MIN PRICE */}
-                        <div className="col-lg-6">
-                            <Form.Label htmlFor="estimatePriceMin">Estimate Min Price <span style={{ color: 'red' }}>*</span></Form.Label>
-                            <Form.Control
-                                type="text"
-                                id="estimatePriceMin"
-                                aria-describedby="passwordHelpBlock"
-                                name='estimatePriceMin'
-                                value={product.estimatePriceMin}
-                                onChange={handleInputChange}
-                                onBlur={handleBlur}
-                            />
-                            {/* INPUT PRODUCT ESTIMATE MAX PRICE */}
-                            <Form.Label htmlFor="estimatePriceMax">Estimate Max Price <span style={{ color: 'red' }}>*</span></Form.Label>
-                            <Form.Control
-                                type="text"
-                                id="estimatePriceMax"
-                                aria-describedby="passwordHelpBlock"
-                                name='estimatePriceMax'
-                                value={product.estimatePriceMax}
-                                onChange={handleInputChange}
-                                onBlur={handleBlur}
-                            />
-                            {/* INPUT PRODUCT PHOTO */}
-                            <Form.Group controlId="formFileMultiple" className="mb-3">
-                                <Form.Label>Photos <span style={{ color: 'red' }}>*</span></Form.Label>
-                                <Form.Control
-                                    type="file"
-                                    multiple
-                                    id='photos'
-                                    name='photos'
-                                    onChange={handleInputChange}
-                                    onBlur={handleBlur} />
-                            </Form.Group>
-                            {/* SEE PHOTO WHEN INPUT FILE */}
-                            <label htmlFor="" className='text-secondary'>Photo preview</label>
-                            <div className="">
-                                {product.photoPreview.map((preview, index) => (
-                                    <img key={index} src={preview} alt={`Preview ${index}`} style={{ width: '200px', height: '200px', objectFit: 'cover', margin: '20px' }} />
-                                ))}
-                            </div>
+        <div className='home'>
+            <Sidebar />
+            <div className="homeContainer">
+                <Navbar />
+                <div className="ms-5 me-5">
+                    <div className="mt-3">
+                        <Link to={"/valuation-request"}><FaBackward /></Link>
+                    </div>
+                    <h3 className='text-center mt-5'>Valuation Request Detail</h3>
+                    <div className="card">
+                        <div className="card-body">
+                            <p>Member ID: <strong>{valuationRequest.memberId}</strong></p>
+                            <p>Description: <strong>{valuationRequest.description}</strong></p>
+                            <p>Min Price: <strong>{valuationRequest.estimatePriceMin}</strong></p>
+                            <p>Max Price: <strong>{valuationRequest.estimatePriceMax}</strong></p>
                         </div>
                     </div>
-                    <ToastContainer />
-                </form>
+                    <div className="mt-3">
+                        <form action="" onSubmit={handleFormSubmit}>
+                            <div className="row">
+                                <div className="col-lg-6">
+                                    {/* SELECT CATEGORY */}
+                                    <Form.Label htmlFor="inputPassword5">Product category <span style={{ color: 'red' }}>*</span></Form.Label>
+                                    <Form.Select size=''
+                                        aria-label="Default select example"
+                                        name='categoryId'
+                                        value={product.categoryId}
+                                        onChange={handleInputChange}
+                                        onBlur={handleBlur}
+                                    >
+                                        <option value="" className='text-secondary'>
+                                            -- Select Category --
+                                        </option>
+                                        {categories.map((category) => (
+                                            <option
+                                                key={category.id}
+                                                value={category.id}
+                                            >
+                                                {category.name}
+                                            </option>
+                                        ))}
+                                    </Form.Select>
+                                    {/* INPUT PRODUCT NAME */}
+                                    <Form.Label htmlFor="name">Product Name <span style={{ color: 'red' }}>*</span></Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        id="name"
+                                        aria-describedby="passwordHelpBlock"
+                                        name='name'
+                                        value={product.name}
+                                        onChange={handleInputChange}
+                                        onBlur={handleBlur}
+                                    />
+                                    {/* INPUT PRODUCT DESCRIPTION */}
+                                    <Form.Label htmlFor="description">Product Description <span style={{ color: 'red' }}>*</span></Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        id="description"
+                                        aria-describedby="passwordHelpBlock"
+                                        name='description'
+                                        value={product.description}
+                                        onChange={handleInputChange}
+                                        onBlur={handleBlur}
+                                    />
+                                    <div className="mt-4">
+                                        {!isWaiting ? (
+                                            <Button variant="success" type='submit'>Submit</Button>
+                                        ) : (
+                                            <>
+                                                <CircularProgress />
+                                            </>
+                                        )}
 
+                                    </div>
+                                </div>
+                                {/* INPUT PRODUCT ESTIMATE MIN PRICE */}
+                                <div className="col-lg-6">
+                                    <Form.Label htmlFor="estimatePriceMin">Estimate Min Price <span style={{ color: 'red' }}>*</span></Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        id="estimatePriceMin"
+                                        aria-describedby="passwordHelpBlock"
+                                        name='estimatePriceMin'
+                                        value={product.estimatePriceMin}
+                                        onChange={handleInputChange}
+                                        onBlur={handleBlur}
+                                    />
+                                    {/* INPUT PRODUCT ESTIMATE MAX PRICE */}
+                                    <Form.Label htmlFor="estimatePriceMax">Estimate Max Price <span style={{ color: 'red' }}>*</span></Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        id="estimatePriceMax"
+                                        aria-describedby="passwordHelpBlock"
+                                        name='estimatePriceMax'
+                                        value={product.estimatePriceMax}
+                                        onChange={handleInputChange}
+                                        onBlur={handleBlur}
+                                    />
+                                    {/* INPUT PRODUCT PHOTO */}
+                                    <Form.Group controlId="formFileMultiple" className="mb-3">
+                                        <Form.Label>Photos <span style={{ color: 'red' }}>*</span></Form.Label>
+                                        <Form.Control
+                                            type="file"
+                                            multiple
+                                            id='photos'
+                                            name='photos'
+                                            onChange={handleInputChange}
+                                            onBlur={handleBlur} />
+                                    </Form.Group>
+                                    {/* SEE PHOTO WHEN INPUT FILE */}
+                                    <label htmlFor="" className='text-secondary'>Photo preview</label>
+                                    <div className="">
+                                        {product.photoPreview.map((preview, index) => (
+                                            <img key={index} src={preview} alt={`Preview ${index}`} style={{ width: '200px', height: '200px', objectFit: 'cover', margin: '20px' }} />
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                            <ToastContainer />
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     )

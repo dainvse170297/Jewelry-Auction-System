@@ -1,15 +1,12 @@
 package com.fpt.edu.dto;
 
-
-import com.fpt.edu.entity.Staff;
-import com.fpt.edu.entity.ValuationRequest;
 import com.fpt.edu.status.ResponseValuationRequestStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -17,10 +14,11 @@ import java.time.LocalDate;
 public class ResponseRequestValuationDTO {
 
     private Integer id;
-    private ValuationRequest valuationRequest;
     private ResponseValuationRequestStatus status;
-    private BigDecimal valuationPrice;
-    private LocalDate timeResponse;
-    private Staff staff;
-
+//    private BigDecimal valuationPrice;
+    private BigDecimal valuationPriceMin;
+    private BigDecimal valuationPriceMax;
+    private LocalDateTime timeResponse;
+    private Integer staffId;
+    private Integer valuationRequestId;
 }

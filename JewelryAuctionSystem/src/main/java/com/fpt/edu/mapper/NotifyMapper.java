@@ -5,6 +5,7 @@ import com.fpt.edu.dto.NotifyFinalValuationDTO;
 import com.fpt.edu.entity.*;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Component
@@ -33,7 +34,7 @@ public class NotifyMapper {
                 valuationRequest.getMember().getId(),
                 title,
                 description,
-                new Date(),
+                LocalDateTime.now(),
                 false
         );
     }

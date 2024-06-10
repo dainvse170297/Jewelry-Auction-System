@@ -3,7 +3,7 @@ package com.fpt.edu.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -28,7 +28,7 @@ public class Account {
     private String password;
 
     @Column(name = "create_date")
-    private LocalDate createDate;
+    private LocalDateTime createDate;
 
 //    @OneToOne(fetch = FetchType.EAGER, mappedBy = "account",optional = true)
 //    @JoinColumn(name = "member_id", nullable = true)

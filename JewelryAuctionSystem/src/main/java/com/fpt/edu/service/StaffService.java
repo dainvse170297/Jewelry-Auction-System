@@ -3,7 +3,7 @@ package com.fpt.edu.service;
 import com.fpt.edu.dto.AccountDTO;
 import com.fpt.edu.entity.Account;
 import com.fpt.edu.mapper.AccountMapper;
-import com.fpt.edu.repository.StaffRepository;
+import com.fpt.edu.repository.IStaffRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StaffService implements IStaffService {
 
-    private final StaffRepository staffRepository;
+    private final IStaffRepository staffRepository;
 
 
     @Override

@@ -14,4 +14,6 @@ public interface IValuationRequestRepository extends JpaRepository<ValuationRequ
 
     ValuationRequest findByProductId(int productId);
 
+    List<ValuationRequest> findByMemberId(Integer memberId);
+
 }

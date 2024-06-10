@@ -8,7 +8,9 @@ const Home = () => {
             <Sidebar />
             <div className="homeContainer">
                 <Navbar />
-                Home page
+                <div className="mt-3">
+                    <h1 className="text-center">Hello ! Welcome to my company</h1>
+                </div>
             </div>
         </div>
     );

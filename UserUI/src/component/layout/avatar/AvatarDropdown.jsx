@@ -1,18 +1,66 @@
+import Valuation from '@mui/icons-material/Diamond';
+import AuctionIcon from '@mui/icons-material/Gavel';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
+import SettingsIcon from '@mui/icons-material/Settings';
 import React from 'react';
-import { Dropdown, Image } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import Avatar from './Avatar';
 
-const AvatarDropdown = () =>{
-    return (
-      <li className="nav-item dropdown">
-          <ul className="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="accountDropdown">
-              <li><a className="dropdown-item" href="#!">Live auction</a></li>
-              <li><a className="dropdown-item" href="#!">Upcoming auction</a></li>
-              <li><a className="dropdown-item" href="#!">Past auction</a></li>
-          </ul>
-      </li>
-    );
+
+const AvatarDropdown = () => {
+
+  const navigate = useNavigate();
+
+  const navigateToValuationRequest = () => {
+    navigate('/valuation-request/1');
+  }
+
+  return (
+    <li className="nav-item dropdown">
+      <div id="accountDropdown">
+        <Avatar />
+      </div>
+      <ul className="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="accountDropdown">
+        <li className='src/component/valuation_request/create/CreateValuation.jsx'>
+          <a className="dropdown-item" href="#!">
+            <div className="px-1">
+              <PersonIcon /> Profile
+            </div>
+          </a>
+        </li>
+        <li>
+          <a className="dropdown-item" href="#!">
+            <div className="px-1">
+              <AuctionIcon /> My Auction
+            </div>
+          </a>
+        </li>
+        <li>
+          <a className="dropdown-item" onClick={navigateToValuationRequest}>
+            <div className="px-1">
+              <Valuation /> My Valuation
+            </div>
+          </a>
+        </li>
+        <li>
+          <a className="dropdown-item" href="#!">
+            <div className="px-1">
+              <SettingsIcon /> Settings
+            </div>
+          </a>
+        </li>
+        <li>
+          <a className="dropdown-item" href="#!">
+            <div className="px-1">
+              <LogoutIcon /> Logout
+            </div>
+          </a>
+        </li>
+      </ul>
+    </li>
+  );
 }
-
 // Custom toggle to work with hover
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
   <a

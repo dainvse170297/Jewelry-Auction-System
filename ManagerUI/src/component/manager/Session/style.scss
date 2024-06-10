@@ -1,0 +1,36 @@
+.submit-btn {
+    background-color: black;
+    color: white;
+    border: none;
+    margin: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.cancel-btn {
+    background-color: rgb(228, 92, 92);
+    color: white;
+    border: none;
+    margin: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.cancel-btn:hover {
+    background-color: rgb(255, 0, 0);
+    transition: 0.3s;
+}
+
+.cancel-btn a {
+    text-decoration: none;
+    color: white;
+}
+
+.btn-area {
+    display: flex;
+    justify-content: center;
+}

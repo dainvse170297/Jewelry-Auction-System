@@ -1,19 +1,18 @@
 package com.fpt.edu.service;
-
 import com.fpt.edu.dto.*;
 import com.fpt.edu.entity.*;
 import com.fpt.edu.mapper.NotifyMapper;
-import com.fpt.edu.mapper.ProductMapper;
 import com.fpt.edu.repository.*;
 import com.fpt.edu.status.ValuationRequestStatus;
 import com.fpt.edu.mapper.ValuationRequestMapper;
-import jakarta.persistence.EntityNotFoundException;
+import com.fpt.edu.dto.ValuationRequestDTO;
+import com.fpt.edu.status.ResponseValuationRequestStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -22,14 +21,23 @@ public class ValuationRequestService implements IValuationRequestService{
 
     private final IValuationRequestRepository iValuationRequestRepository;
     private final IMemberRepository iMemberRepository;
-    private final ValuationRequestMapper valuationRequestMapper;
-    private final INotifyRepository iNotifyRepository;
     private final IValuationImageRepository iValuationImageRepository;
+//    private final IResponseRequestValuationRepository iResponseRequestValuationRepository;
+    private final IStaffRepository iStaffRepository;
+    private final INotifyRepository iNotifyRepository;
+
+    private final ValuationRequestMapper valuationRequestMapper;
+//    private final ResponseValuationRequestMapper responseValuationRequestMapper;
+
     private final CloudinaryService cloudinaryService;
-    private final IProductRepository iProductRepository;
-    private final ProductMapper ProductMapper;
-    private final IProductImageRepository IProductImageRepository;
     private final NotifyMapper NotifyMapper;
+    private final INotifyService iNotifyService;
+    private final IResponseRequestValuationService iResponseRequestValuationService;
+    private final ProductService productService;
+
+    private final ResponseValuationRequestService responseValuationRequestService;
+
+
     @Override
     public ValuationRequestDTO create(Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax, Set<MultipartFile> files) {
         ValuationRequest valuationRequest = new ValuationRequest();
@@ -38,10 +46,9 @@ public class ValuationRequestService implements IValuationRequestService{
         System.out.println("Member: " + member);
         valuationRequest.setMember(member);
         valuationRequest.setDescription(description);
-        valuationRequest.setTimeRequest(LocalDate.now());
+        valuationRequest.setTimeRequest(LocalDateTime.now());
         valuationRequest.setEstimatePriceMin(estimateMin);
         valuationRequest.setEstimatePriceMax(estimateMax);
-        valuationRequest.setResponseRequestValuations(null);
         valuationRequest.setValuationStatus(ValuationRequestStatus.REQUESTED);
         valuationRequest.setProduct(null);
         ValuationRequestDTO valuationRequestDTO = valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
@@ -60,18 +67,28 @@ public class ValuationRequestService implements IValuationRequestService{
             iValuationImageRepository.save(valuationImage);
         }
         //set notify
-        Notify notify = new Notify();
-        notify.setMember(member);
-        notify.setTitle(createRequestTitle(valuationRequest));
-        notify.setDescription(createRequestMessage(valuationRequest));
-        notify.setDate(LocalDate.now());
-        iNotifyRepository.save(notify);
+        iNotifyService.insertNotify(member, createRequestTitle(valuationRequest), createRequestMessage(valuationRequest));
         return valuationRequestDTO;
     }
 
     @Override
-    public List<ValuationRequestDTO> getRequestedValuationRequest() {
-        return valuationRequestMapper.mapToValuationRequestDTOList(iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.REQUESTED));
+    public List<ValuationRequestDetailDTO> getRequestedValuationRequest() {
+        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.REQUESTED);
+        for (ValuationRequest valuationRequest : valuationRequests) {
+            Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
+            valuationRequest.setValuationImages(valuationImages);
+        }
+        return valuationRequestMapper.mapToValuationRequestDetailDTOList(valuationRequests);
+    }
+
+    @Override
+    public List<ValuationRequestDetailDTO> getPreliminaryValuationRequest() {
+        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PRELIMINARY_VALUATED);
+        for (ValuationRequest valuationRequest : valuationRequests) {
+            Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
+            valuationRequest.setValuationImages(valuationImages);
+        }
+        return valuationRequestMapper.mapToValuationRequestDetailDTOList(valuationRequests);
     }
 
     @Override
@@ -79,13 +96,8 @@ public class ValuationRequestService implements IValuationRequestService{
         ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
         valuationRequest.setValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED);
         Member member = iMemberRepository.getReferenceById(valuationRequestMapper.mapToValuationRequestDTO(valuationRequest).getMemberId());
-        LocalDate createDate = LocalDate.now();
-        Notify notify = new Notify();
-        notify.setMember(member);
-        notify.setTitle(productReceivedTitle(valuationRequest));
-        notify.setDescription(productReceivedMessage(valuationRequest));
-        notify.setDate(createDate);
-        iNotifyRepository.save(notify);
+        LocalDateTime createDate = LocalDateTime.now();
+        iNotifyService.insertNotify(member, productReceivedTitle(valuationRequest), productReceivedMessage(valuationRequest));
         ValuationRequestDTO dto = valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
         return dto;
     }
@@ -107,43 +119,42 @@ public class ValuationRequestService implements IValuationRequestService{
 
     @Override
     public ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax) {
+        return null;
+    }
+
+    @Override
+    public ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax, Integer staffId) {
+        //create request
         ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
         valuationRequest.setValuationStatus(ValuationRequestStatus.PRELIMINARY_VALUATED);
         valuationRequest.setEstimatePriceMin(estimateMin);
         valuationRequest.setEstimatePriceMax(estimateMax);
+        //create response
+        Staff staff = iStaffRepository.getReferenceById(staffId);
+        iResponseRequestValuationService.insertResponseRequestValuation(ResponseValuationRequestStatus.PRELIMINARY, estimateMin, estimateMax, staff, valuationRequest);
+        //create notify
         Member member = valuationRequest.getMember();
-        Notify notify = new Notify();
-        notify.setMember(member);
-        notify.setTitle(preliminaryValuatedTitle(valuationRequest));
-        notify.setDescription(preliminaryValuatedMessage(valuationRequest));
-        notify.setDate(LocalDate.now());
-        iNotifyRepository.save(notify);
+        iNotifyService.insertNotify(member, preliminaryValuatedTitle(valuationRequest), preliminaryValuatedMessage(valuationRequest));
         return valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.save(valuationRequest));
     }
 
     @Override
     public List<FinalValuationRequestDTO> getListFinalValuationRequest() {
+
         return valuationRequestMapper.mapToFinalValuationRequestDTOList(
                 iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PENDING_MANAGER_APPROVAL));
     }
+
+
     @Override
-    public ProductDTO viewProductDetails(Integer productId) {
-        Optional<Product> productOpt = iProductRepository.findById(productId);
-        ValuationRequest valuationRequest = iValuationRequestRepository.findByProductId(productId);
-
-        if (productOpt.isPresent()) {
-
-            Product product = productOpt.get();
-
-            List<ProductImage> productImages = IProductImageRepository.findByProduct(product);
-
-            return ProductMapper.mapToProductDTO(product, productImages, valuationRequest);
-        } else {
-            // Handle the case where no Product with the given id is found
-            throw new EntityNotFoundException("No Product found with id: " + productId);
+    public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId) {
+        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByMemberId(memberId);
+        Map<ValuationRequest, Set<ValuationImage>> valuationRequestImagesMap = new HashMap<>();
+        for(ValuationRequest valuationRequest : valuationRequests){
+            Set<ValuationImage> valuationImage = iValuationImageRepository.findByRequest(valuationRequest);
+            valuationRequestImagesMap.put(valuationRequest, valuationImage);
         }
-
-
+        return valuationRequestMapper.mapToViewValuationRequestDTOList(valuationRequestImagesMap);
     }
     @Override
     public Map<String,String> ApproveFinalValuationRequest(Integer id) {
@@ -202,13 +213,22 @@ public class ValuationRequestService implements IValuationRequestService{
 
     @Override
     public List<FinalValuationRequestDTO> getListManagerApproveValuationRequest() {
+
+
+
         return valuationRequestMapper.mapToFinalValuationRequestDTOList(
                 iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.MANAGER_APPROVED));
     }
 
+    @Override
+    public ProductDetailDTO getProductDetail(Integer id) {
+        ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
+        return productService.viewProductDetails(valuationRequest.getProduct().getId());
+    }
+
 
     @Override
-    public List<Map<String,String>> sendFinalValuationToMember(Integer id) {
+    public List<Map<String,String>> sendFinalValuationToMember(Integer id, Integer staffId) {
         // Find the ValuationRequest with the given id
         Optional<ValuationRequest> valuationRequestOpt = iValuationRequestRepository.findById(id);
         List<Map<String, String>> responseList = new ArrayList<>();
@@ -230,6 +250,14 @@ public class ValuationRequestService implements IValuationRequestService{
 
                 response.put("message", "ValuationRequest with id: " + id + " has been sent to member for acceptance");
                 responseList.add(response);
+
+                responseValuationRequestService.insertResponseRequestValuation(
+                        ResponseValuationRequestStatus.FINAL,
+                        valuationRequest.getEstimatePriceMin(),
+                        valuationRequest.getEstimatePriceMax(),
+                        iStaffRepository.getReferenceById(staffId),
+                        valuationRequest
+                );
 
                 return responseList;
             } else {
@@ -254,13 +282,21 @@ public class ValuationRequestService implements IValuationRequestService{
         notify.setTitle(notifyFinalValuationDTO.getTitle());
         notify.setDescription(notifyFinalValuationDTO.getDescriptionOfProduct());
         notify.setMember(valuationRequest.getMember());
-        notify.setDate(LocalDate.now());
+        notify.setDate(LocalDateTime.now());
         iNotifyRepository.save(notify);
         Map<String, String> status = new HashMap<>();
         status.put("Status:", "Notify has been sent to member");
         return status;
 
     }
+
+    @Override
+    public ViewDetailValuationRequestFinalApprovedDTO ViewDetailValuationRequestFinalApproved(Integer id) {
+        ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
+        Product product = valuationRequest.getProduct();
+        return valuationRequestMapper.mapToViewDetailValuationRequestFinalApprovedDTO(valuationRequest, product);
+    }
+
     //Create Notify by specific format message
     private String createRequestTitle(ValuationRequest valuationRequest) {
         return "#" + valuationRequest.getId() + ": Your Valuation Request has been sent.";
@@ -269,15 +305,17 @@ public class ValuationRequestService implements IValuationRequestService{
         return "Your valuation request #"+ valuationRequest.getId() +" has been sent. Please wait for our response.";
     }
     private String productReceivedTitle(ValuationRequest valuationRequest) {
-        return "#" + valuationRequest.getId() + ":Product Received #"+ valuationRequest.getId();
+        return "#" + valuationRequest.getId() + ": Product Received";
     }
     private String productReceivedMessage(ValuationRequest valuationRequest) {
         return "Your product has been received. We are processing the valuation. We will contact you as soon as your product is evaluated.";
     }
     private String preliminaryValuatedTitle(ValuationRequest valuationRequest) {
-        return "#" + valuationRequest.getId() + " :Product Preliminary Valuated";
+        return "#" + valuationRequest.getId() + ": Product Preliminary Valuated";
     }
     private String preliminaryValuatedMessage(ValuationRequest valuationRequest) {
         return "We have done the preliminary valuation for your product. We will contact you soon.";
     }
+
+
 }
