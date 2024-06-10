@@ -1,14 +1,18 @@
 package com.fpt.edu.service;
 
 import com.fpt.edu.dto.AuctionSessionDTO;
+import com.fpt.edu.dto.ViewLiveAuctionSessionDetailDTO;
 import com.fpt.edu.entity.AuctionSession;
 import org.springframework.web.multipart.MultipartFile;
+import com.fpt.edu.status.AuctionRegisterStatus;
+import com.fpt.edu.status.AuctionSessionStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface IAuctionSessionService {
+public interface  IAuctionSessionService {
 
     List<AuctionSession> getAllAuctionSession();
 
@@ -21,4 +25,8 @@ public interface IAuctionSessionService {
     AuctionSession getAuctionSessionById(int id);
 
     List<AuctionSessionDTO> getUpcomingAuctionSession();
+
+    ResponseEntity<?> viewLiveAuctionSessionDetail(Integer sessionId, Integer memberId);
+
+    boolean authByMember(Integer sessionId, Integer memberId);
 }

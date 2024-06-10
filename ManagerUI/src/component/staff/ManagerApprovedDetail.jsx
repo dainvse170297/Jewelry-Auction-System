@@ -17,26 +17,16 @@ const ManagerApprovedDetail = () => {
     const [isWaiting, setIsWaiting] = useState(false)
 
     // my name is Linh
-    const [valuationRequest, setValuationRequest] = useState({
-        memberId: '',
-        estimatePriceMaxProduct: '',
-        estimatePriceMinProduct: '',
-        productName: '',
-        productDescription: '',
-        category: '',
-        productImages: []
-
-    })
+    const [valuationRequest, setValuationRequest] = useState({})
 
     const [product, setProduct] = useState({
-        valuationRequestId: id,
-        categoryId: '',
-        name: '',
-        description: '',
-        estimatePriceMax: '',
-        estimatePriceMin: '',
-        photos: [],
+    
+        productImages: [],
     })
+
+    
+
+
 
     useEffect(() => {
         const fetchRequest = async () => {
@@ -83,14 +73,27 @@ const ManagerApprovedDetail = () => {
                     </div>
                     <h3 className='text-center mt-5' style={{ color: 'red' }}  >Final Valuation Request Detail</h3>
                     <div className="card">
-                        <div className="card-body">
-                            <p>Member ID: <strong>{valuationRequest.memberId}</strong></p>
-                            <p>Product Name: <strong>{valuationRequest.productName}</strong></p>
-                            <p>Product Description: <strong>{valuationRequest.productDescription}</strong></p>
-                            <p>Category: <strong>{valuationRequest.category}</strong></p>
-                            <p>Estimate Min Price: <strong>{valuationRequest.estimatePriceMinProduct}</strong></p>
-                            <p>Estimate Max Price: <strong>{valuationRequest.estimatePriceMaxProduct}</strong></p>
-       
+                         <div className="card-body">
+                            <div className="row">
+                                <div className="col-md-4">
+                                    <p>Member ID: <strong>{valuationRequest.memberId}</strong></p>
+                                    <p>Product Name: <strong>{valuationRequest.productName}</strong></p>
+                                    <p>Product Description: <strong>{valuationRequest.productDescription}</strong></p>
+                                    <p>Category: <strong>{valuationRequest.category}</strong></p>
+                                    <p>Estimate Min Price: <strong>{valuationRequest.estimatePriceMinProduct}</strong></p>
+                                    <p>Estimate Max Price: <strong>{valuationRequest.estimatePriceMaxProduct}</strong></p>
+                                </div>
+                                <div className="col-md-6">
+                                    <p>Product Images:</p>
+                                    <div className="row">
+                                        {valuationRequest.productImages && valuationRequest.productImages.map((image, index) => (
+                                            <div className="col-sm-6" key={index}>
+                                                <img src={image.imageUrl} alt="product"  style={{ width: '100%' }} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="mt-3">

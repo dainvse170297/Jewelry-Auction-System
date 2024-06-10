@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class AccountDTO {
     private int id;
     private Integer role;
+    private String roleName;
     private String username;
     private LocalDateTime createDate;
     private Integer memberId;
