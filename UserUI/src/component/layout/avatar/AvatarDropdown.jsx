@@ -6,6 +6,8 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from './Avatar';
+import LoginIcon from '@mui/icons-material/Login';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
 
 const AvatarDropdown = () => {
@@ -50,10 +52,27 @@ const AvatarDropdown = () => {
             </div>
           </a>
         </li>
+
         <li>
           <a className="dropdown-item" href="#!">
             <div className="px-1">
-              <LogoutIcon /> Logout
+              <LogoutIcon /> Log Out
+            </div>
+          </a>
+        </li>
+
+        <li>
+          <a className="dropdown-item" href="/login">
+            <div className="px-1">
+              <LoginIcon /> Sign In
+            </div>
+          </a>
+        </li>
+
+        <li>
+          <a className="dropdown-item" href="#!">
+            <div className="px-1">
+              <PersonAddAltIcon /> Sign Up
             </div>
           </a>
         </li>

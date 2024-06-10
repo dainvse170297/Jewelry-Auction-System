@@ -16,7 +16,7 @@ const Home = () => {
                 <Carousel className='slide'>
                     <Carousel.Item>
                         {/* <ExampleCarouselImage text="First slide" /> */}
-                        <img src="https://t4.ftcdn.net/jpg/02/92/56/91/360_F_292569116_Phht4uRj1YIuLFgBhrLu8171npBOcJcr.jpg"
+                        <img src="https://t4.ftcdn.net/jpg/02/20/10/25/240_F_220102512_DwScZjA9hJaBOH2BS3vraUehWijM5an8.jpg"
                             alt=""
                         />
 
@@ -24,7 +24,7 @@ const Home = () => {
                     </Carousel.Item>
                     <Carousel.Item>
                         {/* <ExampleCarouselImage text="Second slide" /> */}
-                        <img src="https://i.pinimg.com/originals/33/86/28/338628e1c2115db125fbfff2a36415a8.jpg"
+                        <img src="https://salijewelry.com/wp-content/uploads/2022/07/BANNER-2.png"
                             alt=""
                         />
 
