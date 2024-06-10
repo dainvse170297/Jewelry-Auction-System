@@ -144,7 +144,7 @@ public class AuctionSessionService implements IAuctionSessionService {
                 lotDTO.setProductId(lot.getProduct().getId());
                 lotDTO.setProductName(lot.getProduct().getName());
                 lotDTO.setCurrentPrice(lot.getCurrentPrice());
-                lotDTO.setStatus(lot.getStatus().toString());
+                lotDTO.setStatus(lot.getStatus());
                 lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotIdAndStatus(lot.getId(), status));
                 List<ProductImage> productImages = new ArrayList<>(lot.getProduct().getProductImages());
                 lotDTO.setProductImages(productImages);

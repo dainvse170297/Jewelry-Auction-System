@@ -84,13 +84,15 @@ public class ValuationRequestController {
     public ResponseEntity<Map<String, String>> approveFinalValuationRequest(@PathVariable Integer id) {
         return ResponseEntity.ok(valuationRequestService.ApproveFinalValuationRequest(id));
     }
+
     @PostMapping("/cancel-final-valuation/{id}")
     public ResponseEntity<Map<String, String>> cancelFinalValuationRequest(@PathVariable Integer id) {
         return ResponseEntity.ok(valuationRequestService.CancelFinalValuationRequest(id));
     }
+
     //bao gom sendNotifyToMember service
     @PostMapping("/send-final-valuation-to-member")
-    public ResponseEntity<List<Map<String,String>>> sendFinalValuationToMember(@RequestParam Integer id, //valauation request id
+    public ResponseEntity<List<Map<String, String>>> sendFinalValuationToMember(@RequestParam Integer id, //valauation request id
                                                                                 @RequestParam Integer staffId) {
         return ResponseEntity.ok(valuationRequestService.sendFinalValuationToMember(id, staffId));
     }
@@ -104,19 +106,21 @@ public class ValuationRequestController {
     public ResponseEntity<List<ViewValuationRequestDTO>> viewSentRequest(@PathVariable Integer id) {
         return ResponseEntity.ok(valuationRequestService.viewSentRequest(id));
     }
+
     @GetMapping("/view-my-response-request/{id}") // response id
     public ResponseEntity<ResponseRequestValuationDTO> viewMyResponseRequest(@PathVariable Integer id) {
         return ResponseEntity.ok(responseValuationRequestService.viewMyResponseRequestValuation(id));
     }
 
     @GetMapping("/view-final-request-details/{id}")
-    public ResponseEntity<ProductDetailDTO> getDetailsProductById(@PathVariable  Integer id) {//valuation request id
+    public ResponseEntity<ProductDetailDTO> getDetailsProductById(@PathVariable Integer id) {//valuation request id
         return ResponseEntity.ok(valuationRequestService.getProductDetail(id));
     }
-    
+
     @GetMapping("/view-manager-approved-detail/{id}") // id valuation request
     public ResponseEntity<ViewDetailValuationRequestFinalApprovedDTO> viewManagerApprovedDetail(@PathVariable Integer id) {
         return ResponseEntity.ok(valuationRequestService.ViewDetailValuationRequestFinalApproved(id));
     }
+
 
 }
