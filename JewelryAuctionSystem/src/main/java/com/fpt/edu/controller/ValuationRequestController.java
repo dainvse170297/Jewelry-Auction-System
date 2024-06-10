@@ -119,6 +119,4 @@ public class ValuationRequestController {
         return ResponseEntity.ok(valuationRequestService.ViewDetailValuationRequestFinalApproved(id));
     }
 
-
-
 }

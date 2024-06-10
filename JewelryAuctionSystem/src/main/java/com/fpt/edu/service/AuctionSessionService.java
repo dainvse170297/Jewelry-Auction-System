@@ -5,10 +5,9 @@ import com.fpt.edu.entity.AuctionSession;
 import com.fpt.edu.entity.Lot;
 import com.fpt.edu.entity.Staff;
 import com.fpt.edu.mapper.AuctionSessionMapper;
-import com.fpt.edu.repository.AuctionSessionRepository;
+import com.fpt.edu.repository.IAuctionSessionRepository;
 import com.fpt.edu.repository.ILotRepository;
-import com.fpt.edu.repository.StaffRepository;
-import com.fpt.edu.status.AuctionRegisterStatus;
+import com.fpt.edu.repository.IStaffRepository;
 import com.fpt.edu.status.AuctionSessionStatus;
 import com.fpt.edu.status.LotStatus;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +19,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AuctionSessionService implements IAuctionSessionService{
-    private final AuctionSessionRepository auctionSessionRepository;
-    private final StaffRepository staffRepository;
+    private final IAuctionSessionRepository auctionSessionRepository;
+    private final IStaffRepository staffRepository;
     private final ILotRepository lotRepository;
 
     private final AuctionSessionMapper auctionSessionMapper;

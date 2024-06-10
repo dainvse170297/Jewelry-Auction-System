@@ -54,6 +54,4 @@ public class AuctionSessionController {
     public ResponseEntity<List<AuctionSessionDTO>> getUpcomingAuctionSession() {
         return ResponseEntity.ok(auctionSessionService.getUpcomingAuctionSession());
     }
-
-
 }
