@@ -1,12 +1,11 @@
-import React from 'react';
-import { Dropdown, Image } from 'react-bootstrap';
-import Avatar from './Avatar';
-import PersonIcon from '@mui/icons-material/Person';
-import AuctionIcon from '@mui/icons-material/Gavel';
 import Valuation from '@mui/icons-material/Diamond';
-import SettingsIcon from '@mui/icons-material/Settings';
+import AuctionIcon from '@mui/icons-material/Gavel';
 import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
+import SettingsIcon from '@mui/icons-material/Settings';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import Avatar from './Avatar';
 
 
 const AvatarDropdown = () => {
