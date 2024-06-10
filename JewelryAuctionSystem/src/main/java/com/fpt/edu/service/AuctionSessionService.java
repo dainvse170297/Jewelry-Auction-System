@@ -7,11 +7,11 @@ import com.fpt.edu.dto.LotDTO;
 import com.fpt.edu.dto.ViewLiveAuctionSessionDetailDTO;
 import com.fpt.edu.entity.*;
 import com.fpt.edu.mapper.AuctionSessionMapper;
-=
-import com.fpt.edu.repository.AuctionSessionRepository;
 import com.fpt.edu.repository.IAuctionRegisterRepository;
+import com.fpt.edu.repository.IAuctionSessionRepository;
 import com.fpt.edu.repository.ILotRepository;
 import com.fpt.edu.repository.IStaffRepository;
+import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.AuctionSessionStatus;
 import com.fpt.edu.status.LotStatus;
 import lombok.RequiredArgsConstructor;
@@ -19,22 +19,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.math.BigDecimal;
-import java.time.Duration;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class AuctionSessionService implements IAuctionSessionService {
-    private final AuctionSessionRepository auctionSessionRepository;
-    private final StaffRepository staffRepository;
     private final ILotRepository lotRepository;
+    private final IStaffRepository staffRepository;
+    private final IAuctionSessionRepository auctionSessionRepository;
     private final IAuctionRegisterRepository auctionRegisterRepository;
     private final AuctionSessionMapper auctionSessionMapper;
+    private final Cloudinary cloudinary;
 
     @Override
     public List<AuctionSession> getAllAuctionSession() {
