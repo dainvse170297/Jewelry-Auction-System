@@ -9,7 +9,8 @@ import java.math.BigDecimal;
 
 public interface IBidService {
 
-    public Bid placeforBid(BigDecimal price, Integer memberId, Integer lotId);
+    public BidDTO placeForBid( Integer memberId, Integer lotId,BigDecimal price);
+
 
 
 }

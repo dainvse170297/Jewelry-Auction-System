@@ -17,10 +17,10 @@ public class BidController {
         private final IBidService iBidService;
 
         @PostMapping("/place-bid")
-        public ResponseEntity<Bid> placeBid(@RequestParam("price") BigDecimal price,
-                                            @RequestParam("memberId") Integer memberId,
-                                            @RequestParam("lotId") Integer lotId) {
-                return ResponseEntity.ok(iBidService.placeforBid(price, memberId, lotId));
+        public ResponseEntity<BidDTO> placeBid(@RequestParam("memberId") Integer memberId,
+                                               @RequestParam("lotId") Integer lotId,
+                                               @RequestParam("price") BigDecimal price) {
+                return ResponseEntity.ok(iBidService.placeForBid( memberId, lotId,price));
         }
 }
 
