@@ -52,7 +52,7 @@ public class AuctionSessionService implements IAuctionSessionService {
         auctionSession.setStartingBid(startingBid);
         auctionSession.setStaff(staff);
         auctionSession.setStatus(AuctionSessionStatus.CREATED);
-        if (image != null || image.getBytes().length != 0 || image.isEmpty() == false){
+        if (image != null && !image.isEmpty()){
             byte[] imageByte = image.getBytes();
             Map r = cloudinary.uploader().upload(imageByte, ObjectUtils.emptyMap());
             auctionSession.setImage((String) r.get("url"));
