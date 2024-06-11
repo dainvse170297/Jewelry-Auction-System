@@ -14,7 +14,6 @@ function App() {
     <>
       <BrowserRouter>
         <Header />
-
         <Routes>
           <Route path='/' element={<Navigate to='/home' />} />
           <Route path='/home' element={<Home />} />
@@ -24,10 +23,11 @@ function App() {
           <Route path='/selling' element={<Selling />} />
           <Route path='/valuation-request/:id' element={<MyValuationRequest />} />
           <Route path='/response-valuation-request/:id' element={<ResponseValuationRequest />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/sign-up' element={<Register />} />
         </Routes>
-          {/* <Footer /> */}
+        {/* <Footer /> */}
       </BrowserRouter>
-
     </>
   );
 }

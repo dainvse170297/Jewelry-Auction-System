@@ -1,15 +1,7 @@
 .header {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgb(255, 255, 255);
-
-    // a{
-    //     font-size: 17px;
-    //     font-weight: 600;
-    //     margin: 10px;
-    //     padding: 10px;
-    // }
+    background-color: rgb(255, 253, 253);
+    padding-left: 70px;
 
     hr {
         height: 0px;
@@ -18,8 +10,27 @@
         padding: 0px;
     }
 
-}
+    .logo {
+        font-size: 32px;
+        padding-left: 50px;
+        padding-right: 100px;
+    }
 
-.logo {
-    font-size: 26px;
+    .notify-icon {
+        padding-left: 105px;
+    }
+
+    .avatar-icon {
+        padding-left: 20px;
+    }
+
+    .home-icon {
+        padding-right: 200px;
+    }
+
+    .item {
+        padding-left: 40px;
+
+    }
+
 }

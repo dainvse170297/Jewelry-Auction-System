@@ -29,7 +29,7 @@ public class AuctionSessionController {
                                                                @RequestParam("endTime") LocalDateTime endDate,
                                                                @RequestParam("startingBid") LocalDateTime startingBid,
                                                                @RequestParam("staffId") int staffId,
-                                                               @RequestParam("image") MultipartFile image) throws IOException {
+                                                               @RequestParam(value = "image", required = false) MultipartFile image) throws IOException {
     AuctionSession auction = auctionSessionService.createSession(name, description, startDate, endDate, startingBid, staffId, image);
 
         return ResponseEntity.ok(auction);

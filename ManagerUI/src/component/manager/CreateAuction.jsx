@@ -138,7 +138,7 @@ const CreateAuction = () => {
 
                                     <Form.Label htmlFor='startTime'>Start Date <span style={{ color: 'red' }}>*</span></Form.Label>
                                     <Form.Control
-                                        type="date"
+                                        type="datetime-local"
                                         id='startTime'
                                         name='startTime'
                                         value={auctionSession.startTime}
@@ -148,7 +148,7 @@ const CreateAuction = () => {
 
                                     <Form.Label htmlFor='endTime'>End Date <span style={{ color: 'red' }}>*</span></Form.Label>
                                     <Form.Control
-                                        type="date"
+                                        type="datetime-local"
                                         id='endTime'
                                         name='endTime'
                                         value={auctionSession.endTime}
@@ -180,7 +180,7 @@ const CreateAuction = () => {
 
                                     <Form.Label>Starting Bid Date <span style={{ color: 'red' }}>*</span></Form.Label>
                                     <Form.Control
-                                        type="date"
+                                        type="datetime-local"
                                         id='startingBid'
                                         name='startingBid'
                                         value={auctionSession.startingBid}

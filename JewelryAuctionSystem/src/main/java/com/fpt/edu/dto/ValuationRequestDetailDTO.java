@@ -21,6 +21,7 @@ public class ValuationRequestDetailDTO {
     private ValuationRequestStatus valuationStatus;
     private BigDecimal estimatePriceMax;
     private BigDecimal estimatePriceMin;
+    private BigDecimal memberEstimatePrice;
     private String description;
     private Integer productId;
     //    private Integer responseRequestValuationsId;
