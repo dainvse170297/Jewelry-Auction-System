@@ -68,6 +68,7 @@ public class ValuationRequestMapper {
                 valuationRequest.getValuationStatus(),
                 valuationRequest.getEstimatePriceMax(),
                 valuationRequest.getEstimatePriceMin(),
+                valuationRequest.getMemberEstimatePrice(),
                 valuationRequest.getDescription(),
                 productId,
 //                responseRequestValuationId,

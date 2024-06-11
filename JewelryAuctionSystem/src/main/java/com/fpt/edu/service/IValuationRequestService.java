@@ -11,19 +11,17 @@ import java.util.Map;
 import java.util.Set;
 
 public interface IValuationRequestService {
-    public ValuationRequestDTO create(Integer memberId, String description, BigDecimal estimateMin, BigDecimal estimateMax, Set<MultipartFile> files);
+    public ValuationRequestDetailDTO create(Integer memberId, String description, BigDecimal memberEstimatePrice, Set<MultipartFile> files);
 
     public List<ValuationRequestDetailDTO> getRequestedValuationRequest();
 
     public List<ValuationRequestDetailDTO> getPreliminaryValuationRequest();
 
-    public ValuationRequestDTO productReceived(Integer id);
+    public ValuationRequestDetailDTO productReceived(Integer id);
 
     public List<ValuationRequestDTO> getRequestStatusProductReceived();
 
     public ValuationRequestDTO getRequestByIdAndStatusProductReceived(int id);
-
-    public ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax);
 
     public List<FinalValuationRequestDTO> getListFinalValuationRequest();
 
@@ -39,7 +37,7 @@ public interface IValuationRequestService {
 
     public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId);
 
-    public ValuationRequestDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax, Integer staffId);
+    public ValuationRequestDetailDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax, Integer staffId);
 
     public ProductDetailDTO getProductDetail(Integer id);
     
