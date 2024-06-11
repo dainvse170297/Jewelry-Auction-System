@@ -70,7 +70,7 @@ const AvatarDropdown = () => {
         </li>
 
         <li>
-          <a className="dropdown-item" href="#!">
+          <a className="dropdown-item" href="/sign-up">
             <div className="px-1">
               <PersonAddAltIcon /> Sign Up
             </div>

@@ -24,6 +24,7 @@ function App() {
           <Route path='/valuation-request/:id' element={<MyValuationRequest />} />
           <Route path='/response-valuation-request/:id' element={<ResponseValuationRequest />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/sign-up' element={<Register />} />
         </Routes>
         {/* <Footer /> */}
       </BrowserRouter>

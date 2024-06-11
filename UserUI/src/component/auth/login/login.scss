@@ -3,9 +3,21 @@
     color: white;
     border: none;
     padding: 10px 20px;
+    letter-spacing: 1px;
 }
 
 .register {
     color: #B23842;
     text-decoration: none;
+}
+
+input {
+    width: 100%;
+    padding: 5px;
+    margin: 5px 0;
+    border: 1px solid #e4e4e4;
+
+    &::placeholder {
+        color: #aaaaaa;
+    }
 }
