@@ -1,36 +1,12 @@
 .header {
-    display: flex;
-    background-color: rgb(255, 253, 253);
-    padding-left: 70px;
+  display: flex;
+  background-color: rgb(255, 253, 253);
+  padding-left: 70px;
+}
 
-    hr {
-        height: 0px;
-        border: 0.5px solid rgb(143, 143, 143);
-        margin: 0px;
-        padding: 0px;
-    }
-
-    .logo {
-        font-size: 32px;
-        padding-left: 50px;
-        padding-right: 100px;
-    }
-
-    .notify-icon {
-        padding-left: 105px;
-    }
-
-    .avatar-icon {
-        padding-left: 20px;
-    }
-
-    .home-icon {
-        padding-right: 200px;
-    }
-
-    .item {
-        padding-left: 40px;
-
-    }
-
+hr {
+  height: 0px;
+  border: 1px solid rgb(95, 95, 95);
+  margin: 0px;
+  padding: 0px;
 }
