@@ -10,6 +10,10 @@ class Header extends React.Component {
         return (
             <div className="header">
                 <nav className="navbar navbar-expand-md bsb-navbar bsb-navbar-hover bsb-navbar-caret p-0">
+
+                    <a className="navbar-brand" href="index.html">
+                        {/* <img src="./assets/img/bsb-logo.svg" alt="BootstrapBrain Logo" width="135" height="44"> */}
+                    </a>
                     <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                         <div className="offcanvas-body">
                             <ul className="navbar-nav justify-content-center align-items-center flex-grow-1">
