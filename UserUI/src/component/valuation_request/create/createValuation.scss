@@ -8,7 +8,7 @@
   }
 
   .description {
-    height: 88%;
+    height: 95%;
   }
 
   .upload-title {
@@ -17,7 +17,7 @@
   }
 
   .upload-box {
-    border: 3px dashed #ced4da;
+    border: 10px dashed #ced4da;
 
     .custom-file-input {
       opacity: 0;
@@ -42,7 +42,7 @@
     line-height: 1.5;
     color: #495057;
     background-color: #fff;
-    border-radius: 10px;
+    // border-radius: 10px;
   }
 
   .file-formats {
