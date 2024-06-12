@@ -104,7 +104,7 @@ export default function CreateValuation() {
     <>
       <div className="createValuation container-fluid">
         <ToastContainer />
-        <h1 className="text-center">Jewelry Valuation</h1>
+        <h1 className="text-center py-4">Jewelry Valuation</h1>
 
         <form onSubmit={Create}>
           <div className="row d-flex justify-content-center mt-3">
@@ -135,7 +135,7 @@ export default function CreateValuation() {
                     <div className="col text-center px-4 pb-4 border">
                       <p className="upload-title mt-4 mb-01">Photos</p>
                       <hr />
-                      <div className="col upload-box rounded-4 mx-2 py-4">
+                      <div className="col upload-box rounded-5 mx-2 py-4 mt-3">
                         <div className="row mb-3">
                           <span>
                             <strong>
@@ -178,13 +178,13 @@ export default function CreateValuation() {
 
                 <div className="col-sm-6 px-2 mx-0">
                   <div className="row mx-0">
-                    <h4 className="pb-3">
+                    <h4 className="pb">
                       Description <span style={{ color: "red" }}>*</span>
                     </h4>
                     <hr />
                   </div>
                   {/* Description */}
-                  <div className="row description px-3 mx-0">
+                  <div className="row description p-3 mx-0">
                     <Form.Control
                       type="text"
                       as="textarea"
