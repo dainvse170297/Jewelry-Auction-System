@@ -1,5 +1,6 @@
 package com.fpt.edu.controller;
 
+import com.fpt.edu.dto.LotDTO;
 import com.fpt.edu.entity.Lot;
 import com.fpt.edu.service.ILotService;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +26,8 @@ public class LotController {
     public ResponseEntity<Lot> getReadyLotById(@PathVariable int id) {
         return ResponseEntity.ok(lotService.getLotsByStatusReadyById(id));
     }
-
+    @GetMapping("/view-live-lot-detail/{id}")
+    public ResponseEntity<LotDTO> viewLiveLotDetail(@PathVariable Integer id) { //id lot
+        return ResponseEntity.ok(lotService.viewLiveLotDetail(id));
+    }
 }

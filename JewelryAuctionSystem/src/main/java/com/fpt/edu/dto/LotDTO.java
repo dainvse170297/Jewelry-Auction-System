@@ -1,6 +1,7 @@
 package com.fpt.edu.dto;
 
 import com.fpt.edu.entity.ProductImage;
+import com.fpt.edu.status.LotStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ public class LotDTO {
         private  String productName;
         private BigDecimal currentPrice;
         private List<ProductImage> productImages;
-        private String status;
+        private LotStatus status;
         private Integer numberOfRegister;
 
 }
