@@ -49,7 +49,7 @@ class Header extends React.Component {
                           </a>
                         </li>
                         <li>
-                          <a className="dropdown-item" href="#!">
+                          <a className="dropdown-item" href="/upcoming">
                             Upcoming auction
                           </a>
                         </li>
@@ -132,6 +132,7 @@ class Header extends React.Component {
                     <div className="offcanvas-body">
                       <ul className="navbar-nav justify-content-center align-items-center flex-grow-1">
                         <AvatarDropdown />
+
                       </ul>
                     </div>
                   </div>

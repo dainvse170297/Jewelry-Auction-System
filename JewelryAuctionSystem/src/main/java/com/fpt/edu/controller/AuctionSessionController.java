@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -67,6 +68,12 @@ public class AuctionSessionController {
                                                           @RequestParam("memberId") Integer memberId) {
         ResponseEntity<?> response = auctionSessionService.viewLiveAuctionSessionDetail(sessionId, memberId);
         return response;
+    }
+
+    @PostMapping("/session/upcoming/details")
+    public ResponseEntity<Map<String,Object>> getUpcomingAuctionSessionDetails(@RequestParam("sessionId") Integer sessionId,
+                                                                               @RequestParam("memberId") Integer memberId) {
+        return ResponseEntity.ok(auctionSessionService.getAuctionSessionDetails(sessionId,memberId));
     }
 
 }
