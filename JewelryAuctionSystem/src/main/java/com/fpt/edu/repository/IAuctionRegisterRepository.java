@@ -11,10 +11,14 @@ import java.util.List;
 @Repository
 public interface IAuctionRegisterRepository  extends JpaRepository<AuctionRegister, Integer> {
 
-  public  Integer countByLotIdAndStatus(Integer lotId, AuctionRegisterStatus auctionRegisterStatus);
+  Integer countByLotIdAndStatus(Integer lotId, AuctionRegisterStatus auctionRegisterStatus);
+
   List<AuctionRegister> findAuctionRegisterByMemberIdAndStatus(Integer memberId, AuctionRegisterStatus auctionRegisterStatus);
 
   Integer countByLotId(Integer id);
 
   List<AuctionRegister> findByMemberId(Integer memberId);
+
+  AuctionRegister findByLotIdAndMemberId(Integer lotId, Integer memberId);
+
 }
