@@ -2,15 +2,12 @@ package com.fpt.edu.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.fpt.edu.dto.AuctionSessionDTO;
-import com.fpt.edu.dto.LotDTO;
-import com.fpt.edu.dto.ViewLiveAuctionSessionDetailDTO;
+import com.fpt.edu.dto.*;
 import com.fpt.edu.entity.*;
+import com.fpt.edu.mapper.AuctionRegisterMapper;
 import com.fpt.edu.mapper.AuctionSessionMapper;
-import com.fpt.edu.repository.IAuctionRegisterRepository;
-import com.fpt.edu.repository.IAuctionSessionRepository;
-import com.fpt.edu.repository.ILotRepository;
-import com.fpt.edu.repository.IStaffRepository;
+import com.fpt.edu.mapper.ProductMapper;
+import com.fpt.edu.repository.*;
 import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.AuctionSessionStatus;
 import com.fpt.edu.status.LotStatus;
@@ -22,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,7 +31,10 @@ public class AuctionSessionService implements IAuctionSessionService {
     private final IStaffRepository staffRepository;
     private final IAuctionSessionRepository auctionSessionRepository;
     private final IAuctionRegisterRepository auctionRegisterRepository;
+    private final IProductRepository productRepository;
+    private final ProductMapper productMapper;
     private final AuctionSessionMapper auctionSessionMapper;
+    private final AuctionRegisterMapper auctionRegisterMapper;
     private final Cloudinary cloudinary;
 
     @Override
@@ -52,11 +53,11 @@ public class AuctionSessionService implements IAuctionSessionService {
         auctionSession.setStartingBid(startingBid);
         auctionSession.setStaff(staff);
         auctionSession.setStatus(AuctionSessionStatus.CREATED);
-        if (image != null && !image.isEmpty()){
+        if (image != null || image.getBytes().length != 0 || image.isEmpty() == false) {
             byte[] imageByte = image.getBytes();
             Map r = cloudinary.uploader().upload(imageByte, ObjectUtils.emptyMap());
             auctionSession.setImage((String) r.get("url"));
-        }else{
+        } else {
             auctionSession.setImage("https://www.fortunaauction.com/wp-content/uploads/2019/12/Upcoming-Auction-Placeholder-Template.jpg");
         }
         auctionSessionRepository.save(auctionSession);
@@ -89,7 +90,6 @@ public class AuctionSessionService implements IAuctionSessionService {
         return auctionSessionMapper.toAuctionSessionDTOList(auctionSessionRepository.findByStatus(AuctionSessionStatus.UPCOMING));
     }
 
-
     @Override
     public boolean authByMember(Integer sessionId, Integer memberId) {
         AuctionRegisterStatus status = AuctionRegisterStatus.BID;
@@ -116,8 +116,8 @@ public class AuctionSessionService implements IAuctionSessionService {
     public ResponseEntity<?> viewLiveAuctionSessionDetail(Integer sessionId, Integer memberId) {
         AuctionRegisterStatus status = AuctionRegisterStatus.BID;
 
-       boolean check = authByMember(sessionId, memberId);
-        if (check){
+        boolean check = authByMember(sessionId, memberId);
+        if (check) {
             AuctionSession auctionSession = auctionSessionRepository.findById(sessionId).get();
             ViewLiveAuctionSessionDetailDTO viewLiveAuctionSessionDetailDTO = new ViewLiveAuctionSessionDetailDTO();
             viewLiveAuctionSessionDetailDTO.setId(auctionSession.getId());
@@ -156,10 +156,34 @@ public class AuctionSessionService implements IAuctionSessionService {
             viewLiveAuctionSessionDetailDTO.setStatus(auctionSession.getStatus());
             viewLiveAuctionSessionDetailDTO.setLots(listLotDTO);
             return ResponseEntity.ok(viewLiveAuctionSessionDetailDTO);
-        }else {
+        } else {
             return ResponseEntity.badRequest().build();
         }
-
     }
 
+    public Map<String, Object> getAuctionSessionDetails(Integer sessionId, Integer memberId) {
+            AuctionSession auctionSession = auctionSessionRepository.getReferenceById(sessionId);
+            AuctionSessionDTO auctionSessionDTO = auctionSessionMapper.toAuctionSessionDTO(auctionSession);
+            List<Lot> lots = lotRepository.findByAuctionSession_Id(sessionId);
+            List<LotDTO> lotDTOS = new ArrayList<>();
+            for (Lot lot : lots) {
+                LotDTO lotDTO = new LotDTO();
+                lotDTO.setId(lot.getId());
+                lotDTO.setProductId(lot.getProduct().getId());
+                lotDTO.setProductName(lot.getProduct().getName());
+                lotDTO.setCurrentPrice(lot.getCurrentPrice());
+                lotDTO.setStatus(lot.getStatus().toString());
+                lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotId(lot.getId()));
+                List<ProductImage> productImages = new ArrayList<>(lot.getProduct().getProductImages());
+                lotDTO.setProductImages(productImages);
+                lotDTOS.add(lotDTO);
+            }
+            List<AuctionRegister> registers = auctionRegisterRepository.findByMemberId(memberId);
+            List<AuctionRegisterDTO> registerDTOS = auctionRegisterMapper.toAuctionRegisterDTOList(registers);
+            Map<String, Object> map = new HashMap<>();
+            map.put("Lots", lotDTOS);
+            map.put("AuctionSession", auctionSessionDTO);
+            map.put("Registers", registerDTOS);
+            return map;
+    }
 }

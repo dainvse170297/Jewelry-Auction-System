@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface  IAuctionSessionService {
 
@@ -29,4 +30,6 @@ public interface  IAuctionSessionService {
     ResponseEntity<?> viewLiveAuctionSessionDetail(Integer sessionId, Integer memberId);
 
     boolean authByMember(Integer sessionId, Integer memberId);
+
+    Map<String, Object> getAuctionSessionDetails(Integer sessionId, Integer memberId);
 }
