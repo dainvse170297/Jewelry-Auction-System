@@ -2,7 +2,9 @@ package com.fpt.edu.controller;
 
 import com.fpt.edu.dto.AccountDTO;
 import com.fpt.edu.entity.Account;
+import com.fpt.edu.response.AuthenticationResponse;
 import com.fpt.edu.service.AccountService;
+import com.nimbusds.jose.JOSEException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +20,8 @@ public class AuthController {
         private final AccountService accountService;
 
         @PostMapping("/login")
-        public ResponseEntity<AccountDTO> login(@RequestParam("username") String username,
-                                                @RequestParam("password") String password) {
+        public ResponseEntity<AuthenticationResponse> login(@RequestParam("username") String username,
+                                                            @RequestParam("password") String password) throws JOSEException {
 
             return ResponseEntity.ok(accountService.login(username, password));
 
