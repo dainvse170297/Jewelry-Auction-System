@@ -25,12 +25,19 @@ public class AuctionSessionController {
     @PostMapping("/create-session")
     public ResponseEntity<AuctionSession> createAuctionSession(@RequestParam("name") String name,
                                                                @RequestParam("description") String description,
+<<<<<<< Updated upstream
                                                                @RequestParam("startTime") LocalDateTime startDate,
                                                                @RequestParam("endTime") LocalDateTime endDate,
                                                                @RequestParam("startingBid") LocalDateTime startingBid,
                                                                @RequestParam("staffId") int staffId,
                                                                @RequestParam(value = "image", required = false) MultipartFile image) throws IOException {
     AuctionSession auction = auctionSessionService.createSession(name, description, startDate, endDate, startingBid, staffId, image);
+=======
+                                                               @RequestParam("startTime") LocalDate startDate,
+                                                               @RequestParam("startingBid") LocalDate startingBid,
+                                                               @RequestParam("staffId") int staffId) {
+        AuctionSession auction = auctionSessionService.createSession(name, description, startDate, startingBid, staffId);
+>>>>>>> Stashed changes
 
         return ResponseEntity.ok(auction);
     }
