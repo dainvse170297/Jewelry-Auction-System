@@ -19,5 +19,4 @@ public class LotDTO {
         private List<ProductImage> productImages;
         private String status;
         private Integer numberOfRegister;
-
 }

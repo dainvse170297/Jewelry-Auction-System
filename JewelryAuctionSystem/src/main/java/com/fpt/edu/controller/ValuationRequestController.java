@@ -28,7 +28,7 @@ public class ValuationRequestController {
     @CrossOrigin(origins = "*")
     public ResponseEntity<ValuationRequestDetailDTO> addValuationRequest(@RequestParam("memberId") Integer memberId,
                                                                    @RequestParam("description") String description,
-                                                                   @RequestParam(value = "memberEstimatePrice ",required = false) BigDecimal memberEstimatePrice,
+                                                                   @RequestParam(value = "memberEstimatePrice",required = false) BigDecimal memberEstimatePrice,
                                                                    @RequestParam("image") Set<MultipartFile> files
     ) throws IOException {
         return ResponseEntity.ok(valuationRequestService.create(memberId, description,memberEstimatePrice, files));
