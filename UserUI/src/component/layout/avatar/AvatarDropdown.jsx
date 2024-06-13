@@ -16,6 +16,14 @@ const AvatarDropdown = () => {
     navigate("/valuation-request/1");
   };
 
+  const currentUser = JSON.parse(localStorage.getItem("account"));
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("account");
+    navigate("/");
+  }
+
   return (
     <li className="nav-item dropdown">
       <a
@@ -34,58 +42,65 @@ const AvatarDropdown = () => {
         className="dropdown-menu border-0 shadow bsb-zoomIn"
         aria-labelledby="accountDropdown"
       >
-        <li className="src/component/valuation_request/create/CreateValuation.jsx">
-          <a className="dropdown-item" href="#!">
-            <div className="px-1">
-              <PersonIcon /> Profile
-            </div>
-          </a>
-        </li>
-        <li>
-          <a className="dropdown-item" href="#!">
-            <div className="px-1">
-              <AuctionIcon /> My Auction
-            </div>
-          </a>
-        </li>
-        <li>
-          <a className="dropdown-item" onClick={navigateToValuationRequest}>
-            <div className="px-1">
-              <Valuation /> My Valuation
-            </div>
-          </a>
-        </li>
-        <li>
-          <a className="dropdown-item" href="#!">
-            <div className="px-1">
-              <SettingsIcon /> Settings
-            </div>
-          </a>
-        </li>
+        {currentUser ? (
+          <>
+            <li className="src/component/valuation_request/create/CreateValuation.jsx">
+              <a className="dropdown-item" href="#!">
+                <div className="px-1">
+                  <PersonIcon /> Profile
+                </div>
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="#!">
+                <div className="px-1">
+                  <AuctionIcon /> My Auction
+                </div>
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" onClick={navigateToValuationRequest}>
+                <div className="px-1">
+                  <Valuation /> My Valuation
+                </div>
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="#!">
+                <div className="px-1">
+                  <SettingsIcon /> Settings
+                </div>
+              </a>
+            </li>
 
-        <li>
-          <a className="dropdown-item" href="#!">
-            <div className="px-1">
-              <LogoutIcon /> Log Out
-            </div>
-          </a>
-        </li>
+            <li>
+              <a className="dropdown-item" href="#!" onClick={handleLogout}>
+                <div className="px-1">
+                  <LogoutIcon /> Log Out
+                </div>
+              </a>
+            </li>
+          </>
+        ) : (
+          // khi chưa đăng nhập
+          <>
+            <li>
+              <a className="dropdown-item" href="/login">
+                <div className="px-1">
+                  <LoginIcon /> Sign In
+                </div>
+              </a>
+            </li>
 
-        <li>
-          <a className="dropdown-item" href="/login">
-            <div className="px-1">
-              <LoginIcon /> Sign In
-            </div>
-          </a>
-        </li>
-
-        <li>
-          <a className="dropdown-item" href="/sign-up">
-            <div className="px-1">
-              <PersonAddAltIcon /> Sign Up
-            </div>
-          </a>
-        </li>
+            <li>
+              <a className="dropdown-item" href="/sign-up">
+                <div className="px-1">
+                  <PersonAddAltIcon /> Sign Up
+                </div>
+              </a>
+            </li>
+          </>
+        )}
       </ul>
     </li>
   );

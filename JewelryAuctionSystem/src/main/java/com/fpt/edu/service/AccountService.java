@@ -2,6 +2,7 @@ package com.fpt.edu.service;
 
 import com.fpt.edu.entity.Account;
 
+import com.fpt.edu.exception.UsernameNotFoundException;
 import com.fpt.edu.mapper.AuthenticationMapper;
 import com.fpt.edu.repository.IAccountRepository;
 import com.fpt.edu.security.request.IntrospectRequest;
@@ -51,7 +52,7 @@ public class AccountService implements IAccountService {
     public AuthenticationResponse login(String username, String password) throws JOSEException {
 
         Account account = accountRepository.findByUsernameAndPassword(username, password).orElseThrow(
-                () -> new RuntimeException("Account not found")
+                () -> new UsernameNotFoundException("Invalid username or password")
         );
 
         String role = account.getRole().getName();
