@@ -23,8 +23,46 @@ public class SecurityConfig {
 
 
     private final String[] PUBLIC_ENDPOINTS ={
-      "/auth/token","/auth/introspect","/account/register"
+             "/auth/token", // login
+            "/auth/introspect", // check token
+            "/account/register" // register
     };
+//
+//    private final String[] MEMBER_POST_ENDPOINTS ={
+//            "/valuation/create", // create valuation
+//            "",
+//            ""
+//    };
+//    private final String[] MEMBER_GET_ENDPOINTS ={
+//            "",
+//            "",
+//            ""
+//    };
+//    private final String[] STAFF_POST_ENDPOINTS ={
+//            "/valuation/preliminary-valuation",
+//            "/valuation/product-received",
+//            "/product/add-product",
+//            ""
+//    };
+//    private final String[] STAFF_GET_ENDPOINTS ={
+//            "/valuation/requested" //
+//            ,"/valuation/request/status/product-received",
+//            "",
+//    };
+//
+//    private final String[] MANAGER_POST_ENDPOINTS ={
+//            "" //
+//            ,"",
+//            "",
+//    };
+//    private final String[] MANAGER_GET_ENDPOINTS ={
+//            "/valuation/get-all-final-valuations" //
+//            ,"/valuation/request/status/product-received",
+//            "",
+//    };
+
+
+
 
     @Value("${jwt.signerKey}")
     private String SIGNER_KEY;
@@ -36,13 +74,19 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement
-                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                     //   .requestMatchers("/").permitAll()
-                         .requestMatchers(HttpMethod.POST,PUBLIC_ENDPOINTS).permitAll()
-                     //   .anyRequest().permitAll()
-                     .anyRequest().authenticated()
+                       .requestMatchers("/").permitAll()
+                     //   .requestMatchers(HttpMethod.POST,PUBLIC_ENDPOINTS).permitAll()
+
+//                        .requestMatchers(HttpMethod.POST,MEMBER_POST_ENDPOINTS).hasAuthority("SCOPE_MEMBER")
+//                        .requestMatchers(HttpMethod.GET, MEMBER_GET_ENDPOINTS).hasAuthority("SCOPE_MEMBER")
+//                        .requestMatchers(HttpMethod.POST,STAFF_POST_ENDPOINTS).hasAuthority("SCOPE_STAFF")
+//                        .requestMatchers(HttpMethod.GET, STAFF_GET_ENDPOINTS).hasAuthority("SCOPE_STAFF")
+
+                       .anyRequest().permitAll()
+               //     .anyRequest().authenticated()
                 );
             http.oauth2ResourceServer(oauth2 ->
                     oauth2.jwt(jwt -> jwt.decoder(jwtDecoder())));

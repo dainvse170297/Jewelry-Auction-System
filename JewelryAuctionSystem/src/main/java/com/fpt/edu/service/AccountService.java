@@ -14,6 +14,7 @@ import com.fpt.edu.exception.UsernameExistedException;
 import com.fpt.edu.repository.IMemberRepository;
 import com.fpt.edu.repository.IRoleRepository;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import com.nimbusds.jose.*;
@@ -32,6 +33,7 @@ import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
+
 public class AccountService implements IAccountService {
 
     private static final Logger log = LoggerFactory.getLogger(AccountService.class);
@@ -50,6 +52,7 @@ public class AccountService implements IAccountService {
         Account account = accountRepository.findByUsernameAndPassword(username, password).orElseThrow(
                 () -> new RuntimeException("Account not found")
         );
+
         String role = account.getRole().getName();
         Integer accountId = account.getId();
         String token = generateToken(username,role,accountId);
