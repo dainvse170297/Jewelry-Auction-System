@@ -10,12 +10,12 @@ const Login = () => {
                     <h4 className='text-center mb-5'>SIGN IN</h4>
                     <form action="" method='POST'>
                         <div className="form-group">
-                            <label for="username">Username</label>
+                            <label htmlFor="username">Username</label>
                             <input type="text" className="" id="username" />
                         </div>
                         <div className="form-group mt-3">
-                            <label for="pwd">Password</label>
-                            <input type="password" className="" id="pwd" />
+                            <label htmlFor="password">Password</label>
+                            <input type="password" className="" id="password" autoComplete='off' />
                         </div>
                         <div className="form-group form-check mt-3">
                             <label className="form-check-label">

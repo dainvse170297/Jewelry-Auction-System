@@ -13,7 +13,7 @@ import java.util.Map;
 public class HandleException {
 
     @ExceptionHandler(RuntimeException.class)
-    @ResponseStatus(org.springframework.http.HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.CONFLICT)
     public Map<String,String> handleException(Exception e){
         Map<String,String> map = new HashMap<>();
         map.put("message",e.getMessage());
@@ -21,8 +21,16 @@ public class HandleException {
     }
 
     @ExceptionHandler(UsernameExistedException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.CONFLICT)
     public Map<String,String> handleUsernameExistedException(Exception e){
+        Map<String,String> map = new HashMap<>();
+        map.put("message",e.getMessage());
+        return map;
+    }
+
+    @ExceptionHandler(EmailExistedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String,String> handleEmailExistedException(Exception e){
         Map<String,String> map = new HashMap<>();
         map.put("message",e.getMessage());
         return map;
