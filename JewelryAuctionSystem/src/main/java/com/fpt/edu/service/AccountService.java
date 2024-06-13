@@ -105,7 +105,7 @@ public class AccountService implements IAccountService {
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
-                )).claim("role", role)
+                )).claim("scope", role)
                 .claim("accountId",accountId)
                 .build();
 
