@@ -33,6 +33,7 @@ public class AuctionSessionController {
                                                                @RequestParam(value = "image", required = false) MultipartFile image) throws IOException {
     AuctionSession auction = auctionSessionService.createSession(name, description, startDate, endDate, startingBid, staffId, image);
 
+
         return ResponseEntity.ok(auction);
     }
 

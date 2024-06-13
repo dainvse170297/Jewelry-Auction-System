@@ -1,11 +1,26 @@
 package com.fpt.edu.service;
 
 import com.fpt.edu.entity.Account;
+
 import com.fpt.edu.mapper.AuthenticationMapper;
 import com.fpt.edu.repository.IAccountRepository;
 import com.fpt.edu.security.request.IntrospectRequest;
 import com.fpt.edu.security.response.AuthenticationResponse;
 import com.fpt.edu.security.response.IntrospectResponse;
+
+import com.fpt.edu.entity.Member;
+import com.fpt.edu.entity.Role;
+import com.fpt.edu.exception.UsernameExistedException;
+import com.fpt.edu.mapper.AccountMapper;
+import com.fpt.edu.mapper.AuthenticationMapper;
+import com.fpt.edu.repository.IAccountRepository;
+import com.fpt.edu.repository.IMemberRepository;
+import com.fpt.edu.repository.IRoleRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
+import com.fpt.edu.response.AuthenticationResponse;
+
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -31,6 +46,8 @@ public class AccountService implements IAccountService {
 
     private static final Logger log = LoggerFactory.getLogger(AccountService.class);
     private final IAccountRepository accountRepository;
+    private final IMemberRepository memberRepository;
+    private final IRoleRepository roleRepository;
 
     @NonFinal
     @Value("${jwt.signerKey}")
@@ -65,6 +82,29 @@ public class AccountService implements IAccountService {
 
         return new IntrospectResponse(verified && expirationTime.after(new Date()));
 
+    @Override
+    public Account createAccount(String username, String password, String fullName, String email, String phone, String address) {
+
+        Account account = new Account();
+        Member member = new Member();
+        if(accountRepository.findByUsername(username).isPresent()){
+            throw new UsernameExistedException("Username is existed");
+        }else{
+            account.setUsername(username);
+            account.setPassword(password);
+            account.setCreateDate(LocalDateTime.now());
+            Role role = roleRepository.findByName("MEMBER");
+            account.setRole(role);
+            member.setFullname(fullName);
+            member.setEmail(email);
+            member.setPhone(phone);
+            member.setAddress(address);
+            account.setMembers(member);
+            memberRepository.save(member);
+            accountRepository.save(account);
+        }
+        return account;
+    }
 
     }
 
