@@ -19,7 +19,7 @@ public class AccountController {
         return "Account";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/member/register")
     public ResponseEntity<Account> createAccount(@RequestParam("username") String username,
                                                  @RequestParam("password")String password,
                                                  @RequestParam("fullName")String fullName,

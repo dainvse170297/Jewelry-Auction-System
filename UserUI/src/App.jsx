@@ -7,6 +7,7 @@ import Selling from "./component/selling/Selling.jsx";
 import ResponseValuationRequest from "./component/valuation_request/response/ValuationResponseList.jsx";
 import MyValuationRequest from "./component/valuation_request/view/MyValuationRequest.jsx";
 import UpcomingSession from "./component/auction-session/upcoming-session/UpcomingSession.jsx";
+import Register from "./component/auth/register/Register.jsx";
 
 function App() {
   return (
