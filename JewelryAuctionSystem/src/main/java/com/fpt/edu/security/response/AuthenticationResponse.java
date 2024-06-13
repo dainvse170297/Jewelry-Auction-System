@@ -1,12 +1,9 @@
-package com.fpt.edu.response;
+package com.fpt.edu.security.response;
 
 import com.fpt.edu.dto.AccountDTO;
-import com.fpt.edu.entity.Account;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor

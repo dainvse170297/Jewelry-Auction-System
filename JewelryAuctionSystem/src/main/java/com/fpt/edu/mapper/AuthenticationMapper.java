@@ -1,8 +1,7 @@
 package com.fpt.edu.mapper;
 
-import com.fpt.edu.dto.AccountDTO;
 import com.fpt.edu.entity.Account;
-import com.fpt.edu.response.AuthenticationResponse;
+import com.fpt.edu.security.response.AuthenticationResponse;
 import org.springframework.stereotype.Component;
 
 
