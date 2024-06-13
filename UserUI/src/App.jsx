@@ -7,6 +7,7 @@ import Selling from "./component/selling/Selling.jsx";
 import ResponseValuationRequest from "./component/valuation_request/response/ValuationResponseList.jsx";
 import MyValuationRequest from "./component/valuation_request/view/MyValuationRequest.jsx";
 import UpcomingSession from "./component/auction-session/upcoming-session/UpcomingSession.jsx";
+import Register from "./component/auth/register/Register.jsx";
 
 function App() {
   return (
@@ -15,16 +16,22 @@ function App() {
         <Header />
 
         <Routes>
-          <Route path='/' element={<Navigate to='/home' />} />
-          <Route path='/home/*' element={<Home />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/create-valuation' element={<CreateValuation />} />
-          <Route path='/selling' element={<Selling />} />
+          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="/home/*" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/create-valuation" element={<CreateValuation />} />
+          <Route path="/selling" element={<Selling />} />
           <Route path="/upcoming" element={<UpcomingSession />} />
-          <Route path='/valuation-request/:id' element={<MyValuationRequest />} />
-          <Route path='/response-valuation-request/:id' element={<ResponseValuationRequest />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/sign-up' element={<Register />} />
+          <Route
+            path="/valuation-request/:id"
+            element={<MyValuationRequest />}
+          />
+          <Route
+            path="/response-valuation-request/:id"
+            element={<ResponseValuationRequest />}
+          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/sign-up" element={<Register />} />
         </Routes>
         {/* <Footer /> */}
       </BrowserRouter>
