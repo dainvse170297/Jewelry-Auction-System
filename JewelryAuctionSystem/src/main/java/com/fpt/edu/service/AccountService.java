@@ -11,30 +11,20 @@ import com.fpt.edu.security.response.IntrospectResponse;
 import com.fpt.edu.entity.Member;
 import com.fpt.edu.entity.Role;
 import com.fpt.edu.exception.UsernameExistedException;
-import com.fpt.edu.mapper.AccountMapper;
-import com.fpt.edu.mapper.AuthenticationMapper;
-import com.fpt.edu.repository.IAccountRepository;
 import com.fpt.edu.repository.IMemberRepository;
 import com.fpt.edu.repository.IRoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
-import com.fpt.edu.response.AuthenticationResponse;
-
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.NonFinal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -82,9 +72,10 @@ public class AccountService implements IAccountService {
 
         return new IntrospectResponse(verified && expirationTime.after(new Date()));
 
+    }
+
     @Override
     public Account createAccount(String username, String password, String fullName, String email, String phone, String address) {
-
         Account account = new Account();
         Member member = new Member();
         if(accountRepository.findByUsername(username).isPresent()){
@@ -104,8 +95,6 @@ public class AccountService implements IAccountService {
             accountRepository.save(account);
         }
         return account;
-    }
-
     }
 
     private String generateToken(String username,String role, Integer accountId) throws JOSEException {
