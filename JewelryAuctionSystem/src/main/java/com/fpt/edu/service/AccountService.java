@@ -52,6 +52,7 @@ public class AccountService implements IAccountService {
     }
     @Override
     public IntrospectResponse introspect(IntrospectRequest introspectRequest) throws JOSEException, ParseException {
+
         String token = introspectRequest.getToken();
 
         JWSVerifier jwsVerifier = new MACVerifier(SIGNER_KEY.getBytes());
@@ -66,7 +67,7 @@ public class AccountService implements IAccountService {
 
 
     }
-    
+
     private String generateToken(String username,String role, Integer accountId) throws JOSEException {
         JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS512);
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
