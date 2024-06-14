@@ -13,6 +13,7 @@ import com.fpt.edu.status.AuctionSessionStatus;
 import com.fpt.edu.status.LotStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -86,8 +87,8 @@ public class AuctionSessionService implements IAuctionSessionService {
     }
 
     @Override
-    public List<AuctionSessionDTO> getUpcomingAuctionSession() {
-        return auctionSessionMapper.toAuctionSessionDTOList(auctionSessionRepository.findByStatus(AuctionSessionStatus.UPCOMING));
+    public List<AuctionSessionDTO> getAuctionSession(AuctionSessionStatus status) {
+        return auctionSessionMapper.toAuctionSessionDTOList(auctionSessionRepository.findByStatus(status));
     }
 
     @Override
@@ -172,7 +173,7 @@ public class AuctionSessionService implements IAuctionSessionService {
                 lotDTO.setProductId(lot.getProduct().getId());
                 lotDTO.setProductName(lot.getProduct().getName());
                 lotDTO.setCurrentPrice(lot.getCurrentPrice());
-                lotDTO.setStatus(lot.getStatus().toString());
+                lotDTO.setStatus(lot.getStatus());
                 lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotId(lot.getId()));
                 List<ProductImage> productImages = new ArrayList<>(lot.getProduct().getProductImages());
                 lotDTO.setProductImages(productImages);
@@ -185,5 +186,32 @@ public class AuctionSessionService implements IAuctionSessionService {
             map.put("AuctionSession", auctionSessionDTO);
             map.put("Registers", registerDTOS);
             return map;
+    }
+
+    public List<AuctionSession> getAuctionSessions(AuctionSessionStatus status) {
+        return auctionSessionRepository.findByStatus(status);
+    }
+
+    @Scheduled(fixedRate = 10000) // This will run the method every 10 seconds
+    public void updateSessionStatusLive() {
+        List<AuctionSession> upcomingSessions = getAuctionSessions(AuctionSessionStatus.UPCOMING);
+        LocalDateTime now = LocalDateTime.now();
+        for (AuctionSession session : upcomingSessions) {
+            if (!session.getStartTime().isAfter(now) && !session.getEndTime().isBefore(now)) { // if the current time is between the start and end time
+                session.setStatus(AuctionSessionStatus.LIVE);
+                auctionSessionRepository.save(session);
+            }
+        }
+    }
+    @Scheduled(fixedRate = 10000) // This will run the method every 10 seconds
+    public void updateSessionStatusPast() {
+        List<AuctionSession> upcomingSessions = getAuctionSessions(AuctionSessionStatus.LIVE);
+        LocalDateTime now = LocalDateTime.now();
+        for (AuctionSession session : upcomingSessions) {
+            if (session.getEndTime().isBefore(now)) { // if the current time is after the end time
+                session.setStatus(AuctionSessionStatus.PAST);
+                auctionSessionRepository.save(session);
+            }
+        }
     }
 }

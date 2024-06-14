@@ -4,6 +4,7 @@ import com.fpt.edu.dto.AuctionSessionDTO;
 import com.fpt.edu.dto.ViewLiveAuctionSessionDetailDTO;
 import com.fpt.edu.entity.AuctionSession;
 import com.fpt.edu.service.IAuctionSessionService;
+import com.fpt.edu.status.AuctionSessionStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +60,7 @@ public class AuctionSessionController {
 
     @GetMapping("/session/upcoming")
     public ResponseEntity<List<AuctionSessionDTO>> getUpcomingAuctionSession() {
-        return ResponseEntity.ok(auctionSessionService.getUpcomingAuctionSession());
+        return ResponseEntity.ok(auctionSessionService.getAuctionSession(AuctionSessionStatus.UPCOMING));
     }
 
     @GetMapping("/session/view-live-auction-session-detail")
@@ -75,4 +76,8 @@ public class AuctionSessionController {
         return ResponseEntity.ok(auctionSessionService.getAuctionSessionDetails(sessionId,memberId));
     }
 
+    @GetMapping("/session/live")
+    public ResponseEntity<List<AuctionSessionDTO>> getLiveAuctionSession() {
+        return ResponseEntity.ok(auctionSessionService.getAuctionSession(AuctionSessionStatus.LIVE));
+    }
 }

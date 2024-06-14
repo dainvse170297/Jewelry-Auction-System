@@ -25,7 +25,7 @@ public interface  IAuctionSessionService {
 
     AuctionSession getAuctionSessionById(int id);
 
-    List<AuctionSessionDTO> getUpcomingAuctionSession();
+    List<AuctionSessionDTO> getAuctionSession(AuctionSessionStatus status);
 
     ResponseEntity<?> viewLiveAuctionSessionDetail(Integer sessionId, Integer memberId);
 
