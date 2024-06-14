@@ -32,4 +32,6 @@ public interface  IAuctionSessionService {
     boolean authByMember(Integer sessionId, Integer memberId);
 
     Map<String, Object> getAuctionSessionDetails(Integer sessionId, Integer memberId);
+
+
 }
