@@ -153,7 +153,7 @@ const Register = () => {
                             Already have an account? <a className='register' href="/login">Log in</a>
                         </div>
 
-                        {errorMsg && <p className="msg">{errorMsg}</p>}
+                        {errorMsg && <p className="alert alert-danger">{errorMsg}</p>}
 
                         <button type="submit" className="login-btn mt-3">SIGN UP</button>
                         <ToastContainer />

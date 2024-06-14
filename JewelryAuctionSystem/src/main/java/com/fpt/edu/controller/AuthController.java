@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor

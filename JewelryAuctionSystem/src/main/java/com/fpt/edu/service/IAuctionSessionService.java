@@ -25,11 +25,13 @@ public interface  IAuctionSessionService {
 
     AuctionSession getAuctionSessionById(int id);
 
-    List<AuctionSessionDTO> getUpcomingAuctionSession();
+    List<AuctionSessionDTO> getAuctionSession(AuctionSessionStatus status);
 
     ResponseEntity<?> viewLiveAuctionSessionDetail(Integer sessionId, Integer memberId);
 
     boolean authByMember(Integer sessionId, Integer memberId);
 
     Map<String, Object> getAuctionSessionDetails(Integer sessionId, Integer memberId);
+
+
 }

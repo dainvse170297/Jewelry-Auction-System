@@ -8,7 +8,7 @@ import java.util.List;
 
 @Component
 public class AuctionRegisterMapper {
-    public AuctionRegisterDTO toAuctionRegisterDTO(AuctionRegister auctionRegister) {
+    public static AuctionRegisterDTO toAuctionRegisterDTO(AuctionRegister auctionRegister) {
         AuctionRegisterDTO auctionRegisterDTO = new AuctionRegisterDTO();
         auctionRegisterDTO.setId(auctionRegister.getId());
         auctionRegisterDTO.setMemberId(auctionRegister.getMember().getId());
@@ -22,6 +22,6 @@ public class AuctionRegisterMapper {
     }
 
     public List<AuctionRegisterDTO> toAuctionRegisterDTOList(List<AuctionRegister> registers) {
-        return registers.stream().map(this::toAuctionRegisterDTO).toList();
+        return registers.stream().map(AuctionRegisterMapper::toAuctionRegisterDTO).toList();
     }
 }

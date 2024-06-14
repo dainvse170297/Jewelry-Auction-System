@@ -35,4 +35,12 @@ public class HandleException {
         map.put("message",e.getMessage());
         return map;
     }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String,String> handleUsernameNotFoundException(Exception e){
+        Map<String,String> map = new HashMap<>();
+        map.put("message",e.getMessage());
+        return map;
+    }
 }
