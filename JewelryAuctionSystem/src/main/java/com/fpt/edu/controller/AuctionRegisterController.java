@@ -16,12 +16,12 @@ public class AuctionRegisterController {
     private AuctionRegisterService auctionRegisterService;
 
     @PostMapping("/register")
-    public AuctionRegisterDTO RegisterToBid(@RequestBody AuctionRegister register) {
+    public AuctionRegisterDTO registerToBid(@RequestBody AuctionRegister register) {
         return auctionRegisterService.register(register);
     }
 
     @PostMapping("/place-to-bid/{id}")
-    public AuctionRegisterDTO PlaceBidBeforeAuctions(@RequestBody AuctionRegister register, @PathVariable("id") Integer id) {
+    public AuctionRegisterDTO placeBidBeforeAuctions(@RequestBody AuctionRegister register, @PathVariable("id") Integer id) {
         return auctionRegisterService.placeToBid(register, id);
     }
 }
