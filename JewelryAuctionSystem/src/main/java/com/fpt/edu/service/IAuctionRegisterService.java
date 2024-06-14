@@ -6,5 +6,5 @@ import com.fpt.edu.entity.AuctionRegister;
 public interface IAuctionRegisterService  {
     public AuctionRegisterDTO register(AuctionRegister register);
 
-    public AuctionRegisterDTO placetobid(AuctionRegister register,Integer id);
+    public AuctionRegisterDTO placeToBid(AuctionRegister register,Integer id);
 }
