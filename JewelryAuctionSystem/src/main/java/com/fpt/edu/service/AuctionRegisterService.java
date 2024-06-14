@@ -22,7 +22,7 @@ public class AuctionRegisterService implements IAuctionRegisterService {
     private IFinancialProofRequestRepository financialProofRequestRepository;
 
     @Override
-    public AuctionRegisterDTO registration(AuctionRegister register) {
+    public AuctionRegisterDTO register(AuctionRegister register) {
 
         register.setStatus(AuctionRegisterStatus.REGISTERED);
         register = auctionRegisterRepository.save(register);
@@ -30,7 +30,7 @@ public class AuctionRegisterService implements IAuctionRegisterService {
     }
 
     @Override
-    public AuctionRegisterDTO placetobid(AuctionRegister register,Integer id) {
+    public AuctionRegisterDTO placeToBid(AuctionRegister register,Integer id) {
             FinancialProofRequest financialProofRequest=financialProofRequestRepository.getReferenceById(id);
 
         if (financialProofRequest.getFinancialProofAmount().compareTo(register.getCurrentPrice())>0) {
