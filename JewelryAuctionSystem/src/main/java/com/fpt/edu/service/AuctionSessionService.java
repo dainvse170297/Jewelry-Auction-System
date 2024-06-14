@@ -162,6 +162,7 @@ public class AuctionSessionService implements IAuctionSessionService {
         }
     }
 
+    @Override
     public Map<String, Object> getAuctionSessionDetails(Integer sessionId, Integer memberId) {
         AuctionSession auctionSession = auctionSessionRepository.getReferenceById(sessionId);
         AuctionSessionDTO auctionSessionDTO = auctionSessionMapper.toAuctionSessionDTO(auctionSession);
