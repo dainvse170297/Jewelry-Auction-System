@@ -53,32 +53,48 @@ const UpcomingSession = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-sm-8 d-flex justify-content-center text-center">
-                  <div className="">
-                    <h3 className="py-3">{session.name}</h3>
-                    <h5>{session.description}</h5>
-                    <h4 className="py-4">
-                      Time:
-                      <strong>
-                        {" "}
-                        {new Date(session.startTime).toLocaleDateString(
-                          "en-GB",
-                          {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                          }
-                        )}
-                      </strong>{" "}
-                      -{" "}
-                      <strong>
-                        {new Date(session.endTime).toLocaleDateString("en-GB", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        })}
-                      </strong>
-                    </h4>
+                <div className="col-sm-8 ">
+                  <div className="row">
+                    <div className="col">
+                      <div className="row d-flex justify-content-center text-center">
+                        <h3 className="py-3">{session.name}</h3>
+                      </div>
+                      <div className="row d-flex justify-content-center text-center">
+                        <h5>{session.description}</h5>
+                      </div>
+                      <div className="row d-flex justify-content-center text-center">
+                        <h4 className="py-4">
+                          Time:
+                          <strong>
+                            {" "}
+                            {new Date(session.startTime).toLocaleDateString(
+                              "en-GB",
+                              {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                              }
+                            )}
+                          </strong>{" "}
+                          -{" "}
+                          <strong>
+                            {new Date(session.endTime).toLocaleDateString(
+                              "en-GB",
+                              {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                              }
+                            )}
+                          </strong>
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-sm-4">
+                      <button className="">View Detail</button>
+                    </div>
                   </div>
                 </div>
               </div>

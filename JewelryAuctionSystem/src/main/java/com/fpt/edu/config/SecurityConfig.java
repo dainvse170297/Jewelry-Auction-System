@@ -85,14 +85,14 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-//                         .requestMatchers("/").permitAll()
-//                         .anyRequest().permitAll()
-                        .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
-                        .requestMatchers(HttpMethod.POST, MEMBER_POST_ENDPOINTS).hasAuthority("SCOPE_MEMBER")
-                        .requestMatchers(HttpMethod.GET, MEMBER_GET_ENDPOINTS).hasAuthority("SCOPE_MEMBER")
-                        .requestMatchers(HttpMethod.POST, STAFF_POST_ENDPOINTS).hasAuthority("SCOPE_STAFF")
-                        .requestMatchers(HttpMethod.GET, STAFF_GET_ENDPOINTS).hasAuthority("SCOPE_STAFF")
-                        .anyRequest().authenticated()
+                         .requestMatchers("/").permitAll()
+                         .anyRequest().permitAll()
+//                        .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
+//                        .requestMatchers(HttpMethod.POST, MEMBER_POST_ENDPOINTS).hasAuthority("SCOPE_MEMBER")
+//                        .requestMatchers(HttpMethod.GET, MEMBER_GET_ENDPOINTS).hasAuthority("SCOPE_MEMBER")
+//                        .requestMatchers(HttpMethod.POST, STAFF_POST_ENDPOINTS).hasAuthority("SCOPE_STAFF")
+//                        .requestMatchers(HttpMethod.GET, STAFF_GET_ENDPOINTS).hasAuthority("SCOPE_STAFF")
+//                        .anyRequest().authenticated()
 
                 );
         http.oauth2ResourceServer(oauth2 ->
