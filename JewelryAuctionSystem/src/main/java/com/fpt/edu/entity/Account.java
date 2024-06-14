@@ -1,5 +1,7 @@
 package com.fpt.edu.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "account")
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Account {
 
     @Id
@@ -24,9 +27,10 @@ public class Account {
     @Column(name = "username", length = 50)
     private String username;
 
+    @JsonIgnore
     @Column(name = "password", length = 50)
     private String password;
-
+    @JsonIgnore
     @Column(name = "create_date")
     private LocalDateTime createDate;
 
@@ -34,6 +38,7 @@ public class Account {
 //    @JoinColumn(name = "member_id", nullable = true)
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     private Member members;
+
 
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     private Staff staff;
