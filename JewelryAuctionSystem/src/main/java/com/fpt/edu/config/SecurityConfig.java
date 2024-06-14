@@ -30,6 +30,7 @@ public class SecurityConfig {
             "/auth/introspect", // check token
             "/account/register", // register
             "/auth/logout", // logout
+            "/auth/refresh-token", // refresh token
     };
 
     private final String[] MEMBER_POST_ENDPOINTS = {

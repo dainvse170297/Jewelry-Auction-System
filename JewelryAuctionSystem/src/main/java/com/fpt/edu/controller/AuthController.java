@@ -3,6 +3,7 @@ package com.fpt.edu.controller;
 import com.fpt.edu.dto.AccountDTO;
 import com.fpt.edu.security.request.IntrospectRequest;
 import com.fpt.edu.security.request.LogoutRequest;
+import com.fpt.edu.security.request.RefreshRequest;
 import com.fpt.edu.security.response.AuthenticationResponse;
 import com.fpt.edu.security.response.IntrospectResponse;
 import com.fpt.edu.service.AccountService;
@@ -44,10 +45,18 @@ public class AuthController {
 
     }
 
+
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(@RequestBody LogoutRequest request) throws JOSEException, ParseException {
         accountService.logout(request);
         return ResponseEntity.ok().build();
+
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody RefreshRequest request) throws JOSEException, ParseException {
+
+        return ResponseEntity.ok(accountService.refreshToken(request));
 
     }
 
