@@ -27,3 +27,5 @@ This is a capstone project developed by Team 6 - SE1839 - SWP391. The project in
 ## Database_diagram
 ![Database](database/database.png)
 ### Overview pictures
+![Home page](https://github.com/dainvse170297/Jewelry-Auction-System/assets/169271340/e848c79e-4292-493a-bbf9-92fcf8ac7ba2)
+![Auction Page](https://github.com/dainvse170297/Jewelry-Auction-System/assets/169271340/fe6f1333-2261-4dc1-b052-fe16f0ebe101)
