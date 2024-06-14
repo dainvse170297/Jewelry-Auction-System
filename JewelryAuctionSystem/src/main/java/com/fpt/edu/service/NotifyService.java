@@ -23,6 +23,7 @@ public class NotifyService implements INotifyService{
         notify.setTitle(title);
         notify.setDescription(description);
         notify.setDate(LocalDateTime.now());
+        notify.setIsRead(false);
         return NotifyMapper.toNotifyDTO(iNotifyRepository.save(notify));
     }
 
