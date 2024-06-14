@@ -8,6 +8,7 @@ import ResponseValuationRequest from "./component/valuation_request/response/Val
 import MyValuationRequest from "./component/valuation_request/view/MyValuationRequest.jsx";
 import UpcomingSession from "./component/auction-session/upcoming-session/UpcomingSession.jsx";
 import Register from "./component/auth/register/Register.jsx";
+import UpcomingSessionLot from "./component/auction-session/upcoming-session-lot/UpcomingSessionLot.jsx";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<Register />} />
+          <Route path="/upcoming-session-lot/:lotId" element={<UpcomingSessionLot />} />
         </Routes>
         {/* <Footer /> */}
       </BrowserRouter>

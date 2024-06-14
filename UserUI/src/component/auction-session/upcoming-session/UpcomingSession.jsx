@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Countdown from "../../countdown/Countdown";
 import "./upcoming-session.scss";
+import { LinearProgress } from "@mui/material";
 
 const UpcomingSession = () => {
   const [upcomingSessions, setUpcomingSessions] = useState([]);
@@ -25,7 +26,7 @@ const UpcomingSession = () => {
   return (
     <div className="container-fluid upcoming-session">
       <div className="row">
-        <h1 className="text-center py-3">Upcoming Session</h1>
+        <h1 className="text-center py-3">Upcoming Auctions</h1>
       </div>
       <div className="row d-flex justify-content-center">
         <div className="col-sm-8 mb-5">
@@ -35,10 +36,10 @@ const UpcomingSession = () => {
       <div className="row d-flex justify-content-center">
         <div className="col-10">
           {loading ? (
-            <span>Loading</span>
+            <LinearProgress />
           ) : (
             upcomingSessions.map((session, index) => (
-              <div className="row session-cart">
+              <div className="row session-cart" key={index}>
                 <div className="col-sm-4">
                   <div className="row">
                     <img
@@ -79,6 +80,7 @@ const UpcomingSession = () => {
                         })}
                       </strong>
                     </h4>
+                    <button className="view-auction-detail-btn">View Detail</button>
                   </div>
                 </div>
               </div>

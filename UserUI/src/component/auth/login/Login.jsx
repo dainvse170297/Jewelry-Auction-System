@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './login.scss'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -12,6 +12,8 @@ const Login = () => {
         password: ''
     })
 
+    const inputRef = useRef()
+
     const [errorMsg, setErrorMsg] = useState(null)
 
     const handleInputChange = (e) => {
@@ -19,6 +21,10 @@ const Login = () => {
         let value = e.target.value
         setAuth({ ...auth, [name]: value });
     }
+
+    useEffect(() => {
+        inputRef.current.focus()
+    }, [])
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -62,7 +68,7 @@ const Login = () => {
                     <form action="" method='' onSubmit={handleLogin}>
                         <div className="form-group">
                             <label htmlFor="username">Username</label>
-                            <input type="text" className="" id="username" name='username' value={auth.username} onChange={handleInputChange} />
+                            <input ref={inputRef} type="text" className="" id="username" name='username' value={auth.username} onChange={handleInputChange} />
                         </div>
                         <div className="form-group mt-3">
                             <label htmlFor="password">Password</label>
