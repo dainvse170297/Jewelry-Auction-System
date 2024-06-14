@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import java.text.ParseException;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Objects;
@@ -140,7 +141,8 @@ public class AccountService implements IAccountService {
 
         var signToken = verifyToken(request.getToken());
         String jit = signToken.getJWTClaimsSet().getJWTID();
-        Date expirationTime = signToken.getJWTClaimsSet().getExpirationTime();
+        LocalDateTime expirationTime = signToken.getJWTClaimsSet().
+                getExpirationTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         InvalidatedToken invalidatedToken = new InvalidatedToken();
         invalidatedToken.setId(jit);
         invalidatedToken.setExpiredAt(expirationTime);
@@ -174,10 +176,9 @@ public class AccountService implements IAccountService {
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .subject(username)
                 .issuer("http://localhost:8080")
-                .issueTime(new Date())
-                .expirationTime(new Date(
-                        Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
-                )).claim("scope", role)
+                .issueTime(Date.from(Instant.now()))
+                .expirationTime(Date.from(Instant.now().plus(1, ChronoUnit.HOURS)))
+                        .claim("scope", role)
                 .claim("accountId",accountId)
                 .jwtID(UUID.randomUUID().toString())
                 .build();

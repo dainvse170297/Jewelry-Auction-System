@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -21,6 +22,6 @@ public class InvalidatedToken {
     private String id;
 
 
-    private Date expiredAt;
+    private LocalDateTime expiredAt;
 
 }
