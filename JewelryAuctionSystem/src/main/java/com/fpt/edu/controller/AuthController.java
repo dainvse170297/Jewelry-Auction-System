@@ -1,6 +1,8 @@
 package com.fpt.edu.controller;
 
+import com.fpt.edu.dto.AccountDTO;
 import com.fpt.edu.security.request.IntrospectRequest;
+import com.fpt.edu.security.request.LogoutRequest;
 import com.fpt.edu.security.response.AuthenticationResponse;
 import com.fpt.edu.security.response.IntrospectResponse;
 import com.fpt.edu.service.AccountService;
@@ -33,5 +35,20 @@ public class AuthController {
         return ResponseEntity.ok(accountService.introspect(request));
 
     }
+
+    @PostMapping("/get-account-from-token")
+    public ResponseEntity<AccountDTO> getAccount(@RequestBody IntrospectRequest request) throws JOSEException, ParseException {
+
+        return ResponseEntity.ok(accountService.getAccountFromToken(request));
+
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(@RequestBody LogoutRequest request) throws JOSEException, ParseException {
+        accountService.logout(request);
+        return ResponseEntity.ok().build();
+
+    }
+
 
 }

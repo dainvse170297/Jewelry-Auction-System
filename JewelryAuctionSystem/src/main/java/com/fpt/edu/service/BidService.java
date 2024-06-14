@@ -10,6 +10,8 @@ import com.fpt.edu.repository.IBidRepository;
 import com.fpt.edu.repository.ILotRepository;
 import com.fpt.edu.repository.IMemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
@@ -42,8 +44,8 @@ public class BidService implements IBidService {
         bid.setTime(LocalDateTime.now());
         return iBidRepository.save(bid);
     }
-
-
+   // @PostAuthorize("returnObject.username == authentication.name")
+    //@PreAuthorize("hasAuthority('SCOPE_MEMBER')")
     @Override
     public BidDTO placeForBid(Integer memberId, Integer lotId,BigDecimal price) {
         String memberName = iMemberRepository.findById(memberId).get().getFullname();
