@@ -212,21 +212,6 @@ public class AuctionSessionService implements IAuctionSessionService {
                 }
                 session.setStatus(AuctionSessionStatus.LIVE);
                 auctionSessionRepository.save(session);
-            AuctionSession auctionSession = auctionSessionRepository.getReferenceById(sessionId);
-            AuctionSessionDTO auctionSessionDTO = auctionSessionMapper.toAuctionSessionDTO(auctionSession);
-            List<Lot> lots = lotRepository.findByAuctionSession_Id(sessionId);
-            List<LotDTO> lotDTOS = new ArrayList<>();
-            for (Lot lot : lots) {
-                LotDTO lotDTO = new LotDTO();
-                lotDTO.setId(lot.getId());
-                lotDTO.setProductId(lot.getProduct().getId());
-                lotDTO.setProductName(lot.getProduct().getName());
-                lotDTO.setCurrentPrice(lot.getCurrentPrice());
-                lotDTO.setStatus(lot.getStatus());
-                lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotId(lot.getId()));
-                List<ProductImage> productImages = new ArrayList<>(lot.getProduct().getProductImages());
-                lotDTO.setProductImages(productImages);
-                lotDTOS.add(lotDTO);
             }
         }
     }
