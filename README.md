@@ -14,7 +14,12 @@ This is a capstone project developed by Team 6 - SE1839 - SWP391. The project in
 3. **Real-Time Bidding**: Implement real-time bidding features, allowing participants to place bids and receive updates instantly during the auction process.
 4. **Scalability**: Design the system to be scalable, allowing it to handle a growing number of users and auctions without compromising performance.
 ### Major Features
-List of epic here
+1. User Authentication and Management
+2. Auction Browsing and Interaction
+3. Auction Participation and Management
+4. Member and Staff Interactions
+5. Auction Control and Dashboard
+6. User Account Administration
 ### Technology
 1. Backend: Spring boot <3.3.0>
 2. Fontend: React <18.3.1>
