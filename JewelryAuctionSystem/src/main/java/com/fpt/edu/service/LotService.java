@@ -35,14 +35,14 @@ public class LotService implements ILotService{
     public LotDTO viewLiveLotDetail(Integer id) {
         AuctionRegisterStatus status = AuctionRegisterStatus.BID;
         Optional<Lot> lots = lotRepository.findById(id);
-        if (lots.isPresent()) {
-            Lot lot = lots.get();
-            LotDTO lotDTO = lotMapper.toLotDTO(lot);
-            lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotIdAndStatus(lot.getId(), status));
-            return lotDTO;
-        } else {
-            return null;
+        if (lots.isEmpty()) {
+            throw new RuntimeException("Lot not found");
         }
+        Lot lot = lots.get();
+        LotDTO lotDTO = lotMapper.toLotDTO(lot);
+        lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotIdAndStatus(lot.getId(), status));
+        return lotDTO;
+
 
     }
     public LotDTO viewLotDetailById(int id) {
@@ -50,4 +50,5 @@ public class LotService implements ILotService{
         LotDTO lotDTO = lotMapper.toLotDTO(lot);
         return lotDTO;
     }
+
 }

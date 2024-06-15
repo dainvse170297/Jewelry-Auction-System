@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/bid")
@@ -25,7 +26,10 @@ public class BidController {
                 return ResponseEntity.ok(iBidService.placeForBid( memberId, lotId,price));
         }
 
-
+        @GetMapping("/list-bid")
+        public ResponseEntity<List<BidDTO>> listBid(@RequestParam("lotId") Integer lotId) {
+                return ResponseEntity.ok(iBidService.getListBidByLotIdWithTimeDesc(lotId));
+        }
 
 
 }

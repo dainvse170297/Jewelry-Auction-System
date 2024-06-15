@@ -16,4 +16,7 @@ public class BidMapper {
                 bid.getTime()
         );
     }
+
+
+
 }
