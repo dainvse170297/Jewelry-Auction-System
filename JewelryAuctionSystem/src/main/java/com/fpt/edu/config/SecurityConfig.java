@@ -93,7 +93,9 @@ public class SecurityConfig {
 //                        .requestMatchers(HttpMethod.GET, MEMBER_GET_ENDPOINTS).hasAuthority("SCOPE_MEMBER")
 //                        .requestMatchers(HttpMethod.POST, STAFF_POST_ENDPOINTS).hasAuthority("SCOPE_STAFF")
 //                        .requestMatchers(HttpMethod.GET, STAFF_GET_ENDPOINTS).hasAuthority("SCOPE_STAFF")
+
                     //    .anyRequest().authenticated()
+
 
                 );
         http.oauth2ResourceServer(oauth2 ->
