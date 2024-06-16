@@ -10,8 +10,10 @@ export default function LiveLotDetail() {
 
   // id lot đang đấu giá
   const { id } = useParams()
+  // lấy giá trị đấu giá lớn nhất
+  const [maxBid, setMaxBid] = useState()
   // giá trị bid của user
-  const [bid, setBid] = useState(0)
+  const [bid, setBid] = useState()
   // tạo message cho error
   const [errorMsg, setErrorMsg] = useState('')
   // chứa thông tin của sản phẩm
@@ -20,6 +22,13 @@ export default function LiveLotDetail() {
   const [bidHistory, setBidHistory] = useState([])
   // số hàng bid hiển thị trong 1 ô lịch sửa đấu giá
   const [numberOfListHistory, setNumberOfListHistory] = useState(8)
+  // chứa thời gian đếm ngược kết thúc live auction
+  const [countDownTime, setCountDownTime] = useState()
+
+  // reset bid
+  const resetBid = () => {
+    setBid(maxBid + 100)
+  }
 
   // hàm tính giá trị bid 
   const plusBid = (value) => {
@@ -72,7 +81,7 @@ export default function LiveLotDetail() {
                   // className="d-block w-100"
                   src={item.imageUrl}
                   alt={'photo'}
-                  // style={{ height: '300px', width: '100%' }}
+                // style={{ height: '300px', width: '100%' }}
                 />
               </Carousel.Item>
             ))}
@@ -101,7 +110,7 @@ export default function LiveLotDetail() {
               {productInfo.productName}
             </div>
             <div className='item-description'>
-              Descakjgdagfgasgfagkwygdkajgdkwa advajkdfajkwdfa adgwagdywgdwa audgwiagdagwd
+              This is description of product
             </div>
           </div>
         </div>
@@ -137,7 +146,7 @@ export default function LiveLotDetail() {
             </div>
 
             <button onClick={() => sendBid()}>Place Bid</button>
-            <button onClick={() => setBid(0)}>Reset</button>
+            <button onClick={() => resetBid()}>Reset</button>
 
           </div>
         </div>
