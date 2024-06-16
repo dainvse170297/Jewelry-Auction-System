@@ -7,10 +7,13 @@ import { Carousel } from "react-bootstrap";
 
 export default function LiveLotDetail() {
 
-  const { id } = useParams();
+  // lấy id user
+  const { userId } = useParams();
+  // lấy id lot
+  const { lotId } = useParams();
   // lấy giá trị đấu giá lớn nhất
   const [maxBid, setMaxBid] = useState();
-  // giá trị bid của user
+  // giá trị place bid của user
   const [bid, setBid] = useState();
   // tạo message cho error
   const [errorMsg, setErrorMsg] = useState("");
@@ -51,7 +54,26 @@ export default function LiveLotDetail() {
   // hàm gửi giá trị đặt cọc về server
   const sendBid = async () => {
     try {
-      const response = await axios.post(`/bid/place-bid/${bid}`);
+
+      const formData = new FormData();
+      formData.append("memberId", { userId });
+      formData.append("lotId", { lotId });
+      formData.append("price", bid);
+
+      const response = await axios.post(`/bid/place-bid/${bid}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+        .then((response) => {
+          console.log(response.data.message);
+          toast.success("Place Bid Successfully!");
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log(error.response);
+          toast.error("Place Bid Failed!");
+        });
 
       if (response.status === 200) {
         // console.log("Success")
@@ -77,7 +99,7 @@ export default function LiveLotDetail() {
                     // className="d-block w-100"
                     src={item.imageUrl}
                     alt={"photo"}
-                    // style={{ height: '300px', width: '100%' }}
+                  // style={{ height: '300px', width: '100%' }}
                   />
                 </Carousel.Item>
               ))}
