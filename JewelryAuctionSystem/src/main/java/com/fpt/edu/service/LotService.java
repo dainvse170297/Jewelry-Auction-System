@@ -45,9 +45,9 @@ public class LotService implements ILotService{
         }
 
     }
-    public LotDTO viewLotDetailById(int id) {
+    public Lot viewLotDetailById(int id) {
         Lot lot = lotRepository.findById(id).orElseThrow(() -> new RuntimeException("Lot not found"));
         LotDTO lotDTO = lotMapper.toLotDTO(lot);
-        return lotDTO;
+        return lot;
     }
 }

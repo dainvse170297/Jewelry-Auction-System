@@ -80,7 +80,6 @@ const UpcomingSession = () => {
                         })}
                       </strong>
                     </h4>
-                    <button className="view-auction-detail-btn">View Detail</button>
                   </div>
                 </div>
               </div>

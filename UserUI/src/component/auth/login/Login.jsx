@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './login.scss'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 
 const Login = () => {
     const navigate = useNavigate()
+
+    const location = useLocation()
 
     const [auth, setAuth] = useState({
         username: '',
@@ -39,8 +41,9 @@ const Login = () => {
                         localStorage.setItem('token', JSON.stringify(res.data.token))
                         localStorage.setItem('account', JSON.stringify(res.data.account))
                         toast.success('Login successful')
+                        const redirectTo = location.state?.from || '/'
                         setTimeout(() => {
-                            navigate('/')
+                            navigate(redirectTo)
                         }, 1000)
                     } else {
                         setErrorMsg('Invalid username or password')
