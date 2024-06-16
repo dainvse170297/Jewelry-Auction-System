@@ -1,14 +1,22 @@
 package com.fpt.edu.service;
 
+import com.fpt.edu.dto.AccountDTO;
 import com.fpt.edu.entity.Account;
 
+import com.fpt.edu.entity.InvalidatedToken;
+import com.fpt.edu.mapper.AccountMapper;
+
+
 import com.fpt.edu.exception.UsernameNotFoundException;
+
 import com.fpt.edu.mapper.AuthenticationMapper;
 import com.fpt.edu.repository.IAccountRepository;
+import com.fpt.edu.repository.InvalidatedTokenRepository;
 import com.fpt.edu.security.request.IntrospectRequest;
+import com.fpt.edu.security.request.LogoutRequest;
+import com.fpt.edu.security.request.RefreshRequest;
 import com.fpt.edu.security.response.AuthenticationResponse;
 import com.fpt.edu.security.response.IntrospectResponse;
-
 import com.fpt.edu.entity.Member;
 import com.fpt.edu.entity.Role;
 import com.fpt.edu.exception.EmailExistedException;
@@ -16,9 +24,10 @@ import com.fpt.edu.exception.UsernameExistedException;
 import com.fpt.edu.repository.IMemberRepository;
 import com.fpt.edu.repository.IRoleRepository;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
+
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -28,24 +37,38 @@ import lombok.experimental.NonFinal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+
 import java.text.ParseException;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Objects;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-
 public class AccountService implements IAccountService {
 
     private static final Logger log = LoggerFactory.getLogger(AccountService.class);
     private final IAccountRepository accountRepository;
     private final IMemberRepository memberRepository;
     private final IRoleRepository roleRepository;
+    private final InvalidatedTokenRepository invalidatedTokenRepository;
+
 
     @NonFinal
     @Value("${jwt.signerKey}")
     protected String SIGNER_KEY;
+
+    @NonFinal
+    @Value("${jwt.valid-duration}")
+    protected Long VALID_DURATION;
+
+
+    @NonFinal
+    @Value("${jwt.refresh-duration}")
+    protected Long REFRESH_DURATION;
 
 
     @Override
@@ -56,38 +79,62 @@ public class AccountService implements IAccountService {
         );
 
         String role = account.getRole().getName();
-        Integer accountId = account.getId();
-        String token = generateToken(username,role,accountId);
+        Long accountId = (long) account.getId();
+        String token = generateToken(username, role, accountId);
 
-            return AuthenticationMapper.toAuthenticationResponse(account, token);
+        return AuthenticationMapper.toAuthenticationResponse(account, token);
 
     }
+
+    // dung de xac thuc token co hop le hay khong. neu co tra ve true neu khong tra ve false
     @Override
     public IntrospectResponse introspect(IntrospectRequest introspectRequest) throws JOSEException, ParseException {
 
         String token = introspectRequest.getToken();
+        boolean isvalid = true;
+        try {
+            verifyToken(token, false);
+        } catch (JOSEException e) {
+            isvalid = false;
+        }
 
-        JWSVerifier jwsVerifier = new MACVerifier(SIGNER_KEY.getBytes());
 
-        SignedJWT signedJWT = SignedJWT.parse(token);
-
-        Date expirationTime = signedJWT.getJWTClaimsSet().getExpirationTime();
-
-        boolean verified =  signedJWT.verify(jwsVerifier);
-
-        return new IntrospectResponse(verified && expirationTime.after(new Date()));
+        return new IntrospectResponse(isvalid);
 
     }
+
+    @Override
+    public AccountDTO getAccountFromToken(IntrospectRequest introspectRequest) throws ParseException, JOSEException {
+        String token = introspectRequest.getToken();
+
+        if (!(introspect(new IntrospectRequest(token)).isValid())) {
+            throw new JOSEException("JWT token verification failed");
+        }
+        SignedJWT signedJWT = SignedJWT.parse(token);
+        Long accountId = (Long) signedJWT.getJWTClaimsSet().getClaim("accountId");
+
+        Account account = accountRepository.findById(accountId.intValue()).orElseThrow(
+                () -> new RuntimeException("Account not found")
+        );
+
+        if (account.getMembers() != null) {
+            return AccountMapper.toAccountMemberDTO(account);
+        }
+        //staff
+        return AccountMapper.toAccountDTO(account);
+
+    }
+
 
     @Override
     public Account createAccount(String username, String password, String fullName, String email, String phone, String address) {
         Account account = new Account();
         Member member = new Member();
-        if(accountRepository.findByUsername(username).isPresent()){
+        if (accountRepository.findByUsername(username).isPresent()) {
             throw new UsernameExistedException("Username is existed");
-        }else if(memberRepository.findByEmail(email).isPresent()){
+        } else if (memberRepository.findByEmail(email).isPresent()) {
             throw new EmailExistedException("Email is existed");
-        }else{
+        } else {
             account.setUsername(username);
             account.setPassword(password);
             account.setCreateDate(LocalDateTime.now());
@@ -104,16 +151,77 @@ public class AccountService implements IAccountService {
         return account;
     }
 
-    private String generateToken(String username,String role, Integer accountId) throws JOSEException {
+
+    public void logout(LogoutRequest request) throws ParseException, JOSEException {
+        try {
+
+            var signToken = verifyToken(request.getToken(), true);
+            String jit = signToken.getJWTClaimsSet().getJWTID();
+            LocalDateTime expirationTime = signToken.getJWTClaimsSet().
+                    getExpirationTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            InvalidatedToken invalidatedToken = new InvalidatedToken();
+            invalidatedToken.setId(jit);
+            invalidatedToken.setExpiredAt(expirationTime);
+            invalidatedTokenRepository.save(invalidatedToken);
+        } catch (JOSEException e) {
+            log.info("Token is expired");
+
+        }
+
+
+    }
+
+    public AuthenticationResponse refreshToken(RefreshRequest request) throws ParseException, JOSEException {
+
+        SignedJWT signedJWT = SignedJWT.parse(request.getToken()); // lay ra thong tin tu token
+             // dua token vao danh sach token bi huy
+
+        logout(new LogoutRequest(request.getToken()));
+
+        String username = signedJWT.getJWTClaimsSet().getSubject();
+        String role = (String) signedJWT.getJWTClaimsSet().getClaim("scope");
+        Long accountId = (Long) signedJWT.getJWTClaimsSet().getClaim("accountId");
+        String token = generateToken(username, role, accountId);
+        Account account = accountRepository.findByUsername(username).orElseThrow(
+                () -> new UsernameNotFoundException("Invalid username or password")
+        );
+        return AuthenticationMapper.toAuthenticationResponse(account, token);
+    }
+
+
+    private SignedJWT verifyToken(String token, boolean isRefreshToken) throws JOSEException, ParseException {
+        JWSVerifier jwsVerifier = new MACVerifier(SIGNER_KEY.getBytes());
+
+        SignedJWT signedJWT = SignedJWT.parse(token);
+
+        Date expirationTime = (isRefreshToken)
+                ? new Date(signedJWT.getJWTClaimsSet().getIssueTime().toInstant().plus(REFRESH_DURATION, ChronoUnit.SECONDS).toEpochMilli())
+                : signedJWT.getJWTClaimsSet().getExpirationTime();
+
+        boolean verified = signedJWT.verify(jwsVerifier);
+
+        if (!(verified && expirationTime.after(new Date()))) {
+            throw new JOSEException("JWT token verification failed");
+        }
+
+        if (invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID())) {
+            throw new JOSEException("Token is invalidated");
+        }
+
+        return signedJWT;
+    }
+
+
+    private String generateToken(String username, String role, Long accountId) throws JOSEException {
         JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS512);
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .subject(username)
                 .issuer("http://localhost:8080")
-                .issueTime(new Date())
-                .expirationTime(new Date(
-                        Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
-                )).claim("scope", role)
-                .claim("accountId",accountId)
+                .issueTime(Date.from(Instant.now()))
+                .expirationTime(Date.from(Instant.now().plus(VALID_DURATION, ChronoUnit.SECONDS)))
+                .claim("scope", role)
+                .claim("accountId", accountId)
+                .jwtID(UUID.randomUUID().toString())
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());

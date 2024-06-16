@@ -32,16 +32,24 @@ const Countdown = ({ targetDate }) => {
     <div>
       <div className="row">
         <div className="col-sm-3 d-flex justify-content-center">
-          <div className="row">{timeLeft.days}</div>
+          <div className="row">
+            <strong style={{ fontSize: "130%" }}>{timeLeft.days}</strong>
+          </div>
         </div>
         <div className="col-sm-3 d-flex justify-content-center">
-          <div className="row">{timeLeft.hours}</div>
+          <div className="row">
+            <strong style={{ fontSize: "130%" }}>{timeLeft.hours}</strong>
+          </div>
         </div>
         <div className="col-sm-3 d-flex justify-content-center">
-          <div className="row">{timeLeft.minutes}</div>
+          <div className="row">
+            <strong style={{ fontSize: "130%" }}>{timeLeft.minutes}</strong>
+          </div>
         </div>
         <div className="col-sm-3 d-flex justify-content-center">
-          <div className="row">{timeLeft.seconds}</div>
+          <div className="row">
+            <strong style={{ fontSize: "130%" }}>{timeLeft.seconds}</strong>
+          </div>
         </div>
       </div>
       <div className="row">

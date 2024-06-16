@@ -12,4 +12,8 @@ public interface ILotService {
     Lot getLotsByStatusReadyById(int id);
 
     LotDTO viewLiveLotDetail(Integer id);
+
+    public LotDTO viewLotDetailById(int id);
+
+
 }
