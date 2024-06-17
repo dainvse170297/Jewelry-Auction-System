@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -149,6 +150,8 @@ public class AuctionSessionService implements IAuctionSessionService {
                 lotDTO.setProductId(lot.getProduct().getId());
                 lotDTO.setProductName(lot.getProduct().getName());
                 lotDTO.setCurrentPrice(lot.getCurrentPrice());
+                lotDTO.setEstimatedPriceMin(lot.getProduct().getEstimatePriceMin());
+                lotDTO.setEstimatedPriceMax(lot.getProduct().getEstimatePriceMax());
                 lotDTO.setStatus(lot.getStatus());
                 lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotIdAndStatus(lot.getId(), status));
                 List<ProductImage> productImages = new ArrayList<>(lot.getProduct().getProductImages());
@@ -178,6 +181,8 @@ public class AuctionSessionService implements IAuctionSessionService {
             lotDTO.setProductId(lot.getProduct().getId());
             lotDTO.setProductName(lot.getProduct().getName());
             lotDTO.setCurrentPrice(lot.getCurrentPrice());
+            lotDTO.setEstimatePriceMin(lot.getProduct().getEstimatePriceMin());
+            lotDTO.setEstimatePriceMax(lot.getProduct().getEstimatePriceMax());
             lotDTO.setStatus(lot.getStatus());
             lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotId(lot.getId()));
             List<ProductImage> productImages = new ArrayList<>(lot.getProduct().getProductImages());

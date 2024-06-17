@@ -1,0 +1,72 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./LiveAuctionSessionDetail.scss";
+
+import LotPreview from "../upcoming-session/LotPreview";
+import AuctionSession from "../upcoming-session/AuctionSession";
+import Paginator from "../../common/Paginator";
+
+const LiveAuctionSessionDetail = () => {
+  const [sessionData, setSessionData] = useState(null);
+
+  useEffect(() => {
+    // Fetch data from API
+    const fetchSessionData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/auction/session/view-live-auction-session-detail",
+          {
+            params: {
+              sessionId: 11, // Change the session ID as required
+              memberId: 1, // Change the member ID as required
+            },
+          }
+        );
+        setSessionData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchSessionData();
+  }, []);
+
+  if (!sessionData) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className="container-fluid">
+      <div className="row">
+        <h1 className="text-center py-3 red-title mb-4">
+          Live Auction Session
+        </h1>
+
+        <div className="mb-3">
+          <div className="row d-flex justify-content-center mb-5">
+            <AuctionSession
+              session={sessionData}
+              showImage={false}
+              showDetailBtn={false}
+            />
+          </div>
+        </div>
+        <div className="row d-flex justify-content-center ">
+          <div className="col-xxl-10 col-lg-10 col-11 ">
+            <div className="row">
+              {sessionData.lots.map((lot) => (
+                <div className="col-xxl-3 col-lg-4 col-6 my-3 d-flex justify-content-center">
+                  <div className="">
+                    <LotPreview lot={lot} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LiveAuctionSessionDetail;

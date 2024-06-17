@@ -23,7 +23,7 @@ public class BidController {
         public ResponseEntity<BidDTO> placeBid(@RequestParam("memberId") Integer memberId,
                                                @RequestParam("lotId") Integer lotId,
                                                @RequestParam("price") BigDecimal price) {
-                return ResponseEntity.ok(iBidService.placeForBid( memberId, lotId,price));
+                return iBidService.placeForBid(memberId, lotId, price);
         }
 
         @GetMapping("/list-bid")

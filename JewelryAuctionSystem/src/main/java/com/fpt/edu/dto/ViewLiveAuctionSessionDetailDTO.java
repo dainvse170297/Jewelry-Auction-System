@@ -18,6 +18,7 @@ public class ViewLiveAuctionSessionDetailDTO {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
    // private LocalDateTime countdownTime;
+    
     private String name;
     private String description;
     private AuctionSessionStatus status;

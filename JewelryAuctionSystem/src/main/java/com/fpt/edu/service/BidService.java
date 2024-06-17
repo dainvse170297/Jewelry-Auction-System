@@ -4,6 +4,7 @@ package com.fpt.edu.service;
 import com.fpt.edu.dto.BidDTO;
 import com.fpt.edu.entity.AuctionRegister;
 import com.fpt.edu.entity.Bid;
+import com.fpt.edu.entity.Lot;
 import com.fpt.edu.mapper.BidMapper;
 import com.fpt.edu.repository.IAuctionRegisterRepository;
 import com.fpt.edu.repository.IBidRepository;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -53,23 +55,30 @@ public class BidService implements IBidService {
    // @PostAuthorize("returnObject.username == authentication.name")
     //@PreAuthorize("hasAuthority('SCOPE_MEMBER')")
     @Override
-    public BidDTO placeForBid(Integer memberId, Integer lotId,BigDecimal price) {
+    public ResponseEntity<BidDTO> placeForBid(Integer memberId, Integer lotId, BigDecimal price) {
         String memberName = iMemberRepository.findById(memberId).get().getFullname();
-        Bid bid = createAndSaveBid( memberId, lotId,price);
+
         AuctionRegister auctionRegister = iAuctionRegisterRepository.findByLotIdAndMemberId(lotId, memberId);
         //check log xem ai dang nhap
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info("Username: {}", authentication.getName());
         log.info("Role: {}", authentication.getAuthorities());
+        Lot lot = iLotRepository.findById(lotId).get();
 
-        // update lại bảng Auction Register với mỗi lần bid của 1 member
-        if (auctionRegister != null) {
-            auctionRegister.setCurrentPrice(price);
-            auctionRegister.setFinalPrice(price);
-            iAuctionRegisterRepository.save(auctionRegister);
-        }
+            if(lot.getCurrentPrice().compareTo(price) < 0){
+                lot.setCurrentPrice(price);
+                iLotRepository.save(lot);
+                Bid bid = createAndSaveBid( memberId, lotId,price);
+                // update lại bảng Auction Register với mỗi lần bid của 1 member
+                if (auctionRegister != null) {
+                    auctionRegister.setCurrentPrice(price);
+                    auctionRegister.setFinalPrice(price);
+                    iAuctionRegisterRepository.save(auctionRegister);
+                }
+                return ResponseEntity.ok(bidMapper.mapToBidDTO(bid, memberName));
+            }
 
-        return bidMapper.mapToBidDTO(bid, memberName);
+        return ResponseEntity.badRequest().build();
     }
 
 
