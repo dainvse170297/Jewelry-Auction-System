@@ -108,6 +108,7 @@ const UpcomingSessionDetail = () => {
                       <LotPreview
                         lot={item.lot}
                         registeredValue={item.registeredPrice}
+                        sessionStatus="UPCOMING"
                       />
                     </div>
                   </>
