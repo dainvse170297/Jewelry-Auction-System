@@ -43,6 +43,7 @@ public class AuctionSessionService implements IAuctionSessionService {
     private final Cloudinary cloudinary;
     private final INotifyService iNotifyService;
     private final InvalidatedTokenRepository invalidatedTokenRepository;
+
     @Override
     public List<AuctionSession> getAllAuctionSession() {
         return auctionSessionRepository.findAll();
@@ -96,77 +97,58 @@ public class AuctionSessionService implements IAuctionSessionService {
         return auctionSessionMapper.toAuctionSessionDTOList(auctionSessionRepository.findByStatus(status));
     }
 
-    @Override
-    public boolean authByMember(Integer sessionId, Integer memberId) {
-        AuctionRegisterStatus status = AuctionRegisterStatus.BID;
-
-        List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, status);
-        List<Lot> lots = auctionRegisters.stream()
-                .map(AuctionRegister::getLot)
-                .collect(Collectors.toList());
-        // lấy ds lots cua session
-        List<Lot> lotOfSession = lotRepository.findByAuctionSession_Id(sessionId);
-        boolean check = false;
-        for (Lot lot : lotOfSession) {
-            for (Lot lotRegister : lots) {
-                if (lot.getId() == lotRegister.getId()) {
-                    check = true;
-                    break;
-                }
-            }
-        }
-        return check;
-    }
 
     @Override
     public ResponseEntity<?> viewLiveAuctionSessionDetail(Integer sessionId, Integer memberId) {
-        AuctionRegisterStatus status = AuctionRegisterStatus.BID;
+        AuctionRegisterStatus statusRegister = AuctionRegisterStatus.BID;
+        LotStatus statusLot = LotStatus.AUCTIONING;
+        // lay dah sach dang ky cua member
+        List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, statusRegister);
 
-        boolean check = authByMember(sessionId, memberId);
-        if (check) {
-            AuctionSession auctionSession = auctionSessionRepository.findById(sessionId).get();
-            ViewLiveAuctionSessionDetailDTO viewLiveAuctionSessionDetailDTO = new ViewLiveAuctionSessionDetailDTO();
-            viewLiveAuctionSessionDetailDTO.setId(auctionSession.getId());
-            viewLiveAuctionSessionDetailDTO.setStaffId(auctionSession.getStaff().getId());
-            viewLiveAuctionSessionDetailDTO.setStartTime(auctionSession.getStartTime());
-            viewLiveAuctionSessionDetailDTO.setEndTime(auctionSession.getEndTime());
+        // tim ra lot cua member
+        List<Lot> lots = auctionRegisters.stream()
+                .map(AuctionRegister::getLot)
+                .collect(Collectors.toList());
+        // lấy
+        // ds lots cua session
 
-            //LocalDateTime now = LocalDateTime.now();
-            //Duration duration = Duration.between(now, auctionSession.getEndTime());
-            //long hours = duration.toHours();
-            //  long minutes = duration.toMinutesPart();
-            // long seconds = duration.toSecondsPart();
 
-            // LocalDateTime countdownTime = now.minusHours(hours).minusMinutes(minutes).minusSeconds(seconds);
-            //  viewLiveAuctionSessionDetailDTO.setCountdownTime(countdownTime);
-
-            List<Lot> lots = lotRepository.findByAuctionSession(auctionSession);
-
-            List<LotDTO> listLotDTO = new ArrayList<>();
-
-            for (Lot lot : lots) {
-                LotDTO lotDTO = new LotDTO();
-                lotDTO.setId(lot.getId());
-                lotDTO.setProductId(lot.getProduct().getId());
-                lotDTO.setProductName(lot.getProduct().getName());
-                lotDTO.setCurrentPrice(lot.getCurrentPrice());
-                lotDTO.setEstimatePriceMin(lot.getProduct().getEstimatePriceMin());
-                lotDTO.setEstimatePriceMax(lot.getProduct().getEstimatePriceMax());
-                lotDTO.setStatus(lot.getStatus());
-                lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotIdAndStatus(lot.getId(), status));
-                List<ProductImage> productImages = new ArrayList<>(lot.getProduct().getProductImages());
-                lotDTO.setProductImages(productImages);
-                listLotDTO.add(lotDTO);
-            }
-
-            viewLiveAuctionSessionDetailDTO.setName(auctionSession.getName());
-            viewLiveAuctionSessionDetailDTO.setDescription(auctionSession.getDescription());
-            viewLiveAuctionSessionDetailDTO.setStatus(auctionSession.getStatus());
-            viewLiveAuctionSessionDetailDTO.setLots(listLotDTO);
-            return ResponseEntity.ok(viewLiveAuctionSessionDetailDTO);
-        } else {
-            return ResponseEntity.badRequest().build();
+        List<Lot> lotOfSession = lotRepository.findByAuctionSession_IdAndStatus(sessionId,statusLot);
+        for (Lot lot : lotOfSession) {
+            System.out.println(lot.getId());
         }
+        ViewLiveAuctionSessionDetailDTO viewLiveAuctionSessionDetailDTO = new ViewLiveAuctionSessionDetailDTO();
+        AuctionSession auctionSession = auctionSessionRepository.findById(sessionId).get();
+        viewLiveAuctionSessionDetailDTO.setId(auctionSession.getId());
+        viewLiveAuctionSessionDetailDTO.setStaffId(auctionSession.getStaff().getId());
+        viewLiveAuctionSessionDetailDTO.setStartTime(auctionSession.getStartTime());
+        viewLiveAuctionSessionDetailDTO.setEndTime(auctionSession.getEndTime());
+
+        List<LotDTO> listLotDTO = new ArrayList<>();
+        for (Lot lot : lotOfSession) {
+            for (Lot lotRegister : lots) {
+                if (lot.getId().equals(lotRegister.getId())) {
+                        LotDTO lotDTO = new LotDTO();
+                        lotDTO.setId(lotRegister.getId());
+                        lotDTO.setProductId(lotRegister.getProduct().getId());
+                        lotDTO.setProductName(lotRegister.getProduct().getName());
+                        lotDTO.setCurrentPrice(lotRegister.getCurrentPrice());
+                        lotDTO.setEstimatedPriceMin(lotRegister.getProduct().getEstimatePriceMin());
+                        lotDTO.setEstimatedPriceMax(lotRegister.getProduct().getEstimatePriceMax());
+                        lotDTO.setStatus(lotRegister.getStatus());
+                        lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotIdAndStatus(lotRegister.getId(), statusRegister));
+                        List<ProductImage> productImages = new ArrayList<>(lotRegister.getProduct().getProductImages());
+                        lotDTO.setProductImages(productImages);
+                        listLotDTO.add(lotDTO);
+                }
+            }
+        }
+        viewLiveAuctionSessionDetailDTO.setName(auctionSession.getName());
+        viewLiveAuctionSessionDetailDTO.setDescription(auctionSession.getDescription());
+        viewLiveAuctionSessionDetailDTO.setStatus(auctionSession.getStatus());
+        viewLiveAuctionSessionDetailDTO.setLots(listLotDTO);
+        return ResponseEntity.ok(viewLiveAuctionSessionDetailDTO);
+
     }
 
     @Override
@@ -236,20 +218,18 @@ public class AuctionSessionService implements IAuctionSessionService {
             }
         }
     }
-    @Scheduled(fixedRate = 1000*60*5)  // chay moi 5 minutes
+
+    @Scheduled(fixedRate = 1000 * 60 * 5)  // chay moi 5 minutes
     public void deleteTokenInvalidated() {
         List<InvalidatedToken> invalidatedTokens = invalidatedTokenRepository.findAll();
         LocalDateTime now = LocalDateTime.now();
         for (InvalidatedToken invalidatedToken : invalidatedTokens) {
-            if (invalidatedToken.getExpiredAt().isBefore(now)){
+            if (invalidatedToken.getExpiredAt().isBefore(now)) {
                 invalidatedTokenRepository.delete(invalidatedToken);
                 log.info("Delete token invalidated");
             }
         }
     }
-
-
-
 
 
 }

@@ -16,4 +16,5 @@ public interface ILotRepository extends JpaRepository<Lot, Integer> {
     List<Lot> findByStatus(LotStatus lotStatus);
     List<Lot> findByAuctionSession(AuctionSession auctionSession);
     List<Lot> findByAuctionSession_Id(Integer auctionSessionId);
+    List<Lot> findByAuctionSession_IdAndStatus(Integer auctionSessionId, LotStatus lotStatus);
 }
