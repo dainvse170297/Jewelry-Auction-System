@@ -6,7 +6,7 @@ import Header from "./component/layout/header/Header.jsx";
 import Selling from "./component/selling/Selling.jsx";
 import ResponseValuationRequest from "./component/valuation_request/response/ValuationResponseList.jsx";
 import MyValuationRequest from "./component/valuation_request/view/MyValuationRequest.jsx";
-import UpcomingSession from "./component/auction-session/upcoming-session/UpcomingSession.jsx";
+import UpcomingSessionList from "./component/auction-session/upcoming-session/UpcomingSessionList.jsx";
 import Register from "./component/auth/register/Register.jsx";
 import LiveLotDetail from "./component/auction-session/live-auction/LiveLotDetail.jsx";
 import UpcomingSessionDetail from "./component/auction-session/upcoming-session/UpcomingSessionDetail.jsx";
@@ -24,7 +24,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/create-valuation" element={<CreateValuation />} />
           <Route path="/selling" element={<Selling />} />
-          <Route path="/upcoming" element={<UpcomingSession />} />
+          <Route path="/upcoming" element={<UpcomingSessionList />} />
           <Route
             path="/upcoming-session-detail/:id"
             element={<UpcomingSessionDetail />}
