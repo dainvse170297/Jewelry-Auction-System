@@ -112,6 +112,7 @@ public class AuctionSessionService implements IAuctionSessionService {
         // lấy
         // ds lots cua session
 
+
         List<Lot> lotOfSession = lotRepository.findByAuctionSession_IdAndStatus(sessionId,statusLot);
         for (Lot lot : lotOfSession) {
             System.out.println(lot.getId());
@@ -162,6 +163,8 @@ public class AuctionSessionService implements IAuctionSessionService {
             lotDTO.setProductId(lot.getProduct().getId());
             lotDTO.setProductName(lot.getProduct().getName());
             lotDTO.setCurrentPrice(lot.getCurrentPrice());
+            lotDTO.setEstimatePriceMin(lot.getProduct().getEstimatePriceMin());
+            lotDTO.setEstimatePriceMax(lot.getProduct().getEstimatePriceMax());
             lotDTO.setStatus(lot.getStatus());
             lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotId(lot.getId()));
             List<ProductImage> productImages = new ArrayList<>(lot.getProduct().getProductImages());

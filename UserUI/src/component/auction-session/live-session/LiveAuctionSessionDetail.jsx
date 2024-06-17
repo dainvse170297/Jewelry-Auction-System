@@ -1,35 +1,39 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./LiveAuctionSessionDetail.scss";
-
-import LotPreview from "../upcoming-session/LotPreview";
-import AuctionSession from "../upcoming-session/AuctionSession";
+import LotPreview from "../../lot/LotPreview";
+import AuctionSession from "../AuctionSession";
 import Paginator from "../../common/Paginator";
+import { useParams } from "react-router-dom";
 
 const LiveAuctionSessionDetail = () => {
+  const { id } = useParams();
   const [sessionData, setSessionData] = useState(null);
 
   useEffect(() => {
     // Fetch data from API
     const fetchSessionData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/auction/session/view-live-auction-session-detail",
-          {
-            params: {
-              sessionId: 11, // Change the session ID as required
-              memberId: 1, // Change the member ID as required
-            },
-          }
+        const formData = new FormData();
+        formData.append("sessionId", id);
+        formData.append("memberId", 1);
+
+        const response = await axios.post(
+          `http://localhost:8080/auction/session/view-live-auction-session-detail`,
+          formData
         );
-        setSessionData(response.data);
+        if (response.status === 200) {
+          setSessionData(response.data);
+        } else {
+          console.log("Error");
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchSessionData();
-  }, []);
+  }, [id]);
 
   if (!sessionData) {
     return <div>Loading...</div>;
@@ -57,7 +61,7 @@ const LiveAuctionSessionDetail = () => {
               {sessionData.lots.map((lot) => (
                 <div className="col-xxl-3 col-lg-4 col-6 my-3 d-flex justify-content-center">
                   <div className="">
-                    <LotPreview lot={lot} />
+                    <LotPreview lot={lot} sessionStatus="LIVE" />
                   </div>
                 </div>
               ))}
