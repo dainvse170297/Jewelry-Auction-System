@@ -175,7 +175,7 @@ public class AuctionSessionService implements IAuctionSessionService {
         List<Lot> lots = lotRepository.findByAuctionSession_Id(sessionId);
         List<LotDTO> lotDTOS = new ArrayList<>();
         for (Lot lot : lots) {
-            LotDTO lotDTO = lotMapper.toLotDTODetail(lot, lot.getProduct().getEstimatePriceMin(), lot.getProduct().getEstimatePriceMax());
+            LotDTO lotDTO = lotMapper.toLotDTO(lot);
             lotDTOS.add(lotDTO);
         }
         List<AuctionRegister> registers = auctionRegisterRepository.findByMemberId(memberId);

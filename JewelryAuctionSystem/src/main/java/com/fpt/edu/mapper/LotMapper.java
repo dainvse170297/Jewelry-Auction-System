@@ -22,20 +22,9 @@ public class LotMapper {
             lotDTO.setProductImages(lot.getProduct().getProductImages());
             lotDTO.setStatus(lot.getStatus());
             lotDTO.setNumberOfRegister(lot.getAuctionRegisters().size());
+            lotDTO.setEstimateMin(lot.getProduct().getEstimatePriceMin());
+            lotDTO.setEstimateMax(lot.getProduct().getEstimatePriceMax());
             return lotDTO;
         }
 
-    public LotDTO toLotDTODetail(Lot lot, BigDecimal estimateMin, BigDecimal estimateMax) {
-        LotDTO lotDTO = new LotDTO();
-        lotDTO.setId(lot.getId());
-        lotDTO.setProductId(lot.getProduct().getId());
-        lotDTO.setProductName(lot.getProduct().getName());
-        lotDTO.setCurrentPrice(lot.getCurrentPrice());
-        lotDTO.setProductImages(lot.getProduct().getProductImages());
-        lotDTO.setStatus(lot.getStatus());
-        lotDTO.setNumberOfRegister(lot.getAuctionRegisters().size());
-        lotDTO.setEstimateMin(estimateMin);
-        lotDTO.setEstimateMax(estimateMax);
-        return lotDTO;
-    }
 }

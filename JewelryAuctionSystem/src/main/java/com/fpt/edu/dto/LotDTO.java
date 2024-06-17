@@ -21,6 +21,7 @@ public class LotDTO {
         private String description;
         private LocalDateTime endTime;
         private LotStatus status;
+        private List<ProductImage> productImages;
         private Integer numberOfRegister;
         private BigDecimal estimateMin;
         private BigDecimal estimateMax;
