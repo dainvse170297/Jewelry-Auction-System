@@ -10,7 +10,7 @@ export default function LiveLotDetail() {
   const [maxBid, setMaxBid] = useState();
   const [bid, setBid] = useState();
   const [errorMsg, setErrorMsg] = useState("");
-  const [productInfo, setProductInfo] = useState();
+  const [productInfo, setProductInfo] = useState({});
   const [bidHistory, setBidHistory] = useState([]);
 
   const [numberOfListHistory, setNumberOfListHistory] = useState(8);
@@ -21,12 +21,10 @@ export default function LiveLotDetail() {
     setBid(maxBid + 100);
   };
 
-  // hàm tính giá trị bid
   const plusBid = (value) => {
     setBid(bid + value);
   };
 
-  // lấy thông tin live lot đang đấu giá qua id lot
   useEffect(() => {
     const getInfo = async () => {
       try {
@@ -44,7 +42,6 @@ export default function LiveLotDetail() {
     getInfo();
   }, [id]);
 
-  // hàm gửi giá trị đặt cọc về server
   const sendBid = async () => {
     try {
       const response = await axios.post(`/bid/place-bid/${bid}`);
