@@ -7,17 +7,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class LotDTO {
-        private  Integer id;
-        private  Integer productId;
-        private  String productName;
+        private Integer id;
+        private Integer productId;
+        private String productName; //descriptiion // time countdown
         private BigDecimal currentPrice;
-        private List<ProductImage> productImages;
+        private String description;
+        private LocalDateTime endTime;
         private LotStatus status;
         private Integer numberOfRegister;
         private BigDecimal estimateMin;

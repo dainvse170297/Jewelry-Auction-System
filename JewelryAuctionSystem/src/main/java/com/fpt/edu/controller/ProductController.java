@@ -1,10 +1,7 @@
 package com.fpt.edu.controller;
 
-import com.fpt.edu.dto.ProductDTO;
-import com.fpt.edu.dto.ProductDetailDTO;
 import com.fpt.edu.entity.Product;
 import com.fpt.edu.service.IProductService;
-import com.fpt.edu.service.ValuationRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

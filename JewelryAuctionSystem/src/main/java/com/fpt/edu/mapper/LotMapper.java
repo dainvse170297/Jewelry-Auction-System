@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
+import java.time.LocalDateTime;
+
 @Component
 public class LotMapper {
 
@@ -15,6 +17,8 @@ public class LotMapper {
             lotDTO.setProductId(lot.getProduct().getId());
             lotDTO.setProductName(lot.getProduct().getName());
             lotDTO.setCurrentPrice(lot.getCurrentPrice());
+            lotDTO.setDescription(lot.getProduct().getDescription());
+            lotDTO.setEndTime(lot.getAuctionSession().getEndTime());
             lotDTO.setProductImages(lot.getProduct().getProductImages());
             lotDTO.setStatus(lot.getStatus());
             lotDTO.setNumberOfRegister(lot.getAuctionRegisters().size());

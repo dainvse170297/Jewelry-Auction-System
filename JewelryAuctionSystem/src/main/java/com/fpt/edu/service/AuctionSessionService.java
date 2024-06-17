@@ -13,12 +13,15 @@ import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.AuctionSessionStatus;
 import com.fpt.edu.status.LotStatus;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -27,6 +30,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class AuctionSessionService implements IAuctionSessionService {
+    private static final Logger log = LoggerFactory.getLogger(AuctionSessionService.class);
     private final ILotRepository lotRepository;
     private final IStaffRepository staffRepository;
     private final IAuctionSessionRepository auctionSessionRepository;
@@ -39,7 +43,7 @@ public class AuctionSessionService implements IAuctionSessionService {
     private final LotMapper lotMapper;
     private final Cloudinary cloudinary;
     private final INotifyService iNotifyService;
-
+    private final InvalidatedTokenRepository invalidatedTokenRepository;
     @Override
     public List<AuctionSession> getAllAuctionSession() {
         return auctionSessionRepository.findAll();
@@ -164,6 +168,7 @@ public class AuctionSessionService implements IAuctionSessionService {
         }
     }
 
+    @Override
     public Map<String, Object> getAuctionSessionDetails(Integer sessionId, Integer memberId) {
         AuctionSession auctionSession = auctionSessionRepository.getReferenceById(sessionId);
         AuctionSessionDTO auctionSessionDTO = auctionSessionMapper.toAuctionSessionDTO(auctionSession);
@@ -220,4 +225,20 @@ public class AuctionSessionService implements IAuctionSessionService {
             }
         }
     }
+    @Scheduled(fixedRate = 1000*60*5)  // chay moi 5 minutes
+    public void deleteTokenInvalidated() {
+        List<InvalidatedToken> invalidatedTokens = invalidatedTokenRepository.findAll();
+        LocalDateTime now = LocalDateTime.now();
+        for (InvalidatedToken invalidatedToken : invalidatedTokens) {
+            if (invalidatedToken.getExpiredAt().isBefore(now)){
+                invalidatedTokenRepository.delete(invalidatedToken);
+                log.info("Delete token invalidated");
+            }
+        }
+    }
+
+
+
+
+
 }

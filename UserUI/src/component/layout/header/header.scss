@@ -1,12 +1,15 @@
 .header {
   display: flex;
+  justify-content: space-between;
   background-color: rgb(255, 253, 253);
   padding-left: 70px;
 }
 
-hr {
-  height: 0px;
-  border: 1px solid rgb(95, 95, 95);
-  margin: 0px;
-  padding: 0px;
+.hr-line {
+  hr {
+    margin: 0 0 1rem 0;
+    padding: 0;
+    height: 0;
+    border: 0.1rem solid rgb(95, 95, 95);
+  }
 }

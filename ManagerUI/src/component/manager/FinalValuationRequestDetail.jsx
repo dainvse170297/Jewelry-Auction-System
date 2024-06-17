@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FaBackward } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
 import { Button, Carousel } from 'react-bootstrap'
@@ -8,6 +8,7 @@ import Paginator from '../common/Paginator'
 import '../home/home.scss'
 import Sidebar from '../layout/sidebar/Sidebar'
 import Navbar from '../layout/navbar/Navbar'
+import { toast } from 'react-toastify'
 
 export default function FinalValuationRequestDetail() {
 
@@ -34,6 +35,8 @@ export default function FinalValuationRequestDetail() {
 
     }, [id])
 
+    const navigate = useNavigate()
+
     const handleApprove = async () => {
         try {
             const id = ProductInfo.valuationRequestId
@@ -41,9 +44,12 @@ export default function FinalValuationRequestDetail() {
             const response = await axios.post(`http://localhost:8080/valuation/approve-final-valuation/${id}`);
 
             if (response.status === 200) {
-                console.log("Success")
+                // console.log("Success")
+                toast.success("Approved successfully")
+                navigate('/final-valuation-request-list')
             } else {
-                console.log("Failed")
+                // console.log("Failed")
+                toast.error("Failed to approve")
             }
         } catch (error) {
             console.log("Error: ", error)
@@ -70,23 +76,23 @@ export default function FinalValuationRequestDetail() {
                         <p>Estimate price min: <strong>{ProductInfo.estimatePriceMin}</strong></p>
                         <p>Estimate price max: <strong>{ProductInfo.estimatePriceMax}</strong></p>
                         <p>Product image: </p>
-                            <div className="col-sm-3">
-                                <Carousel>
-                                    {ProductInfo.productImages && ProductInfo.productImages.map((item, index) => (
+                        <div className="col-sm-3">
+                            <Carousel>
+                                {ProductInfo.productImages && ProductInfo.productImages.map((item, index) => (
 
-                                        <Carousel.Item key={index}>
-                                            <img
-                                                // className="d-block w-100"
-                                                src={item.imageUrl}
-                                                alt={'photo'}
-                                                style={{ height: '300px', width: '100%' }}
-                                            />
-                                        </Carousel.Item>
+                                    <Carousel.Item key={index}>
+                                        <img
+                                            // className="d-block w-100"
+                                            src={item.imageUrl}
+                                            alt={'photo'}
+                                            style={{ height: '300px', width: '100%' }}
+                                        />
+                                    </Carousel.Item>
 
-                                    ))}
-                                </Carousel>
-                            </div>
-                            
+                                ))}
+                            </Carousel>
+                        </div>
+
                     </div>
                     <div className="col-sm-4 mt-3">
                         <div className="d-flex justify-content-center">

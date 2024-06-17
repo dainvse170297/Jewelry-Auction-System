@@ -57,6 +57,7 @@ export default function CreateValuation() {
     const { name, value } = e.target;
     if (value.trim() === "") {
       setEmptyMessage({ ...emptyMessage, [name]: "This field is required" });
+      toast.error("This field is required");
     }
   };
 
@@ -103,7 +104,6 @@ export default function CreateValuation() {
   return (
     <>
       <div className="createValuation container-fluid">
-        <ToastContainer />
         <h1 className="text-center py-4">Jewelry Valuation</h1>
 
         <form onSubmit={Create}>
@@ -125,7 +125,6 @@ export default function CreateValuation() {
                       name="memberEstimate"
                       value={valuation.memberEstimate}
                       onChange={handleInputChange}
-                      onBlur={handleBlur}
                       style={{ fontSize: "150%" }}
                     />
                   </div>
@@ -235,6 +234,7 @@ export default function CreateValuation() {
                 <div className="col-sm-6">
                   <div className="row d-flex justify-content-center px-5 mx-3 my-3">
                     <button type="submit"> Submit Valuation Request</button>
+                    <ToastContainer />
                   </div>
                 </div>
               </div>
