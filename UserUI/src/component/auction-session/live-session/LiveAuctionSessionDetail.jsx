@@ -5,6 +5,7 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Countdown from "../../countdown/Countdown";
 import CountdownIcon from "@mui/icons-material/AccessAlarm";
+import LotPreview from "../upcoming-session/LotPreview";
 
 const LiveAuctionSessionDetail = () => {
   const [sessionData, setSessionData] = useState(null);
@@ -40,15 +41,6 @@ const LiveAuctionSessionDetail = () => {
     fetchSessionData();
     fetchBidData();
   }, []);
-
-  const getLatestBidPrice = (lotId) => {
-    const lotBids = bidData.filter((bid) => bid.lotId === lotId);
-    if (lotBids.length === 0) return 0;
-    const latestBid = lotBids.reduce((prev, current) =>
-      new Date(prev.bidTime) > new Date(current.bidTime) ? prev : current
-    );
-    return latestBid.price;
-  };
 
   if (!sessionData) {
     return <div>Loading...</div>;
@@ -97,6 +89,7 @@ const LiveAuctionSessionDetail = () => {
                   <Button variant="primary">Place Bid</Button>
                 </Link>
               </div>
+              {/* <LotPreview lot={lot} /> */}
             </div>
           ))}
         </div>
