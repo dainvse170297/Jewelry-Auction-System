@@ -1,4 +1,5 @@
-import { Carousel, Card } from "react-bootstrap";
+import { Carousel, Card, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const LotPreview = ({ lot, registeredValue }) => {
   return (
@@ -23,6 +24,15 @@ const LotPreview = ({ lot, registeredValue }) => {
           <p>Product Id: {lot.productId}</p>
           <p>Current Price: {lot.currentPrice}</p>
           {registeredValue && <p>Registered Value: {registeredValue}</p>}
+
+          {lot.status === "READY" && (
+            <div className=" d-flex justify-content-center">
+              <Link to={`/live-lot-detail/${lot.id}`}>
+                {" "}
+                <Button> Place Bid </Button>
+              </Link>
+            </div>
+          )}
         </Card.Text>
       </Card.Body>
     </Card>

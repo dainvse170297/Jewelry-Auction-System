@@ -29,9 +29,16 @@ const AuctionSession = ({ session, showImage, showDetailBtn }) => {
                   <div className="col-sm-2 d-flex justify-content-center align-items-center">
                     <CountdownIcon style={{ width: "80%", height: "80%" }} />
                   </div>
-                  <div className="col-sm-9">
-                    <Countdown targetDate={session.startTime} />
-                  </div>
+                  {session.status === "UPCOMING" && (
+                    <div className="col-sm-9">
+                      <Countdown targetDate={session.startTime} />
+                    </div>
+                  )}
+                  {session.status === "LIVE" && (
+                    <div className="col-sm-9">
+                      <Countdown targetDate={session.endTime} />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
