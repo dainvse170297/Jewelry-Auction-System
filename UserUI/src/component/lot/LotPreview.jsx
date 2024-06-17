@@ -1,5 +1,6 @@
 import { Carousel, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import "./LotPreview.scss";
 
 const LotPreview = ({ lot, registeredValue, sessionStatus }) => {
   return (
@@ -17,21 +18,31 @@ const LotPreview = ({ lot, registeredValue, sessionStatus }) => {
             </Carousel.Item>
           ))}
       </Carousel>
-      <Card.Body>
-        <Card.Title>{lot.productName}</Card.Title>
+      <Card.Body className=" text-center ">
+        <Card.Title>
+          <strong> {lot.productName}</strong>
+        </Card.Title>
+
         <Card.Text>
-          <p>
-            EST. {lot.estimatePriceMin} - {lot.estimatePriceMax}
+          <p className="est">
+            EST. {lot.estimatePriceMin} <strong> $</strong> -{" "}
+            {lot.estimatePriceMax}
+            <strong> $</strong>
           </p>
           {sessionStatus === "UPCOMING" && (
             <Button variant="primary">Register to Bid</Button>
           )}
           {sessionStatus === "LIVE" && (
-            <Link to={`/live-lot-detail/${lot.id}`} className="btn btn-primary">
-              <Button variant="primary">Place Bid</Button>
-            </Link>
+            <>
+              {" "}
+              <p>
+                Current Price: {lot.currentPrice} <strong>$</strong>{" "}
+              </p>
+              <Link to={`/live-lot-detail/${lot.id}`} className="btn ">
+                <button className="placebid ">Place Bid</button>
+              </Link>
+            </>
           )}
-          <p>Current Price: {lot.currentPrice}</p>
 
           {/* {registeredValue && <p>Registered Value: {registeredValue}</p>}
           <Link to={`/upcoming-session-lot/${lot.id}`}>

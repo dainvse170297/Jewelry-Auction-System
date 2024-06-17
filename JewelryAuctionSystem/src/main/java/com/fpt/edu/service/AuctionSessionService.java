@@ -126,7 +126,7 @@ public class AuctionSessionService implements IAuctionSessionService {
         viewLiveAuctionSessionDetailDTO.setStartTime(auctionSession.getStartTime());
         viewLiveAuctionSessionDetailDTO.setEndTime(auctionSession.getEndTime());
 
-        List<LotDTO> listLotDTO = new ArrayList<>();
+        Set<LotDTO> listLotDTO = new HashSet<>();
         for (Lot lot : lotOfSession) {
             for (Lot lotRegister : lots) {
                 if (lot.getId().equals(lotRegister.getId())) {
