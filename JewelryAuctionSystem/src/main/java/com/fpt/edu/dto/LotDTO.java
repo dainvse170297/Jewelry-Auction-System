@@ -20,4 +20,6 @@ public class LotDTO {
         private List<ProductImage> productImages;
         private LotStatus status;
         private Integer numberOfRegister;
+        private BigDecimal estimateMin;
+        private BigDecimal estimateMax;
 }

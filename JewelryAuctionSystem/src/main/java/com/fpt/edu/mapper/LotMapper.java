@@ -4,6 +4,8 @@ import com.fpt.edu.dto.LotDTO;
 import com.fpt.edu.entity.Lot;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 @Component
 public class LotMapper {
 
@@ -18,4 +20,18 @@ public class LotMapper {
             lotDTO.setNumberOfRegister(lot.getAuctionRegisters().size());
             return lotDTO;
         }
+
+    public LotDTO toLotDTODetail(Lot lot, BigDecimal estimateMin, BigDecimal estimateMax) {
+        LotDTO lotDTO = new LotDTO();
+        lotDTO.setId(lot.getId());
+        lotDTO.setProductId(lot.getProduct().getId());
+        lotDTO.setProductName(lot.getProduct().getName());
+        lotDTO.setCurrentPrice(lot.getCurrentPrice());
+        lotDTO.setProductImages(lot.getProduct().getProductImages());
+        lotDTO.setStatus(lot.getStatus());
+        lotDTO.setNumberOfRegister(lot.getAuctionRegisters().size());
+        lotDTO.setEstimateMin(estimateMin);
+        lotDTO.setEstimateMax(estimateMax);
+        return lotDTO;
+    }
 }
