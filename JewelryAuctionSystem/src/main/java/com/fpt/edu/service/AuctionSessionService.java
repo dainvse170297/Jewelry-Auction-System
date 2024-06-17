@@ -124,7 +124,7 @@ public class AuctionSessionService implements IAuctionSessionService {
         viewLiveAuctionSessionDetailDTO.setStartTime(auctionSession.getStartTime());
         viewLiveAuctionSessionDetailDTO.setEndTime(auctionSession.getEndTime());
 
-        List<LotDTO> listLotDTO = new ArrayList<>();
+        Set<LotDTO> listLotDTO = new HashSet<>();
         for (Lot lot : lotOfSession) {
             for (Lot lotRegister : lots) {
                 if (lot.getId().equals(lotRegister.getId())) {
@@ -133,8 +133,8 @@ public class AuctionSessionService implements IAuctionSessionService {
                         lotDTO.setProductId(lotRegister.getProduct().getId());
                         lotDTO.setProductName(lotRegister.getProduct().getName());
                         lotDTO.setCurrentPrice(lotRegister.getCurrentPrice());
-                        lotDTO.setEstimatedPriceMin(lotRegister.getProduct().getEstimatePriceMin());
-                        lotDTO.setEstimatedPriceMax(lotRegister.getProduct().getEstimatePriceMax());
+                        lotDTO.setEstimatePriceMin(lotRegister.getProduct().getEstimatePriceMin());
+                        lotDTO.setEstimatePriceMax(lotRegister.getProduct().getEstimatePriceMax());
                         lotDTO.setStatus(lotRegister.getStatus());
                         lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotIdAndStatus(lotRegister.getId(), statusRegister));
                         List<ProductImage> productImages = new ArrayList<>(lotRegister.getProduct().getProductImages());
