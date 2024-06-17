@@ -1,58 +1,80 @@
 .container-fluid {
-    .red-title {
-      color: red;
+  .red-title {
+    color: red;
+  }
+
+  .bor {
+    border: 1px solid #000;
+    padding: 10px;
+    margin: 10px 0;
+  }
+
+  .lot {
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    text-align: center; // Center align text inside lot
+
+    .image-container {
+      position: relative;
     }
-  
-    .bor {
-      border: 1px solid #000;
-      padding: 10px;
-      margin: 10px 0;
-    }
-  
-    .lot {
-      background-color: #f9f9f9;
+
+    img {
+      max-width: auto; // Make the image smaller
+      height: 150px;
       border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s;
-      text-align: center; // Center align text inside lot
-  
-      img {
-        max-width: auto; // Make the image smaller
-        height: 150px;
-        border-radius: 5px;
-        margin-bottom: 1rem;
-      }
-  
-      h5 {
-        font-size: 1.25rem;
-        margin-bottom: 0.5rem;
-      }
-  
-      p {
-        margin-bottom: 1rem;
-        font-size: 1rem;
-        font-weight: bold;
-      }
-  
-      button {
-        margin-top: 1rem;
-      }
-  
-      &:hover {
-        transform: translateY(-5px);
-      }
+      margin-bottom: 1rem;
     }
-  
-    .lots-row {
+
+    .participants-circle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: rgb(224, 187, 63);
+      color: white;
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
+      align-items: center;
+      font-size: 12px;
+      font-weight: bold;
     }
-  
-    .lot-container {
-      flex: 0 0 30%; // Adjusting the width to fit 3 lots per row
-      max-width: 20%;
-      margin: 1%;
+
+    h5 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      &:nth-of-type(2) {
+        opacity: 0.6; // Adjust the opacity value as needed (0 is fully transparent, 1 is fully opaque)
+      }
+    }
+
+    button {
+      margin-top: 1rem;
+    }
+
+    &:hover {
+      transform: translateY(-5px);
     }
   }
-  
+
+  .lots-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .lot-container {
+    flex: 0 0 30%; // Adjusting the width to fit 3 lots per row
+    max-width: 20%;
+    margin: 1%;
+  }
+}

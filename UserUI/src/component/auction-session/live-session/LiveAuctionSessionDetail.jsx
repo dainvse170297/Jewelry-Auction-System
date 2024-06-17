@@ -3,19 +3,22 @@ import axios from "axios";
 import "./LiveAuctionSessionDetail.scss";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Countdown from "../../countdown/Countdown";
+import CountdownIcon from "@mui/icons-material/AccessAlarm";
+
 const LiveAuctionSessionDetail = () => {
   const [sessionData, setSessionData] = useState(null);
-
+  const [bidData, setBidData] = useState([]);
   useEffect(() => {
-    // Lấy dữ liệu từ API
-    const fetchData = async () => {
+    // Fetch data from API
+    const fetchSessionData = async () => {
       try {
         const response = await axios.get(
           "http://localhost:8080/auction/session/view-live-auction-session-detail",
           {
             params: {
-              sessionId: 11, // Thay đổi ID phiên đấu giá theo yêu cầu
-              memberId: 1, // Thay đổi ID thành viên theo yêu cầu
+              sessionId: 11, // Change the session ID as required
+              memberId: 1, // Change the member ID as required
             },
           }
         );
@@ -25,8 +28,27 @@ const LiveAuctionSessionDetail = () => {
       }
     };
 
-    fetchData();
+    const fetchBidData = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/bid/list-bid");
+        setBidData(response.data);
+      } catch (error) {
+        console.error("Error fetching bid data:", error);
+      }
+    };
+
+    fetchSessionData();
+    fetchBidData();
   }, []);
+
+  const getLatestBidPrice = (lotId) => {
+    const lotBids = bidData.filter((bid) => bid.lotId === lotId);
+    if (lotBids.length === 0) return 0;
+    const latestBid = lotBids.reduce((prev, current) =>
+      new Date(prev.bidTime) > new Date(current.bidTime) ? prev : current
+    );
+    return latestBid.price;
+  };
 
   if (!sessionData) {
     return <div>Loading...</div>;
@@ -43,9 +65,10 @@ const LiveAuctionSessionDetail = () => {
             <hr />
             <div className="d-flex justify-content-center">
               <div className="col-6 bor">
-                Start Time: {sessionData.startTime}
+                <div>Start Time: {sessionData.startTime}</div>
+                <div>End Time: {sessionData.endTime}</div>
               </div>
-              <div className="col-6 bor">End Time: {sessionData.endTime}</div>
+              <div className="col-6 bor">aaaaa aaaaaaa bbbbb cccc</div>
             </div>
             <hr />
           </div>
@@ -55,15 +78,23 @@ const LiveAuctionSessionDetail = () => {
           {sessionData.lots.map((lot) => (
             <div key={lot.id} className="lot-container">
               <div className="lot border p-3">
-                <img
-                  src={lot.productImages[0].imageUrl}
-                  alt={lot.productName}
-                  className="img-fluid mb-3"
-                />
+                <div className="image-container">
+                  <img
+                    src={lot.productImages[0].imageUrl}
+                    alt={lot.productName}
+                    className="img-fluid mb-3"
+                  />
+                  <div className="participants-circle">
+                    {lot.numberOfRegister}
+                  </div>
+                </div>
                 <h5>{lot.productName}</h5>
                 <p>Current Price: ${lot.currentPrice}</p>
+                <p>
+                  Est. ${lot.estimatedPriceMin} - ${lot.estimatedPriceMax}{" "}
+                </p>
                 <Link to={`/live-lot-detail/${lot.id}`}>
-                  <Button variant="primary">View Detail</Button>
+                  <Button variant="primary">Place Bid</Button>
                 </Link>
               </div>
             </div>
