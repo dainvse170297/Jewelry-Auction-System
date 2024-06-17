@@ -10,6 +10,8 @@ import UpcomingSession from "./component/auction-session/upcoming-session/Upcomi
 import Register from "./component/auth/register/Register.jsx";
 import LiveLotDetail from "./component/auction-session/live-auction/LiveLotDetail.jsx";
 import UpcomingSessionDetail from "./component/auction-session/upcoming-session/UpcomingSessionDetail.jsx";
+import UpcomingSessionLot from "./component/auction-session/upcoming-session-lot/UpcomingSessionLot.jsx";
+
 function App() {
   return (
     <>
@@ -38,6 +40,10 @@ function App() {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<Register />} />
+          <Route
+            path="/upcoming-session-lot/:lotId"
+            element={<UpcomingSessionLot />}
+          />
         </Routes>
         {/* <Footer /> */}
       </BrowserRouter>

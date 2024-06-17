@@ -22,6 +22,7 @@ const AvatarDropdown = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("account");
     navigate("/");
+    window.location.reload();
   }
 
   return (
@@ -44,6 +45,13 @@ const AvatarDropdown = () => {
       >
         {currentUser ? (
           <>
+            <li className="src/component/valuation_request/create/CreateValuation.jsx">
+              <a className="dropdown-item" href="#!">
+                <div className="px-1">
+                  Hello {currentUser.username}
+                </div>
+              </a>
+            </li>
             <li className="src/component/valuation_request/create/CreateValuation.jsx">
               <a className="dropdown-item" href="#!">
                 <div className="px-1">

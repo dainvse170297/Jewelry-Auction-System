@@ -5,6 +5,7 @@ import Countdown from "../../countdown/Countdown";
 import "./upcoming-session.scss";
 import { Spinner } from "react-bootstrap";
 import CountdownIcon from "@mui/icons-material/AccessAlarm";
+import { LinearProgress } from "@mui/material";
 
 const UpcomingSession = () => {
   const [upcomingSessions, setUpcomingSessions] = useState([]);
@@ -27,7 +28,7 @@ const UpcomingSession = () => {
   return (
     <div className="container-fluid upcoming-session">
       <div className="row">
-        <h1 className="text-center py-3">Upcoming Session</h1>
+        <h1 className="text-center py-3">Upcoming Auctions</h1>
       </div>
       <div className="row d-flex justify-content-center">
         <div className="col-sm-8 mb-5">
@@ -45,6 +46,12 @@ const UpcomingSession = () => {
               <div className="row session-cart">
                 <div className="col-sm-4 d-flex justify-content-center align-items-center">
                   {/* <div className="row">
+            <LinearProgress />
+          ) : (
+            upcomingSessions.map((session, index) => (
+              <div className="row session-cart" key={index}>
+                <div className="col-sm-4">
+                  <div className="row">
                     <img
                       className="img-fluid"
                       src={session.defaultImageURL}

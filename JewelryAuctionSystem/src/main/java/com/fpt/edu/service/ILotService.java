@@ -15,5 +15,5 @@ public interface ILotService {
 
     public LotDTO viewLotDetailById(int id);
 
-
+    Lot viewLotDetailById(int id);
 }
