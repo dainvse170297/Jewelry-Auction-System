@@ -1,11 +1,13 @@
 package com.fpt.edu.config;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -22,13 +24,16 @@ import javax.crypto.spec.SecretKeySpec;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
 
     private final String[] PUBLIC_ENDPOINTS = {
             "/auth/token", // login
             "/auth/introspect", // check token
-            "/account/register" // register
+            "/account/register", // register
+            "/auth/logout", // logout
+            "/auth/refresh-token", // refresh token
     };
 
     private final String[] MEMBER_POST_ENDPOINTS = {
@@ -39,6 +44,7 @@ public class SecurityConfig {
     private final String[] MEMBER_GET_ENDPOINTS = {
             "/valuation/view-sent-request/{id}",
             "/response/view-valuation-response/{id}",
+            "/member/info"
     };
     private final String[] STAFF_POST_ENDPOINTS = {
             "/valuation/preliminary-valuation",
@@ -71,6 +77,8 @@ public class SecurityConfig {
     @Value("${jwt.signerKey}")
     private String SIGNER_KEY;
 
+    @Autowired
+    CustomJwtDecoder customJwtDecoder;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -88,10 +96,13 @@ public class SecurityConfig {
 //                        .requestMatchers(HttpMethod.GET, MEMBER_GET_ENDPOINTS).hasAuthority("SCOPE_MEMBER")
 //                        .requestMatchers(HttpMethod.POST, STAFF_POST_ENDPOINTS).hasAuthority("SCOPE_STAFF")
 //                        .requestMatchers(HttpMethod.GET, STAFF_GET_ENDPOINTS).hasAuthority("SCOPE_STAFF")
-//                        .anyRequest().authenticated()
+
+                    //    .anyRequest().authenticated()
+
+
                 );
         http.oauth2ResourceServer(oauth2 ->
-                oauth2.jwt(jwt -> jwt.decoder(jwtDecoder())));
+                oauth2.jwt(jwt -> jwt.decoder(customJwtDecoder)));
 
 
         return http.build();

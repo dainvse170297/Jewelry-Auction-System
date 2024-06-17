@@ -13,4 +13,5 @@ public interface ILotService {
 
     LotDTO viewLiveLotDetail(Integer id);
     Lot viewLotDetailById(int id);
+
 }
