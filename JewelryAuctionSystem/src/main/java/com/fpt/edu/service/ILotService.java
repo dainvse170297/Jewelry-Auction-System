@@ -13,7 +13,7 @@ public interface ILotService {
 
     LotDTO viewLiveLotDetail(Integer id);
 
-    public LotDTO viewLotDetailById(int id);
+//    public LotDTO viewLotDetailById(int id);
 
     Lot viewLotDetailById(int id);
 }
