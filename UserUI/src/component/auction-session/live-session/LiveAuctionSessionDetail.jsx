@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./LiveAuctionSessionDetail.scss";
-
 import LotPreview from "../upcoming-session/LotPreview";
 import AuctionSession from "../upcoming-session/AuctionSession";
 import Paginator from "../../common/Paginator";
