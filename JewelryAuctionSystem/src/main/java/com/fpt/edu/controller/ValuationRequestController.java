@@ -120,5 +120,14 @@ public class ValuationRequestController {
         return ResponseEntity.ok(valuationRequestService.ViewDetailValuationRequestFinalApproved(id));
     }
 
+    @GetMapping("/member-cancel/{id}") // id valuation request
+    public ResponseEntity<Boolean> cancelValuationRequest(@PathVariable Integer id) {
+        return ResponseEntity.ok(valuationRequestService.cancelValuationRequest(id));
+    }
+
+    @GetMapping("/staff-cancel/{id}") // id valuation request
+    public ResponseEntity<Boolean> cancelValuationRequestByStaff(@PathVariable Integer id) {
+        return ResponseEntity.ok(valuationRequestService.cancelValuationRequestByStaff(id));
+    }
 
 }
