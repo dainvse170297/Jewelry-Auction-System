@@ -100,10 +100,10 @@ public class AuctionSessionService implements IAuctionSessionService {
 
     @Override
     public ResponseEntity<?> viewLiveAuctionSessionDetail(Integer sessionId, Integer memberId) {
-        AuctionRegisterStatus status = AuctionRegisterStatus.BID;
-
+        AuctionRegisterStatus statusRegister = AuctionRegisterStatus.BID;
+        LotStatus statusLot = LotStatus.AUCTIONING;
         // lay dah sach dang ky cua member
-        List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, status);
+        List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, statusRegister);
 
         // tim ra lot cua member
         List<Lot> lots = auctionRegisters.stream()
@@ -111,8 +111,11 @@ public class AuctionSessionService implements IAuctionSessionService {
                 .collect(Collectors.toList());
         // lấy
         // ds lots cua session
-        List<Lot> lotOfSession = lotRepository.findByAuctionSession_Id(sessionId);
 
+        List<Lot> lotOfSession = lotRepository.findByAuctionSession_IdAndStatus(sessionId,statusLot);
+        for (Lot lot : lotOfSession) {
+            System.out.println(lot.getId());
+        }
         ViewLiveAuctionSessionDetailDTO viewLiveAuctionSessionDetailDTO = new ViewLiveAuctionSessionDetailDTO();
         AuctionSession auctionSession = auctionSessionRepository.findById(sessionId).get();
         viewLiveAuctionSessionDetailDTO.setId(auctionSession.getId());
@@ -132,7 +135,7 @@ public class AuctionSessionService implements IAuctionSessionService {
                         lotDTO.setEstimatedPriceMin(lotRegister.getProduct().getEstimatePriceMin());
                         lotDTO.setEstimatedPriceMax(lotRegister.getProduct().getEstimatePriceMax());
                         lotDTO.setStatus(lotRegister.getStatus());
-                        lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotIdAndStatus(lotRegister.getId(), status));
+                        lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotIdAndStatus(lotRegister.getId(), statusRegister));
                         List<ProductImage> productImages = new ArrayList<>(lotRegister.getProduct().getProductImages());
                         lotDTO.setProductImages(productImages);
                         listLotDTO.add(lotDTO);
