@@ -2,9 +2,9 @@ import { useParams, Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import axios from "axios";
-import LotPreview from "./LotPreview";
+import LotPreview from "../../lot/LotPreview";
 import Paginator from "../../common/Paginator";
-import AuctionSession from "./AuctionSession";
+import AuctionSession from "../AuctionSession";
 
 const UpcomingSessionDetail = () => {
   const { id } = useParams();

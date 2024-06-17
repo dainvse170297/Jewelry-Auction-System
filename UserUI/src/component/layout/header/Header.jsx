@@ -44,7 +44,7 @@ class Header extends React.Component {
                         aria-labelledby="accountDropdown"
                       >
                         <li>
-                          <a className="dropdown-item" href="#!">
+                          <a className="dropdown-item" href="/live">
                             Live auction
                           </a>
                         </li>
@@ -54,7 +54,7 @@ class Header extends React.Component {
                           </a>
                         </li>
                         <li>
-                          <a className="dropdown-item" href="#!">
+                          <a className="dropdown-item" href="">
                             Past auction
                           </a>
                         </li>

@@ -1,7 +1,7 @@
 import { Carousel, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const LotPreview = ({ lot, registeredValue }) => {
+const LotPreview = ({ lot, registeredValue, sessionStatus }) => {
   return (
     <Card style={{ width: "18rem" }}>
       <Carousel>
@@ -20,19 +20,21 @@ const LotPreview = ({ lot, registeredValue }) => {
       <Card.Body>
         <Card.Title>{lot.productName}</Card.Title>
         <Card.Text>
-          <p>Id: {lot.id}</p>
-          <p>Product Id: {lot.productId}</p>
-          <p>Current Price: {lot.currentPrice}</p>
-          {registeredValue && <p>Registered Value: {registeredValue}</p>}
-
-          {lot.status === "READY" && (
-            <div className=" d-flex justify-content-center">
-              <Link to={`/live-lot-detail/${lot.id}`}>
-                {" "}
-                <Button> Place Bid </Button>
-              </Link>
-            </div>
+          <p>
+            EST. {lot.estimatePriceMin} - {lot.estimatePriceMax}
+          </p>
+          {sessionStatus === "UPCOMING" && (
+            <Button variant="primary">Register to Bid</Button>
           )}
+          {sessionStatus === "LIVE" && (
+            <Button variant="primary">Place Bid</Button>
+          )}
+          <p>Current Price: {lot.currentPrice}</p>
+
+          {/* {registeredValue && <p>Registered Value: {registeredValue}</p>}
+          <Link to={`/upcoming-session-lot/${lot.id}`}>
+            <button className="detail-button">View details</button>
+          </Link> */}
         </Card.Text>
       </Card.Body>
     </Card>
