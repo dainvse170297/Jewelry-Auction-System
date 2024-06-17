@@ -22,8 +22,8 @@ public class LotMapper {
             lotDTO.setProductImages(lot.getProduct().getProductImages());
             lotDTO.setStatus(lot.getStatus());
             lotDTO.setNumberOfRegister(lot.getAuctionRegisters().size());
-            lotDTO.setEstimateMin(lot.getProduct().getEstimatePriceMin());
-            lotDTO.setEstimateMax(lot.getProduct().getEstimatePriceMax());
+            lotDTO.setEstimatePriceMin(lot.getProduct().getEstimatePriceMin());
+            lotDTO.setEstimatePriceMax(lot.getProduct().getEstimatePriceMax());
             return lotDTO;
         }
 
