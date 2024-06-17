@@ -7,20 +7,13 @@ import { Carousel } from "react-bootstrap";
 
 export default function LiveLotDetail() {
   const { id } = useParams();
-  // lấy giá trị đấu giá lớn nhất
   const [maxBid, setMaxBid] = useState();
-  // giá trị bid của user
   const [bid, setBid] = useState();
-  // tạo message cho error
   const [errorMsg, setErrorMsg] = useState("");
-  // chứa thông tin của sản phẩm
   const [productInfo, setProductInfo] = useState();
-  // danh sách lịch sử đấu giá
   const [bidHistory, setBidHistory] = useState([]);
-  // số hàng bid hiển thị trong 1 ô lịch sửa đấu giá
 
   const [numberOfListHistory, setNumberOfListHistory] = useState(8);
-  // chứa thời gian đếm ngược kết thúc live auction
   const [countDownTime, setCountDownTime] = useState();
 
   // reset bid
@@ -37,16 +30,19 @@ export default function LiveLotDetail() {
   useEffect(() => {
     const getInfo = async () => {
       try {
-        axios.get(`/lot/view-live-lot-detail/${id}`).then((result) => {
-          setProductInfo(result.data);
-        });
+        await axios
+          .get(`http://localhost:8080/lot/view-live-lot-detail/${id}`)
+          .then((result) => {
+            setProductInfo(result.data);
+            console.log(result.data);
+          });
       } catch (error) {
         console.log("Error:", error.message);
         setErrorMsg("Error fetching data from server");
       }
     };
     getInfo();
-  }, []);
+  }, [id]);
 
   // hàm gửi giá trị đặt cọc về server
   const sendBid = async () => {

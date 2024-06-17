@@ -64,7 +64,7 @@ public class AuctionSessionController {
         return ResponseEntity.ok(auctionSessionService.getAuctionSession(AuctionSessionStatus.UPCOMING));
     }
 
-    @GetMapping("/session/view-live-auction-session-detail")
+    @PostMapping("/session/view-live-auction-session-detail")
     public ResponseEntity<?> viewLiveAuctionSessionDetail(@RequestParam("sessionId") Integer sessionId,
                                                           @RequestParam("memberId") Integer memberId) {
         ResponseEntity<?> response = auctionSessionService.viewLiveAuctionSessionDetail(sessionId, memberId);

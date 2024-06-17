@@ -27,7 +27,9 @@ const LotPreview = ({ lot, registeredValue, sessionStatus }) => {
             <Button variant="primary">Register to Bid</Button>
           )}
           {sessionStatus === "LIVE" && (
-            <Button variant="primary">Place Bid</Button>
+            <Link to={`/live-lot-detail/${lot.id}`} className="btn btn-primary">
+              <Button variant="primary">Place Bid</Button>
+            </Link>
           )}
           <p>Current Price: {lot.currentPrice}</p>
 
