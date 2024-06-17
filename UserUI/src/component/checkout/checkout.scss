@@ -1,0 +1,95 @@
+.checkout-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.order-review {
+    width: 60%;
+}
+
+.order-total {
+    width: 35%;
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: #f9f9f9;
+    height: 45%;
+}
+
+.order-review h2,
+.order-total h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.order-review table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-review th,
+.order-review td {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.order-review img {
+    width: 100px;
+    height: auto;
+}
+
+.product-details {
+    padding-left: 20px;
+}
+
+.product-details h3 {
+    margin: 0;
+}
+
+.product-details p {
+    margin: 5px 0 0;
+}
+
+.select-all {
+
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+}
+
+.select-all input {
+    margin-right: 10px;
+}
+
+.selected {
+    background-color: #f1f1f1;
+}
+
+.order-total ul {
+    list-style: none;
+    padding: 0;
+}
+
+.order-total ul li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.order-total h3 {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.order-total button {
+    width: 100%;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
