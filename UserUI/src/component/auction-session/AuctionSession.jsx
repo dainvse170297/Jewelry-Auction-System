@@ -1,6 +1,6 @@
 import React from "react";
 import CountdownIcon from "@mui/icons-material/AccessAlarm";
-import Countdown from "../../countdown/Countdown";
+import Countdown from "../countdown/Countdown";
 import { Link, useNavigate } from "react-router-dom";
 
 const AuctionSession = ({ session, showImage, showDetailBtn }) => {
@@ -29,9 +29,16 @@ const AuctionSession = ({ session, showImage, showDetailBtn }) => {
                   <div className="col-sm-2 d-flex justify-content-center align-items-center">
                     <CountdownIcon style={{ width: "80%", height: "80%" }} />
                   </div>
-                  <div className="col-sm-9">
-                    <Countdown targetDate={session.startTime} />
-                  </div>
+                  {session.status === "UPCOMING" && (
+                    <div className="col-sm-9">
+                      <Countdown targetDate={session.startTime} />
+                    </div>
+                  )}
+                  {session.status === "LIVE" && (
+                    <div className="col-sm-9">
+                      <Countdown targetDate={session.endTime} />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -64,11 +71,21 @@ const AuctionSession = ({ session, showImage, showDetailBtn }) => {
         {showDetailBtn && (
           <div className="row">
             <div className="col-sm-4">
-              <Link to={`/upcoming-session-detail/${session.id}`}>
-                <button type="button" className="detail-button">
-                  View Detail
-                </button>
-              </Link>
+              {session.status === "UPCOMING" && (
+                <Link to={`/upcoming-session-detail/${session.id}`}>
+                  <button type="button" className="detail-button">
+                    View Detail
+                  </button>
+                </Link>
+              )}
+
+              {session.status === "LIVE" && (
+                <Link to={`/live-session-detail/${session.id}`}>
+                  <button type="button" className="detail-button">
+                    View Detail
+                  </button>
+                </Link>
+              )}
             </div>
           </div>
         )}

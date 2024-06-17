@@ -18,6 +18,8 @@ public class LotDTO {
         private  Integer productId;
         private  String productName; //descriptiion // time countdown
         private BigDecimal currentPrice;
+        private BigDecimal estimatePriceMin;
+        private BigDecimal estimatePriceMax;
         private  String description;
         private LocalDateTime endTime;
         private LotStatus status;

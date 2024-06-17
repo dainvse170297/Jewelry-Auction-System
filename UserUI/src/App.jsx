@@ -9,6 +9,7 @@ import MyValuationRequest from "./component/valuation_request/view/MyValuationRe
 import UpcomingSessionList from "./component/auction-session/upcoming-session/UpcomingSessionList.jsx";
 import Register from "./component/auth/register/Register.jsx";
 import LiveLotDetail from "./component/auction-session/live-auction/LiveLotDetail.jsx";
+import LiveSessionList from "./component/auction-session/live-auction/LiveSessionList.jsx";
 import UpcomingSessionDetail from "./component/auction-session/upcoming-session/UpcomingSessionDetail.jsx";
 import UpcomingSessionLot from "./component/auction-session/upcoming-session-lot/UpcomingSessionLot.jsx";
 
@@ -29,6 +30,7 @@ function App() {
             path="/upcoming-session-detail/:id"
             element={<UpcomingSessionDetail />}
           />
+          <Route path="/live" element={<LiveSessionList />} />
           <Route path="/live-auction-detail/:id" element={<LiveLotDetail />} />
           <Route
             path="/valuation-request/:id"
