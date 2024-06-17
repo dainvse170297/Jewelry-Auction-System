@@ -4,6 +4,10 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Carousel } from "react-bootstrap";
+import "react-toastify/dist/ReactToastify.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-bootstrap-carousel/dist/react-bootstrap-carousel.css";
+import "react-bootstrap-carousel/dist/react-bootstrap-carousel.js";
 
 export default function LiveLotDetail() {
 
@@ -18,10 +22,10 @@ export default function LiveLotDetail() {
   // tạo message cho error
   const [errorMsg, setErrorMsg] = useState("");
   // chứa thông tin của sản phẩm
-  const [productInfo, setProductInfo] = useState();
+  const [productInfo, setProductInfo] = useState({});
   // danh sách lịch sử đấu giá
   const [bidHistory, setBidHistory] = useState([]);
-  // số hàng bid hiển thị trong 1 ô lịch sửa đấu giá
+  // số hàng bid hiển thị trong ô lịch sửa đấu giá
   const [numberOfListHistory, setNumberOfListHistory] = useState(8);
   // chứa thời gian đếm ngược kết thúc live auction
   const [countDownTime, setCountDownTime] = useState();
@@ -40,7 +44,7 @@ export default function LiveLotDetail() {
   useEffect(() => {
     const getInfo = async () => {
       try {
-        axios.get(`/lot/view-live-lot-detail/${id}`).then((result) => {
+        axios.get(`http://localhost:8080/lot/view-live-lot-detail/${id}`).then((result) => {
           setProductInfo(result.data);
         });
       } catch (error) {
@@ -51,6 +55,28 @@ export default function LiveLotDetail() {
     getInfo();
   }, []);
 
+  // lấy danh sách lịch sử đấu giá
+  useEffect(() => {
+    const getBidHistory = async () => {
+      try {
+        axios.get(`http://localhost:8080/bid/list-bid`).then((result) => {
+          setBidHistory(result.data);
+        });
+      } catch (error) {
+        console.log("Error:", error.message);
+        setErrorMsg("Error fetching data from server");
+      }
+    };
+    getBidHistory();
+  }, []);
+
+  // hàm cập nhật giá trị đấu giá lớn nhất
+  useEffect(() => {
+    if (bidHistory.length > 0) {
+      setMaxBid(bidHistory[0].price); 
+    }
+  }, [bidHistory]);
+
   // hàm gửi giá trị đặt cọc về server
   const sendBid = async () => {
     try {
@@ -60,7 +86,7 @@ export default function LiveLotDetail() {
       formData.append("lotId", { lotId });
       formData.append("price", bid);
 
-      const response = await axios.post(`/bid/place-bid/${bid}`, formData, {
+      const response = await axios.post(`http://localhost:8080/bid/place-bid/${bid}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -109,15 +135,17 @@ export default function LiveLotDetail() {
         <div className="information">
           <div className="countdown-time">
             <div className="time-part">
+              Day
+              <h1>10</h1>
+            </div>
+            <div className="time-part">
               Hour
               <h1>15</h1>
             </div>
-            <h1>:</h1>
             <div className="time-part">
               Minute
               <h1>30</h1>
             </div>
-            <h1>:</h1>
             <div className="time-part">
               Second
               <h1>29</h1>
@@ -165,7 +193,7 @@ export default function LiveLotDetail() {
               <input
                 type="text"
                 name="bidValue"
-                value={`Budget: $` + `${bid}`}
+                value={`Budget: $` + `NaN`}
                 disabled
               />
             </div>
@@ -176,38 +204,12 @@ export default function LiveLotDetail() {
         </div>
 
         <div className="show-bid">
-          <div className="bid-row">
-            <div className="show-money">$15</div>
-            <div className="show-time">10:00:00</div>
-          </div>
-          <div className="bid-row">
-            <div className="show-money">$15</div>
-            <div className="show-time">10:00:00</div>
-          </div>
-          <div className="bid-row">
-            <div className="show-money">$15</div>
-            <div className="show-time">10:00:00</div>
-          </div>
-          <div className="bid-row">
-            <div className="show-money">$15</div>
-            <div className="show-time">10:00:00</div>
-          </div>
-          <div className="bid-row">
-            <div className="show-money">$15</div>
-            <div className="show-time">10:00:00</div>
-          </div>
-          <div className="bid-row">
-            <div className="show-money">$15</div>
-            <div className="show-time">10:00:00</div>
-          </div>
-          <div className="bid-row">
-            <div className="show-money">$15</div>
-            <div className="show-time">10:00:00</div>
-          </div>
-          <div className="bid-row">
-            <div className="show-money">$15</div>
-            <div className="show-time">10:00:00</div>
-          </div>
+          {bidHistory.slice(0, numberOfListHistory).map((item, index) => (
+            <div className="bid-row" key={index}>
+              <div className="show-money">${item.price}</div>
+              <div className="show-time">{item.bidTime}</div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
