@@ -6,6 +6,7 @@ import com.fpt.edu.dto.*;
 import com.fpt.edu.entity.*;
 import com.fpt.edu.mapper.AuctionRegisterMapper;
 import com.fpt.edu.mapper.AuctionSessionMapper;
+import com.fpt.edu.mapper.LotMapper;
 import com.fpt.edu.mapper.ProductMapper;
 import com.fpt.edu.repository.*;
 import com.fpt.edu.status.AuctionRegisterStatus;
@@ -40,6 +41,7 @@ public class AuctionSessionService implements IAuctionSessionService {
     private final ProductMapper productMapper;
     private final AuctionSessionMapper auctionSessionMapper;
     private final AuctionRegisterMapper auctionRegisterMapper;
+    private final LotMapper lotMapper;
     private final Cloudinary cloudinary;
     private final INotifyService iNotifyService;
     private final InvalidatedTokenRepository invalidatedTokenRepository;
@@ -158,17 +160,7 @@ public class AuctionSessionService implements IAuctionSessionService {
         List<Lot> lots = lotRepository.findByAuctionSession_Id(sessionId);
         List<LotDTO> lotDTOS = new ArrayList<>();
         for (Lot lot : lots) {
-            LotDTO lotDTO = new LotDTO();
-            lotDTO.setId(lot.getId());
-            lotDTO.setProductId(lot.getProduct().getId());
-            lotDTO.setProductName(lot.getProduct().getName());
-            lotDTO.setCurrentPrice(lot.getCurrentPrice());
-            lotDTO.setEstimatePriceMin(lot.getProduct().getEstimatePriceMin());
-            lotDTO.setEstimatePriceMax(lot.getProduct().getEstimatePriceMax());
-            lotDTO.setStatus(lot.getStatus());
-            lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotId(lot.getId()));
-            List<ProductImage> productImages = new ArrayList<>(lot.getProduct().getProductImages());
-            lotDTO.setProductImages(productImages);
+            LotDTO lotDTO = lotMapper.toLotDTO(lot);
             lotDTOS.add(lotDTO);
         }
         List<AuctionRegister> registers = auctionRegisterRepository.findByMemberId(memberId);
