@@ -32,4 +32,5 @@ public interface  IAuctionSessionService {
     Map<String, Object> getAuctionSessionDetails(Integer sessionId, Integer memberId);
 
 
+
 }
