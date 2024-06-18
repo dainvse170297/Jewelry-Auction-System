@@ -15,6 +15,9 @@ import LiveAuctionSessionDetail from "./component/auction-session/live-session/L
 import UpcomingSessionLot from "./component/auction-session/upcoming-session-lot/UpcomingSessionLot.jsx";
 import CheckOut from "./component/checkout/CheckOut.jsx";
 import CheckOutDetail from "./component/checkout/CheckOutDetail.jsx";
+import PaymentCallback from "./component/checkout/PaymentCallback.jsx";
+import PaymentSuccess from "./component/checkout/PaymentSuccess.jsx";
+import PaymentFailure from "./component/checkout/PaymentFailure.jsx";
 
 function App() {
   return (
@@ -56,6 +59,10 @@ function App() {
           />
           <Route path="/checkout" element={<CheckOut />} />
           <Route path="/checkout-detail" element={<CheckOutDetail />} />
+
+          <Route path="/payment-callback" element={<PaymentCallback />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/payment-failure" element={<PaymentFailure />} />
         </Routes>
 
         {/* <Footer /> */}

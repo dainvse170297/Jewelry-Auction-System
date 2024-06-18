@@ -60,9 +60,9 @@ const CheckOut = () => {
             <h2>Order Review</h2>
 
             <hr />
-            <div class="form-check">
+            <div className="form-check">
                 <input className="form-check-input" type="checkbox" onChange={handleSelectAll} />
-                <label class="form-check-label" for="flexCheckDefault">
+                <label className="form-check-label" htmlFor="flexCheckDefault">
                     Select All
                 </label>
             </div>
@@ -82,7 +82,7 @@ const CheckOut = () => {
                                                     <p>{product.description}</p>
                                                 </div>
                                             </td>
-                                            <td>${product.price.toFixed(2)}</td>
+                                            <td>${product.price}</td>
                                             <td>
                                                 <input
                                                     type="checkbox"
@@ -102,7 +102,7 @@ const CheckOut = () => {
                         <ul>
 
                         </ul>
-                        <h3>Subtotal <span>${totalPrice.toFixed(2)}</span></h3>
+                        <h3>Subtotal <span>${totalPrice}</span></h3>
                         <button onClick={handleCheckOut} disabled={selectedProducts.length === 0} className={selectedProducts.length === 0 ? 'button-disable' : 'button'}>Check out</button>
                     </div>
                 </div>
