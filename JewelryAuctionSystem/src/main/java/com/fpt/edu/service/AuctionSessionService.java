@@ -216,7 +216,7 @@ public class AuctionSessionService implements IAuctionSessionService {
         List<InvalidatedToken> invalidatedTokens = invalidatedTokenRepository.findAll();
         LocalDateTime now = LocalDateTime.now();
         for (InvalidatedToken invalidatedToken : invalidatedTokens) {
-            if (invalidatedToken.getExpiredAt().isBefore(now)) {
+            if (invalidatedToken.getExpiredTime().isBefore(now)) {
                 invalidatedTokenRepository.delete(invalidatedToken);
                 log.info("Delete token invalidated");
             }

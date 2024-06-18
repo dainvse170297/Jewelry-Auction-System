@@ -1,6 +1,7 @@
 package com.fpt.edu.entity;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ public class InvalidatedToken {
     @Id
     private String id;
 
-
-    private LocalDateTime expiredAt;
+    @Column(name = "expired_time")
+    private LocalDateTime expiredTime;
 
 }

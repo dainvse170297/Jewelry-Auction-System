@@ -28,6 +28,10 @@ public class FinancialProofRequest {
     @JoinColumn(name = "staff_id", nullable = true)
     private Staff staff;
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "manager_id", nullable = true)
+    private Manager manager;
+
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private FinancialProofRequestStatus status;
