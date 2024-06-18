@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @CrossOrigin("*")
 @RequestMapping("/auction-register")
@@ -36,4 +37,10 @@ public class AuctionRegisterController {
     public ResponseEntity<Boolean> checkMemberRegister(@PathVariable("memberId") int memberId, @PathVariable("lotId") int lotId) {
         return ResponseEntity.ok(auctionRegisterService.checkMemberRegister(memberId, lotId));
     }
+
+    @GetMapping("/view-win-auction-list/{memberId}")
+    public ResponseEntity<List<AuctionRegister>> checkMemberRegister(@PathVariable("memberId") int memberId) {
+        return ResponseEntity.ok(auctionRegisterService.getListWinAuctionOfMember(memberId));
+    }
+
 }

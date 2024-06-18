@@ -16,15 +16,13 @@ import java.util.List;
 public class LotDTO {
         private  Integer id;
         private  Integer productId;
-        private  String productName; //descriptiion // time countdown
+        private  String productName;
         private BigDecimal currentPrice;
-
         private BigDecimal estimatePriceMin;
         private BigDecimal estimatePriceMax;
         private  String description;
         private LocalDateTime endTime;
         private LotStatus status;
-        private Integer numberOfRegister;
         private List<ProductImage> productImages;
-
+        private Integer numberOfRegister;
 }

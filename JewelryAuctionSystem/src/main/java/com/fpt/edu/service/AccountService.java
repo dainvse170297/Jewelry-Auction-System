@@ -161,7 +161,7 @@ public class AccountService implements IAccountService {
                     getExpirationTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             InvalidatedToken invalidatedToken = new InvalidatedToken();
             invalidatedToken.setId(jit);
-            invalidatedToken.setExpiredAt(expirationTime);
+            invalidatedToken.setExpiredTime(expirationTime);
             invalidatedTokenRepository.save(invalidatedToken);
         } catch (JOSEException e) {
             log.info("Token is expired");

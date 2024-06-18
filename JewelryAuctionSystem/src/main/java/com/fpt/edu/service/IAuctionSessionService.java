@@ -29,9 +29,8 @@ public interface  IAuctionSessionService {
 
     ResponseEntity<?> viewLiveAuctionSessionDetail(Integer sessionId, Integer memberId);
 
-    boolean authByMember(Integer sessionId, Integer memberId);
-
     Map<String, Object> getAuctionSessionDetails(Integer sessionId, Integer memberId);
+
 
 
 }
