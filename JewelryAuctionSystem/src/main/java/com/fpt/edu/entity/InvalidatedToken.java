@@ -22,6 +22,6 @@ public class InvalidatedToken {
     private String id;
 
 
-    private LocalDateTime expiredAt;
+    private LocalDateTime expiredTime;
 
 }

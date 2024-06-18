@@ -18,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
+
+
 
 @Service
 @RequiredArgsConstructor
@@ -77,5 +80,13 @@ public class AuctionRegisterService implements IAuctionRegisterService {
         AuctionRegister auctionRegister = auctionRegisterRepository.findByLotIdAndMemberId(lotId, id);
         return auctionRegister != null;
     }
+
+    @Override
+    public List<AuctionRegister> getListWinAuctionOfMember(Integer memberId){
+            AuctionRegisterStatus auctionRegisterStatus = AuctionRegisterStatus.PENDING_PAYMENT;
+        return auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, auctionRegisterStatus);
+    }
+
+
 
 }
