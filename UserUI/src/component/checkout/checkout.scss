@@ -83,13 +83,23 @@
     margin-top: 20px;
 }
 
-.order-total button {
+.order-total .button {
     width: 100%;
     padding: 10px;
     background-color: black;
     color: white;
     border: none;
     cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.order-total .button-disable {
+    width: 100%;
+    padding: 10px;
+    background-color: rgb(89, 88, 88);
+    color: white;
+    border: none;
     font-size: 16px;
     margin-top: 20px;
 }

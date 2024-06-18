@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import './checkout.scss';
+import { useNavigate } from 'react-router-dom';
 
 const CheckOut = () => {
 
@@ -46,6 +47,12 @@ const CheckOut = () => {
             setSelectedProducts([]);
             setTotalPrice(0);
         }
+    };
+
+    const navigate = useNavigate()
+
+    const handleCheckOut = () => {
+        navigate('/checkout-detail', { state: { selectedProducts, totalPrice } });
     };
 
     return (
@@ -96,7 +103,7 @@ const CheckOut = () => {
 
                         </ul>
                         <h3>Subtotal <span>${totalPrice.toFixed(2)}</span></h3>
-                        <button>Check out</button>
+                        <button onClick={handleCheckOut} disabled={selectedProducts.length === 0} className={selectedProducts.length === 0 ? 'button-disable' : 'button'}>Check out</button>
                     </div>
                 </div>
             </div>

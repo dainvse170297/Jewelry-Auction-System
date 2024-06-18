@@ -14,6 +14,7 @@ import UpcomingSessionDetail from "./component/auction-session/upcoming-session/
 import LiveAuctionSessionDetail from "./component/auction-session/live-session/LiveAuctionSessionDetail.jsx";
 import UpcomingSessionLot from "./component/auction-session/upcoming-session-lot/UpcomingSessionLot.jsx";
 import CheckOut from "./component/checkout/CheckOut.jsx";
+import CheckOutDetail from "./component/checkout/CheckOutDetail.jsx";
 
 function App() {
   return (
@@ -53,7 +54,8 @@ function App() {
             path="/upcoming-session-lot/:lotId"
             element={<UpcomingSessionLot />}
           />
-          <Route path="/check-out" element={<CheckOut />} />
+          <Route path="/checkout" element={<CheckOut />} />
+          <Route path="/checkout-detail" element={<CheckOutDetail />} />
         </Routes>
 
         {/* <Footer /> */}
