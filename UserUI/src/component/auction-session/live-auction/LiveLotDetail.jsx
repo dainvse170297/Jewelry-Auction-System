@@ -27,17 +27,42 @@ export default function LiveLotDetail() {
   const [bidHistory, setBidHistory] = useState([]);
   // số hàng bid hiển thị trong ô lịch sửa đấu giá
   const [numberOfListHistory, setNumberOfListHistory] = useState(8);
-  // chứa thời gian đếm ngược kết thúc live auction
-  const [countDownTime, setCountDownTime] = useState();
+  // chứa thời gian còn lại
+  const [timeLeft, setTimeLeft] = useState();
 
-  // reset bid
-  const resetBid = () => {
-    setBid(maxBid + 100);
-  };
+  // hàm gửi giá trị đặt cọc về server
+  const sendBid = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("memberId", { userId });
+      formData.append("lotId", { lotId });
+      formData.append("price", bid);
 
-  // hàm tính giá trị bid
-  const plusBid = (value) => {
-    setBid(bid + value);
+      const response = await axios.post(`http://localhost:8080/bid/place-bid`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+        .then((response) => {
+          console.log(response.data.message);
+          toast.success("Place Bid Successfully!");
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log(error.response);
+          toast.error("Place Bid Failed!");
+        });
+
+      if (response.status === 200) {
+        // console.log("Success")
+        toast.success("Approved successfully");
+      } else {
+        // console.log("Failed")
+        toast.error("Failed to approve");
+      }
+    } catch (error) {
+      console.log("Error: ", error);
+    }
   };
 
   // lấy thông tin live lot đang đấu giá qua id lot
@@ -73,45 +98,57 @@ export default function LiveLotDetail() {
   // hàm cập nhật giá trị đấu giá lớn nhất
   useEffect(() => {
     if (bidHistory.length > 0) {
-      setMaxBid(bidHistory[0].price); 
+      setMaxBid(bidHistory[0].price);
+      setBid(maxBid + 100);
     }
   }, [bidHistory]);
 
-  // hàm gửi giá trị đặt cọc về server
-  const sendBid = async () => {
-    try {
-
-      const formData = new FormData();
-      formData.append("memberId", { userId });
-      formData.append("lotId", { lotId });
-      formData.append("price", bid);
-
-      const response = await axios.post(`http://localhost:8080/bid/place-bid/${bid}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-        .then((response) => {
-          console.log(response.data.message);
-          toast.success("Place Bid Successfully!");
-        })
-        .catch((error) => {
-          console.log(error);
-          console.log(error.response);
-          toast.error("Place Bid Failed!");
-        });
-
-      if (response.status === 200) {
-        // console.log("Success")
-        toast.success("Approved successfully");
-      } else {
-        // console.log("Failed")
-        toast.error("Failed to approve");
-      }
-    } catch (error) {
-      console.log("Error: ", error);
-    }
+  // hàm chuyển đổi string thành đối tượng Date
+  const convertStringToDate = (dateString) => {
+    let dateObject = new Date(dateString);
+    return dateObject;
   };
+
+  // hàm tính thời gian còn lại
+  const calculateTimeLeft = () => {
+    const difference = +new Date(targetDate) - +new Date();
+    let timeLeft = {};
+
+    if (difference > 0) {
+      timeLeft = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    }
+
+    return timeLeft;
+  };
+
+  // gán giá trị vào biến timeLeft
+  setTimeLeft(calculateTimeLeft());
+
+  // cập nhật thời gian còn lại
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  });
+
+  // reset bid
+  const resetBid = () => {
+    setBid(maxBid + 100);
+  };
+
+  // hàm tính giá trị bid
+  const plusBid = (value) => {
+    setBid(bid + value);
+  };
+
+
 
   return (
     <div className="content-body">
@@ -136,19 +173,19 @@ export default function LiveLotDetail() {
           <div className="countdown-time">
             <div className="time-part">
               Day
-              <h1>10</h1>
+              <h1>{timeLeft.days ? `${timeLeft.days} ngày ` : '0'}</h1>
             </div>
             <div className="time-part">
               Hour
-              <h1>15</h1>
+              <h1>{timeLeft.hours ? `${timeLeft.hours} giờ ` : '00'}</h1>
             </div>
             <div className="time-part">
               Minute
-              <h1>30</h1>
+              <h1>{timeLeft.minutes ? `${timeLeft.minutes} phút ` : '00'}</h1>
             </div>
             <div className="time-part">
               Second
-              <h1>29</h1>
+              <h1>{timeLeft.seconds ? `${timeLeft.seconds} giây` : '00'}</h1>
             </div>
           </div>
           <div className="item-infor">
@@ -207,7 +244,7 @@ export default function LiveLotDetail() {
           {bidHistory.slice(0, numberOfListHistory).map((item, index) => (
             <div className="bid-row" key={index}>
               <div className="show-money">${item.price}</div>
-              <div className="show-time">{item.bidTime}</div>
+              <div className="show-time">{convertStringToDate(item.bidTime).toLocaleString()}</div>
             </div>
           ))}
         </div>
