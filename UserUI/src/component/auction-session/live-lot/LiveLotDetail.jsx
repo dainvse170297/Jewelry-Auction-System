@@ -6,11 +6,11 @@ import { toast } from "react-toastify";
 import { Carousel } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "react-bootstrap-carousel/dist/react-bootstrap-carousel.css";
-import "react-bootstrap-carousel/dist/react-bootstrap-carousel.js";
+import Countdown from "../../countdown/Countdown";
+// import "react-bootstrap-carousel/dist/react-bootstrap-carousel.css";
+// import "react-bootstrap-carousel/dist/react-bootstrap-carousel.js";
 
 export default function LiveLotDetail() {
-
   // lấy id user
   const { userId } = useParams();
   // lấy id lot
@@ -18,8 +18,8 @@ export default function LiveLotDetail() {
   // lấy giá trị đấu giá lớn nhất
   const [maxBid, setMaxBid] = useState();
   // giá trị place bid của user
+
   const [bid, setBid] = useState();
-  // tạo message cho error
   const [errorMsg, setErrorMsg] = useState("");
   // chứa thông tin của sản phẩm
   const [productInfo, setProductInfo] = useState({});
@@ -30,7 +30,6 @@ export default function LiveLotDetail() {
   // chứa thời gian còn lại
   const [timeLeft, setTimeLeft] = useState();
 
-  // hàm gửi giá trị đặt cọc về server
   const sendBid = async () => {
     try {
       const formData = new FormData();
@@ -38,11 +37,12 @@ export default function LiveLotDetail() {
       formData.append("lotId", { lotId });
       formData.append("price", bid);
 
-      const response = await axios.post(`http://localhost:8080/bid/place-bid`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      const response = await axios
+        .post(`http://localhost:8080/bid/place-bid`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
         .then((response) => {
           console.log(response.data.message);
           toast.success("Place Bid Successfully!");
@@ -69,9 +69,11 @@ export default function LiveLotDetail() {
   useEffect(() => {
     const getInfo = async () => {
       try {
-        axios.get(`http://localhost:8080/lot/view-live-lot-detail/${id}`).then((result) => {
-          setProductInfo(result.data);
-        });
+        axios
+          .get(`http://localhost:8080/lot/view-live-lot-detail/${id}`)
+          .then((result) => {
+            setProductInfo(result.data);
+          });
       } catch (error) {
         console.log("Error:", error.message);
         setErrorMsg("Error fetching data from server");
@@ -110,33 +112,33 @@ export default function LiveLotDetail() {
   };
 
   // hàm tính thời gian còn lại
-  const calculateTimeLeft = () => {
-    const difference = +new Date(targetDate) - +new Date();
-    let timeLeft = {};
+  // const calculateTimeLeft = () => {
+  //   const difference = +new Date(targetDate) - +new Date();
+  //   let timeLeft = {};
 
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
-    }
+  //   if (difference > 0) {
+  //     timeLeft = {
+  //       days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+  //       hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+  //       minutes: Math.floor((difference / 1000 / 60) % 60),
+  //       seconds: Math.floor((difference / 1000) % 60),
+  //     };
+  //   }
 
-    return timeLeft;
-  };
+  //   return timeLeft;
+  // };
 
-  // gán giá trị vào biến timeLeft
-  setTimeLeft(calculateTimeLeft());
+  // // gán giá trị vào biến timeLeft
+  // setTimeLeft(calculateTimeLeft());
 
-  // cập nhật thời gian còn lại
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
+  // // cập nhật thời gian còn lại
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setTimeLeft(calculateTimeLeft());
+  //   }, 1000);
 
-    return () => clearTimeout(timer);
-  });
+  //   return () => clearTimeout(timer);
+  // });
 
   // reset bid
   const resetBid = () => {
@@ -147,8 +149,6 @@ export default function LiveLotDetail() {
   const plusBid = (value) => {
     setBid(bid + value);
   };
-
-
 
   return (
     <div className="content-body">
@@ -162,7 +162,7 @@ export default function LiveLotDetail() {
                     // className="d-block w-100"
                     src={item.imageUrl}
                     alt={"photo"}
-                  // style={{ height: '300px', width: '100%' }}
+                    // style={{ height: '300px', width: '100%' }}
                   />
                 </Carousel.Item>
               ))}
@@ -170,29 +170,10 @@ export default function LiveLotDetail() {
         </div>
 
         <div className="information">
-          <div className="countdown-time">
-            <div className="time-part">
-              Day
-              <h1>{timeLeft.days ? `${timeLeft.days} ngày ` : '0'}</h1>
-            </div>
-            <div className="time-part">
-              Hour
-              <h1>{timeLeft.hours ? `${timeLeft.hours} giờ ` : '00'}</h1>
-            </div>
-            <div className="time-part">
-              Minute
-              <h1>{timeLeft.minutes ? `${timeLeft.minutes} phút ` : '00'}</h1>
-            </div>
-            <div className="time-part">
-              Second
-              <h1>{timeLeft.seconds ? `${timeLeft.seconds} giây` : '00'}</h1>
-            </div>
-          </div>
+          <Countdown targetDate={productInfo.endTime} />
           <div className="item-infor">
             <div className="item-name">{productInfo.productName}</div>
-            <div className="item-description">
-              {productInfo.description}
-            </div>
+            <div className="item-description">{productInfo.description}</div>
           </div>
         </div>
       </div>
@@ -244,7 +225,9 @@ export default function LiveLotDetail() {
           {bidHistory.slice(0, numberOfListHistory).map((item, index) => (
             <div className="bid-row" key={index}>
               <div className="show-money">${item.price}</div>
-              <div className="show-time">{convertStringToDate(item.bidTime).toLocaleString()}</div>
+              <div className="show-time">
+                {convertStringToDate(item.bidTime).toLocaleString()}
+              </div>
             </div>
           ))}
         </div>

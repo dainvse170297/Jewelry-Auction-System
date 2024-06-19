@@ -14,9 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LotDTO {
-        private Integer id;
-        private Integer productId;
-        private String productName; //descriptiion // time countdown
+        private  Integer id;
+        private  Integer productId;
+        private  String productName;
         private BigDecimal currentPrice;
         private BigDecimal estimatePriceMin;
         private BigDecimal estimatePriceMax;

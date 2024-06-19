@@ -127,20 +127,12 @@ public class AuctionSessionService implements IAuctionSessionService {
         viewLiveAuctionSessionDetailDTO.setEndTime(auctionSession.getEndTime());
 
         Set<LotDTO> listLotDTO = new HashSet<>();
+
+        LotMapper lotMapper = new LotMapper();
         for (Lot lot : lotOfSession) {
             for (Lot lotRegister : lots) {
                 if (lot.getId().equals(lotRegister.getId())) {
-                        LotDTO lotDTO = new LotDTO();
-                        lotDTO.setId(lotRegister.getId());
-                        lotDTO.setProductId(lotRegister.getProduct().getId());
-                        lotDTO.setProductName(lotRegister.getProduct().getName());
-                        lotDTO.setCurrentPrice(lotRegister.getCurrentPrice());
-                        lotDTO.setEstimatePriceMin(lotRegister.getProduct().getEstimatePriceMin());
-                        lotDTO.setEstimatePriceMax(lotRegister.getProduct().getEstimatePriceMax());
-                        lotDTO.setStatus(lotRegister.getStatus());
-                        lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotIdAndStatus(lotRegister.getId(), statusRegister));
-                        List<ProductImage> productImages = new ArrayList<>(lotRegister.getProduct().getProductImages());
-                        lotDTO.setProductImages(productImages);
+                      LotDTO lotDTO =  lotMapper.toLotDTO(lotRegister);
                         listLotDTO.add(lotDTO);
                 }
             }
@@ -216,7 +208,7 @@ public class AuctionSessionService implements IAuctionSessionService {
         List<InvalidatedToken> invalidatedTokens = invalidatedTokenRepository.findAll();
         LocalDateTime now = LocalDateTime.now();
         for (InvalidatedToken invalidatedToken : invalidatedTokens) {
-            if (invalidatedToken.getExpiredAt().isBefore(now)) {
+            if (invalidatedToken.getExpiredTime().isBefore(now)) {
                 invalidatedTokenRepository.delete(invalidatedToken);
                 log.info("Delete token invalidated");
             }
