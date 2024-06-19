@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import './checkout.scss';
 
 const CheckOutDetail = () => {
 
@@ -36,27 +37,33 @@ const CheckOutDetail = () => {
     <div className="container">
       <div className="row">
         <div>
-          CheckOutDetail Page
-          <div>
-            <h2>Check Out Detail</h2>
-            <ul>
-              {selectedProducts.map((product) => (
-                <li key={product.id}>
-                  {product.name} - ${product.price}
-                </li>
-              ))}
-            </ul>
-            <h3>Total Price: ${totalPrice.toFixed(2)}</h3>
-            <div>
-              <label htmlFor="bankCode">Bank Code</label>
-              <div className="col-lg-2">
-                <select id="bankCode" value={bankCode} onChange={(e) => setBankCode(e.target.value)} className='form-select'>
-                  <option value="">Select Bank</option>
-                  <option value="NCB">Nhacuatui Bank</option>
-                </select>
+          <h2>Check Out Detail</h2>
+          <div className='col-md-8 mt-3'>
+            <table className="shadow">
+              <tbody className="checkout-detaill-img">
+                {selectedProducts.map((product) => (
+                  <tr key={product.id}>
+                    <td>
+                      <img src={product.lot?.product?.productImages[0].imageUrl} alt={product.lot?.product?.name} />
+                    </td>
+                    <td>{product.lot?.product?.name} - ${product.finalPrice}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="mt-5">
+              <h3>Total Price: ${totalPrice}</h3>
+              <div>
+                <label htmlFor="bankCode">Bank Code</label>
+                <div className="col-lg-2">
+                  <select id="bankCode" value={bankCode} onChange={(e) => setBankCode(e.target.value)} className='form-select'>
+                    <option value="">Select Bank</option>
+                    <option value="NCB">Nhacuatui Bank</option>
+                  </select>
+                </div>
               </div>
+              <button className='payment-btn mt-3' onClick={handlePayment}>Pay Now</button>
             </div>
-            <button className='payment-btn mt-3' onClick={handlePayment}>Pay Now</button>
             <ToastContainer />
           </div>
         </div>

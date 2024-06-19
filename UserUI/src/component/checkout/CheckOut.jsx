@@ -4,13 +4,24 @@ import './checkout.scss';
 import { useNavigate } from 'react-router-dom';
 
 const CheckOut = () => {
+    const [isLoading, setIsLoading] = useState(false)
 
     const [products, setProducts] = useState([]);
+
+    const currentUser = JSON.parse(localStorage.getItem("account"));
+
+    const navigate = useNavigate()
+    let memberId = null;
+    if (currentUser) {
+        memberId = currentUser.memberId;
+    } else {
+        navigate("/login", { state: { from: `/checkout` } })
+    }
 
     useEffect(() => {
         const getProducts = async () => {
             try {
-                const data = await axios.get('https://667056da0900b5f8724a471b.mockapi.io/products');
+                const data = await axios.get(`http://localhost:8080/auction-register/view-win-auction-list/${memberId}`);
                 setProducts(data.data);
             } catch (error) {
                 console.log(error);
@@ -18,6 +29,22 @@ const CheckOut = () => {
         }
         getProducts();
     }, [])
+
+    // const ProductImages = ({ data }) => {
+    //     const getFirstImageUrl = (productImages) => {
+    //         return productImages.length > 0 ? productImages[0].imageUrl : '';
+    //     };
+
+    //     return (
+    //         <div>
+    //             {data.map((item) => (
+    //                 <div key={item.id}>
+    //                     <img src={getFirstImageUrl(item.product.productImages)} alt={item.product.name} />
+    //                 </div>
+    //             ))}
+    //         </div>
+    //     );
+    // };
 
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
@@ -35,7 +62,7 @@ const CheckOut = () => {
     };
 
     const calculateTotalPrice = (selectedProducts) => {
-        const total = selectedProducts.reduce((sum, product) => sum + product.price, 0);
+        const total = selectedProducts.reduce((sum, product) => sum + product.finalPrice, 0);
         setTotalPrice(total);
     };
 
@@ -49,8 +76,6 @@ const CheckOut = () => {
         }
     };
 
-    const navigate = useNavigate()
-
     const handleCheckOut = () => {
         navigate('/checkout-detail', { state: { selectedProducts, totalPrice } });
     };
@@ -58,7 +83,7 @@ const CheckOut = () => {
     return (
         <div className="container">
             <h2>Order Review</h2>
-
+            <p className='text-secondary'>List of jewelry that won the auction</p>
             <hr />
             <div className="form-check">
                 <input className="form-check-input" type="checkbox" onChange={handleSelectAll} />
@@ -66,23 +91,23 @@ const CheckOut = () => {
                     Select All
                 </label>
             </div>
-            <div className="row">
+            <div className="row mt-3">
                 <div className="checkout-container">
                     <div className="order-review">
-
                         <div className="">
                             <table>
                                 <tbody>
                                     {products.map((product) => (
                                         <tr key={product.id} className={selectedProducts.includes(product) ? 'selected' : ''}>
-                                            <td><img src={product.image} alt={product.name} /></td>
+                                            {/* <td>{product.id}</td> */}
+                                            <td><img src={product.lot?.product?.productImages[0].imageUrl} alt={product.lot?.product?.name} /></td>
                                             <td>
                                                 <div className="product-details">
-                                                    <h3>{product.name}</h3>
-                                                    <p>{product.description}</p>
+                                                    <h3>{product.lot?.product?.name}</h3>
+                                                    <p className='text-secondary'>{product.lot?.product?.description}</p>
                                                 </div>
                                             </td>
-                                            <td>${product.price}</td>
+                                            <td>${product.finalPrice}</td>
                                             <td>
                                                 <input
                                                     type="checkbox"
@@ -96,15 +121,18 @@ const CheckOut = () => {
                             </table>
                         </div>
                     </div>
-                    <div className="order-total">
-                        <h2>Order Total</h2>
-                        <p>{selectedProducts.length} {selectedProducts.length === 1 ? 'item' : 'items'} selected</p>
-                        <ul>
+                    {selectedProducts.length > 0 && (
+                        <div className="order-total shadow">
+                            <h2>Order Total</h2>
+                            <p>{selectedProducts.length} {selectedProducts.length === 1 ? 'item' : 'items'} selected</p>
+                            <ul>
 
-                        </ul>
-                        <h3>Subtotal <span>${totalPrice}</span></h3>
-                        <button onClick={handleCheckOut} disabled={selectedProducts.length === 0} className={selectedProducts.length === 0 ? 'button-disable' : 'button'}>Check out</button>
-                    </div>
+                            </ul>
+                            <h3>Subtotal <span>${totalPrice}</span></h3>
+                            <button onClick={handleCheckOut} disabled={selectedProducts.length === 0} className={selectedProducts.length === 0 ? 'button-disable' : 'button'}>CHECK OUT</button>
+                        </div>
+                    )}
+
                 </div>
             </div>
         </div>
