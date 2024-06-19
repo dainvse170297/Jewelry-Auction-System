@@ -6,10 +6,14 @@ import Header from "./component/layout/header/Header.jsx";
 import Selling from "./component/selling/Selling.jsx";
 import ResponseValuationRequest from "./component/valuation_request/response/ValuationResponseList.jsx";
 import MyValuationRequest from "./component/valuation_request/view/MyValuationRequest.jsx";
-import UpcomingSession from "./component/auction-session/upcoming-session/UpcomingSession.jsx";
+import UpcomingSessionList from "./component/auction-session/upcoming-session/UpcomingSessionList.jsx";
 import Register from "./component/auth/register/Register.jsx";
-import LiveLotDetail from "./component/auction-session/live-auction/LiveLotDetail.jsx";
+import LiveLotDetail from "./component/auction-session/live-lot/LiveLotDetail.jsx";
+import LiveSessionList from "./component/auction-session/live-session/LiveSessionList.jsx";
 import UpcomingSessionDetail from "./component/auction-session/upcoming-session/UpcomingSessionDetail.jsx";
+import LiveAuctionSessionDetail from "./component/auction-session/live-session/LiveAuctionSessionDetail.jsx";
+import UpcomingSessionLot from "./component/auction-session/upcoming-session-lot/UpcomingSessionLot.jsx";
+
 function App() {
   return (
     <>
@@ -22,12 +26,18 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/create-valuation" element={<CreateValuation />} />
           <Route path="/selling" element={<Selling />} />
-          <Route path="/upcoming" element={<UpcomingSession />} />
+          <Route path="/upcoming" element={<UpcomingSessionList />} />
           <Route
             path="/upcoming-session-detail/:id"
             element={<UpcomingSessionDetail />}
           />
-          <Route path="/live-auction-detail/:id" element={<LiveLotDetail />} />
+          <Route path="/live-lot-detail/:id" element={<LiveLotDetail />} />
+
+          <Route path="/live" element={<LiveSessionList />} />
+          <Route
+            path="/live-session-detail/:id"
+            element={<LiveAuctionSessionDetail />}
+          />
           <Route
             path="/valuation-request/:id"
             element={<MyValuationRequest />}
@@ -38,6 +48,10 @@ function App() {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<Register />} />
+          <Route
+            path="/upcoming-session-lot/:lotId"
+            element={<UpcomingSessionLot />}
+          />
         </Routes>
         {/* <Footer /> */}
       </BrowserRouter>

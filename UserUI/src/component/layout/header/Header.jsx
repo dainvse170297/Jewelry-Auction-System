@@ -10,7 +10,7 @@ class Header extends React.Component {
     return (
       <>
         <div className="header">
-          <div className="col-sm-2 d-flex justify-content-center align-items-center">
+          <div className="col-sm-2 d-flex justify-content-left align-items-center">
             <a className="nav-link" href="/home">
               <HomeIcon />
             </a>
@@ -44,7 +44,7 @@ class Header extends React.Component {
                         aria-labelledby="accountDropdown"
                       >
                         <li>
-                          <a className="dropdown-item" href="#!">
+                          <a className="dropdown-item" href="/live">
                             Live auction
                           </a>
                         </li>
@@ -54,7 +54,7 @@ class Header extends React.Component {
                           </a>
                         </li>
                         <li>
-                          <a className="dropdown-item" href="#!">
+                          <a className="dropdown-item" href="">
                             Past auction
                           </a>
                         </li>
@@ -132,7 +132,6 @@ class Header extends React.Component {
                     <div className="offcanvas-body">
                       <ul className="navbar-nav justify-content-center align-items-center flex-grow-1">
                         <AvatarDropdown />
-
                       </ul>
                     </div>
                   </div>
@@ -141,7 +140,9 @@ class Header extends React.Component {
             </div>
           </div>
         </div>
-        <hr />
+        <div className="hr-line">
+          <hr />
+        </div>
       </>
     );
   }

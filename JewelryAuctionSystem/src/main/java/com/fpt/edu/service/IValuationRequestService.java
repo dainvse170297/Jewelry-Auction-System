@@ -42,4 +42,8 @@ public interface IValuationRequestService {
     public ProductDetailDTO getProductDetail(Integer id);
     
     public ViewDetailValuationRequestFinalApprovedDTO ViewDetailValuationRequestFinalApproved(Integer id);
+
+    public Boolean cancelValuationRequest(Integer id);
+
+    public Boolean cancelValuationRequestByStaff(Integer id);
 }

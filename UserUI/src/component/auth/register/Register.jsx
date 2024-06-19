@@ -1,8 +1,8 @@
-import { useState } from "react";
-import './register.scss';
-import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import './register.scss';
 
 const Register = () => {
 
@@ -75,7 +75,6 @@ const Register = () => {
                 setTimeout(() => {
                     navigate('/login')
                 }, 2000)
-                // console.log(member);
             } catch (error) {
                 if (error.response) {
                     setErrorMsg(error.response.data.message)

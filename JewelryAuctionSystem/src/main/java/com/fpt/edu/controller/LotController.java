@@ -30,8 +30,8 @@ public class LotController {
     public ResponseEntity<LotDTO> viewLiveLotDetail(@PathVariable Integer id) { //id lot
         return ResponseEntity.ok(lotService.viewLiveLotDetail(id));
     }
-    @GetMapping("/lot-detail/{id}")
-    public LotDTO viewLotDetailDTO(@PathVariable("id") Integer id) {
-        return lotService.viewLiveLotDetail(id);
+    @GetMapping("/view-upcoming-lot-detail/{id}")
+    public ResponseEntity<Lot> viewLotDetailDTO(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(lotService.viewLotDetailById(id));
     }
 }

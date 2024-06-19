@@ -18,8 +18,8 @@ export default function LiveLotDetail() {
   // lấy giá trị đấu giá lớn nhất
   const [maxBid, setMaxBid] = useState();
   // giá trị place bid của user
+
   const [bid, setBid] = useState();
-  // tạo message cho error
   const [errorMsg, setErrorMsg] = useState("");
   // chứa thông tin của sản phẩm
   const [productInfo, setProductInfo] = useState({});
@@ -30,7 +30,6 @@ export default function LiveLotDetail() {
   // chứa thời gian còn lại
   const [timeLeft, setTimeLeft] = useState();
 
-  // hàm gửi giá trị đặt cọc về server
   const sendBid = async () => {
     try {
       const formData = new FormData();
