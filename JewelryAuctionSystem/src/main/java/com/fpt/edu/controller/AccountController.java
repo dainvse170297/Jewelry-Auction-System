@@ -2,6 +2,7 @@ package com.fpt.edu.controller;
 
 import com.fpt.edu.entity.Account;
 import com.fpt.edu.service.AccountService;
+import com.fpt.edu.service.IAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AccountController {
 
-    private final AccountService accountService;
+    private final IAccountService accountService;
 
     @GetMapping("/")
     public String getAccount() {

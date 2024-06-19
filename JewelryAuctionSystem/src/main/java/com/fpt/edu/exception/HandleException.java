@@ -9,11 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
-
 public class HandleException {
 
     @ExceptionHandler(RuntimeException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String,String> handleException(Exception e){
         Map<String,String> map = new HashMap<>();
         map.put("message",e.getMessage());
@@ -39,6 +38,14 @@ public class HandleException {
     @ExceptionHandler(UsernameNotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String,String> handleUsernameNotFoundException(Exception e){
+        Map<String,String> map = new HashMap<>();
+        map.put("message",e.getMessage());
+        return map;
+    }
+
+    @ExceptionHandler(OutOfFinancialProofAmountException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String,String> handleOutOfFinancialProofAmountException(Exception e){
         Map<String,String> map = new HashMap<>();
         map.put("message",e.getMessage());
         return map;

@@ -1,16 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './login.scss'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 
 const Login = () => {
     const navigate = useNavigate()
 
+    const location = useLocation()
+
     const [auth, setAuth] = useState({
         username: '',
         password: ''
     })
+
+    const inputRef = useRef()
 
     const [errorMsg, setErrorMsg] = useState(null)
 
@@ -19,6 +23,10 @@ const Login = () => {
         let value = e.target.value
         setAuth({ ...auth, [name]: value });
     }
+
+    useEffect(() => {
+        inputRef.current.focus()
+    }, [])
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -33,8 +41,9 @@ const Login = () => {
                         localStorage.setItem('token', JSON.stringify(res.data.token))
                         localStorage.setItem('account', JSON.stringify(res.data.account))
                         toast.success('Login successful')
+                        const redirectTo = location.state?.from || '/'
                         setTimeout(() => {
-                            navigate('/')
+                            navigate(redirectTo)
                         }, 1000)
                     } else {
                         setErrorMsg('Invalid username or password')
@@ -62,7 +71,7 @@ const Login = () => {
                     <form action="" method='' onSubmit={handleLogin}>
                         <div className="form-group">
                             <label htmlFor="username">Username</label>
-                            <input type="text" className="" id="username" name='username' value={auth.username} onChange={handleInputChange} />
+                            <input ref={inputRef} type="text" className="" id="username" name='username' value={auth.username} onChange={handleInputChange} />
                         </div>
                         <div className="form-group mt-3">
                             <label htmlFor="password">Password</label>

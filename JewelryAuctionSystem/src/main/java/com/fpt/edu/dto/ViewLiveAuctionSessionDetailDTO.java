@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -18,10 +19,11 @@ public class ViewLiveAuctionSessionDetailDTO {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
    // private LocalDateTime countdownTime;
+    
     private String name;
     private String description;
     private AuctionSessionStatus status;
-    private List<LotDTO> lots;
+    private Set<LotDTO> lots;
 
 
 }
