@@ -117,7 +117,7 @@ public class FinancialProofService implements IFinancialProofService {
         staff.setId(staffId);
         financialProofRequest.setStaff(staff);
         financialProofRequest.setFinancialProofAmount(financialProofAmount);
-        financialProofRequest.setStatus(FinancialProofRequestStatus.APPROVED);
+        financialProofRequest.setStatus(FinancialProofRequestStatus.AVAILABLE);
         iFinancialProofRequestRepository.save(financialProofRequest);
         return financialProofRequestMapper.mapToFinancialProofRequestDTO(financialProofRequest);
     }
