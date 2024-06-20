@@ -32,7 +32,7 @@ public class Lot {
 
     @Column(name = "current_price", precision = 19, scale = 1)
     private BigDecimal currentPrice;
-
+    
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private LotStatus status;
