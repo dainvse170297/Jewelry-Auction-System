@@ -92,7 +92,7 @@ const CheckOut = () => {
 
     return (
         <div className="container">
-            <h2>Order Review</h2>
+            <h2>Check Out List</h2>
             <p className='text-secondary'>List of jewelry that won the auction</p>
             <hr />
 
@@ -102,60 +102,82 @@ const CheckOut = () => {
                 </>
             ) : (
                 <>
+
                     <div className="form-check">
                         <input className="form-check-input" type="checkbox" onChange={handleSelectAll} />
                         <label className="form-check-label" htmlFor="flexCheckDefault">
                             Select All
                         </label>
                     </div>
-                    <div className="row mt-3">
-                        <div className="checkout-container">
-                            <div className="order-review">
-                                <div className="">
-                                    <table>
-                                        <tbody>
-                                            {products.map((product) => (
-                                                <tr key={product.id} className={selectedProducts.includes(product) ? 'selected' : ''}>
-                                                    {/* <td>{product.id}</td> */}
-                                                    <td><img src={product.lot?.product?.productImages[0].imageUrl} alt={product.lot?.product?.name} /></td>
-                                                    <td>
-                                                        <div className="product-details">
-                                                            <h3>{product.lot?.product?.name}</h3>
-                                                            <p className='text-secondary'>{product.lot?.product?.description}</p>
-                                                        </div>
-                                                    </td>
-                                                    <td>${product.finalPrice}</td>
-                                                    <td>
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={selectedProducts.some(p => p.id === product.id)}
-                                                            onChange={() => handleCheckboxChange(product)}
-                                                        />
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                    <section className='shopping-cart'>
+                        <div className="">
+                            <div className="row">
+                                <div className="col-lg-8">
+                                    <div className="shopping__cart__table">
+                                        <table>
+                                            <thead>
+                                                <th></th>
+                                                <th>PRODUCT</th>
+                                                <th>PRICE</th>
+                                                <th></th>
+                                            </thead>
+                                            <tbody>
+                                                {products.map((product) => (
+                                                    <tr key={product.id} className={selectedProducts.includes(product) ? 'selected' : ''}>
+                                                        {/* <td>{product.id}</td> */}
+                                                        <td className='product__cart__item'>
+                                                            <div className="product__cart__item__pic">
+                                                                <img src={product.lot?.product?.productImages[0].imageUrl} alt={product.lot?.product?.name} width={'120px'} height={'120px'} />
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div className="product__cart__item__text">
+                                                                <h3>{product.lot?.product?.name}</h3>
+                                                                <p className='text-secondary'>{product.lot?.product?.description}</p>
+                                                            </div>
+                                                        </td>
+                                                        <td className='cart__price'>
+                                                            ${product.finalPrice}
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={selectedProducts.some(p => p.id === product.id)}
+                                                                onChange={() => handleCheckboxChange(product)}
+                                                            />
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
+                                {selectedProducts.length > 0 && (
+                                    <div className="col-lg-4">
+                                        <div className="cart__total">
+                                            <h6 className='text-center'>Total</h6>
+                                            <hr />
+                                            <ul>
+                                                <li>
+                                                    <p>
+                                                        {selectedProducts.length} {selectedProducts.length === 1 ? 'item' : 'items'} selected
+                                                    </p>
+                                                </li>
+                                                <li>Subtotal <span>${totalPrice}</span></li>
+                                            </ul>
+                                            <button onClick={handleCheckOut}
+                                                disabled={selectedProducts.length === 0}
+                                                className={selectedProducts.length === 0 ? 'button-disable' : 'mx-auto primary-btn'}>
+                                                CHECK OUT
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
-                            {selectedProducts.length > 0 && (
-                                <div className="order-total shadow">
-                                    <h2>Order Total</h2>
-                                    <p>{selectedProducts.length} {selectedProducts.length === 1 ? 'item' : 'items'} selected</p>
-                                    <ul>
-
-                                    </ul>
-                                    <h3>Subtotal <span>${totalPrice}</span></h3>
-                                    <button onClick={handleCheckOut} disabled={selectedProducts.length === 0} className={selectedProducts.length === 0 ? 'button-disable' : 'button'}>CHECK OUT</button>
-                                </div>
-                            )}
-
                         </div>
-                    </div>
+                    </section>
                 </>
             )}
-
-
         </div >
     )
 }
