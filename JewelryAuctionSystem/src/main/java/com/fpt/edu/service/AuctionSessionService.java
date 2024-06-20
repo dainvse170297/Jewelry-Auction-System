@@ -204,11 +204,13 @@ public class AuctionSessionService implements IAuctionSessionService {
                         Member winner = iMemberRepository.getReferenceById(lot.getCurrentWinnerId());
                         iNotifyService.insertNotify(winner,
                                 "You win the lot: " + lot.getProduct().getName(),
-                                "You win the lot: " + lot.getProduct().getName() + " in " + session.getName() + " with the price of $" + lot.getCurrentPrice());
+                                "You win the lot: " + lot.getProduct().getName() + " in " + session.getName() + " with the price of ₫" + lot.getCurrentPrice());
                         AuctionRegister register = auctionRegisterRepository.findByLotIdAndMemberId(lot.getId(), lot.getCurrentWinnerId());
                         //   System.out.println(register.getId() + " " + register.getFinalPrice() + " " + lot.getCurrentPrice() + " " + lot.getProduct().getName() + " " + lot.getId());
                         register.setStatus(AuctionRegisterStatus.PENDING_PAYMENT);
                         auctionRegisterRepository.save(register);
+                        lot.setStatus(LotStatus.SOLD);
+                        iLotRepository.save(lot);
                     } else {
                         lot.setStatus(LotStatus.READY);
                         iLotRepository.save(lot);
