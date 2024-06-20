@@ -1,12 +1,14 @@
 package com.fpt.edu.mapper;
 
 import com.fpt.edu.dto.LotDTO;
+import com.fpt.edu.entity.AuctionRegister;
 import com.fpt.edu.entity.Lot;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 public class LotMapper {
@@ -28,5 +30,6 @@ public class LotMapper {
             lotDTO.setEstimatePriceMax(lot.getProduct().getEstimatePriceMax());
             return lotDTO;
         }
+
 
 }
