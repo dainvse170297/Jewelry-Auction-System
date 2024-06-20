@@ -37,6 +37,7 @@ public class AuctionSessionService implements IAuctionSessionService {
     private final IAuctionSessionRepository auctionSessionRepository;
     private final IAuctionRegisterRepository auctionRegisterRepository;
     private final ILotRepository iLotRepository;
+    private final IMemberRepository iMemberRepository;
     private final IProductRepository productRepository;
     private final ProductMapper productMapper;
     private final AuctionSessionMapper auctionSessionMapper;
@@ -115,7 +116,7 @@ public class AuctionSessionService implements IAuctionSessionService {
         // ds lots cua session
 
 
-        List<Lot> lotOfSession = lotRepository.findByAuctionSession_IdAndStatus(sessionId,statusLot);
+        List<Lot> lotOfSession = lotRepository.findByAuctionSession_IdAndStatus(sessionId, statusLot);
         for (Lot lot : lotOfSession) {
             System.out.println(lot.getId());
         }
@@ -132,8 +133,8 @@ public class AuctionSessionService implements IAuctionSessionService {
         for (Lot lot : lotOfSession) {
             for (Lot lotRegister : lots) {
                 if (lot.getId().equals(lotRegister.getId())) {
-                      LotDTO lotDTO =  lotMapper.toLotDTO(lotRegister);
-                        listLotDTO.add(lotDTO);
+                    LotDTO lotDTO = lotMapper.toLotDTO(lotRegister);
+                    listLotDTO.add(lotDTO);
                 }
             }
         }
@@ -197,6 +198,22 @@ public class AuctionSessionService implements IAuctionSessionService {
         LocalDateTime now = LocalDateTime.now();
         for (AuctionSession session : upcomingSessions) {
             if (session.getEndTime().isBefore(now)) { // if the current time is after the end time
+                List<Lot> lots = iLotRepository.findByAuctionSession(session);
+                for (Lot lot : lots) {
+                    if (lot.getCurrentWinnerId() != null) {
+                        Member winner = iMemberRepository.getReferenceById(lot.getCurrentWinnerId());
+                        iNotifyService.insertNotify(winner,
+                                "You win the lot: " + lot.getProduct().getName(),
+                                "You win the lot: " + lot.getProduct().getName() + " in " + session.getName() + " with the price of $" + lot.getCurrentPrice());
+                        AuctionRegister register = auctionRegisterRepository.findByLotIdAndMemberId(lot.getId(), lot.getCurrentWinnerId());
+                        //   System.out.println(register.getId() + " " + register.getFinalPrice() + " " + lot.getCurrentPrice() + " " + lot.getProduct().getName() + " " + lot.getId());
+                        register.setStatus(AuctionRegisterStatus.PENDING_PAYMENT);
+                        auctionRegisterRepository.save(register);
+                    } else {
+                        lot.setStatus(LotStatus.READY);
+                        iLotRepository.save(lot);
+                    }
+                }
                 session.setStatus(AuctionSessionStatus.PAST);
                 auctionSessionRepository.save(session);
             }
