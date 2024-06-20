@@ -15,4 +15,6 @@ public interface IAuctionRegisterService  {
     boolean checkMemberRegister(int id, int lotId);
 
     List<AuctionRegister> getListWinAuctionOfMember(Integer memberId);
+
+    void processAuctionRegisterAfterPayment(List<Integer> auctionRegisterIds);
 }
