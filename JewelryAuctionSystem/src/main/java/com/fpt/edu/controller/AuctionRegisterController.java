@@ -43,4 +43,9 @@ public class AuctionRegisterController {
         return ResponseEntity.ok(auctionRegisterService.getListWinAuctionOfMember(memberId));
     }
 
+    @PostMapping("/confirm-product-delivery/{auctionRegisterId}")
+    public ResponseEntity<AuctionRegisterDTO> confirmProductDelivery(@PathVariable("auctionRegisterId") Integer auctionRegisterId) {
+        return ResponseEntity.ok(auctionRegisterService.confirmProductDelivery(auctionRegisterId));
+    }
+
 }

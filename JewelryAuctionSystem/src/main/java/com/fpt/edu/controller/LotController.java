@@ -34,4 +34,12 @@ public class LotController {
     public ResponseEntity<Lot> viewLotDetailDTO(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(lotService.viewLotDetailById(id));
     }
+    @GetMapping("/view-list-purchased-lot")
+    public ResponseEntity<List<LotDTO>> getLotsByStatusOfAuctionRegister() {
+        return ResponseEntity.ok(lotService.getLotsByWinnerPurchaseAuctionRegister());
+    }
+    @GetMapping("/view-list-delivered-lot")
+    public ResponseEntity<List<LotDTO>> getLotsByDeliveredAuctionRegister() {
+        return ResponseEntity.ok(lotService.getLotsByDeliveredAuctionRegister());
+    }
 }
