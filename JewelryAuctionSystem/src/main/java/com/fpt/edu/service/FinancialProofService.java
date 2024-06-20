@@ -8,15 +8,10 @@ import com.fpt.edu.repository.IFinancialProofRequestRepository;
 import com.fpt.edu.repository.IMemberRepository;
 import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.FinancialProofRequestStatus;
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
