@@ -73,6 +73,7 @@ public class ValuationRequestService implements IValuationRequestService{
             valuationImages.add(image.get("url").toString());
             iValuationImageRepository.save(valuationImage);
         }
+
         ValuationRequestDetailDTO valuationRequestDTO = valuationRequestMapper.mapToValuationRequestDetailDTO(valuationRequest);
         valuationRequestDTO.setValuationImagesUrls(valuationImages);
         //set notify

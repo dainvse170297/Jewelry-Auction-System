@@ -20,11 +20,11 @@ public class FinancialProofRequest {
     @Column(name = "financial_proof_request_id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "member_id", nullable = true)
     private Member member;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "staff_id", nullable = true)
     private Staff staff;
 
