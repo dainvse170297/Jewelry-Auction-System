@@ -6,6 +6,7 @@ public enum AuctionRegisterStatus {
     FINISHED,
     PENDING_PAYMENT,
     REJECTED,
+    WINNER_PURCHASED,
     DELIVERED,
     PAYMENT_SUCCESS,
 }

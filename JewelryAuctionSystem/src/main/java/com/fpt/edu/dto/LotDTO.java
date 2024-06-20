@@ -23,7 +23,6 @@ public class LotDTO {
         private  String description;
         private LocalDateTime endTime;
         private LotStatus status;
-        private Integer numberOfRegister;
         private List<ProductImage> productImages;
-
+        private Integer numberOfRegister;
 }

@@ -1,4 +1,5 @@
 package com.fpt.edu.service;
+
 import com.fpt.edu.dto.*;
 import com.fpt.edu.entity.*;
 import com.fpt.edu.mapper.NotifyMapper;
@@ -8,6 +9,7 @@ import com.fpt.edu.mapper.ValuationRequestMapper;
 import com.fpt.edu.dto.ValuationRequestDTO;
 import com.fpt.edu.status.ResponseValuationRequestStatus;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -20,12 +22,12 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ValuationRequestService implements IValuationRequestService{
+public class ValuationRequestService implements IValuationRequestService {
 
     private final IValuationRequestRepository iValuationRequestRepository;
     private final IMemberRepository iMemberRepository;
     private final IValuationImageRepository iValuationImageRepository;
-//    private final IResponseRequestValuationRepository iResponseRequestValuationRepository;
+    //    private final IResponseRequestValuationRepository iResponseRequestValuationRepository;
     private final IStaffRepository iStaffRepository;
     private final INotifyRepository iNotifyRepository;
 
@@ -50,7 +52,7 @@ public class ValuationRequestService implements IValuationRequestService{
         valuationRequest.setMember(member);
         valuationRequest.setDescription(description);
         valuationRequest.setTimeRequest(LocalDateTime.now());
-        if(memberEstimatePrice == null){
+        if (memberEstimatePrice == null) {
             memberEstimatePrice = new BigDecimal(-1);
         }
         valuationRequest.setMemberEstimatePrice(memberEstimatePrice);
@@ -154,33 +156,34 @@ public class ValuationRequestService implements IValuationRequestService{
                 iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PENDING_MANAGER_APPROVAL));
     }
 
-  
+
     @Override
     public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId) {
         List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByMemberId(memberId);
         Map<ValuationRequest, Set<ValuationImage>> valuationRequestImagesMap = new HashMap<>();
-        for(ValuationRequest valuationRequest : valuationRequests){
+        for (ValuationRequest valuationRequest : valuationRequests) {
             Set<ValuationImage> valuationImage = iValuationImageRepository.findByRequest(valuationRequest);
             valuationRequestImagesMap.put(valuationRequest, valuationImage);
         }
         return valuationRequestMapper.mapToViewValuationRequestDTOList(valuationRequestImagesMap);
     }
+
     @Override
-    public Map<String,String> ApproveFinalValuationRequest(Integer id) {
+    public Map<String, String> ApproveFinalValuationRequest(Integer id) {
         // Find the ValuationRequest with the given id
         Optional<ValuationRequest> valuationRequestOpt = iValuationRequestRepository.findById(id);
         Map<String, String> response = new HashMap<>();
         if (valuationRequestOpt.isPresent()) {
             ValuationRequest valuationRequest = valuationRequestOpt.get();
 
-            if(valuationRequest.getValuationStatus().equals(ValuationRequestStatus.PENDING_MANAGER_APPROVAL) ){
+            if (valuationRequest.getValuationStatus().equals(ValuationRequestStatus.PENDING_MANAGER_APPROVAL)) {
                 valuationRequest.setValuationStatus(ValuationRequestStatus.MANAGER_APPROVED);
                 iValuationRequestRepository.save(valuationRequest);
                 response.put("message", "ValuationRequest with id: " + id + " has been approved by manager");
                 return response;
             } else {
                 response.put("message", "ValuationRequest with id: " + id + " is not in PENDING_MANAGER_APPROVAL status");
-                return  response;
+                return response;
                 // throw new IllegalArgumentException("ValuationRequest with id: " + id + " is not in PENDING_MANAGER_APPROVAL status");
             }
 
@@ -188,12 +191,13 @@ public class ValuationRequestService implements IValuationRequestService{
             // Handle the case where no ValuationRequest with the given id is found
             // throw new EntityNotFoundException("No ValuationRequest found with id: " + id);
             response.put("message", "No ValuationRequest found with id: " + id);
-            return  response;
+            return response;
         }
 
     }
+
     @Override
-    public Map<String,String> CancelFinalValuationRequest(Integer id) {
+    public Map<String, String> CancelFinalValuationRequest(Integer id) {
         // Find the ValuationRequest with the given id
         Optional<ValuationRequest> valuationRequestOpt = iValuationRequestRepository.findById(id);
         Map<String, String> response = new HashMap<>();
@@ -201,14 +205,14 @@ public class ValuationRequestService implements IValuationRequestService{
 
             ValuationRequest valuationRequest = valuationRequestOpt.get();
 
-            if(valuationRequest.getValuationStatus().equals(ValuationRequestStatus.PENDING_MANAGER_APPROVAL) ){
+            if (valuationRequest.getValuationStatus().equals(ValuationRequestStatus.PENDING_MANAGER_APPROVAL)) {
                 valuationRequest.setValuationStatus(ValuationRequestStatus.CANCELED);
                 iValuationRequestRepository.save(valuationRequest);
                 response.put("message", "ValuationRequest with id: " + id + " has been rejected by manager");
                 return response;
             } else {
                 response.put("message", "ValuationRequest with id: " + id + " is not in PENDING_MANAGER_APPROVAL status");
-                return  response;
+                return response;
                 // throw new IllegalArgumentException("ValuationRequest with id: " + id + " is not in PENDING_MANAGER_APPROVAL status");
             }
 
@@ -216,13 +220,12 @@ public class ValuationRequestService implements IValuationRequestService{
             // Handle the case where no ValuationRequest with the given id is found
             // throw new EntityNotFoundException("No ValuationRequest found with id: " + id);
             response.put("message", "No ValuationRequest found with id: " + id);
-            return  response;
+            return response;
         }
     }
 
     @Override
     public List<FinalValuationRequestDTO> getListManagerApproveValuationRequest() {
-
 
 
         return valuationRequestMapper.mapToFinalValuationRequestDTOList(
@@ -237,7 +240,7 @@ public class ValuationRequestService implements IValuationRequestService{
 
 
     @Override
-    public List<Map<String,String>> sendFinalValuationToMember(Integer id, Integer staffId) {
+    public List<Map<String, String>> sendFinalValuationToMember(Integer id, Integer staffId) {
         // Find the ValuationRequest with the given id
         Optional<ValuationRequest> valuationRequestOpt = iValuationRequestRepository.findById(id);
         List<Map<String, String>> responseList = new ArrayList<>();
@@ -270,7 +273,7 @@ public class ValuationRequestService implements IValuationRequestService{
 
                 return responseList;
             } else {
-                response.put("message", "ValuationRequest with id: " + id + " is "+valuationRequest.getValuationStatus()+" status");
+                response.put("message", "ValuationRequest with id: " + id + " is " + valuationRequest.getValuationStatus() + " status");
                 responseList.add(response);
                 return responseList;
             }
@@ -284,7 +287,7 @@ public class ValuationRequestService implements IValuationRequestService{
     }
 
     @Override
-    public Map<String,String> sendNotifyToMember(ValuationRequest valuationRequest, Product product) {
+    public Map<String, String> sendNotifyToMember(ValuationRequest valuationRequest, Product product) {
 
         NotifyFinalValuationDTO notifyFinalValuationDTO = NotifyMapper.mapToNotifyFinalValuationDTO(product, valuationRequest);
         Notify notify = new Notify();
@@ -306,25 +309,76 @@ public class ValuationRequestService implements IValuationRequestService{
         return valuationRequestMapper.mapToViewDetailValuationRequestFinalApprovedDTO(valuationRequest, product);
     }
 
+    @Override
+    public Boolean cancelValuationRequest(Integer id) {
+        Boolean result = false;
+        try {
+            ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
+            if (valuationRequest.getValuationStatus().equals(ValuationRequestStatus.PRODUCT_RECEIVED)
+                    || valuationRequest.getValuationStatus().equals(ValuationRequestStatus.PRELIMINARY_VALUATED)
+                    || valuationRequest.getValuationStatus().equals(ValuationRequestStatus.REQUESTED)) {
+                valuationRequest.setValuationStatus(ValuationRequestStatus.CANCELED);
+                iValuationRequestRepository.save(valuationRequest);
+                iNotifyService.insertNotify(valuationRequest.getMember(), cancelValuationRequestTitle(valuationRequest), cancelValuationRequestMessage(valuationRequest));
+                result = true;
+            }
+        } catch (Exception e) {
+            result = false;
+        }
+        return result;
+    }
+
+    @Override
+    public Boolean cancelValuationRequestByStaff(Integer id){
+            ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
+            if (valuationRequest.getValuationStatus().equals(ValuationRequestStatus.REQUESTED)){
+                return cancelValuationRequest(id);
+            }
+            return false;
+    }
+
+    @Scheduled (fixedRate = 1000*60*60*24) // 1 day
+    public void autoCancelValuationRequest(){
+        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PRELIMINARY_VALUATED);
+        for (ValuationRequest valuationRequest : valuationRequests){
+            if (LocalDateTime.now().isAfter(valuationRequest.getTimeRequest().plusDays(30))){
+                valuationRequest.setValuationStatus(ValuationRequestStatus.CANCELED);
+                iValuationRequestRepository.save(valuationRequest);
+                iNotifyService.insertNotify(valuationRequest.getMember(), cancelValuationRequestTitle(valuationRequest), cancelValuationRequestMessage(valuationRequest));
+            }
+        }
+    }
     //Create Notify by specific format message
     private String createRequestTitle(ValuationRequest valuationRequest) {
-        return "#" + valuationRequest.getId() + ": Your Valuation Request has been sent.";
+        return "#" + valuationRequest.getId() + ": Your Valuation Request has been sent";
     }
+
     private String createRequestMessage(ValuationRequest valuationRequest) {
-        return "Your valuation request #"+ valuationRequest.getId() +" has been sent. Please wait for our response.";
+        return "Your valuation request #" + valuationRequest.getId() + " has been sent. Please wait for our response.";
     }
+
     private String productReceivedTitle(ValuationRequest valuationRequest) {
         return "#" + valuationRequest.getId() + ": Product Received";
     }
+
     private String productReceivedMessage(ValuationRequest valuationRequest) {
         return "Your product has been received. We are processing the valuation. We will contact you as soon as your product is evaluated.";
     }
+
     private String preliminaryValuatedTitle(ValuationRequest valuationRequest) {
         return "#" + valuationRequest.getId() + ": Product Preliminary Valuated";
     }
+
     private String preliminaryValuatedMessage(ValuationRequest valuationRequest) {
         return "We have done the preliminary valuation for your product. We will contact you soon.";
     }
 
+    private String cancelValuationRequestTitle(ValuationRequest valuationRequest) {
+        return "#" + valuationRequest.getId() + ": Valuation Request Canceled";
+    }
+
+    private String cancelValuationRequestMessage(ValuationRequest valuationRequest) {
+        return "Your valuation request has been canceled. Please contact us if you need any further information.";
+    }
 
 }

@@ -3,7 +3,7 @@ import axios from "axios";
 import "./LiveAuctionSessionDetail.scss";
 import LotPreview from "../../lot/LotPreview";
 import AuctionSession from "../AuctionSession";
-import Paginator from "../../common/Paginator";
+//import Paginator from "../../common/Paginator";
 import { useParams } from "react-router-dom";
 
 const LiveAuctionSessionDetail = () => {
