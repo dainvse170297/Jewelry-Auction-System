@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -19,6 +20,8 @@ public class FinancialProofRequestDTO {
     private Integer id;
     private Integer memberId;
     private Integer staffId;
+    private Integer managerId;
+    private LocalDateTime timeRequest;
     private FinancialProofRequestStatus status;
     private BigDecimal financialProofAmount;
     private Set<String> financialProofImages;

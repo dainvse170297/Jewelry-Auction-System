@@ -20,9 +20,10 @@ public class FinancialProofRequestMapper {
                 financialProofRequest.getId(),
                 financialProofRequest.getMember().getId(),
                 financialProofRequest.getStaff() != null ? financialProofRequest.getStaff().getId() : null,
+                financialProofRequest.getManager() != null ? financialProofRequest.getManager().getId() : null,
+                financialProofRequest.getTimeRequest(),
                 financialProofRequest.getStatus(),
                 financialProofRequest.getFinancialProofAmount(),
-
                 mapToFinancialProofImageUrls(financialProofRequest.getFinancialProofImages())
 
         );

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,7 @@ public class FinancialProofService implements IFinancialProofService {
         FinancialProofRequestStatus status = FinancialProofRequestStatus.REQUESTED;
         FinancialProofRequest financialProofRequest = new FinancialProofRequest();
         financialProofRequest.setStatus(status);
+        financialProofRequest.setTimeRequest(LocalDateTime.now());
         financialProofRequest.setMember(member);
         financialProofRequest.setStaff(null);
         financialProofRequest.setFinancialProofAmount(new BigDecimal(-1));
@@ -103,7 +105,6 @@ public class FinancialProofService implements IFinancialProofService {
     public FinancialProofRequestDTO getFinancialProofRequestById(Integer id) {
         FinancialProofRequest financialProofRequest = iFinancialProofRequestRepository
                 .findByIdWithImages(id).orElseThrow(() -> new RuntimeException("Financial proof request not found"));
-
         FinancialProofRequestDTO financialProofRequestDTO = financialProofRequestMapper.mapToFinancialProofRequestDTO(financialProofRequest);
         financialProofRequestDTO.setFinancialProofImages(financialProofRequestMapper.mapToFinancialProofImageUrls(financialProofRequest.getFinancialProofImages()));
         return financialProofRequestDTO;
@@ -117,7 +118,20 @@ public class FinancialProofService implements IFinancialProofService {
         staff.setId(staffId);
         financialProofRequest.setStaff(staff);
         financialProofRequest.setFinancialProofAmount(financialProofAmount);
-        financialProofRequest.setStatus(FinancialProofRequestStatus.APPROVED);
+        if(financialProofAmount.compareTo(new BigDecimal(1000000000)) > 0){
+            financialProofRequest.setStatus(FinancialProofRequestStatus. PENDING_MANAGER_APPROVAL);
+        }else{
+            financialProofRequest.setStatus(FinancialProofRequestStatus.AVAILABLE);
+            List<FinancialProofRequest> financialProofRequests =
+                    iFinancialProofRequestRepository.findByMember(financialProofRequest.getMember());
+            for (FinancialProofRequest financialProofRequest1 : financialProofRequests) {
+                if(financialProofRequest1.getStatus().equals(FinancialProofRequestStatus.AVAILABLE)
+                        && financialProofRequest1.getId() != financialProofRequest.getId()){
+                    financialProofRequest1.setStatus(FinancialProofRequestStatus.CANCELED);
+                    iFinancialProofRequestRepository.save(financialProofRequest1);
+                }
+            }
+        }
         iFinancialProofRequestRepository.save(financialProofRequest);
         return financialProofRequestMapper.mapToFinancialProofRequestDTO(financialProofRequest);
     }
