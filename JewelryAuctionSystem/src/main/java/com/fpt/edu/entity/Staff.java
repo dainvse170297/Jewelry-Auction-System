@@ -17,6 +17,9 @@ public class Staff {
     @Column(name = "staff_id", nullable = false)
     private Integer id;
 
+    @Column(name = "fullname", nullable = false)
+    private String fullname;
+
 //    @OneToOne(fetch = FetchType.LAZY, optional = false)
 //    @JoinColumn(name = "account_id", nullable = false)
 //    private Account account;
