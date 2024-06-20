@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -19,6 +20,9 @@ public class FinancialProofRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "financial_proof_request_id", nullable = false)
     private Integer id;
+
+    @Column(name = "time_request")
+    private LocalDateTime timeRequest;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "member_id", nullable = true)
