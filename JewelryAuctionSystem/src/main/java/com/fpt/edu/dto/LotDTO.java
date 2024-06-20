@@ -18,6 +18,7 @@ public class LotDTO {
         private  Integer productId;
         private  String productName;
         private BigDecimal currentPrice;
+        private Integer currentWinnerId;
         private BigDecimal estimatePriceMin;
         private BigDecimal estimatePriceMax;
         private  String description;
