@@ -16,12 +16,12 @@ import java.util.Set;
 @AllArgsConstructor
 public class FinancialProofRequestDTO {
 
-            private Integer id;
-            private Integer memberId;
-            private Integer staffId;
-            private FinancialProofRequestStatus status;
-            private BigDecimal financialProofAmount;
-            private Set<String> financialProofImages = new LinkedHashSet<>();
+    private Integer id;
+    private Integer memberId;
+    private Integer staffId;
+    private FinancialProofRequestStatus status;
+    private BigDecimal financialProofAmount;
+    private Set<String> financialProofImages;
 
 
 }

@@ -22,6 +22,7 @@ public class FinancialProofRequestMapper {
                 financialProofRequest.getStaff() != null ? financialProofRequest.getStaff().getId() : null,
                 financialProofRequest.getStatus(),
                 financialProofRequest.getFinancialProofAmount(),
+
                 mapToFinancialProofImageUrls(financialProofRequest.getFinancialProofImages())
 
         );

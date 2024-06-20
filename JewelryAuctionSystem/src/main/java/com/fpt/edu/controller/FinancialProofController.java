@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 @RestController
@@ -33,6 +34,24 @@ public class FinancialProofController {
     @GetMapping("/get-all")
     public ResponseEntity<Set<FinancialProofRequestDTO>> getAllFinancialProofRequest(){
         return ResponseEntity.ok(financialProofService.getAllFinancialProofRequest());
+    }
+
+
+    @PostMapping("/get-by-id")
+    public ResponseEntity<FinancialProofRequestDTO> getFinancialProofRequestById(@RequestParam("id") Integer id){
+        return ResponseEntity.ok(financialProofService.getFinancialProofRequestById(id));
+    }
+
+    @PostMapping("/set-amount")
+    public ResponseEntity<FinancialProofRequestDTO> updateFinancialProofRequest(@RequestParam("id") Integer idRq,
+                                                                              @RequestParam("staffId") Integer staffId,
+                                                                              @RequestParam("financialProofAmount") BigDecimal financialProofAmount){
+        return ResponseEntity.ok(financialProofService.updateFinancialProofRequest(idRq, staffId, financialProofAmount));
+    }
+    @PostMapping("/reject")
+    public ResponseEntity<FinancialProofRequestDTO> rejectFinancialProofRequest(@RequestParam("id") Integer idRq,
+                                                                              @RequestParam("staffId") Integer staffId){
+        return ResponseEntity.ok(financialProofService.rejectFinancialProofRequest(idRq, staffId));
     }
 
 }
