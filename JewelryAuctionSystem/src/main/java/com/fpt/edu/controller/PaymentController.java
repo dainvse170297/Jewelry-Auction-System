@@ -23,8 +23,9 @@ public class PaymentController {
     private final IAuctionRegisterService auctionRegisterService;
 
     @GetMapping("/vnpay")
-    public ResponseObject<PaymentDTO.VNPayResponse> pay(HttpServletRequest request){
-        return new ResponseObject<>(HttpStatus.OK, "Success", vnPayService.createVNPayPayment(request));
+    public ResponseObject<PaymentDTO.VNPayResponse> pay(HttpServletRequest request,
+                                                        @RequestParam("auctionRegisterIds") List<Integer> auctionRegisterIds){
+        return new ResponseObject<>(HttpStatus.OK, "Success", vnPayService.createVNPayPayment(request, auctionRegisterIds));
     }
 
     @GetMapping("/callback")

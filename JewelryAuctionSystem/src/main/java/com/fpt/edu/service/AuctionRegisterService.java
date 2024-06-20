@@ -85,10 +85,10 @@ public class AuctionRegisterService implements IAuctionRegisterService {
     }
 
     @Override
-    public void processAuctionRegisterAfterPayment(int[] id) {
+    public void processAuctionRegisterAfterPayment(List<Integer> auctionRegisterIds) {
 //        List<AuctionRegister> auctionRegisters = new ArrayList<>();
 
-        for(int auctionRegisterId : id){
+        for(int auctionRegisterId : auctionRegisterIds){
             AuctionRegister auctionRegister = auctionRegisterRepository.findById(auctionRegisterId).get();
             auctionRegister.setStatus(AuctionRegisterStatus.PAYMENT_SUCCESS);
             auctionRegisterRepository.save(auctionRegister);

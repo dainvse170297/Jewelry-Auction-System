@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import './checkout.scss';
 import PaymentCallback from './PaymentCallback';
+import { CircularProgress } from '@mui/material';
 
 const CheckOutDetail = () => {
 
@@ -13,15 +14,22 @@ const CheckOutDetail = () => {
   const [bankCode, setBankCode] = useState('')
   const [amount, setAmount] = useState(totalPrice + totalPrice * 20 / 100)
 
-  const auctionRegisterIds = selectedProducts.map(product => product.id)
+  // const [auctionRegisterIds, setAuctionRegisterIds] = useState([
+  //   selectedProducts.map((product) => product.id)
+  // ])
   // console.log(auctionRegisterIds);
 
-  // const [isLoading, setIsLoading] = useState(false)
+  const auctionRegisterIds = selectedProducts.map((product) => product.id)
+
+  // console.log(auctionRegisterIds.join(','));
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const handlePayment = async () => {
     if (bankCode.trim() === '') {
       toast.error('Please select a bank');
     } else {
+      setIsLoading(true)
       try {
         const response = await axios.get(`http://localhost:8080/api/payment/vnpay`, {
           headers: {
@@ -29,10 +37,12 @@ const CheckOutDetail = () => {
           },
           params: {
             amount,
-            bankCode
+            bankCode,
+            auctionRegisterIds: auctionRegisterIds.join(',')
           }
         })
         const data = response.data;
+        setIsLoading(false)
         if (data.code === 200 && data.data.paymentUrl) {
           window.location.href = data.data.paymentUrl;
         } else {
@@ -81,7 +91,17 @@ const CheckOutDetail = () => {
                   </select>
                 </div>
               </div>
-              <button className='payment-btn mt-3' onClick={handlePayment}>Pay Now</button>
+              <div className="">
+                {!isLoading ? (
+                  <button className='payment-btn mt-3' onClick={handlePayment}>Pay Now</button>
+                ) : (
+                  <>
+                    <CircularProgress />
+                  </>
+                )}
+
+
+              </div>
             </div>
             <ToastContainer />
 

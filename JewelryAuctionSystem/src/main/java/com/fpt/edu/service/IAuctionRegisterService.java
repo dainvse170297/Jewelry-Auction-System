@@ -16,5 +16,5 @@ public interface IAuctionRegisterService  {
 
     List<AuctionRegister> getListWinAuctionOfMember(Integer memberId);
 
-    void processAuctionRegisterAfterPayment(int[] id);
+    void processAuctionRegisterAfterPayment(List<Integer> auctionRegisterIds);
 }
