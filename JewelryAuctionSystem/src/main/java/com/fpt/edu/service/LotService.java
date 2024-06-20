@@ -1,6 +1,7 @@
 package com.fpt.edu.service;
 
 import com.fpt.edu.dto.LotDTO;
+import com.fpt.edu.entity.AuctionRegister;
 import com.fpt.edu.entity.Lot;
 import com.fpt.edu.mapper.LotMapper;
 import com.fpt.edu.repository.IAuctionRegisterRepository;
@@ -51,4 +52,39 @@ public class LotService implements ILotService{
         return lot;
     }
 
+    @Override
+    public List<LotDTO> getLotsByWinnerPurchaseAuctionRegister() {
+        AuctionRegisterStatus status = AuctionRegisterStatus.WINNER_PURCHASED;
+          List<AuctionRegister> auctionRegisters =
+                  auctionRegisterRepository.findByStatus(status);
+          List<Lot> lots = auctionRegisters.stream().map(AuctionRegister::getLot).toList();
+          
+            List<LotDTO> lotDTOS = new ArrayList<>();
+            for (Lot lot : lots) {
+                if(lot.getStatus().equals(LotStatus.SOLD)){
+                    LotDTO lotDTO = lotMapper.toLotDTO(lot);
+                    lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotIdAndStatus(lot.getId(), status));
+                    lotDTOS.add(lotDTO);
+                }
+            }
+            return lotDTOS;
+    }
+
+    @Override
+    public List<LotDTO> getLotsByDeliveredAuctionRegister() {
+        AuctionRegisterStatus status = AuctionRegisterStatus.DELIVERED;
+        List<AuctionRegister> auctionRegisters =
+                auctionRegisterRepository.findByStatus(status);
+        List<Lot> lots = auctionRegisters.stream().map(AuctionRegister::getLot).toList();
+
+        List<LotDTO> lotDTOS = new ArrayList<>();
+        for (Lot lot : lots) {
+            if(lot.getStatus().equals(LotStatus.SOLD)){
+                LotDTO lotDTO = lotMapper.toLotDTO(lot);
+                lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotIdAndStatus(lot.getId(), status));
+                lotDTOS.add(lotDTO);
+            }
+        }
+        return lotDTOS;
+    }
 }

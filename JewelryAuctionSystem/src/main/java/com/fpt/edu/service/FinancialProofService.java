@@ -3,6 +3,7 @@ package com.fpt.edu.service;
 import com.fpt.edu.dto.FinancialProofRequestDTO;
 import com.fpt.edu.entity.*;
 import com.fpt.edu.mapper.FinancialProofRequestMapper;
+import com.fpt.edu.repository.IAccountRepository;
 import com.fpt.edu.repository.IFinancialProofImageRepository;
 import com.fpt.edu.repository.IFinancialProofRequestRepository;
 import com.fpt.edu.repository.IMemberRepository;
@@ -14,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +26,7 @@ public class FinancialProofService implements IFinancialProofService {
     private final IFinancialProofRequestRepository iFinancialProofRequestRepository;
     private final IFinancialProofImageRepository iFinancialProofImageRepository;
     private final FinancialProofRequestMapper financialProofRequestMapper;
-
+    private final IAccountRepository iAccountRepository;
 
     @Override
     public ResponseEntity<String> checkAvailableFinancialProofRequest(Integer memberId) {
@@ -137,12 +135,25 @@ public class FinancialProofService implements IFinancialProofService {
     }
 
     @Override
-    public FinancialProofRequestDTO rejectFinancialProofRequest(Integer idRq, Integer staffId) {
+    public FinancialProofRequestDTO rejectFinancialProofRequest(Integer idRq, String username) {
         FinancialProofRequest financialProofRequest = iFinancialProofRequestRepository
                 .findById(idRq).orElseThrow(() -> new RuntimeException("Financial proof request not found"));
-        Staff staff = new Staff();
-        staff.setId(staffId);
-        financialProofRequest.setStaff(staff);
+
+       Optional<Account> account = iAccountRepository.findByUsername(username);
+        if(account.isEmpty() || account.get().getRole().getName().equals("MEMBER")){
+            throw new RuntimeException("Account invalid");
+        }
+        if(account.get().getRole().getName().equals("STAFF")){
+            Staff staff = account.get().getStaff();
+            financialProofRequest.setStaff(staff);
+        }else{
+            if(financialProofRequest.getStatus().equals(FinancialProofRequestStatus.AVAILABLE)){
+                Manager manager = account.get().getManager();
+                financialProofRequest.setManager(manager);
+            }else{
+                throw new RuntimeException("REQUESTED STATUS can not reject by MANAGER");
+            }
+        }
         financialProofRequest.setStatus(FinancialProofRequestStatus.REJECTED);
         iFinancialProofRequestRepository.save(financialProofRequest);
         return financialProofRequestMapper.mapToFinancialProofRequestDTO(financialProofRequest);

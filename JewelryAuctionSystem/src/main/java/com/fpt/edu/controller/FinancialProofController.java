@@ -50,8 +50,8 @@ public class FinancialProofController {
     }
     @PostMapping("/reject")
     public ResponseEntity<FinancialProofRequestDTO> rejectFinancialProofRequest(@RequestParam("id") Integer idRq,
-                                                                              @RequestParam("staffId") Integer staffId){
-        return ResponseEntity.ok(financialProofService.rejectFinancialProofRequest(idRq, staffId));
+                                                                              @RequestParam("username") String username){
+        return ResponseEntity.ok(financialProofService.rejectFinancialProofRequest(idRq, username));
     }
 
 }

@@ -20,7 +20,7 @@ public interface IFinancialProofService {
 
     FinancialProofRequestDTO updateFinancialProofRequest(Integer idRq, Integer staffId, BigDecimal financialProofAmount);
 
-    FinancialProofRequestDTO rejectFinancialProofRequest(Integer idRq, Integer staffId);
+    FinancialProofRequestDTO rejectFinancialProofRequest(Integer idRq, String username);
 }
 
 
