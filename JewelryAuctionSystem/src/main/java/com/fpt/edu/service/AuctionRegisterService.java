@@ -1,23 +1,18 @@
 package com.fpt.edu.service;
 
 import com.fpt.edu.dto.AuctionRegisterDTO;
-import com.fpt.edu.entity.AuctionRegister;
-import com.fpt.edu.entity.FinancialProofRequest;
-import com.fpt.edu.entity.Lot;
-import com.fpt.edu.entity.Member;
+import com.fpt.edu.entity.*;
 import com.fpt.edu.exception.OutOfFinancialProofAmountException;
 import com.fpt.edu.mapper.AuctionRegisterMapper;
-import com.fpt.edu.repository.IAuctionRegisterRepository;
-import com.fpt.edu.repository.IFinancialProofRequestRepository;
-import com.fpt.edu.repository.ILotRepository;
-import com.fpt.edu.repository.IMemberRepository;
+import com.fpt.edu.repository.*;
 import com.fpt.edu.status.AuctionRegisterStatus;
-import lombok.AllArgsConstructor;
+import com.fpt.edu.status.PaymentInfoStatus;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,6 +26,8 @@ public class AuctionRegisterService implements IAuctionRegisterService {
 
     private final IMemberRepository memberRepository;
     private final ILotRepository lotRepository;
+
+    private final IPaymentInfoRepository paymentInfoRepository;
 
     @Override
     public AuctionRegisterDTO register(AuctionRegister register) {
@@ -87,6 +84,25 @@ public class AuctionRegisterService implements IAuctionRegisterService {
         return auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, auctionRegisterStatus);
     }
 
+    @Override
+    public void processAuctionRegisterAfterPayment(List<Integer> auctionRegisterIds) {
+//        List<AuctionRegister> auctionRegisters = new ArrayList<>();
+
+        for(int auctionRegisterId : auctionRegisterIds){
+            AuctionRegister auctionRegister = auctionRegisterRepository.findById(auctionRegisterId).get();
+            auctionRegister.setStatus(AuctionRegisterStatus.PAYMENT_SUCCESS);
+            auctionRegisterRepository.save(auctionRegister);
+//            auctionRegisters.add(auctionRegister);
+
+            PaymentInfo paymentInfo = new PaymentInfo();
+            paymentInfo.setAuctionRegister(auctionRegister);
+            paymentInfo.setStatus(PaymentInfoStatus.SUCCESS);
+            paymentInfo.setAmount(auctionRegister.getFinalPrice());
+            paymentInfo.setCreationTime(LocalDateTime.now());
+            paymentInfoRepository.save(paymentInfo);
+
+        }
+    }
 
 
 }
