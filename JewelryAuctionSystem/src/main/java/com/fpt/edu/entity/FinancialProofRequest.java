@@ -24,11 +24,11 @@ public class FinancialProofRequest {
     @Column(name = "time_request")
     private LocalDateTime timeRequest;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "member_id", nullable = true)
     private Member member;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "staff_id", nullable = true)
     private Staff staff;
 
@@ -45,5 +45,6 @@ public class FinancialProofRequest {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "financialProofRequest")
     private Set<FinancialProofImage> financialProofImages = new LinkedHashSet<>();
+
 
 }

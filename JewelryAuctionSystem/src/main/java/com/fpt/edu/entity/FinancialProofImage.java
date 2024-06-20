@@ -1,9 +1,11 @@
 package com.fpt.edu.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -15,7 +17,8 @@ public class FinancialProofImage {
     @Column(name = "image_id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "financial_proof_request_id", nullable = true)
     private FinancialProofRequest financialProofRequest;
 
