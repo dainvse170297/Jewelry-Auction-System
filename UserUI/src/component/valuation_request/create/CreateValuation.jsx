@@ -62,7 +62,7 @@ export default function CreateValuation() {
   };
 
   async function Create(e) {
-    e.defaultPrevented;
+    // e.defaultPrevented;
 
     try {
       const formData = new FormData();
@@ -73,26 +73,18 @@ export default function CreateValuation() {
         formData.append("image", photo);
       });
 
-      const createValuation = await axios
-        .post("http://localhost:8080/valuation/create", formData, {
+      const createValuation = await axios.post(
+        "http://localhost:8080/valuation/create",
+        formData,
+        {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        })
-        .then((response) => {
-          console.log(response.data.message);
-          toast.success("Valuation Request Send Successfully!");
-        })
-        .catch((error) => {
-          console.log(error);
-          console.log(error.response);
-          toast.error("Request Failed!");
-        });
+        }
+      );
 
       if (createValuation.status === 200) {
         toast.success("Successfully");
-        toast("Sended to Manager");
-        console.log(valuation);
       } else {
         toast.error("Error set request!");
       }
@@ -104,6 +96,8 @@ export default function CreateValuation() {
   return (
     <>
       <div className="createValuation container-fluid">
+        <ToastContainer />
+
         <h1 className="text-center py-4">Jewelry Valuation</h1>
 
         <form onSubmit={Create}>
@@ -234,7 +228,6 @@ export default function CreateValuation() {
                 <div className="col-sm-6">
                   <div className="row d-flex justify-content-center px-5 mx-3 my-3">
                     <button type="submit"> Submit Valuation Request</button>
-                    <ToastContainer />
                   </div>
                 </div>
               </div>
