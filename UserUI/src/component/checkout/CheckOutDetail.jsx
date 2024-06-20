@@ -91,7 +91,7 @@ const CheckOutDetail = () => {
                   </select>
                 </div>
               </div>
-              <div className="">
+              <div className="mt-3">
                 {!isLoading ? (
                   <button className='payment-btn mt-3' onClick={handlePayment}>Pay Now</button>
                 ) : (
