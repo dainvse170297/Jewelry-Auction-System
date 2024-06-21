@@ -18,6 +18,7 @@ import CheckOutDetail from "./component/checkout/CheckOutDetail.jsx";
 import PaymentCallback from "./component/checkout/PaymentCallback.jsx";
 import PaymentSuccess from "./component/checkout/PaymentSuccess.jsx";
 import PaymentFailure from "./component/checkout/PaymentFailure.jsx";
+import CreateFinancialProofRequest from "./component/financial-proof/CreateFinancialProofRequest.jsx";
 
 function App() {
   return (
@@ -63,6 +64,9 @@ function App() {
           <Route path="/payment-callback" element={<PaymentCallback />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/payment-failure" element={<PaymentFailure />} />
+          <Route
+            path="/create-financial-proof-request"
+            element={<CreateFinancialProofRequest />} />
         </Routes>
 
         {/* <Footer /> */}
