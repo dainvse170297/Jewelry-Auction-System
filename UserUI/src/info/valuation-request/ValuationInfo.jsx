@@ -5,9 +5,9 @@ const ValuationInfo = () => {
   return (
     <div>
       <div className="valuation-info">
-        <div className="row">
+        {/* <div className="row">
           <h2>Valuation Flow</h2>
-        </div>
+        </div> */}
         <div className="row">
           <p>
             In today’s dynamic business landscape, accurate valuation of assets,
