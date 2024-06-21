@@ -18,6 +18,9 @@ const CheckOut = () => {
     } else {
         navigate("/login", { state: { from: `/checkout` } })
     }
+    if (localStorage.getItem("auctionRegisterIds")) {
+        localStorage.removeItem("auctionRegisterIds")
+    }
 
     useEffect(() => {
         const getProducts = async () => {

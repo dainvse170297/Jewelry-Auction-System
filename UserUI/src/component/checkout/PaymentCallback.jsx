@@ -5,12 +5,12 @@ import { useLocation, useNavigate } from 'react-router-dom'
 const PaymentCallback = () => {
     const navigate = useNavigate()
     const location = useLocation()
-
+    const auctionRegisterIds = localStorage.getItem('auctionRegisterIds')
     useEffect(() => {
         const handlePaymentCallback = async () => {
             const params = new URLSearchParams(location.search)
             const vnp_ResponseCode = params.get('vnp_ResponseCode')
-            const auctionRegisterIds = localStorage.getItem('auctionRegisterIds')
+
 
             try {
                 const response = await axios.get('http://localhost:8080/api/payment/callback', {
@@ -30,6 +30,7 @@ const PaymentCallback = () => {
             } catch (error) {
                 console.error('Error processing payment:', error)
                 navigate('/payment-failure')
+                localStorage.removeItem('auctionRegisterIds')
             }
         }
         handlePaymentCallback()

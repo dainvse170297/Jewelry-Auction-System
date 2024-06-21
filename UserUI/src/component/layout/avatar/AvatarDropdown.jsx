@@ -74,9 +74,9 @@ const AvatarDropdown = () => {
               </a>
             </li>
             <li>
-              <a className="dropdown-item" href="#!">
+              <a className="dropdown-item" href="/checkout">
                 <div className="px-1">
-                  <SettingsIcon /> Settings
+                  <SettingsIcon /> My Winner Auction
                 </div>
               </a>
             </li>
