@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/bid")
 @RequiredArgsConstructor
 public class BidController {
         private final IBidService iBidService;
-
 
         @PostMapping("/place-bid")
         public ResponseEntity<BidDTO> placeBid(@RequestParam("memberId") Integer memberId,

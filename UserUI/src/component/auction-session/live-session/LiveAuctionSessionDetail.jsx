@@ -5,6 +5,7 @@ import LotPreview from "../../lot/LotPreview";
 import AuctionSession from "../AuctionSession";
 //import Paginator from "../../common/Paginator";
 import { useParams } from "react-router-dom";
+import { LinearProgress } from "@mui/material";
 
 const LiveAuctionSessionDetail = () => {
   const { id } = useParams();
@@ -36,7 +37,7 @@ const LiveAuctionSessionDetail = () => {
   }, [id]);
 
   if (!sessionData) {
-    return <div>Loading...</div>;
+    return <div><LinearProgress /></div>;
   }
 
   return (
