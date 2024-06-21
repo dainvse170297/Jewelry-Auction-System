@@ -10,18 +10,22 @@ const PaymentCallback = () => {
         const handlePaymentCallback = async () => {
             const params = new URLSearchParams(location.search)
             const vnp_ResponseCode = params.get('vnp_ResponseCode')
+            const auctionRegisterIds = localStorage.getItem('auctionRegisterIds')
 
             try {
                 const response = await axios.get('http://localhost:8080/api/payment/callback', {
                     params: {
-                        vnp_ResponseCode
+                        vnp_ResponseCode,
+                        auctionRegisterIds
                     },
                 })
                 const data = response.data
                 if (data.code === 200 && data.data.code === '00') {
                     navigate('/payment-success')
+                    localStorage.removeItem('auctionRegisterIds')
                 } else {
                     navigate('/payment-failure')
+                    localStorage.removeItem('auctionRegisterIds')
                 }
             } catch (error) {
                 console.error('Error processing payment:', error)

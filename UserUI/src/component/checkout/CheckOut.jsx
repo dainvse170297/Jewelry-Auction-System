@@ -116,10 +116,7 @@ const CheckOut = () => {
                                     <div className="shopping__cart__table">
                                         <table>
                                             <thead>
-                                                <th></th>
-                                                <th>PRODUCT</th>
-                                                <th>PRICE</th>
-                                                <th></th>
+
                                             </thead>
                                             <tbody>
                                                 {products.map((product) => (

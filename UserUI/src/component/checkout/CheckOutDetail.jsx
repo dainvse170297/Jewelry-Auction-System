@@ -14,14 +14,10 @@ const CheckOutDetail = () => {
   const [bankCode, setBankCode] = useState('')
   const [amount, setAmount] = useState(totalPrice + totalPrice * 20 / 100)
 
-  // const [auctionRegisterIds, setAuctionRegisterIds] = useState([
-  //   selectedProducts.map((product) => product.id)
-  // ])
-  // console.log(auctionRegisterIds);
-
   const auctionRegisterIds = selectedProducts.map((product) => product.id)
-
-  // console.log(auctionRegisterIds.join(','));
+  if (auctionRegisterIds) {
+    localStorage.setItem('auctionRegisterIds', auctionRegisterIds.join(','))
+  }
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -37,8 +33,7 @@ const CheckOutDetail = () => {
           },
           params: {
             amount,
-            bankCode,
-            auctionRegisterIds: auctionRegisterIds.join(',')
+            bankCode
           }
         })
         const data = response.data;
@@ -52,9 +47,7 @@ const CheckOutDetail = () => {
         console.error('Error processing payment:', error);
       }
     }
-    // console.log(bankCode + '' + amount);
   }
-  <PaymentCallback auctionRegisterIds={auctionRegisterIds} />
 
   return (
     <div className="container">
@@ -80,14 +73,14 @@ const CheckOutDetail = () => {
         <div className="col-lg-4 col-md-6">
           <div className="checkout__order">
             <h4 className='order__title'>YOUR ORDER</h4>
-            <div class="checkout__order__products">Product <span>Total</span></div>
-            <ul class="checkout__total__products">
+            <div className="checkout__order__products">Product <span>Total</span></div>
+            <ul className="checkout__total__products">
               {selectedProducts.map((p) => (
-                <li>{p.lot?.product?.name} <span>${p.finalPrice}</span></li>
+                <li key={p.id}>{p.lot?.product?.name} <span>${p.finalPrice}</span></li>
               ))}
               <li className='text-secondary'>+ 20% VAT</li>
             </ul>
-            <ul class="checkout__total__all">
+            <ul className="checkout__total__all">
               <li>Subtotal <span>${totalPrice}</span></li>
               <li>Total <span>${amount}</span></li>
             </ul>

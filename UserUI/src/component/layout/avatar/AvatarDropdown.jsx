@@ -16,7 +16,7 @@ const AvatarDropdown = () => {
     navigate("/valuation-request/1");
   };
 
-  const currentUser = JSON.parse(localStorage.getItem("account"));
+  const currentUser = JSON.parse(localStorage.getItem("account")) || null;
 
   const handleLogout = () => {
     localStorage.removeItem("token");

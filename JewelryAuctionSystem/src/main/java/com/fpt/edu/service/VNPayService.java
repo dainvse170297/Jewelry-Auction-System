@@ -18,7 +18,7 @@ public class VNPayService {
     private final CurrencyService currencyService;
     private final IAuctionRegisterService auctionRegisterService;
 
-    public PaymentDTO.VNPayResponse createVNPayPayment(HttpServletRequest request, List<Integer> auctionRegisterIds){
+    public PaymentDTO.VNPayResponse createVNPayPayment(HttpServletRequest request){
         try {
             long amount = (long) (Integer.parseInt(request.getParameter("amount"))*100L * Math.ceil(currencyService.getExchangeRate()));
             String bankCode = request.getParameter("bankCode");
@@ -40,7 +40,7 @@ public class VNPayService {
 //            System.out.println(id);
 //        }
 
-            auctionRegisterService.processAuctionRegisterAfterPayment(auctionRegisterIds);
+
 
             return PaymentDTO.VNPayResponse.builder()
                     .code("OK")

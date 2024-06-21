@@ -23,21 +23,20 @@ public class PaymentController {
     private final IAuctionRegisterService auctionRegisterService;
 
     @GetMapping("/vnpay")
-    public ResponseObject<PaymentDTO.VNPayResponse> pay(HttpServletRequest request,
-                                                        @RequestParam("auctionRegisterIds") List<Integer> auctionRegisterIds){
-        return new ResponseObject<>(HttpStatus.OK, "Success", vnPayService.createVNPayPayment(request, auctionRegisterIds));
+    public ResponseObject<PaymentDTO.VNPayResponse> pay(HttpServletRequest request){
+        return new ResponseObject<>(HttpStatus.OK, "Success", vnPayService.createVNPayPayment(request));
     }
 
     @GetMapping("/callback")
     public ResponseObject<PaymentDTO.VNPayResponse> payCallbackHandler(HttpServletRequest request,
                                                                        HttpServletResponse response,
-                                                                       @RequestParam("vnp_ResponseCode") String vnp_ResponseCode){
+                                                                       @RequestParam("vnp_ResponseCode") String vnp_ResponseCode,
+                                                                       @RequestParam("auctionRegisterIds") List<Integer> auctionRegisterIds){
         String status = request.getParameter("vnp_ResponseCode");
-
         //get params from vnpay
         //resonse.sendRidirect("link front end")
         if(status.equals("00")){
-
+            auctionRegisterService.processAuctionRegisterAfterPayment(auctionRegisterIds);
             return new ResponseObject<>(HttpStatus.OK, "Success", PaymentDTO.VNPayResponse.builder()
                     .code("00")
                     .message("Success")
