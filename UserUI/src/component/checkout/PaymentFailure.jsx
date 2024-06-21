@@ -1,6 +1,9 @@
 import React from 'react'
 
 const PaymentFailure = () => {
+    setTimeout(() => {
+        window.location.href = '/home'
+    }, 2000)
     return (
         <div>
             <h2>Payment Failed</h2>

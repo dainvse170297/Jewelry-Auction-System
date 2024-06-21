@@ -4,7 +4,7 @@ const PaymemtSuccess = () => {
 
     setTimeout(() => {
         window.location.href = '/home'
-    }, 3000)
+    }, 2000)
 
     return (
         <center>
