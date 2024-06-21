@@ -9,18 +9,14 @@ const Home = () => {
   return (
     <>
       <div className="">
-        {/* <p>Welcome to the Home Page</p>    */}
         <Carousel className="slide">
           <Carousel.Item>
-            {/* <ExampleCarouselImage text="First slide" /> */}
             <img src={banner1} alt="Banner 1" />
           </Carousel.Item>
           <Carousel.Item>
-            {/* <ExampleCarouselImage text="Second slide" /> */}
             <img src={banner2} alt="Banner2" />
           </Carousel.Item>
           <Carousel.Item>
-            {/* <ExampleCarouselImage text="Second slide" /> */}
             <img src={banner3} alt="Banner 3" />
           </Carousel.Item>
         </Carousel>

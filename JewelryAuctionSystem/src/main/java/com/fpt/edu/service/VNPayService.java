@@ -18,33 +18,42 @@ public class VNPayService {
     private final CurrencyService currencyService;
     private final IAuctionRegisterService auctionRegisterService;
 
-    public PaymentDTO.VNPayResponse createVNPayPayment(HttpServletRequest request, List<Integer> auctionRegisterIds){
-        long amount = (long) (Integer.parseInt(request.getParameter("amount"))*100L * Math.ceil(currencyService.getExchangeRate()));
-        String bankCode = request.getParameter("bankCode");
-        Map<String, String> vnpParamsMap = vnPayConfig.getVNPayConfig();
-        vnpParamsMap.put("vnp_Amount", String.valueOf(amount));
-        if(bankCode != null && !bankCode.isEmpty()){
-            vnpParamsMap.put("vnp_BankCode", bankCode);
-        }
-        vnpParamsMap.put("vnp_IpAddr", VNPayUtil.getIpAddress(request));
+    public PaymentDTO.VNPayResponse createVNPayPayment(HttpServletRequest request){
+        try {
+            long amount = (long) (Integer.parseInt(request.getParameter("amount"))*100L * Math.ceil(currencyService.getExchangeRate()));
+            String bankCode = request.getParameter("bankCode");
+            Map<String, String> vnpParamsMap = vnPayConfig.getVNPayConfig();
+            vnpParamsMap.put("vnp_Amount", String.valueOf(amount));
+            if(bankCode != null && !bankCode.isEmpty()){
+                vnpParamsMap.put("vnp_BankCode", bankCode);
+            }
+            vnpParamsMap.put("vnp_IpAddr", VNPayUtil.getIpAddress(request));
 
-        String queryUrl = VNPayUtil.getPaymentUrl(vnpParamsMap, true);
-        String hashData = VNPayUtil.getPaymentUrl(vnpParamsMap, false);
+            String queryUrl = VNPayUtil.getPaymentUrl(vnpParamsMap, true);
+            String hashData = VNPayUtil.getPaymentUrl(vnpParamsMap, false);
 
-        String vnpSecureHash = VNPayUtil.hmacSHA512(vnPayConfig.getSecretKey(), hashData);
-        queryUrl += "&vnp_SecureHash=" + vnpSecureHash;
-        String paymentUrl = vnPayConfig.getVnp_PayUrl() + "?" + queryUrl;
+            String vnpSecureHash = VNPayUtil.hmacSHA512(vnPayConfig.getSecretKey(), hashData);
+            queryUrl += "&vnp_SecureHash=" + vnpSecureHash;
+            String paymentUrl = vnPayConfig.getVnp_PayUrl() + "?" + queryUrl;
 //
 //        for (int id: auctionRegisterIds){
 //            System.out.println(id);
 //        }
 
-        auctionRegisterService.processAuctionRegisterAfterPayment(auctionRegisterIds);
 
-        return PaymentDTO.VNPayResponse.builder()
-                .code("OK")
-                .message("Success")
-                .paymentUrl(paymentUrl)
-                .build();
+
+            return PaymentDTO.VNPayResponse.builder()
+                    .code("OK")
+                    .message("Success")
+                    .paymentUrl(paymentUrl)
+                    .build();
+
+        }catch (Exception e) {
+            return PaymentDTO.VNPayResponse.builder()
+                    .code("ERROR")
+                    .message("Error")
+                    .build();
+        }
     }
+
 }

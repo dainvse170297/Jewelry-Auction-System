@@ -16,7 +16,7 @@ const AvatarDropdown = () => {
     navigate("/valuation-request/1");
   };
 
-  const currentUser = JSON.parse(localStorage.getItem("account"));
+  const currentUser = JSON.parse(localStorage.getItem("account")) || null;
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -74,9 +74,9 @@ const AvatarDropdown = () => {
               </a>
             </li>
             <li>
-              <a className="dropdown-item" href="#!">
+              <a className="dropdown-item" href="/checkout">
                 <div className="px-1">
-                  <SettingsIcon /> Settings
+                  <SettingsIcon /> My Winner Auction
                 </div>
               </a>
             </li>
