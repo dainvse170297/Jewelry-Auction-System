@@ -25,13 +25,15 @@ public class Lot {
     @JoinColumn(name = "product_id", nullable = true)
     private Product product;
 
-
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "auction_session_id", nullable = true)
     private AuctionSession auctionSession;
 
     @Column(name = "current_price", precision = 19, scale = 1)
     private BigDecimal currentPrice;
+
+    @Column(name = "current_winner_id")
+    private Integer currentWinnerId;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

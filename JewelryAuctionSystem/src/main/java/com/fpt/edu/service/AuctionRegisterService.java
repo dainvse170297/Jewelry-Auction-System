@@ -104,5 +104,17 @@ public class AuctionRegisterService implements IAuctionRegisterService {
         }
     }
 
+    @Override
+    public AuctionRegisterDTO confirmProductDelivery(Integer auctionRegisterId) {
+        AuctionRegister auctionRegister = auctionRegisterRepository.findById(auctionRegisterId).get();
+        if(auctionRegister.getStatus() == AuctionRegisterStatus.WINNER_PURCHASED){
+            auctionRegister.setStatus(AuctionRegisterStatus.DELIVERED);
+            auctionRegisterRepository.save(auctionRegister);
+            return AuctionRegisterMapper.toAuctionRegisterDTO(auctionRegister);
+        }else {
+            throw new RuntimeException("Auction register is not in WINNER_PURCHASED status");
+        }
+    }
+
 
 }

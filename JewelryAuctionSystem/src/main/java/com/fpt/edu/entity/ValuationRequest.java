@@ -44,6 +44,9 @@ public class ValuationRequest {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "cancel_reason", nullable = true)
+    private String cancelReason;
+
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     @JoinColumn(name = "product_id", nullable = true)
     private Product product;
@@ -54,4 +57,5 @@ public class ValuationRequest {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "request")
     private Set<ValuationImage> valuationImages = new LinkedHashSet<>();
+
 }

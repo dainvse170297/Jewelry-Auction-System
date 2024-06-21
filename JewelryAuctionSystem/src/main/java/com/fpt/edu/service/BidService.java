@@ -67,6 +67,7 @@ public class BidService implements IBidService {
 
             if(lot.getCurrentPrice().compareTo(price) < 0){
                 lot.setCurrentPrice(price);
+                lot.setCurrentWinnerId(memberId);
                 iLotRepository.save(lot);
                 Bid bid = createAndSaveBid( memberId, lotId,price);
                 // update lại bảng Auction Register với mỗi lần bid của 1 member
