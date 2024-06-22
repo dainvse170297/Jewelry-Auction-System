@@ -20,5 +20,5 @@ public interface IAuctionRegisterService  {
 
     AuctionRegisterDTO confirmProductDelivery(Integer auctionRegisterId);
 
-
+    List<AuctionRegister> getAuctionRegisterByMemberId(Integer memberId);
 }

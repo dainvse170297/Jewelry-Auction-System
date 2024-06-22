@@ -17,9 +17,7 @@ import static com.fpt.edu.mapper.MemberMapper.mapToMemberDTO;
 
 @Service
 @RequiredArgsConstructor
-
-public class MemberService {
-
+public class MemberService implements IMemberService{
     private static final Logger log = LoggerFactory.getLogger(MemberService.class);
     private final IMemberRepository iMemberRepository;
     private final IAccountRepository iAccountRepository;
@@ -36,5 +34,14 @@ public class MemberService {
         }
 
         throw new RuntimeException("Account not found");
+    }
+
+    @Override
+    public Member getMemberById(Integer id) {
+        Optional<Member> member = iMemberRepository.findById(id);
+        if(member.isPresent()){
+            return member.get();
+        }
+        return null;
     }
 }

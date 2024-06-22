@@ -101,5 +101,10 @@ public class AuctionRegisterService implements IAuctionRegisterService {
         }
     }
 
+    @Override
+    public List<AuctionRegister> getAuctionRegisterByMemberId(Integer memberId) {
+        return auctionRegisterRepository.findAuctionRegisterByMemberId(memberId);
+    }
+
 
 }

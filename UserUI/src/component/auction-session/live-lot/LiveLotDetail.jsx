@@ -77,7 +77,7 @@ export default function LiveLotDetail() {
     };
     getBidHistory();
 
-  })
+  }, [])
 
   const [amountBid, setAmountBid] = useState(null)
 
@@ -127,8 +127,6 @@ export default function LiveLotDetail() {
     }
 
   }
-
-
 
   const sendBid = async () => {
     try {
