@@ -77,20 +77,6 @@ const Sidebar = () => {
                 </ul>
             </div>
             <hr />
-
-            {/* Bottom of side bar */}
-            <div className="bottom">
-                <ul>
-                    <li>
-                        <div className="colorOption">
-                            <LightModeIcon />
-                        </div>
-                        <div className="colorOption">
-                            <NightModeIcon className="night" />
-                        </div>
-                    </li>
-                </ul>
-            </div>
         </div>
     );
 }

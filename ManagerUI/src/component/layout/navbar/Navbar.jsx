@@ -11,19 +11,19 @@ const Navbar = () => {
         <div className="navbar">
             <div className="wrapper">
                 <div className="search">
-                    <input type="text" placeholder="Search..." />
-                    <SearchIcon />
+                    {/* <input type="text" placeholder="Search..." />
+                    <SearchIcon /> */}
                 </div>
                 <div className="items">
                     <div className="item">
-                        <LanguageIcon className="icon"/>
-                        <span>English</span>
+                        {/* <LanguageIcon className="icon"/>
+                        <span>English</span> */}
                     </div>
                     <div className="item">
-                        <NightModeIcon className="icon"/>
+                        {/* <NightModeIcon className="icon"/> */}
                     </div>
                     <div className="item">
-                        <NotificationsIcon className="icon"/>
+                        {/* <NotificationsIcon className="icon"/> */}
                     </div>
                     <Avatar />
                 </div>

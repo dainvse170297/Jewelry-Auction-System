@@ -34,6 +34,12 @@ public class ValuationRequestController {
         return ResponseEntity.ok(valuationRequestService.create(memberId, description,memberEstimatePrice, files));
     }
 
+    @GetMapping("/all")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<List<ValuationRequestDetailDTO>> getAll() {
+        return ResponseEntity.ok(valuationRequestService.getAll());
+    }
+
     @GetMapping("/requested")
     @CrossOrigin(origins = "*")
     public ResponseEntity<List<ValuationRequestDetailDTO>> getRequestedValuationRequest() {

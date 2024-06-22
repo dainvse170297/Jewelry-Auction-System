@@ -30,7 +30,9 @@ const LotPreview = ({ lot, registeredValue, sessionStatus }) => {
             <strong> $</strong>
           </p>
           {sessionStatus === "UPCOMING" && (
-            <Button variant="primary">Register to Bid</Button>
+            <Link to={`/upcoming-session-lot/${lot.id}`} className="a">
+              <button className="mx-auto primary-btn">Register to Bid</button>
+            </Link>
           )}
           {sessionStatus === "LIVE" && (
             <>
