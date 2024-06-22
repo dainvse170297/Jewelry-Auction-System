@@ -22,12 +22,12 @@ import java.util.List;
 public class AuctionRegisterService implements IAuctionRegisterService {
 
     private final IAuctionRegisterRepository auctionRegisterRepository;
-    private final IFinancialProofRequestRepository financialProofRequestRepository;
 
     private final IMemberRepository memberRepository;
     private final ILotRepository lotRepository;
 
     private final IPaymentInfoRepository paymentInfoRepository;
+
 
     @Override
     public AuctionRegisterDTO register(AuctionRegister register) {
@@ -53,7 +53,7 @@ public class AuctionRegisterService implements IAuctionRegisterService {
         auctionRegister.setMember(member);
         auctionRegister.setLot(lot);
         auctionRegister.setStatus(AuctionRegisterStatus.REGISTERED);
-        auctionRegister.setCurrentPrice(price);
+        auctionRegister.setPreviousPrice(price);
 
         auctionRegisterRepository.save(auctionRegister);
 
@@ -61,9 +61,10 @@ public class AuctionRegisterService implements IAuctionRegisterService {
     }
 
     @Override
-    public boolean checkMemberRegister(int id, int lotId) {
+    public AuctionRegisterDTO checkMemberRegister(int id, int lotId) {
         AuctionRegister auctionRegister = auctionRegisterRepository.findByLotIdAndMemberId(lotId, id);
-        return auctionRegister != null;
+
+        return AuctionRegisterMapper.toAuctionRegisterDTO(auctionRegister);
     }
 
     @Override
