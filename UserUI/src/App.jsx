@@ -18,6 +18,8 @@ import CheckOutDetail from "./component/checkout/CheckOutDetail.jsx";
 import PaymentCallback from "./component/checkout/PaymentCallback.jsx";
 import PaymentSuccess from "./component/checkout/PaymentSuccess.jsx";
 import PaymentFailure from "./component/checkout/PaymentFailure.jsx";
+import Profile from "./component/profile/Profile.jsx";
+import Footer from "./component/layout/footer/Footer.jsx";
 
 function App() {
   return (
@@ -63,9 +65,11 @@ function App() {
           <Route path="/payment-callback" element={<PaymentCallback />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/payment-failure" element={<PaymentFailure />} />
+
+          <Route path="/profile" element={<Profile />} />
         </Routes>
 
-        {/* <Footer /> */}
+        <Footer />
       </BrowserRouter>
     </>
   );

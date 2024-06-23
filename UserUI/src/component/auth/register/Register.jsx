@@ -27,11 +27,23 @@ const Register = () => {
         let confirmPassword = document.getElementById("confirmPassword").value;
 
         if (password !== confirmPassword) {
-            document.getElementById("msg").innerHTML = "Incorrect confirm password!";
+            document.getElementById("passwordMsg").innerHTML = "Incorrect confirm password!";
             return false;
         } else {
-            document.getElementById("msg").innerHTML = "";
+            document.getElementById("passwordMsg").innerHTML = "";
             return true;
+        }
+    }
+
+    function checkPhoneNumber() {
+        let phone = document.getElementById("phone").value;
+
+        if (/^\d*$/.test(phone) && phone.length <= 10) { // Check if the input is a number
+            document.getElementById("phoneMsg").innerHTML = "";
+            return true;
+        } else {
+            document.getElementById("phoneMsg").innerHTML = "Please enter a valid phone number";
+            return false;
         }
     }
 
@@ -52,6 +64,7 @@ const Register = () => {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         if (checkPassword() === false
+            || checkPhoneNumber() === false
             || member.username.trim() === ''
             || member.password.trim() === ''
             || member.confirmPassword.trim() === ''
@@ -77,7 +90,11 @@ const Register = () => {
                 }, 2000)
             } catch (error) {
                 if (error.response) {
+                    // setErrorMsg("Error occured while registering account. Please try again later.")
                     setErrorMsg(error.response.data.message)
+                    setTimeout(() => {
+                        setErrorMsg('')
+                    }, 5000)
                 } else if (error.request) {
                     setErrorMsg('')
                 } else {
@@ -116,7 +133,7 @@ const Register = () => {
                                 onChange={handleInputChange}
                                 value={member.confirmPassword}
                             />
-                            <p><span id="msg" className="msg"></span></p>
+                            <p><span id="passwordMsg" className="msg"></span></p>
                         </div>
 
                         <div className="form-group mt-3">
@@ -129,9 +146,11 @@ const Register = () => {
                         <div className="form-group mt-3">
                             <input type="text" className="" id="phone" placeholder="Phone Number" name="phone" required
                                 onChange={handleInputChange}
+                                onKeyUp={checkPhoneNumber}
                                 value={member.phone}
+
                             />
-                            {phoneNumberError && <p className="msg">{phoneNumberError}</p>}
+                            <p><span id="phoneMsg" className="msg"></span></p>
                         </div>
 
                         <div className="form-group mt-3">

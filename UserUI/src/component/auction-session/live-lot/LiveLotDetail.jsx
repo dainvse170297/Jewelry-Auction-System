@@ -57,7 +57,8 @@ export default function LiveLotDetail() {
       }
     };
     getBidHistory();
-  }, []);
+  }, [id]);
+
 
   const calculateBid = async () => {
     let price = parseFloat(productInfo.currentPrice);
@@ -106,28 +107,13 @@ export default function LiveLotDetail() {
         toast.error("Failed to place bid");
       }
     }
-  };
 
-  const sendBid = async () => {
-    try {
-      const response = await axios.post(`http://localhost:8080/bid/place-bid`);
-
-      if (response.status === 200) {
-        // console.log("Success")
-        toast.success("Approved successfully");
-      } else {
-        // console.log("Failed")
-        toast.error("Failed to approve");
-      }
-    } catch (error) {
-      console.log("Error: ", error);
-    }
   };
 
   return (
     <div className="container">
       <div className="">
-        <a className="a">
+        <a href="#" className="a">
           <ArrowBackIcon /> BACK TO AUCTION
         </a>
       </div>
@@ -178,38 +164,53 @@ export default function LiveLotDetail() {
                     </h4>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className="row mt-5 mb-5">
-            <div className="col-lg-6">
-              <div className="bid-panel">
-                <h5 className="text-center">Bidding Panel</h5>
-                <div className="d-flex justify-content-center">
-                  <button onClick={calculateBid} className="bid-btn">
-                    PLACE BID
-                  </button>
+
+                <div className="mt-5 mb-5">
+                  <div className="">
+                    <div className="bid-panel">
+                      <h5 className="text-center">Bidding Panel</h5>
+                      <div className="d-flex justify-content-center">
+                        <button className="buy-now-btn">
+                          BUY NOW
+                        </button>
+                        <button onClick={calculateBid} className="bid-btn">
+                          PLACE BID
+                        </button>
+                        <div className="ms-3">
+                          <div className="bid-input">
+                            <input type="number" min={1} max={10} defaultValue={1} />
+                          </div>
+                        </div>
+                      </div>
+
+                      <ToastContainer />
+                    </div>
+                  </div>
+
                 </div>
-                <ToastContainer />
               </div>
             </div>
 
-            <div className="col-lg-6">
-              <div className="bid-history">
-                <h5>Bid History</h5>
-                <hr />
-                {bidHistory.map((item, index) => (
-                  <div key={index} className="">
-                    <p>
-                      ${item.price}{" "}
-                      <span>
-                        {moment(item.bidTime).format("YYYY-MM-DD HH:mm")}
-                      </span>
-                    </p>
-                  </div>
-                ))}
+
+            {bidHistory.length > 0 && (
+              <div className="col-lg-6 mt-3">
+                <div className="bid-history">
+                  <h5 className="text-center">Bid History</h5>
+                  <hr />
+                  {bidHistory.map((item, index) => (
+                    <div key={index} className="">
+                      <p>
+                        ${item.price}{" "}
+                        <span>
+                          {moment(item.bidTime).format("YYYY-MM-DD HH:mm")}
+                        </span>
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
+
           </div>
         </>
       )}
