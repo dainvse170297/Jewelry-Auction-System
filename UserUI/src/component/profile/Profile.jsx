@@ -1,22 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './profile.scss'
+import ProfileDetail from './ProfileDetail/ProfileDetail'
+import { useNavigate } from 'react-router-dom';
+import ChangePassword from './ChangePassword/ChangePassword';
 
 const Profile = () => {
+
+    const currentUser = JSON.parse(localStorage.getItem("account"));
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        let memberId = null;
+        if (currentUser) {
+            memberId = currentUser.memberId;
+        } else {
+            navigate("/login", { state: { from: `/profile` } })
+        }
+        //console.log("memberId", memberId);
+    }, [currentUser])
+
     return (
         <div className="container">
-            {/* <nav aria-label="breadcrumb" className="main-breadcrumb">
-                <ol className="breadcrumb">
-                    <li className="breadcrumb-item">
-                        <a href="index.html">Home</a>
-                    </li>
-                    <li className="breadcrumb-item">
-                        <a href="javascript:void(0)">User</a>
-                    </li>
-                    <li className="breadcrumb-item active" aria-current="page">
-                        Profile Settings
-                    </li>
-                </ol>
-            </nav> */}
             <div className="row gutters-sm">
 
                 <div className="col-md-4 d-none d-md-block">
@@ -45,28 +49,6 @@ const Profile = () => {
                                     </svg>
                                     Profile Information
                                 </a>
-                                {/* <a
-                                    href="#account"
-                                    data-toggle="tab"
-                                    className="nav-item nav-link has-icon nav-link-faded"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width={24}
-                                        height={24}
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth={2}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        className="feather feather-settings mr-2 me-3"
-                                    >
-                                        <circle cx={12} cy={12} r={3} />
-                                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                                    </svg>
-                                    Account Settings
-                                </a> */}
                                 <a
                                     href="#security"
                                     data-toggle="tab"
@@ -86,30 +68,8 @@ const Profile = () => {
                                     >
                                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                                     </svg>
-                                    Security
+                                    Change Password
                                 </a>
-                                {/* <a
-                                    href="#notification"
-                                    data-toggle="tab"
-                                    className="nav-item nav-link has-icon nav-link-faded"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width={24}
-                                        height={24}
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth={2}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        className="feather feather-bell mr-2 me-3"
-                                    >
-                                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                                    </svg>
-                                    Notification
-                                </a> */}
                                 <a
                                     href="#billing"
                                     data-toggle="tab"
@@ -262,76 +222,10 @@ const Profile = () => {
                         </div>
                         <div className="card-body tab-content">
                             <div className="tab-pane active" id="profile">
-                                <h6>YOUR PROFILE INFORMATION</h6>
-                                <hr />
-                                <form>
-                                    <div className="form-group">
-                                        <label htmlFor="fullName">Full Name</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="fullName"
-                                            aria-describedby="fullNameHelp"
-                                            placeholder="Enter your fullname"
-                                            defaultValue="Kenneth Valdez"
-                                        />
-                                        <small id="fullNameHelp" className="form-text text-muted">
-                                            Your name may appear around here where you are mentioned. You
-                                            can change or remove it at any time.
-                                        </small>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="bio">Your Bio</label>
-                                        <textarea
-                                            className="form-control autosize"
-                                            id="bio"
-                                            placeholder="Write something about you"
-                                            style={{
-                                                overflow: "hidden",
-                                                overflowWrap: "break-word",
-                                                resize: "none",
-                                                height: 62
-                                            }}
-                                            defaultValue={
-                                                "A front-end developer that focus more on user interface design, a web interface wizard, a connector of awesomeness."
-                                            }
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="url">URL</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="url"
-                                            placeholder="Enter your website address"
-                                            defaultValue="http://benije.ke/pozzivkij"
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="location">Location</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="location"
-                                            placeholder="Enter your location"
-                                            defaultValue="Bay Area, San Francisco, CA"
-                                        />
-                                    </div>
-                                    <div className="form-group small text-muted">
-                                        All of the fields on this page are optional and can be deleted
-                                        at any time, and by filling them out, you're giving us consent
-                                        to share this data wherever your user profile appears.
-                                    </div>
-                                    <button type="button" className="btn btn-primary">
-                                        Update Profile
-                                    </button>
-                                    <button type="reset" className="btn btn-light">
-                                        Reset Changes
-                                    </button>
-                                </form>
+                                <ProfileDetail memberId={currentUser.memberId} />
                             </div>
                             <div className="tab-pane" id="account">
-                                <h6>ACCOUNT SETTINGS</h6>
+                                {/* <h6>ACCOUNT SETTINGS</h6>
                                 <hr />
                                 <form>
                                     <div className="form-group">
@@ -360,71 +254,10 @@ const Profile = () => {
                                     <button className="btn btn-danger" type="button">
                                         Delete Account
                                     </button>
-                                </form>
+                                </form> */}
                             </div>
                             <div className="tab-pane" id="security">
-                                <h6>SECURITY SETTINGS</h6>
-                                <hr />
-                                <form>
-                                    <div className="form-group">
-                                        <label className="d-block">Change Password</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Enter your old password"
-                                        />
-                                        <input
-                                            type="text"
-                                            className="form-control mt-1"
-                                            placeholder="New password"
-                                        />
-                                        <input
-                                            type="text"
-                                            className="form-control mt-1"
-                                            placeholder="Confirm new password"
-                                        />
-                                    </div>
-                                </form>
-                                <hr />
-                                <form>
-                                    <div className="form-group">
-                                        <label className="d-block">Two Factor Authentication</label>
-                                        <button className="btn btn-info" type="button">
-                                            Enable two-factor authentication
-                                        </button>
-                                        <p className="small text-muted mt-2">
-                                            Two-factor authentication adds an additional layer of security
-                                            to your account by requiring more than just a password to log
-                                            in.
-                                        </p>
-                                    </div>
-                                </form>
-                                <hr />
-                                <form>
-                                    <div className="form-group mb-0">
-                                        <label className="d-block">Sessions</label>
-                                        <p className="font-size-sm text-secondary">
-                                            This is a list of devices that have logged into your account.
-                                            Revoke any sessions that you do not recognize.
-                                        </p>
-                                        <ul className="list-group list-group-sm">
-                                            <li className="list-group-item has-icon">
-                                                <div>
-                                                    <h6 className="mb-0">San Francisco City 190.24.335.55</h6>
-                                                    <small className="text-muted">
-                                                        Your current session seen in United States
-                                                    </small>
-                                                </div>
-                                                <button
-                                                    className="btn btn-light btn-sm ml-auto"
-                                                    type="button"
-                                                >
-                                                    More info
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </form>
+                                <ChangePassword />
                             </div>
                             <div className="tab-pane" id="notification">
                                 <h6>NOTIFICATION SETTINGS</h6>
@@ -569,6 +402,8 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
+            <br /><br /><br />
+            <br /><br /><br /><br /><br />
         </div>
 
     )

@@ -53,7 +53,6 @@ function App() {
             path="/response-valuation-request/:id"
             element={<ResponseValuationRequest />}
           />
-          <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<Register />} />
           <Route
             path="/upcoming-session-lot/:lotId"
