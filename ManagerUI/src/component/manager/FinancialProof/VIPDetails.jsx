@@ -11,48 +11,20 @@ export default function VIPDetails({ valuationRequest, onHide }) {
     estimateMax: "",
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setPreliminaryValuation({
-      ...preliminaryValuation,
-      [name]: value,
-    });
-  };
-
-  const handleBlur = (e) => {
-    const { name, value } = e.target;
-    if (value.trim() === "") {
-      if (name === "estimateMin")
-        toast.error(`Estimate minimum price is required`);
-      if (name === "estimateMax")
-        toast.error(`Estimate maximum price is required`);
-    }
-  };
-
-  const PreliminaryConfirm = async (e) => {
+  const PreliminaryConfirm = async (b) => {
     try {
       const formData = new FormData();
 
       formData.append("id", valuationRequest.id);
-      formData.append("estimateMin", preliminaryValuation.estimateMin);
-      formData.append("estimateMax", preliminaryValuation.estimateMax);
-      // formData.append("staffId", 1);
-      console.log("id", preliminaryValuation.id);
-      console.log("estimateMin", preliminaryValuation.estimateMin);
-      console.log("estimateMax", preliminaryValuation.estimateMax);
-
-      //Default staff id
-      formData.append("staffId", 1);
+      formData.append("managerId", 1);
+      formData.append("confirm", b);
 
       const response = await axios.post(
-        `http://localhost:8080/valuation/preliminary-valuation`,
+        `http://localhost:8080/financial-proof/confirm-vip`,
         formData
       );
 
-      if (
-        response.status === 200 &&
-        response.data.valuationStatus === "PRELIMINARY_VALUATED"
-      ) {
+      if (response.status === 200 && response.data.status === "AVAILABLE") {
         console.log("Success");
         toast.success("Preliminary successfully");
         onHide(true);
@@ -101,11 +73,16 @@ export default function VIPDetails({ valuationRequest, onHide }) {
                   <div className="row-sm-9 d-flex justify-content-center">
                     <Button
                       className="btn-success mx-3"
-                      onClick={PreliminaryConfirm}
+                      onClick={(e) => PreliminaryConfirm(true)}
                     >
                       Approve
                     </Button>
-                    <Button className="btn-danger mx-3">Reject</Button>
+                    <Button
+                      className="btn-danger mx-3"
+                      onClick={(e) => PreliminaryConfirm(false)}
+                    >
+                      Reject
+                    </Button>
                   </div>
                 </div>
               </div>
