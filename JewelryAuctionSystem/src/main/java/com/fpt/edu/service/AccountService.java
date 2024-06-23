@@ -1,6 +1,8 @@
 package com.fpt.edu.service;
 
 import com.fpt.edu.dto.AccountDTO;
+import com.fpt.edu.dto.MemberDTO;
+import com.fpt.edu.dto.StaffDTO;
 import com.fpt.edu.entity.Account;
 
 import com.fpt.edu.entity.InvalidatedToken;
@@ -10,6 +12,8 @@ import com.fpt.edu.mapper.AccountMapper;
 import com.fpt.edu.exception.UsernameNotFoundException;
 
 import com.fpt.edu.mapper.AuthenticationMapper;
+import com.fpt.edu.mapper.MemberMapper;
+import com.fpt.edu.mapper.StaffMapper;
 import com.fpt.edu.repository.IAccountRepository;
 import com.fpt.edu.repository.InvalidatedTokenRepository;
 import com.fpt.edu.security.request.IntrospectRequest;
@@ -42,9 +46,7 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -55,6 +57,8 @@ public class AccountService implements IAccountService {
     private final IMemberRepository memberRepository;
     private final IRoleRepository roleRepository;
     private final InvalidatedTokenRepository invalidatedTokenRepository;
+    private final MemberMapper memberMapper;
+    private final StaffMapper staffMapper;
 
 
     @NonFinal
@@ -174,7 +178,7 @@ public class AccountService implements IAccountService {
     public AuthenticationResponse refreshToken(RefreshRequest request) throws ParseException, JOSEException {
 
         SignedJWT signedJWT = SignedJWT.parse(request.getToken()); // lay ra thong tin tu token
-             // dua token vao danh sach token bi huy
+        // dua token vao danh sach token bi huy
 
         logout(new LogoutRequest(request.getToken()));
 
@@ -237,6 +241,49 @@ public class AccountService implements IAccountService {
 
     }
 
+    @Override
+    public Map<String, Object> getInformationById(Integer id) {
+        Account account = accountRepository.getReferenceById(id);
+        Map<String, Object> map = new HashMap<>();
+        AccountDTO accountDTO;
+        if (account.getMembers() != null) {
+            accountDTO = AccountMapper.toAccountMemberDTO(account);
+            MemberDTO memberDTO = memberMapper.toMemberDTO(account.getMembers());
+            map.put("account", accountDTO);
+            map.put("member", memberDTO);
+        } else if (account.getStaff() != null) {
+            accountDTO = AccountMapper.toAccountDTO(account);
+            StaffDTO staffDTO = staffMapper.toStaffDTO(account.getStaff());
+            map.put("account", accountDTO);
+            map.put("staff", staffDTO);
+        }
+        return map;
+    }
+    @Override
+    public Map<String, Object> changePassword(Integer id, String oldPassword, String newPassword) {
+        Account account = accountRepository.getReferenceById(id);
+        if (!account.getPassword().equals(oldPassword)) {
+            throw new RuntimeException("Old password is incorrect");
+        }
+        account.setPassword(newPassword);
+        accountRepository.save(account);
+        Map<String, Object> map = getInformationById(id);
+        return map;
+    }
 
+    @Override
+    public Map<String, Object> changeInformation(Integer id, String fullname, String phone, String address) {
+        Account account = accountRepository.getReferenceById(id);
+        if (account.getMembers() == null) {
+            throw new RuntimeException("Account is not member");
+        }
+        Member member = account.getMembers();
+        member.setFullname(fullname);
+        member.setPhone(phone);
+        member.setAddress(address);
+        memberRepository.save(member);
+        Map<String, Object> map = getInformationById(id);
+        return map;
+    }
 }
 

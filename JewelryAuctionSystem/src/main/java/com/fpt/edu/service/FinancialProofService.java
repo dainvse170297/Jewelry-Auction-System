@@ -3,10 +3,7 @@ package com.fpt.edu.service;
 import com.fpt.edu.dto.FinancialProofRequestDTO;
 import com.fpt.edu.entity.*;
 import com.fpt.edu.mapper.FinancialProofRequestMapper;
-import com.fpt.edu.repository.IAccountRepository;
-import com.fpt.edu.repository.IFinancialProofImageRepository;
-import com.fpt.edu.repository.IFinancialProofRequestRepository;
-import com.fpt.edu.repository.IMemberRepository;
+import com.fpt.edu.repository.*;
 import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.FinancialProofRequestStatus;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +24,7 @@ public class FinancialProofService implements IFinancialProofService {
     private final IFinancialProofImageRepository iFinancialProofImageRepository;
     private final FinancialProofRequestMapper financialProofRequestMapper;
     private final IAccountRepository iAccountRepository;
-
+    private final IManagerRepository iManagerRepository;
     @Override
     public ResponseEntity<String> checkAvailableFinancialProofRequest(Integer memberId) {
 
@@ -155,6 +152,32 @@ public class FinancialProofService implements IFinancialProofService {
             }
         }
         financialProofRequest.setStatus(FinancialProofRequestStatus.REJECTED);
+        iFinancialProofRequestRepository.save(financialProofRequest);
+        return financialProofRequestMapper.mapToFinancialProofRequestDTO(financialProofRequest);
+    }
+
+    @Override
+    public List<FinancialProofRequestDTO> getPendingApproval() {
+        List<FinancialProofRequest> financialProofRequests = iFinancialProofRequestRepository.findByStatus(FinancialProofRequestStatus.PENDING_MANAGER_APPROVAL);
+        List<FinancialProofRequestDTO> financialProofRequestDTOS = new ArrayList<>();
+        for (FinancialProofRequest financialProofRequest : financialProofRequests) {
+            FinancialProofRequestDTO financialProofRequestDTO = financialProofRequestMapper.mapToFinancialProofRequestDTO(financialProofRequest);
+            financialProofRequestDTO.setFinancialProofImages(financialProofRequestMapper.mapToFinancialProofImageUrls(financialProofRequest.getFinancialProofImages()));
+            financialProofRequestDTOS.add(financialProofRequestDTO);
+        }
+        return financialProofRequestDTOS;
+    }
+
+    @Override
+    public FinancialProofRequestDTO confirmVip(Integer idRq, Integer managerId, Boolean confirm) {
+        FinancialProofRequest financialProofRequest = iFinancialProofRequestRepository.getReferenceById(idRq);
+        Manager manager = iManagerRepository.getReferenceById(managerId);
+        financialProofRequest.setManager(manager);
+        if(confirm){
+            financialProofRequest.setStatus(FinancialProofRequestStatus.AVAILABLE);
+        }else{
+            financialProofRequest.setStatus(FinancialProofRequestStatus.REJECTED);
+        }
         iFinancialProofRequestRepository.save(financialProofRequest);
         return financialProofRequestMapper.mapToFinancialProofRequestDTO(financialProofRequest);
     }
