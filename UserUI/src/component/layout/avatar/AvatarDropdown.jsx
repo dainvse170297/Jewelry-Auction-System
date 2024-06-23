@@ -53,7 +53,7 @@ const AvatarDropdown = () => {
               </a>
             </li>
             <li className="src/component/valuation_request/create/CreateValuation.jsx">
-              <a className="dropdown-item" href="#!">
+              <a className="dropdown-item" href="/profile">
                 <div className="px-1">
                   <PersonIcon /> Profile
                 </div>
