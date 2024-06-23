@@ -16,7 +16,7 @@ import ViewReadyLot from "./component/manager/Lot/ViewReadyLot.jsx";
 import AddLotToSession from "./component/manager/Session/AddLotToSession.jsx";
 import PreliminaryValuationList from "./component/staff/PreliminaryValuationList.jsx";
 import AllValuationRequestList from "./component/valuation-request/AllValuationRequestList.jsx";
-
+import VIPList from "./component/manager/FinancialProof/VIPList.jsx";
 function App() {
   return (
     <>
@@ -57,6 +57,8 @@ function App() {
               path="/final-valuation-request-list"
               element={<FinalValuationRequestList />}
             />
+            <Route path="/vip-list" element={<VIPList />} />
+
             <Route
               path="/final-valuation-request-detail/:id"
               element={<FinalValuationRequestDetail />}

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -53,5 +54,16 @@ public class FinancialProofController {
                                                                               @RequestParam("username") String username){
         return ResponseEntity.ok(financialProofService.rejectFinancialProofRequest(idRq, username));
     }
+    @GetMapping("/pending-approval")
+    public ResponseEntity<Set<FinancialProofRequestDTO>> viewListVIP(){
+        return ResponseEntity.ok(financialProofService.viewListVIP());
+    }
+    @PostMapping("/confirm-vip")
+    public ResponseEntity<FinancialProofRequestDTO> confirmVIPFinancialProof(@RequestParam("id") Integer idRq,
+                                                                         @RequestParam("managerId") Integer managerId,
+                                                                         @RequestParam("confirm") boolean confirm){
+        return ResponseEntity.ok(financialProofService.confirmVIPFinancialProof(idRq, managerId, confirm));
+    }
+
 
 }
