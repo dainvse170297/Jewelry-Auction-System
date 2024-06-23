@@ -13,6 +13,13 @@ const UpcomingSessionLot = () => {
   const { lotId } = useParams();
 
   const currentUser = JSON.parse(localStorage.getItem("account"));
+  const [showModal, setShowModal] = useState(false);
+  const [isRegister, setIsRegister] = useState(false);
+  const [wasBid, setWasBid] = useState(null);
+  const navigate = useNavigate();
+  const [isPreBid, setIsPreBid] = useState(false);
+  const [price, setPrice] = useState("");
+  const [errorMsg, setErrorMsg] = useState(null);
 
   let memberId = null;
   if (currentUser) {
@@ -22,6 +29,12 @@ const UpcomingSessionLot = () => {
   }
 
   // console.log(currentUser.memberId);
+  // const handleChangeRegister = (data) => {
+  //   if (data.status === "REGISTERED") {
+  //     setWasBid(data.previousPrice);
+  //     setIsRegister(true);
+  //   }
+  // };
 
   useEffect(() => {
     const getProductFromLot = async () => {
@@ -38,15 +51,18 @@ const UpcomingSessionLot = () => {
     getProductFromLot();
   }, [lotId]);
 
-  const [isRegister, setIsRegister] = useState(false);
-
   useEffect(() => {
     const checkRegister = async () => {
       try {
         const response = await axios.get(
           `http://localhost:8080/auction-register/check-member-register/${memberId}/${lotId}`
         );
-        setIsRegister(response.data);
+        // handleChangeRegister(response.data);
+        if (response.data.status === "REGISTERED") {
+          setWasBid(response.data.previousPrice);
+          setIsRegister(true);
+        }
+        console.log(wasBid);
       } catch (error) {
         console.log(error);
       }
@@ -54,13 +70,11 @@ const UpcomingSessionLot = () => {
     checkRegister();
   }, [memberId, lotId]);
 
-  const navigate = useNavigate();
-
-  const [showModal, setShowModal] = useState(false);
   const handleClose = () => {
     setShowModal(false);
     setIsPreBid(false);
   };
+
   const handleShow = () => {
     if (currentUser === null) {
       alert("Please login before register to bid");
@@ -70,17 +84,13 @@ const UpcomingSessionLot = () => {
     }
   };
 
-  const [isPreBid, setIsPreBid] = useState(false);
   const handlePreBid = () => {
     setIsPreBid(true);
   };
 
-  const [price, setPrice] = useState("");
-
-  const [errorMsg, setErrorMsg] = useState(null);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       // const formData = new FormData()
       // formData.append('memberId', currentUser.memberId)
@@ -101,6 +111,8 @@ const UpcomingSessionLot = () => {
       setTimeout(() => {
         window.location.reload();
       }, 2000);
+
+      setIsRegister(true);
     } catch (error) {
       if (error.response) {
         setErrorMsg(error.response.data.message);
@@ -112,6 +124,7 @@ const UpcomingSessionLot = () => {
     }
     console.log(errorMsg);
   };
+
   return (
     <div className="container">
       <div className="">
@@ -153,6 +166,7 @@ const UpcomingSessionLot = () => {
             Category: {lot.product?.category?.name.toUpperCase()}
           </p>
           <h5>{lot.status}</h5>
+
           {!isRegister ? (
             <div className="mt-3">
               <button className="register-to-bid-btn" onClick={handleShow}>
@@ -161,6 +175,12 @@ const UpcomingSessionLot = () => {
             </div>
           ) : (
             <div className="mt-3">
+              {wasBid && (
+                <p className>
+                  You have placed a bid:
+                  <strong style={{ color: "red" }}> ${wasBid}</strong>
+                </p>
+              )}
               <button className="registered-btn">REGISTERED</button>
             </div>
           )}

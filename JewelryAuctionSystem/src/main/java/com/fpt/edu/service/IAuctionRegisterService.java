@@ -12,7 +12,7 @@ public interface IAuctionRegisterService  {
 
     AuctionRegister placeToBid(Integer lotId,Integer id, BigDecimal price);
 
-    boolean checkMemberRegister(int id, int lotId);
+    AuctionRegisterDTO checkMemberRegister(int id, int lotId);
 
     List<AuctionRegister> getListWinAuctionOfMember(Integer memberId);
 
