@@ -111,9 +111,9 @@ class Header extends React.Component {
               </div>
             </nav>
           </div>
-          <div className="col-sm-2">
+          <div className="col-lg-2">
             <div className="row">
-              <div className="col-sm-4 d-flex justify-content-center align-items-center">
+              <div className="col-sm-2 d-flex justify-content-center align-items-center">
                 <a
                   className="nav-link d-flex justify-content-center align-items-center"
                   href="/#"
@@ -121,7 +121,7 @@ class Header extends React.Component {
                   <NotificationsNoneIcon />
                 </a>
               </div>
-              <div className="col-sm-4">
+              <div className="col-sm-2">
                 <nav className="navbar navbar-expand-md bsb-navbar bsb-navbar-hover p-0">
                   <div
                     className="offcanvas offcanvas-end"

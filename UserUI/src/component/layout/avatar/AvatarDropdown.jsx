@@ -37,8 +37,6 @@ const AvatarDropdown = () => {
       >
         <Avatar />
       </a>
-      {/* <div id="accountDropdown">
-      </div> */}
       <ul
         className="dropdown-menu border-0 shadow bsb-zoomIn"
         aria-labelledby="accountDropdown"

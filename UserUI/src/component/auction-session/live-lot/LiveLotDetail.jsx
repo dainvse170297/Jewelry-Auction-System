@@ -170,10 +170,13 @@ export default function LiveLotDetail() {
                     <div className="bid-panel">
                       <h5 className="text-center">Bidding Panel</h5>
                       <div className="d-flex justify-content-center">
+                        <button className="buy-now-btn">
+                          BUY NOW
+                        </button>
                         <button onClick={calculateBid} className="bid-btn">
                           PLACE BID
                         </button>
-                        <div className="ms-3 col-lg-2">
+                        <div className="ms-3">
                           <div className="bid-input">
                             <input type="number" min={1} max={10} defaultValue={1} />
                           </div>
