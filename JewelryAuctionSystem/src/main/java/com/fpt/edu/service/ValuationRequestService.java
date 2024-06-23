@@ -27,12 +27,10 @@ public class ValuationRequestService implements IValuationRequestService {
     private final IValuationRequestRepository iValuationRequestRepository;
     private final IMemberRepository iMemberRepository;
     private final IValuationImageRepository iValuationImageRepository;
-    //    private final IResponseRequestValuationRepository iResponseRequestValuationRepository;
     private final IStaffRepository iStaffRepository;
     private final INotifyRepository iNotifyRepository;
 
     private final ValuationRequestMapper valuationRequestMapper;
-//    private final ResponseValuationRequestMapper responseValuationRequestMapper;
 
     private final CloudinaryService cloudinaryService;
     private final NotifyMapper NotifyMapper;
@@ -81,6 +79,16 @@ public class ValuationRequestService implements IValuationRequestService {
         //set notify
         iNotifyService.insertNotify(member, createRequestTitle(valuationRequest), createRequestMessage(valuationRequest));
         return valuationRequestDTO;
+    }
+
+    @Override
+    public List<ValuationRequestDetailDTO> getAll() {
+        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findAll();
+        for (ValuationRequest valuationRequest : valuationRequests) {
+            Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
+            valuationRequest.setValuationImages(valuationImages);
+        }
+        return valuationRequestMapper.mapToValuationRequestDetailDTOList(valuationRequests);
     }
 
     @Override

@@ -34,7 +34,8 @@ public class AuctionRegisterController {
     }
 
     @GetMapping("/check-member-register/{memberId}/{lotId}")
-    public ResponseEntity<Boolean> checkMemberRegister(@PathVariable("memberId") int memberId, @PathVariable("lotId") int lotId) {
+    public ResponseEntity<AuctionRegisterDTO> checkMemberRegister(@PathVariable("memberId") int memberId,
+                                                       @PathVariable("lotId") int lotId) {
         return ResponseEntity.ok(auctionRegisterService.checkMemberRegister(memberId, lotId));
     }
 
