@@ -61,8 +61,6 @@ export default function CreateValuation() {
         formData.append("image", photo);
       });
 
-      // formData.append("image", valuation.photos);
-
       const createValuation = await axios.post(
         `http://localhost:8080/valuation/create`,
         formData,
@@ -94,9 +92,7 @@ export default function CreateValuation() {
     <>
       <div className="createValuation container-fluid">
         <ToastContainer />
-
         <h1 className="text-center py-4">Jewelry Valuation</h1>
-
         <form onSubmit={Create}>
           <div className="row d-flex justify-content-center mt-3">
             <div className="col-xxl-9 col-lg-10 col-11">
@@ -105,7 +101,6 @@ export default function CreateValuation() {
                 <div className="pt-3 rounded-3 col-xxl-6 col-lg-5 col-11 px-3 form">
                   <h4>Expected Price</h4>
                   <hr />
-
                   <div className="row px-2 py-3 mb-2">
                     <Form.Group>
                       <Form.Control
@@ -137,7 +132,6 @@ export default function CreateValuation() {
                       onChange={handleInputChange}
                       onBlur={handleBlur}
                       style={{
-                        // backgroundColor: "lightgray",
                         height: "100%",
                         fontSize: "150%",
                       }}
