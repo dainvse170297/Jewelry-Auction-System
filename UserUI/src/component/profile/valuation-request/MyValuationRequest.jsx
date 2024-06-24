@@ -2,6 +2,9 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Paginator from "../../common/Paginator";
 import './style.scss';
+import { Link } from "react-router-dom";
+import { Button, Modal } from "react-bootstrap";
+import ValuationResponseList from "../valuation-response/ValuationResponseList";
 
 export default function MyValuationRequest({ id }) {
   const [valuationRequests, setValuationRequests] = useState([]);
@@ -10,6 +13,9 @@ export default function MyValuationRequest({ id }) {
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [sortOrder, setSortOrder] = useState('');
   const [valuationStatus, setValuationStatus] = useState('');
+
+  const [showModal, setShowModal] = useState(false);
+  const [selectedRequestId, setSelectedRequestId] = useState(null);
 
   useEffect(() => {
     const getInfo = async () => {
@@ -65,6 +71,17 @@ export default function MyValuationRequest({ id }) {
     return Math.ceil(totalItem / itemsPerPage);
   };
 
+  const handleShowResponse = (requestId) => {
+    setSelectedRequestId(requestId);
+    setShowModal(true);
+    // console.log(requestId);
+  }
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    selectedRequestId(null);
+  }
+
   return (
     <div className="container">
       <div className="row mb-3">
@@ -106,6 +123,9 @@ export default function MyValuationRequest({ id }) {
                       <p>{request.valuationStatus}</p>
                     </div>
                   </td>
+                  <td>
+                    <Button variant="warning" size="sm" onClick={() => handleShowResponse(request.id)}>Show Response</Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -119,6 +139,19 @@ export default function MyValuationRequest({ id }) {
           </div>
         </div>
       </div>
+      <Modal show={showModal} onHide={handleCloseModal} size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>Valuation Response</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedRequestId && <ValuationResponseList id={selectedRequestId} />}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

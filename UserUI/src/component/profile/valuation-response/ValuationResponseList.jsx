@@ -8,6 +8,7 @@ import { Toast } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const ValuationResponseList = ({ id }) => {
+
   const [data, setData] = useState(null);
   const [confirm, setConfirm] = useState(false);
   const [currentStatus, setCurrentStatus] = useState(false);
@@ -76,13 +77,13 @@ const ValuationResponseList = ({ id }) => {
     <div>
       <ToastContainer />
       {data && (
-        <div className="valuationResponseList container-fluid">
-          <div className="row d-flex justify-content-center">
+        <div className="container valuationResponseList container-fluid">
+          {/* <div className="row d-flex justify-content-center">
             <h2>Valuation Response List</h2>
-          </div>
+          </div> */}
           <div className="row">
             {/* Response list */}
-            <div className="col-sm-8 card card-body">
+            <div className="card card-body">
               <div className="row d-flex justify-content-center">
                 <h4 className="text-center">Valuation Request</h4>
               </div>
@@ -266,9 +267,9 @@ const ValuationResponseList = ({ id }) => {
             </div>
 
             {/* Request list */}
-            <div className="col-sm-4">
+            {/* <div className="col-sm-4">
               <h4 className="text-center">Valuation Request</h4>
-            </div>
+            </div> */}
           </div>
         </div>
       )}
