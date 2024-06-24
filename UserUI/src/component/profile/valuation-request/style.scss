@@ -1,0 +1,261 @@
+$primary-color: #e53637;
+$secondary-color: #0c2b4b;
+$white-color: #ffffff;
+$heading-color: #111111;
+$para-color: #5C5C5C;
+$black-color: #000000;
+$heading-color-2: #323232;
+$normal-color: #1c1c1c;
+$background: #f5f5f5;
+$background-2: #f2f2f2;
+$border: #ebebeb;
+$border-1: #e1e1e1;
+
+input[type=checkbox] {
+    margin: 4px 0 0;
+    line-height: normal;
+    width: 20px;
+    height: 20px;
+    accent-color: #B23842;
+}
+
+.spad {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.shopping__cart__table {
+    margin-bottom: 30px;
+
+    table {
+        width: 100%;
+
+        thead {
+            border-bottom: 1px solid #f2f2f2;
+
+            tr {
+
+                th {
+                    color: $heading-color;
+                    font-size: 16px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    padding-bottom: 25px;
+                }
+            }
+        }
+
+        tbody {
+
+            tr {
+                border-bottom: 1px solid #737373;
+
+                td {
+                    padding-bottom: 30px;
+                    padding-top: 30px;
+
+                    &.product__cart__item {
+                        width: 400px;
+
+                        .product__cart__item__pic {
+                            float: left;
+                            margin-right: 30px;
+                        }
+
+                        .product__cart__item__text {
+                            overflow: hidden;
+                            padding-top: 21px;
+
+                            h6 {
+                                color: $heading-color;
+                                font-size: 15px;
+                                font-weight: 600;
+                                margin-bottom: 10px;
+                            }
+
+                            h5 {
+                                color: #0d0d0d;
+                                font-weight: 700;
+                            }
+                        }
+                    }
+
+                    &.quantity__item {
+                        width: 175px;
+
+                        .quantity {
+
+                            .pro-qty-2 {
+                                width: 80px;
+
+                                input {
+                                    width: 50px;
+                                    border: none;
+                                    text-align: center;
+                                    color: $heading-color;
+                                    font-size: 16px;
+                                }
+
+                                .qtybtn {
+                                    font-size: 16px;
+                                    color: #888888;
+                                    width: 10px;
+                                    cursor: pointer;
+                                }
+                            }
+                        }
+                    }
+
+                    &.cart__price {
+                        color: $heading-color;
+                        font-size: 18px;
+                        font-weight: 700;
+                        width: 140px;
+                    }
+
+                    &.cart__close {
+
+                        i {
+                            font-size: 18px;
+                            color: $heading-color;
+                            height: 40px;
+                            width: 40px;
+                            background: #f3f2ee;
+                            border-radius: 50%;
+                            line-height: 40px;
+                            text-align: center;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.cart__total {
+    background: #f3f2ee;
+    padding: 35px 40px 40px;
+
+    h6 {
+        color: $heading-color;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+
+    ul {
+        margin-bottom: 25px;
+
+        li {
+            list-style: none;
+            font-size: 16px;
+            color: #444444;
+            line-height: 40px;
+            overflow: hidden;
+
+            span {
+                font-weight: 700;
+                color: $primary-color;
+                float: right;
+            }
+        }
+    }
+
+    .primary-btn {
+        display: block;
+        padding: 12px 30px;
+        text-align: center;
+        letter-spacing: 5px;
+        background-color: #B23842;
+        border: none;
+        color: white;
+    }
+}
+
+.checkout__order {
+    background: #f3f2ee;
+    padding: 30px;
+}
+
+.site-btn {
+    display: block;
+    padding: 12px 30px;
+    text-align: center;
+    letter-spacing: 5px;
+    background-color: #B23842;
+    border: none;
+    color: white;
+}
+
+.checkout__order .order__title {
+    color: #111111;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-bottom: 1px solid #d7d7d7;
+    padding-bottom: 25px;
+    margin-bottom: 30px;
+}
+
+.checkout__order p {
+    color: #444444;
+    font-size: 16px;
+    line-height: 28px;
+}
+
+.checkout__order .site-btn {
+    width: 100%;
+    margin-top: 8px;
+}
+
+.checkout__order__products {
+    font-size: 16px;
+    color: #111111;
+    overflow: hidden;
+    margin-bottom: 18px;
+}
+
+.checkout__order__products span {
+    float: right;
+}
+
+.checkout__total__products {
+    margin-bottom: 20px;
+}
+
+.checkout__total__products li {
+    font-size: 16px;
+    color: #444444;
+    list-style: none;
+    line-height: 26px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.checkout__total__products li:last-child {
+    margin-bottom: 0;
+}
+
+.checkout__total__products li span {
+    color: #111111;
+    float: right;
+}
+
+.checkout__total__all {
+    border-top: 1px solid #d7d7d7;
+    border-bottom: 1px solid #d7d7d7;
+    padding: 15px 0;
+    margin-bottom: 26px;
+}
+
+.checkout__total__all li {
+    list-style: none;
+    font-size: 16px;
+    color: #111111;
+    line-height: 40px;
+    overflow: hidden;
+}
+
+.checkout__total__all li span {
+    color: #e53637;
+    font-weight: 700;
+    float: right;
+}

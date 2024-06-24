@@ -9,7 +9,18 @@ public class MemberMapper {
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setId(id);
         memberDTO.setCreditCardId(member.getCreditCard().getId());
-        memberDTO.setAccountId(id);
+        memberDTO.setFinancialProofAmount(member.getFinancialProofAmount());
+        memberDTO.setEmail(member.getEmail());
+        memberDTO.setFullname(member.getFullname());
+        memberDTO.setAddress(member.getAddress());
+        memberDTO.setPhone(member.getPhone());
+        return memberDTO;
+    }
+
+    public static MemberDTO toMemberDTO(Member member){
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setId(member.getId());
+        memberDTO.setCreditCardId(member.getCreditCard().getId());
         memberDTO.setFinancialProofAmount(member.getFinancialProofAmount());
         memberDTO.setEmail(member.getEmail());
         memberDTO.setFullname(member.getFullname());

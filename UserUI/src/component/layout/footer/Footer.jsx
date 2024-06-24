@@ -2,7 +2,9 @@ import React from 'react';
 import "./footer.scss";
 
 const Footer = () => {
-    return (
+    return (<>
+        <br /><br /><br />
+        <br /><br /><br /><br /><br />
         <footer className="footer mt-5">
             <div className="container">
                 <div className="row">
@@ -72,6 +74,7 @@ const Footer = () => {
             </div>
         </footer>
 
+    </>
     );
 }
 

@@ -4,6 +4,7 @@ package com.fpt.edu.repository;
 import com.fpt.edu.dto.FinancialProofRequestDTO;
 import com.fpt.edu.entity.FinancialProofRequest;
 import com.fpt.edu.entity.Member;
+import com.fpt.edu.status.FinancialProofRequestStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -26,4 +27,5 @@ public interface IFinancialProofRequestRepository extends JpaRepository<Financia
      List<FinancialProofRequest> findByMember(Member member);
 
 
+    List<FinancialProofRequest> findByStatus(FinancialProofRequestStatus financialProofRequestStatus);
 }

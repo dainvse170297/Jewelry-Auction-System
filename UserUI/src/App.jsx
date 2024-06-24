@@ -4,8 +4,6 @@ import Login from "./component/auth/login/Login.jsx";
 import CreateValuation from "./component/valuation_request/create/CreateValuation.jsx";
 import Header from "./component/layout/header/Header.jsx";
 import Selling from "./component/selling/Selling.jsx";
-import ResponseValuationRequest from "./component/valuation_request/response/ValuationResponseList.jsx";
-import MyValuationRequest from "./component/valuation_request/view/MyValuationRequest.jsx";
 import UpcomingSessionList from "./component/auction-session/upcoming-session/UpcomingSessionList.jsx";
 import Register from "./component/auth/register/Register.jsx";
 import LiveLotDetail from "./component/auction-session/live-lot/LiveLotDetail.jsx";
@@ -31,6 +29,7 @@ function App() {
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/home/*" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />}></Route>
           <Route path="/create-valuation" element={<CreateValuation />} />
           <Route path="/selling" element={<Selling />} />
           <Route path="/upcoming" element={<UpcomingSessionList />} />
@@ -45,14 +44,6 @@ function App() {
             path="/live-session-detail/:id"
             element={<LiveAuctionSessionDetail />}
           />
-          <Route
-            path="/valuation-request/:id"
-            element={<MyValuationRequest />}
-          />
-          <Route
-            path="/response-valuation-request/:id"
-            element={<ResponseValuationRequest />}
-          />
           <Route path="/sign-up" element={<Register />} />
           <Route
             path="/upcoming-session-lot/:lotId"
@@ -64,8 +55,6 @@ function App() {
           <Route path="/payment-callback" element={<PaymentCallback />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/payment-failure" element={<PaymentFailure />} />
-
-          <Route path="/profile" element={<Profile />} />
         </Routes>
 
         <Footer />
