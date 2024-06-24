@@ -15,6 +15,7 @@ import ManagerApprovedDetail from './component/staff/ManagerApprovedDetail.jsx';
 import ViewReadyLot from './component/manager/Lot/ViewReadyLot.jsx';
 import AddLotToSession from './component/manager/Session/AddLotToSession.jsx'
 import PreliminaryValuationList from './component/staff/PreliminaryValuationList.jsx';
+import ViewFinancialProofRequest from './component/staff/ViewFinancialProofRequest.jsx';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
             <Route path='/manager-approved-detail/:id' element={<ManagerApprovedDetail />} />
             <Route path='/ready-lots' element={<ViewReadyLot />} />
             <Route path='/add-session/:id' element={<AddLotToSession />} />
+            <Route path='/view-financial-proof-request' element={<ViewFinancialProofRequest />} />
 
           </Routes>
         </div>
