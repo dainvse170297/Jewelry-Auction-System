@@ -17,15 +17,9 @@ import java.util.Set;
 public class MemberDTO {
     private Integer id;
     private Integer creditCardId;
-    private Integer accountId;
     private BigDecimal financialProofAmount;
     private String email;
     private String fullname;
     private String address;
     private String phone;
-    private Set<Integer> auctionRegisterIds = new LinkedHashSet<>();
-    private Set<Integer> bidIds = new LinkedHashSet<>();
-    private Set<Integer> financialProofRequestIds = new LinkedHashSet<>();
-    private Set<Integer> notifyIds = new LinkedHashSet<>();
-    private Set<Integer> valuationRequestIds = new LinkedHashSet<>();
 }

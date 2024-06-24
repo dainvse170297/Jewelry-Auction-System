@@ -11,6 +11,7 @@ import com.fpt.edu.entity.Account;
 import com.nimbusds.jose.JOSEException;
 
 import java.text.ParseException;
+import java.util.Map;
 
 public interface IAccountService {
 
@@ -21,4 +22,10 @@ public interface IAccountService {
     public Account createAccount(String username, String password, String fullName, String email, String phone, String address);
 
     public AccountDTO getAccountFromToken(IntrospectRequest introspectRequest) throws ParseException, JOSEException;
+
+    public Map<String,Object> getInformationById(Integer id);
+
+    public Map<String,Object> changePassword(Integer id, String oldPassword, String newPassword);
+
+    public Map<String,Object> changeInformation(Integer id, String fullname, String phone, String address);
 }
