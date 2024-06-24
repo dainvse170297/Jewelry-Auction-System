@@ -37,8 +37,6 @@ const AvatarDropdown = () => {
       >
         <Avatar />
       </a>
-      {/* <div id="accountDropdown">
-      </div> */}
       <ul
         className="dropdown-menu border-0 shadow bsb-zoomIn"
         aria-labelledby="accountDropdown"
@@ -53,7 +51,7 @@ const AvatarDropdown = () => {
               </a>
             </li>
             <li className="src/component/valuation_request/create/CreateValuation.jsx">
-              <a className="dropdown-item" href="#!">
+              <a className="dropdown-item" href="/profile">
                 <div className="px-1">
                   <PersonIcon /> Profile
                 </div>

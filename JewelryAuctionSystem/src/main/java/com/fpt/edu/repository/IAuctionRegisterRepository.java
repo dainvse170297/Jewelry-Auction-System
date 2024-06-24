@@ -25,4 +25,5 @@ public interface IAuctionRegisterRepository  extends JpaRepository<AuctionRegist
 
   List<AuctionRegister> findByStatus(AuctionRegisterStatus auctionRegisterStatus);
 
+    List<AuctionRegister> findAuctionRegisterByMemberId(Integer memberId);
 }
