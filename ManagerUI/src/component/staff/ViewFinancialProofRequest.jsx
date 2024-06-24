@@ -1,6 +1,9 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import { toast } from 'react-toastify'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 export default function ViewFinancialProofRequest() {
     const [financialRequestList, setFinancialRequestList] = useState([])
@@ -128,25 +131,30 @@ export default function ViewFinancialProofRequest() {
     }
 
     return (
-        <div>
+        <div className='container'>
             {financialRequestList.map((item, index) => (
-                <div key={index}>
-                    <div>timeRequest: {item.timeRequest}</div>
-                    <div>status:{item.status}</div>
-                    <button onClick={() => handleCurrentItem(item)}>View</button>
+                <div className='row' key={index}>
+                    <div className='col'>Time Request: {item.timeRequest}</div>
+                    <div className='col'>Status: {item.status}</div>
+                    <div className='col'> <button onClick={() => handleCurrentItem(item)}>View</button> </div>
                     {openDropdown && (
                         <ul>
-                            <div>
-                                <div>memberId: {currentItems != null ? currentItems.memberId : ''}</div>
-                                <div>financialProofImages:{currentItems != null ? currentItems.financialProofImages.map((image, index) => (
-                                    <div key={index}>
-                                        <img src={image} alt='picture' />
+                            <div className='row'>
+                                <div className='col-8'>
+                                    {currentItems != null ? currentItems.financialProofImages.map((image, index) => (
+                                        <div key={index}>
+                                            <img src={image} alt='picture' />
+                                        </div>
+                                    )) : ""}
+                                </div>
+                                <div className='col-4'>
+                                    <div className=''><input type='text' id='financialProofAmount' name='financialProofAmount'
+                                        value={financialProofAmount.financialProofAmount}
+                                        onChange={handleAmountChange} />
                                     </div>
-                                )) : ""}</div>
-                                <input type='text' id='financialProofAmount' name='financialProofAmount' value={financialProofAmount.financialProofAmount}
-                                    onChange={handleAmountChange} />
-                                <button onClick={() => sendAmount}>Send Amount</button>
-                                <button onClick={() => sendReject}>Reject</button>
+                                    <div><button onClick={() => sendAmount}>Send Amount</button></div>
+                                    <div><button onClick={() => sendReject}>Reject</button></div>
+                                </div>
                             </div>
                         </ul>
                     )}
