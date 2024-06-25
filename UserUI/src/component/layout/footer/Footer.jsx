@@ -2,6 +2,7 @@ import React from 'react';
 import "./footer.scss";
 
 const Footer = () => {
+    const currentYear = new Date().getFullYear();
     return (<>
         <br /><br /><br />
         <br /><br /><br /><br /><br />
@@ -66,7 +67,7 @@ const Footer = () => {
                         <div className="footer__copyright__text">
 
                             <p>
-                                Copyright © 2020 All rights reserved | FU Auction
+                                Copyright &copy; {currentYear} All rights reserved | FU Auction
                             </p>
                         </div>
                     </div>

@@ -4,7 +4,8 @@ import ProfileDetail from './ProfileDetail/ProfileDetail'
 import { useNavigate } from 'react-router-dom';
 import ChangePassword from './ChangePassword/ChangePassword';
 import MyValuationRequest from './valuation-request/MyValuationRequest';
-
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import CheckOut from '../checkout/CheckOut';
 const Profile = () => {
 
   const currentUser = JSON.parse(localStorage.getItem("account"));
@@ -23,7 +24,6 @@ const Profile = () => {
   return (
     <div className="container">
       <div className="row gutters-sm">
-
         <div className="col-md-4 d-none d-md-block">
           <div className="card">
             <div className="card-body">
@@ -118,6 +118,15 @@ const Profile = () => {
                   </svg>
                   My Valuation Request
                 </a>
+                {/* <a
+                  href="#winnerAuction"
+                  data-toggle="tab"
+                  className="nav-item nav-link has-icon nav-link-faded"
+                >
+                  <ShoppingCartIcon className='me-3' />
+
+                  My Winner Auction
+                </a> */}
               </nav>
             </div>
           </div>
@@ -153,7 +162,7 @@ const Profile = () => {
                     </svg>
                   </a>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <a
                     href="#account"
                     data-toggle="tab"
@@ -175,7 +184,7 @@ const Profile = () => {
                       <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                     </svg>
                   </a>
-                </li>
+                </li> */}
                 <li className="nav-item">
                   <a
                     href="#security"
@@ -235,43 +244,29 @@ const Profile = () => {
                     </svg>
                   </a>
                 </li>
+
+                <li className="nav-item">
+                  <a
+                    href="#valuationRequest"
+                    data-toggle="tab"
+                    className="nav-link has-icon"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                      className="main-grid-item-icon me-3" fill="none" stroke="currentColor" strokeLinecap="round"
+                      strokeLinejoin="round" strokeWidth="2">
+                      <line x1="22" x2="11" y1="2" y2="13" />
+                      <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                    </svg>
+                  </a>
+                </li>
               </ul>
             </div>
             <div className="card-body tab-content">
               <div className="tab-pane active" id="profile">
                 <ProfileDetail memberId={currentUser.memberId} />
               </div>
-              <div className="tab-pane" id="account">
-                {/* <h6>ACCOUNT SETTINGS</h6>
-                                <hr />
-                                <form>
-                                    <div className="form-group">
-                                        <label htmlFor="username">Username</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="username"
-                                            aria-describedby="usernameHelp"
-                                            placeholder="Enter your username"
-                                            defaultValue="kennethvaldez"
-                                        />
-                                        <small id="usernameHelp" className="form-text text-muted">
-                                            After changing your username, your old username becomes
-                                            available for anyone else to claim.
-                                        </small>
-                                    </div>
-                                    <hr />
-                                    <div className="form-group">
-                                        <label className="d-block text-danger">Delete Account</label>
-                                        <p className="text-muted font-size-sm">
-                                            Once you delete your account, there is no going back. Please
-                                            be certain.
-                                        </p>
-                                    </div>
-                                    <button className="btn btn-danger" type="button">
-                                        Delete Account
-                                    </button>
-                                </form> */}
+              <div className="tab-pane" id="winnerAuction">
+                <CheckOut />
               </div>
               <div className="tab-pane" id="security">
                 <ChangePassword />

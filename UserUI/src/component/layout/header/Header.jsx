@@ -1,151 +1,102 @@
-import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
+import React from "react";
+import { Container, Dropdown, Nav, Navbar } from "react-bootstrap";
+import { Bell, House, Person } from "react-bootstrap-icons";
 import "./header.scss";
-import AvatarDropdown from "../avatar/AvatarDropdown";
-import HomeIcon from "@mui/icons-material/Home";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import { useNavigate } from "react-router-dom";
+import LoginIcon from "@mui/icons-material/Login";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import Valuation from "@mui/icons-material/Diamond";
+import AuctionIcon from "@mui/icons-material/Gavel";
+import LogoutIcon from "@mui/icons-material/Logout";
+import PersonIcon from "@mui/icons-material/Person";
+import SettingsIcon from "@mui/icons-material/Settings";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
-class Header extends React.Component {
-  render() {
-    return (
-      <>
-        <div className="header">
-          <div className="col-sm-2 d-flex justify-content-left align-items-center">
-            <a className="nav-link" href="/home">
-              <HomeIcon />
-            </a>
-          </div>
-          <div className="col-sm-8">
-            <nav className="navbar navbar-expand-md bsb-navbar bsb-navbar-hover bsb-navbar-caret p-0">
-              <a className="navbar-brand" href="index.html">
-                {/* <img src="./assets/img/bsb-logo.svg" alt="BootstrapBrain Logo" width="135" height="44"> */}
-              </a>
-              <div
-                className="offcanvas offcanvas-end"
-                tabIndex="-1"
-                id="offcanvasNavbar"
-                aria-labelledby="offcanvasNavbarLabel"
-              >
-                <div className="offcanvas-body">
-                  <ul className="navbar-nav justify-content-center align-items-center flex-grow-1">
-                    <li className="nav-item dropdown item">
-                      <a
-                        className="nav-link dropdown-toggle mx-5"
-                        href="#!"
-                        id="accountDropdown"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        AUCTION
-                      </a>
-                      <ul
-                        className="dropdown-menu border-0 shadow bsb-zoomIn"
-                        aria-labelledby="accountDropdown"
-                      >
-                        <li>
-                          <a className="dropdown-item" href="/live">
-                            Live auction
-                          </a>
-                        </li>
-                        <li>
-                          <a className="dropdown-item" href="/upcoming">
-                            Upcoming auction
-                          </a>
-                        </li>
-                        <li>
-                          <a className="dropdown-item" href="">
-                            Past auction
-                          </a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li className="nav-item dropdown item">
-                      <a
-                        className="nav-link dropdown-toggle mx-5"
-                        href="#!"
-                        id="servicesDropdown"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        SELLING
-                      </a>
-                      <ul
-                        className="dropdown-menu border-0 shadow bsb-zoomIn"
-                        aria-labelledby="servicesDropdown"
-                      >
-                        <li>
-                          <a className="dropdown-item" href="/selling">
-                            About Selling
-                          </a>
-                        </li>
-                        <li>
-                          <a className="dropdown-item" href="/create-valuation">
-                            Send Valuation Request
-                          </a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li className="nav-item px-5 logo">
-                      <a
-                        className="nav-link mx-5"
-                        aria-current="page"
-                        href="/home"
-                      >
-                        SWP
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a className="nav-link mx-5 item" href="#!">
-                        POLICIES
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a className="nav-link mx-5 item" href="#!">
-                        CONTACT
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </nav>
-          </div>
-          <div className="col-lg-2">
-            <div className="row">
-              <div className="col-sm-2 d-flex justify-content-center align-items-center">
-                <a
-                  className="nav-link d-flex justify-content-center align-items-center"
-                  href="/#"
-                >
-                  <NotificationsNoneIcon />
-                </a>
-              </div>
-              <div className="col-sm-2">
-                <nav className="navbar navbar-expand-md bsb-navbar bsb-navbar-hover p-0">
-                  <div
-                    className="offcanvas offcanvas-end"
-                    tabIndex="-1"
-                    id="offcanvasNavbar"
-                    aria-labelledby="offcanvasNavbarLabel"
-                  >
-                    <div className="offcanvas-body">
-                      <ul className="navbar-nav justify-content-center align-items-center flex-grow-1">
-                        <AvatarDropdown />
-                      </ul>
-                    </div>
-                  </div>
-                </nav>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="hr-line">
-          <hr />
-        </div>
-      </>
-    );
+const Header = () => {
+
+  const navigate = useNavigate();
+
+  const navigateToValuationRequest = () => {
+    navigate("/valuation-request/1");
+  };
+
+  const currentUser = JSON.parse(localStorage.getItem("account")) || null;
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("account");
+    navigate("/");
+    window.location.reload();
   }
+
+  return (
+    <Navbar bg="white" expand="lg" className="border-bottom" fixed="top">
+      <Container>
+        <Navbar.Brand href="/home">
+          <House size={24} />
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto ms-auto">
+            <Dropdown>
+              <Dropdown.Toggle as={Nav.Link} id="dropdown-auction">
+                AUCTION
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="/live">Live Auctions</Dropdown.Item>
+                <Dropdown.Item href="/upcoming">Upcoming Auctions</Dropdown.Item>
+                <Dropdown.Item href="#action3">Past Auctions</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            <Dropdown>
+              <Dropdown.Toggle as={Nav.Link} id="dropdown-selling">
+                SELLING
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="/selling">About Selling</Dropdown.Item>
+                <Dropdown.Item href="/create-valuation">Send Valuation Request</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Nav>
+          <Nav className="mx-auto">
+            <Navbar.Brand href="/home">FU-AUCTION</Navbar.Brand>
+          </Nav>
+          <Nav className="ms-auto me-auto">
+            <Nav.Link href="#contact">CONTACT</Nav.Link>
+            <Nav.Link href="#policies">POLICIES</Nav.Link>
+            <Nav.Link href="#notifications"><Bell size={24} /></Nav.Link>
+            <Dropdown>
+              <Dropdown.Toggle as={Nav.Link} id="dropdown-profile">
+                <Person size={24} />
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+
+
+                {currentUser ? (
+                  <>
+                    <Dropdown.Item href="/profile"> <PersonIcon /> Profile</Dropdown.Item>
+                    <Dropdown.Item href="#"> <AuctionIcon /> My Auction</Dropdown.Item>
+                    <Dropdown.Item href="#"> <Valuation /> My Valuation</Dropdown.Item>
+                    <Dropdown.Item href="/checkout"> <ShoppingCartIcon /> My Winner Auction</Dropdown.Item>
+                    <Dropdown.Item href="" onClick={handleLogout}> <LogoutIcon /> Log Out</Dropdown.Item>
+                  </>
+                ) : (
+                  <>
+                    <Dropdown.Item href="#settings"> <LoginIcon /> Sign In</Dropdown.Item>
+                    <Dropdown.Item href="#logout"> <PersonAddAltIcon /> Sign Up</Dropdown.Item>
+                  </>
+
+                )}
+
+              </Dropdown.Menu>
+            </Dropdown>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
 }
+
 
 export default Header;
