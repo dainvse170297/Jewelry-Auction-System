@@ -23,9 +23,14 @@ This is a capstone project developed by Team 6 - SE1839 - SWP391. The project in
 1. Backend: Spring boot <3.3.0>
 2. Fontend: React <18.3.1>
 3. Database: MySQL 8.0
-### Sprint 1
-1. Task Assignment
-   ![image](https://github.com/dainvse170297/Jewelry-Auction-System/assets/169271340/b6d85784-c293-4287-9cc2-a2fccaf0c33c)
+### Sprint
+1. Sprint assignment
+   ![image](https://github.com/dainvse170297/Jewelry-Auction-System/assets/169271340/b11edbe3-1f53-4b7a-a8af-dcba9e7471fb)
+2. Sprint 1
+   ![image](https://github.com/dainvse170297/Jewelry-Auction-System/assets/169271340/083c35dd-2f53-4dec-90e1-dfc3141cbe38)
+4. Sprint 2
+5. Sprint 3
+6. Sprint 4
 ### Overview pictures
 ![Home page](https://github.com/dainvse170297/Jewelry-Auction-System/assets/169271340/e848c79e-4292-493a-bbf9-92fcf8ac7ba2)
 ![Auction Page](https://github.com/dainvse170297/Jewelry-Auction-System/assets/169271340/fe6f1333-2261-4dc1-b052-fe16f0ebe101)
