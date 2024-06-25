@@ -1,16 +1,9 @@
 import React, { useState } from "react";
 import { Button, Carousel } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 export default function VIPDetails({ valuationRequest, onHide }) {
-  const [preliminaryValuation, setPreliminaryValuation] = useState({
-    id: "",
-    estimateMin: "",
-    estimateMax: "",
-  });
-
   const PreliminaryConfirm = async (b) => {
     try {
       const formData = new FormData();
@@ -26,14 +19,19 @@ export default function VIPDetails({ valuationRequest, onHide }) {
 
       if (response.status === 200 && response.data.status === "AVAILABLE") {
         console.log("Success");
-        toast.success("Preliminary successfully");
+        toast.success("Aprrove successfully");
+        onHide(true);
+      }
+      if (response.status === 200 && response.data.status === "REJECTED") {
+        console.log("Success");
+        toast.success("Reject successfully");
         onHide(true);
       } else {
         console.log("Failed");
       }
     } catch (error) {
       console.log("Error:", error.message);
-      toast.error("Error when sending preliminary valuation");
+      toast.error("Error when confirm financial proof");
     }
   };
 
@@ -43,11 +41,6 @@ export default function VIPDetails({ valuationRequest, onHide }) {
         <div className="row">
           <h3 className="text-center">Financial Proof Request Details</h3>
         </div>
-        {/* {valuationRequest.valuationImagesUrls && (
-          <>
-            <FullScreenImage imageUrl={valuationRequest.valuationImagesUrls} />
-          </>
-        )} */}
 
         <div className="row px-5">
           {valuationRequest && (
@@ -73,13 +66,13 @@ export default function VIPDetails({ valuationRequest, onHide }) {
                   <div className="row-sm-9 d-flex justify-content-center">
                     <Button
                       className="btn-success mx-3"
-                      onClick={(e) => PreliminaryConfirm(true)}
+                      onClick={() => PreliminaryConfirm(true)}
                     >
                       Approve
                     </Button>
                     <Button
                       className="btn-danger mx-3"
-                      onClick={(e) => PreliminaryConfirm(false)}
+                      onClick={() => PreliminaryConfirm(false)}
                     >
                       Reject
                     </Button>

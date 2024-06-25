@@ -6,17 +6,19 @@ import Sidebar from "../../layout/sidebar/Sidebar";
 import "../../home/home.scss";
 import Navbar from "../../layout/navbar/Navbar";
 import { ToastContainer, toast } from "react-toastify";
-import AllValuationRequestDetail from "./VIPDetails.jsx";
+import VIPDetails from "./VIPDetails.jsx";
 import moment from "moment";
 
 const VIPList = () => {
   // valuationRequests, setValuationRequests
+
   const [valuationRequests, setValuationRequests] = useState([]);
   const [currentItemsDetail, setCurrentItemsDetail] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("");
   const [filteredValuationRequests, setFilteredValuationRequests] = useState(
     []
   );
+
   const [sortOrder, setSortOrder] = useState(""); // Default sort order
   const [sortedRequests, setSortedRequests] = useState([]);
   const sortValuationRequests = (requests) => {
@@ -25,10 +27,6 @@ const VIPList = () => {
       const dateB = new Date(b.timeRequest);
       return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
     });
-  };
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    console.log("New Page:", pageNumber);
   };
 
   useEffect(() => {
@@ -79,42 +77,6 @@ const VIPList = () => {
             <div className="row">
               <div className="col-sm-7 text-center">
                 <h2>VIP Financial Proof Request Details</h2>
-                <div className="row">
-                  <div className="col-3">
-                    <select
-                      value={selectedStatus}
-                      onChange={(e) => setSelectedStatus(e.target.value)}
-                    >
-                      <option value="">All</option>
-                      <option value="REQUESTED">Requested</option>
-                      <option value="PRELIMINARY_VALUATED">
-                        Preliminary Valuated
-                      </option>
-                      <option value="PRODUCT_RECEIVED">Product Received</option>
-                      <option value="PENDING_MANAGER_APPROVAL">
-                        Pending Manager Approval
-                      </option>
-                      <option value="MANAGER_APPROVED">Manager Approved</option>
-                      <option value="PENDING_MEMBER_ACCEPTANCE">
-                        Pending Member Acceptance
-                      </option>
-                      <option value="MEMBER_ACCEPTED">Member Accepted</option>
-                      <option value="CANCELED">Canceled</option>
-                    </select>
-                  </div>
-                  <div className="col-3">
-                    <select
-                      id="sortOrder"
-                      value={sortOrder}
-                      onChange={(e) => setSortOrder(e.target.value)}
-                    >
-                      <option value="">Sort by Date</option>{" "}
-                      {/* Default option */}
-                      <option value="newest">Newest</option>
-                      <option value="oldest">Oldest</option>
-                    </select>
-                  </div>
-                </div>
 
                 <div className="row">
                   <table className="table">
@@ -160,7 +122,7 @@ const VIPList = () => {
               <div className="col-sm-5">
                 {currentItemsDetail && (
                   <>
-                    <AllValuationRequestDetail
+                    <VIPDetails
                       valuationRequest={currentItemsDetail}
                       onHide={() => setCurrentItemsDetail(null)}
                     />
@@ -169,11 +131,6 @@ const VIPList = () => {
               </div>
             </div>
           </div>
-
-          {/* <div className="col-lg-3"></div>
-          <div className="col-lg-6"></div>
-          <div className="col-lg-3"></div> */}
-          {/* )} */}
         </div>
       </div>
     </div>
