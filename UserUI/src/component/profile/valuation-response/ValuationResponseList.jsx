@@ -7,8 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { Toast } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const ValuationResponseList = () => {
-  const { id } = useParams();
+const ValuationResponseList = ({ id }) => {
   const [data, setData] = useState(null);
   const [confirm, setConfirm] = useState(false);
   const [currentStatus, setCurrentStatus] = useState(false);

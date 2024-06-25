@@ -1,6 +1,7 @@
 package com.fpt.edu.service;
 
 import com.fpt.edu.dto.FinancialProofRequestDTO;
+import com.fpt.edu.entity.FinancialProofImage;
 import com.fpt.edu.entity.FinancialProofRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +27,7 @@ public interface IFinancialProofService {
     Set<FinancialProofRequestDTO> viewListVIP();
 
     FinancialProofRequestDTO confirmVIPFinancialProof(Integer idRq, Integer managerId, boolean confirm);
+
 }
 
 

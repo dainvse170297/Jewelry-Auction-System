@@ -26,7 +26,5 @@ public interface IFinancialProofRequestRepository extends JpaRepository<Financia
 
     List<FinancialProofRequest> findByMember(Member member);
 
-
-
     List<FinancialProofRequest> findByStatus(FinancialProofRequestStatus status);
 }
