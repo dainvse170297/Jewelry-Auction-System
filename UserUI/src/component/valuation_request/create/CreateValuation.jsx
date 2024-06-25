@@ -18,8 +18,15 @@ export default function CreateValuation() {
 
   const currentUser = JSON.parse(localStorage.getItem("account"));
 
+  let memberId = null;
+  if (currentUser) {
+    memberId = currentUser.memberId;
+  } else {
+    navigate("/login", { state: { from: `/create-valuation` } })
+  }
+
   const [valuation, setValuation] = useState({
-    memberId: currentUser.memberId,
+    memberId: memberId,
     description: "",
     memberEstimate: "",
     photos: [],

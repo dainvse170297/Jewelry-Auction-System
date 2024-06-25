@@ -2,7 +2,10 @@ import React from 'react';
 import "./footer.scss";
 
 const Footer = () => {
-    return (
+    const currentYear = new Date().getFullYear();
+    return (<>
+        <br /><br /><br />
+        <br /><br /><br /><br /><br />
         <footer className="footer mt-5">
             <div className="container">
                 <div className="row">
@@ -64,7 +67,7 @@ const Footer = () => {
                         <div className="footer__copyright__text">
 
                             <p>
-                                Copyright © 2020 All rights reserved | FU Auction
+                                Copyright &copy; {currentYear} All rights reserved | FU Auction
                             </p>
                         </div>
                     </div>
@@ -72,6 +75,7 @@ const Footer = () => {
             </div>
         </footer>
 
+    </>
     );
 }
 
