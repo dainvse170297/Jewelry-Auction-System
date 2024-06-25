@@ -1,6 +1,7 @@
 package com.fpt.edu.mapper;
 
 import com.fpt.edu.entity.Account;
+import com.fpt.edu.entity.Member;
 import com.fpt.edu.security.response.AuthenticationResponse;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ public class AuthenticationMapper {
 
         authenticationResponse.setToken(token);
         if(account.getMembers() != null){
+
             authenticationResponse.setAccount(AccountMapper.toAccountMemberDTO(account));
        }else if(account.getStaff() != null){
             authenticationResponse.setAccount(AccountMapper.toAccountDTO(account));

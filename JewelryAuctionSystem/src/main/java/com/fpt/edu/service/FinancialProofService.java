@@ -157,9 +157,10 @@ public class FinancialProofService implements IFinancialProofService {
     }
 
     @Override
-    public List<FinancialProofRequestDTO> getPendingApproval() {
+    public Set<FinancialProofRequestDTO> viewListVIP() {
         List<FinancialProofRequest> financialProofRequests = iFinancialProofRequestRepository.findByStatus(FinancialProofRequestStatus.PENDING_MANAGER_APPROVAL);
-        List<FinancialProofRequestDTO> financialProofRequestDTOS = new ArrayList<>();
+        Set<FinancialProofRequestDTO> financialProofRequestDTOS = new HashSet<>();
+
         for (FinancialProofRequest financialProofRequest : financialProofRequests) {
             FinancialProofRequestDTO financialProofRequestDTO = financialProofRequestMapper.mapToFinancialProofRequestDTO(financialProofRequest);
             financialProofRequestDTO.setFinancialProofImages(financialProofRequestMapper.mapToFinancialProofImageUrls(financialProofRequest.getFinancialProofImages()));
@@ -169,12 +170,24 @@ public class FinancialProofService implements IFinancialProofService {
     }
 
     @Override
-    public FinancialProofRequestDTO confirmVip(Integer idRq, Integer managerId, Boolean confirm) {
-        FinancialProofRequest financialProofRequest = iFinancialProofRequestRepository.getReferenceById(idRq);
-        Manager manager = iManagerRepository.getReferenceById(managerId);
+    public FinancialProofRequestDTO confirmVIPFinancialProof(Integer idRq, Integer managerId, boolean confirm) {
+        FinancialProofRequest financialProofRequest = iFinancialProofRequestRepository
+                .findById(idRq).orElseThrow(() -> new RuntimeException("Financial proof request not found"));
+        Manager manager = new Manager();
+        manager.setId(managerId);
         financialProofRequest.setManager(manager);
         if(confirm){
             financialProofRequest.setStatus(FinancialProofRequestStatus.AVAILABLE);
+            List<FinancialProofRequest> financialProofRequests =
+                    iFinancialProofRequestRepository.findByMember(financialProofRequest.getMember());
+            for (FinancialProofRequest financialProofRequest1 : financialProofRequests) {
+                if(financialProofRequest1.getStatus().equals(FinancialProofRequestStatus.AVAILABLE)
+                        && financialProofRequest1.getId() != financialProofRequest.getId()){
+                    financialProofRequest1.setStatus(FinancialProofRequestStatus.CANCELED);
+                    iFinancialProofRequestRepository.save(financialProofRequest1);
+                }
+            }
+
         }else{
             financialProofRequest.setStatus(FinancialProofRequestStatus.REJECTED);
         }

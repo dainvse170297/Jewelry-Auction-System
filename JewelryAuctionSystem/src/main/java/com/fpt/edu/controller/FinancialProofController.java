@@ -54,6 +54,17 @@ public class FinancialProofController {
                                                                               @RequestParam("username") String username){
         return ResponseEntity.ok(financialProofService.rejectFinancialProofRequest(idRq, username));
     }
+    @GetMapping("/pending-approval")
+    public ResponseEntity<Set<FinancialProofRequestDTO>> viewListVIP(){
+        return ResponseEntity.ok(financialProofService.viewListVIP());
+    }
+    @PostMapping("/confirm-vip")
+    public ResponseEntity<FinancialProofRequestDTO> confirmVIPFinancialProof(@RequestParam("id") Integer idRq,
+                                                                         @RequestParam("managerId") Integer managerId,
+                                                                         @RequestParam("confirm") boolean confirm){
+        return ResponseEntity.ok(financialProofService.confirmVIPFinancialProof(idRq, managerId, confirm));
+    }
+
 
     @GetMapping("/pending-approval") // get all financial proof request that is pending approval
     public ResponseEntity<List<FinancialProofRequestDTO>> getPendingApproval(){
