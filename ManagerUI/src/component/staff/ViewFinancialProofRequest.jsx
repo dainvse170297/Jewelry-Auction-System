@@ -2,8 +2,10 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
-import 'bootstrap/dist/css/bootstrap.min.css';
-
+import 'bootstrap/dist/css/bootstrap.min.css'
+import Sidebar from '../layout/sidebar/Sidebar'
+import '../home/home.scss'
+import Navbar from '../layout/navbar/Navbar'
 
 export default function ViewFinancialProofRequest() {
     const [financialRequestList, setFinancialRequestList] = useState([])
@@ -18,6 +20,8 @@ export default function ViewFinancialProofRequest() {
         id: '',
         staffId: ''
     })
+    const [filtedList, setFiltedList] = useState(financialRequestList)
+    const [filterItems, setFilterItems] = useState('')
 
     const toggleDropdown = () => {
         isOpenDropdown(!openDropdown);
@@ -29,6 +33,15 @@ export default function ViewFinancialProofRequest() {
             ...financialProofAmount,
             [name]: value
         })
+    }
+
+    const handleFilter = (e) => {
+        setFiltedList(financialRequestList)
+        setFilterItems(e.target.value)
+        if (e.target.value != '') {
+            setFiltedList(financialRequestList.filter(item => item.status === e.target.value))
+        }
+        console.log(filterItems)
     }
 
     useEffect(() => {
@@ -131,35 +144,59 @@ export default function ViewFinancialProofRequest() {
     }
 
     return (
-        <div className='container'>
-            {financialRequestList.map((item, index) => (
-                <div className='row' key={index}>
-                    <div className='col'>Time Request: {item.timeRequest}</div>
-                    <div className='col'>Status: {item.status}</div>
-                    <div className='col'> <button onClick={() => handleCurrentItem(item)}>View</button> </div>
-                    {openDropdown && (
-                        <ul>
-                            <div className='row'>
-                                <div className='col-8'>
-                                    {currentItems != null ? currentItems.financialProofImages.map((image, index) => (
-                                        <div key={index}>
-                                            <img src={image} alt='picture' />
+        <div className='home'>
+            <Sidebar />
+            <div className='homeContainer'>
+                <Navbar />
+                <div className='ms-5'>
+                    <div className=''>
+                        <select value={filterItems} onChange={handleFilter}>
+                            <option value="">Filter</option>
+                            <option value="REQUESTED">REQUESTED</option>
+                            <option value="PENDING_MANAGER_APPROVAL">PENDING MANAGER APPROVAL</option>
+                            <option value="AVAILABLE">AVAILABLE</option>
+                            <option value="REJECTED">REJECTED</option>
+                            <option value="CANCELED">CANCELED</option>
+                        </select>
+                    </div>
+                    <div className='border border-dark'>
+                        {filtedList.map((item, index) => (
+                            <div className='row row-col-3 justify-content-around' key={index}>
+                                <div className='col col-lg-auto'>Time Request: {item.timeRequest}</div>
+                                <div className='col col-lg-auto'>Status: {item.status}</div>
+                                <div className='col col-lg-auto'> <button onClick={() => handleCurrentItem(item)}>View</button> </div>
+                                {openDropdown && (
+                                    <ul>
+                                        <div className='row'>
+                                            <div className='col-lg-6'>
+                                                {currentItems.financialProofImages.map((image, index) => (
+                                                    <div key={index}>
+                                                        <img src={image} alt='picture' />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <div className='col-lg-6 align-items-center'>
+                                                <div className='row'>
+                                                    <h5>Enter Amount:</h5>
+                                                </div>
+                                                <div className='row row-col-3 justify-content-around'>
+                                                    <div className='col-lg-auto'>
+                                                        <input type='text' id='financialProofAmount' name='financialProofAmount'
+                                                            value={financialProofAmount.financialProofAmount}
+                                                            onChange={handleAmountChange} />
+                                                    </div>
+                                                    <div className='col-lg-auto'><button className='btn btn-success' onClick={() => sendAmount}>Send Amount</button></div>
+                                                    <div className='col-lg-auto'><button className='btn btn-danger' onClick={() => sendReject}>Reject</button></div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    )) : ""}
-                                </div>
-                                <div className='col-4'>
-                                    <div className=''><input type='text' id='financialProofAmount' name='financialProofAmount'
-                                        value={financialProofAmount.financialProofAmount}
-                                        onChange={handleAmountChange} />
-                                    </div>
-                                    <div><button onClick={() => sendAmount}>Send Amount</button></div>
-                                    <div><button onClick={() => sendReject}>Reject</button></div>
-                                </div>
+                                    </ul>
+                                )}
                             </div>
-                        </ul>
-                    )}
+                        ))}
+                    </div>
                 </div>
-            ))}
+            </div>
         </div>
     );
 }
