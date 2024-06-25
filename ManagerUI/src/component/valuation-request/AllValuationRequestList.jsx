@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FaBackward } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Paginator from "../common/Paginator";
-import Sidebar from "../layout/sidebar/Sidebar";
+import Sidebar from "../../layouts/sidebar/Sidebar.jsx";
 import "../home/home.scss";
 import Navbar from "../layout/navbar/Navbar";
 import { ToastContainer, toast } from "react-toastify";

@@ -8,7 +8,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "../home/home.scss";
 import Navbar from "../layout/navbar/Navbar";
-import Sidebar from "../layout/sidebar/Sidebar";
+import Sidebar from "../../layouts/sidebar/Sidebar";
 
 const ValuationRequestDetail = () => {
   const { id } = useParams();

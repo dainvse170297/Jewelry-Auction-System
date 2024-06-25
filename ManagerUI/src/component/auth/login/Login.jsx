@@ -3,7 +3,8 @@ import "./login.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-
+import { Spinner } from "react-bootstrap";
+import { postLogin } from "../../../services/apiService";
 const Login = () => {
   const navigate = useNavigate();
 
@@ -15,6 +16,7 @@ const Login = () => {
   });
 
   const inputRef = useRef();
+  const [loading, setLoading] = useState(false);
 
   const [errorMsg, setErrorMsg] = useState(null);
 
@@ -31,26 +33,27 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     // console.log(auth);
+    setLoading(true);
     try {
-      const formData = new FormData();
-      formData.append("username", auth.username);
-      formData.append("password", auth.password);
-      const response = await axios
-        .post("http://localhost:8080/auth/token", formData)
-        .then((res) => {
-          if (res.data.token && res.data.account.roleName === "MEMBER") {
-            localStorage.setItem("token", JSON.stringify(res.data.token));
-            localStorage.setItem("account", JSON.stringify(res.data.account));
-            toast.success("Login successful");
-            const redirectTo = location.state?.from || "/";
-            setTimeout(() => {
-              navigate(redirectTo);
-            }, 1000);
-          } else {
-            setErrorMsg("Invalid username or password");
-          }
-        });
+      const data = await postLogin(auth.username, auth.password);
+      if (
+        data.token &&
+        (data.account.roleName === "STAFF" ||
+          data.account.roleName === "MANAGER")
+      ) {
+        sessionStorage.setItem("token", JSON.stringify(data.token));
+        sessionStorage.setItem("account", JSON.stringify(data.account));
+        toast.success("Login successful");
+        const redirectTo = location.state?.from || "/home";
+        setTimeout(() => {
+          navigate(redirectTo);
+        }, 1000);
+      } else {
+        setErrorMsg("Invalid username or password");
+        setLoading(false);
+      }
     } catch (error) {
+      setLoading(false);
       if (error.response) {
         setErrorMsg(error.response.data.message);
       } else if (error.request) {
@@ -107,9 +110,13 @@ const Login = () => {
             {errorMsg && (
               <div className="alert alert-danger mt-3">{errorMsg}</div>
             )}
-            <button type="submit" className="login-btn mt-3">
-              LOG IN
-            </button>
+            {loading ? (
+              <Spinner animation="border" role="status"></Spinner>
+            ) : (
+              <button type="submit" className="login-btn mt-3">
+                LOG IN
+              </button>
+            )}
           </form>
           <ToastContainer />
         </div>

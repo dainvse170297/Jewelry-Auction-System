@@ -1,0 +1,14 @@
+.avatar {
+  width: 35px; // Adjust size as needed
+  height: 35px; // Adjust size as needed
+  // border-radius: 50%; // Makes the div circular
+  // overflow: hidden; // Ensures the image doesn't overflow the circular div
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+
+  img {
+    width: 100%; // Makes the image fully cover the div
+    height: auto; // Keeps the image aspect ratio
+  }
+}
