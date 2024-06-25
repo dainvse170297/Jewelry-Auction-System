@@ -8,6 +8,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Countdown from "../../countdown/Countdown";
 import "./LiveLotDetail.scss";
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 
 export default function LiveLotDetail() {
   const location = useLocation();
@@ -22,6 +23,8 @@ export default function LiveLotDetail() {
   const currentUser = JSON.parse(localStorage.getItem("account"));
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const [multiplier, setMultiplier] = useState(1);
 
   useEffect(() => {
     const getInfo = async () => {
@@ -57,31 +60,34 @@ export default function LiveLotDetail() {
       }
     };
     getBidHistory();
-  }, [id]);
+  }, [id])
 
+  const handleMultiplierChange = (e) => {
+    setMultiplier(e.target.value);
+  }
 
   const calculateBid = async () => {
     let price = parseFloat(productInfo.currentPrice);
     let calculatedAmount;
 
     if (price < 1000) {
-      calculatedAmount = price + 50;
+      calculatedAmount = price + 50 * multiplier;
     } else if (price >= 1000 && price <= 2000) {
-      calculatedAmount = price + 100;
+      calculatedAmount = price + 100 * multiplier;
     } else if (price > 2000 && price <= 5000) {
-      calculatedAmount = price + 250;
+      calculatedAmount = price + 250 * multiplier;
     } else if (price > 5000 && price <= 10000) {
-      calculatedAmount = price + 500;
+      calculatedAmount = price + 500 * multiplier;
     } else if (price > 10000 && price <= 20000) {
-      calculatedAmount = price + 1000;
+      calculatedAmount = price + 1000 * multiplier;
     } else if (price > 20000 && price <= 30000) {
-      calculatedAmount = price + 2000;
+      calculatedAmount = price + 2000 * multiplier;
     } else if (price > 30000 && price <= 50000) {
-      calculatedAmount = price + 2500;
+      calculatedAmount = price + 2500 * multiplier;
     } else if (price > 50000 && price <= 100000) {
-      calculatedAmount = price + 5000;
+      calculatedAmount = price + 5000 * multiplier;
     } else if (price > 100000) {
-      calculatedAmount = price + 10000;
+      calculatedAmount = price + 10000 * multiplier;
     }
 
     setAmountBid(calculatedAmount);
@@ -99,7 +105,7 @@ export default function LiveLotDetail() {
         formData
       );
       if (placeBid.status === 200) {
-        toast.success("Bid placed successfully");
+        toast.success(`Successfully placed bid at $${calculatedAmount}`);
         setTimeout(() => {
           window.location.reload();
         }, 2000);
@@ -171,6 +177,7 @@ export default function LiveLotDetail() {
                       <h5 className="text-center">Bidding Panel</h5>
                       <div className="d-flex justify-content-center">
                         <button className="buy-now-btn">
+                          <ShoppingBagIcon className="me-3" />
                           BUY NOW
                         </button>
                         <button onClick={calculateBid} className="bid-btn">
@@ -178,7 +185,7 @@ export default function LiveLotDetail() {
                         </button>
                         <div className="ms-3">
                           <div className="bid-input">
-                            <input type="number" min={1} max={10} defaultValue={1} />
+                            <input type="number" min={1} max={10} defaultValue={1} value={multiplier} onChange={handleMultiplierChange} />
                           </div>
                         </div>
                       </div>
@@ -191,7 +198,9 @@ export default function LiveLotDetail() {
               </div>
             </div>
 
+            <div className="col-lg-6 mt-3">
 
+            </div>
             {bidHistory.length > 0 && (
               <div className="col-lg-6 mt-3">
                 <div className="bid-history">

@@ -5,6 +5,7 @@ import './style.scss';
 import { Link } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 import ValuationResponseList from "../valuation-response/ValuationResponseList";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 export default function MyValuationRequest({ id }) {
   const [valuationRequests, setValuationRequests] = useState([]);
@@ -85,23 +86,38 @@ export default function MyValuationRequest({ id }) {
   return (
     <div className="container">
       <div className="row mb-3">
-        <div className="col-6">
-          <label htmlFor="sortOrder">Sort by Time Request:</label>
-          <select id="sortOrder" className="form-control" value={sortOrder} onChange={handleSortChange}>
-            <option value="">--Select--</option>
-            <option value="asc">Oldest</option>
-            <option value="desc">Newest</option>
-          </select>
+        <div className="col-4">
+          <FormControl fullWidth variant="standard">
+            <InputLabel id="demo-simple-select-label">Request Time</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={sortOrder}
+              label="reqTime"
+              onChange={handleSortChange}
+            >
+              <MenuItem value="">All</MenuItem>
+              <MenuItem value="asc">Oldest</MenuItem>
+              <MenuItem value="desc">Newest</MenuItem>
+            </Select>
+          </FormControl>
         </div>
-        <div className="col-6">
-          <label htmlFor="valuationStatus">Filter by Valuation Status:</label>
-          <select id="valuationStatus" className="form-control" value={valuationStatus} onChange={handleStatusChange}>
-            <option value="">--Select--</option>
-            <option value="MEMBER_ACCEPTED">ACCEPTED</option>
-            <option value="REQUESTED">REQUESTED</option>
-            <option value="CANCELED">REJECTED</option>
-            {/* Add more options based on your statuses */}
-          </select>
+        <div className="col-4">
+          <FormControl fullWidth variant="standard">
+            <InputLabel id="demo-simple-select-label">Status</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={valuationStatus}
+              label="Status"
+              onChange={handleStatusChange}
+            >
+              <MenuItem value="">All</MenuItem>
+              <MenuItem value="MEMBER_ACCEPTED">ACCEPTED</MenuItem>
+              <MenuItem value="REQUESTED">REQUESTED</MenuItem>
+              <MenuItem value="CANCELED">REJECTED</MenuItem>
+            </Select>
+          </FormControl>
         </div>
       </div>
       <div className="row">
@@ -120,7 +136,7 @@ export default function MyValuationRequest({ id }) {
                     <div className="product__cart__item__text ms-3">
                       <h6>Time Request: {new Date(request.timeRequest).toLocaleString()}</h6>
                       <p>{request.description}</p>
-                      <p>{request.valuationStatus}</p>
+                      <p>Status: {request.valuationStatus === 'MEMBER_ACCEPTED' ? 'ACCEPTED' : request.valuationStatus}</p>
                     </div>
                   </td>
                   <td>
