@@ -13,6 +13,8 @@ import "./sidebar.scss";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 
+import logo from "../../assets/logos/logo.jpg";
+
 const staffNavigation = [
   {
     name: "Valuation Request",
@@ -56,15 +58,21 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       {/* Top of side bar */}
-      <div className="top">
-        <Link
-          to={"/home"}
-          className="non-deco"
-          style={{ textDecoration: "none" }}
-        >
-          <span className="logo">Office Employee</span>
-        </Link>
+      <div className="row d-flex justify-content-center">
+        <img className="logo-circle" src={logo} alt="" />
       </div>
+      <div className="row">
+        <div className="top">
+          <Link
+            to={"/home"}
+            className="non-deco"
+            style={{ textDecoration: "none" }}
+          >
+            <span className="logo">Office Employee</span>
+          </Link>
+        </div>
+      </div>
+
       <hr />
 
       {/* Center of side bar */}
