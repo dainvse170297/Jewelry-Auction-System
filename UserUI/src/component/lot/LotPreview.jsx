@@ -3,8 +3,16 @@ import { Link } from "react-router-dom";
 import "./LotPreview.scss";
 
 const LotPreview = ({ lot, registeredValue, sessionStatus }) => {
+
+  const truncate = (text, maxLength) => {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return text.substr(0, maxLength) + "...";
+  }
+
   return (
-    <Card style={{ width: "18rem" }}>
+    <Card style={{ width: "20rem" }}>
       <Carousel>
         {lot &&
           lot.productImages &&
@@ -20,7 +28,9 @@ const LotPreview = ({ lot, registeredValue, sessionStatus }) => {
       </Carousel>
       <Card.Body className=" text-center ">
         <Card.Title>
-          <strong> {lot.productName}</strong>
+          <strong>
+            {truncate(lot.productName, 20)}
+          </strong>
         </Card.Title>
 
         <Card.Text>

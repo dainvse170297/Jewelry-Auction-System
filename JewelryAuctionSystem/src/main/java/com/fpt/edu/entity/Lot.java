@@ -35,6 +35,9 @@ public class Lot {
     @Column(name = "current_winner_id")
     private Integer currentWinnerId;
 
+    @Column(name = "buy_now_price", precision = 19, scale = 1)
+    private BigDecimal buyNowPrice;
+
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private LotStatus status;

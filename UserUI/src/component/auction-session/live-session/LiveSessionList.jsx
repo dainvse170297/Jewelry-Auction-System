@@ -40,7 +40,7 @@ const LiveSessionList = () => {
             </Spinner>
           ) : (
             liveSessions.map((session, index) => (
-              <div className="row session-cart">
+              <div className="row session-cart" key={index}>
                 <AuctionSession
                   session={session}
                   showImage={true}

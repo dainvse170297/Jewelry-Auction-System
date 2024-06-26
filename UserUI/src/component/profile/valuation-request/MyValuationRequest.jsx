@@ -3,15 +3,15 @@ import React, { useEffect, useState } from "react";
 import Paginator from "../../common/Paginator";
 import './style.scss';
 import { Link } from "react-router-dom";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import ValuationResponseList from "../valuation-response/ValuationResponseList";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 export default function MyValuationRequest({ id }) {
   const [valuationRequests, setValuationRequests] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(8);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const [sortOrder, setSortOrder] = useState('');
   const [valuationStatus, setValuationStatus] = useState('');
 
@@ -139,8 +139,8 @@ export default function MyValuationRequest({ id }) {
                       <p>Status: {request.valuationStatus === 'MEMBER_ACCEPTED' ? 'ACCEPTED' : request.valuationStatus}</p>
                     </div>
                   </td>
-                  <td>
-                    <Button variant="warning" size="sm" onClick={() => handleShowResponse(request.id)}>Show Response</Button>
+                  <td className="ms-3">
+                    <Button onClick={() => handleShowResponse(request.id)}>Show Response</Button>
                   </td>
                 </tr>
               ))}
@@ -163,7 +163,7 @@ export default function MyValuationRequest({ id }) {
           {selectedRequestId && <ValuationResponseList id={selectedRequestId} />}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
+          <Button variant="standard" onClick={handleCloseModal}>
             Close
           </Button>
         </Modal.Footer>
