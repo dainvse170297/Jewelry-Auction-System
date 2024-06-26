@@ -157,9 +157,9 @@ public class FinancialProofService implements IFinancialProofService {
     }
 
     @Override
-    public Set<FinancialProofRequestDTO> viewListVIP() {
+    public List<FinancialProofRequestDTO> getPendingApproval() {
         List<FinancialProofRequest> financialProofRequests = iFinancialProofRequestRepository.findByStatus(FinancialProofRequestStatus.PENDING_MANAGER_APPROVAL);
-        Set<FinancialProofRequestDTO> financialProofRequestDTOS = new HashSet<>();
+        List<FinancialProofRequestDTO> financialProofRequestDTOS = new ArrayList<>();
 
         for (FinancialProofRequest financialProofRequest : financialProofRequests) {
             FinancialProofRequestDTO financialProofRequestDTO = financialProofRequestMapper.mapToFinancialProofRequestDTO(financialProofRequest);
@@ -170,7 +170,7 @@ public class FinancialProofService implements IFinancialProofService {
     }
 
     @Override
-    public FinancialProofRequestDTO confirmVIPFinancialProof(Integer idRq, Integer managerId, boolean confirm) {
+    public FinancialProofRequestDTO confirmVip(Integer idRq, Integer managerId, boolean confirm) {
         FinancialProofRequest financialProofRequest = iFinancialProofRequestRepository
                 .findById(idRq).orElseThrow(() -> new RuntimeException("Financial proof request not found"));
         Manager manager = new Manager();
