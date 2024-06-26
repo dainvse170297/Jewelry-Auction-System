@@ -148,9 +148,9 @@ export default function ViewFinancialProofRequest() {
             <Sidebar />
             <div className='homeContainer'>
                 <Navbar />
-                <div className='ms-5'>
-                    <div className=''>
-                        <select value={filterItems} onChange={handleFilter}>
+                <div className='ms-5 d-grid gap-3'>
+                    <div className='w-75'>
+                        <select className='form-select' value={filterItems} onChange={handleFilter}>
                             <option value="">Filter</option>
                             <option value="REQUESTED">REQUESTED</option>
                             <option value="PENDING_MANAGER_APPROVAL">PENDING MANAGER APPROVAL</option>
@@ -159,7 +159,7 @@ export default function ViewFinancialProofRequest() {
                             <option value="CANCELED">CANCELED</option>
                         </select>
                     </div>
-                    <div className='border border-dark'>
+                    <div className='border border-dark w-75 p-2 bg-light'>
                         {filtedList.map((item, index) => (
                             <div className='row row-col-3 justify-content-around' key={index}>
                                 <div className='col col-lg-auto'>Time Request: {item.timeRequest}</div>
