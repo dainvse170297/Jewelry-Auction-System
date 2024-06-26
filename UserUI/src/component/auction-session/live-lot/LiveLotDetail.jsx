@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import Countdown from "../../countdown/Countdown";
 import "./LiveLotDetail.scss";
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import WebSocketHandler from "../../web-socket-handler/WebSocketHandler";
 
 export default function LiveLotDetail() {
   const location = useLocation();
@@ -25,6 +26,7 @@ export default function LiveLotDetail() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [multiplier, setMultiplier] = useState(1);
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     const getInfo = async () => {
@@ -66,6 +68,19 @@ export default function LiveLotDetail() {
     setMultiplier(e.target.value);
   }
 
+  useEffect(() => {
+    if (message) {
+      setProductInfo((prevInfo) => ({
+        ...prevInfo,
+        currentPrice: message.price,
+      }));
+      // setBidHistory((prevHistory) => [
+      //   { price: message.price, bidTime: message.bidTime },
+      //   ...prevHistory,
+      // ]);
+    }
+  }, [message]);
+
   const calculateBid = async () => {
     let price = parseFloat(productInfo.currentPrice);
     let calculatedAmount = price + parseFloat(productInfo.pricePerStep) * multiplier;
@@ -74,22 +89,30 @@ export default function LiveLotDetail() {
     if (currentUser === null) {
       navigate("/login", { state: { from: `/live-lot-detail/${id}` } });
     } else {
-      // console.log("calculatedAmount: ", calculatedAmount, "lotId: ", productInfo.id, "memberId: ", currentUser.memberId)
       const formData = new FormData();
       formData.append("price", calculatedAmount);
       formData.append("lotId", productInfo.id);
       formData.append("memberId", currentUser.memberId);
 
-      const placeBid = await axios.post(
-        "http://localhost:8080/bid/place-bid",
-        formData
-      );
-      if (placeBid.status === 200) {
-        toast.success(`Successfully placed bid at $${calculatedAmount}`);
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      } else {
+      try {
+        const placeBid = await axios.post("http://localhost:8080/bid/place-bid", formData);
+        if (placeBid.status === 200) {
+          toast.success(`Successfully placed bid at $${calculatedAmount}`, {
+            autoClose: 2500,
+          });
+          // Manually update the current price and bid history
+          setProductInfo((prevInfo) => ({
+            ...prevInfo,
+            currentPrice: calculatedAmount,
+          }));
+          // setBidHistory((prevHistory) => [
+          //   { price: calculatedAmount, bidTime: new Date() },
+          //   ...prevHistory,
+          // ]);
+        } else {
+          toast.error("Failed to place bid");
+        }
+      } catch (error) {
         toast.error("Failed to place bid");
       }
     }
@@ -147,7 +170,9 @@ export default function LiveLotDetail() {
                       {productInfo.currentPrice === null
                         ? 0
                         : productInfo.currentPrice}
+
                     </h4>
+                    <WebSocketHandler lotId={id} setMessage={setMessage} setBidHistory={setBidHistory} />
                   </div>
                 </div>
 
@@ -176,7 +201,7 @@ export default function LiveLotDetail() {
                         </button>
                         <div className="ms-3">
                           <div className="bid-input">
-                            <input type="number" min={1} max={productInfo.maxStep} defaultValue={1} value={multiplier} onChange={handleMultiplierChange} />
+                            <input type="number" min={1} max={productInfo.maxStep} value={multiplier} onChange={handleMultiplierChange} />
                           </div>
                         </div>
                       </div>

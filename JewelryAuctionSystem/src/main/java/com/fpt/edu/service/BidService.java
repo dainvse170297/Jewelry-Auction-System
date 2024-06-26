@@ -11,6 +11,7 @@ import com.fpt.edu.repository.IBidRepository;
 import com.fpt.edu.repository.ILotRepository;
 import com.fpt.edu.repository.IMemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,6 +24,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,8 +40,8 @@ public class BidService implements IBidService {
     private final IBidRepository iBidRepository;
     private final BidMapper bidMapper;
     private final IAuctionRegisterRepository iAuctionRegisterRepository;
-
-
+    @Autowired
+    WebSocketService webSocketService;
 
     // cuoc doi la nhung chuyen di
     // va chuyen di dang nho nhat la mua he 2024
@@ -76,6 +78,8 @@ public class BidService implements IBidService {
                     auctionRegister.setFinalPrice(price);
                     iAuctionRegisterRepository.save(auctionRegister);
                 }
+                Map map = Map.of("bid", bidMapper.mapToBidDTO(bid, memberName));
+                webSocketService.sendToAllClient(map);
                 return ResponseEntity.ok(bidMapper.mapToBidDTO(bid, memberName));
             }
 
