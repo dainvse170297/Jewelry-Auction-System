@@ -68,27 +68,7 @@ export default function LiveLotDetail() {
 
   const calculateBid = async () => {
     let price = parseFloat(productInfo.currentPrice);
-    let calculatedAmount;
-
-    if (price < 1000) {
-      calculatedAmount = price + 50 * multiplier;
-    } else if (price >= 1000 && price <= 2000) {
-      calculatedAmount = price + 100 * multiplier;
-    } else if (price > 2000 && price <= 5000) {
-      calculatedAmount = price + 250 * multiplier;
-    } else if (price > 5000 && price <= 10000) {
-      calculatedAmount = price + 500 * multiplier;
-    } else if (price > 10000 && price <= 20000) {
-      calculatedAmount = price + 1000 * multiplier;
-    } else if (price > 20000 && price <= 30000) {
-      calculatedAmount = price + 2000 * multiplier;
-    } else if (price > 30000 && price <= 50000) {
-      calculatedAmount = price + 2500 * multiplier;
-    } else if (price > 50000 && price <= 100000) {
-      calculatedAmount = price + 5000 * multiplier;
-    } else if (price > 100000) {
-      calculatedAmount = price + 10000 * multiplier;
-    }
+    let calculatedAmount = price + parseFloat(productInfo.pricePerStep) * multiplier;
 
     setAmountBid(calculatedAmount);
     if (currentUser === null) {
@@ -171,6 +151,17 @@ export default function LiveLotDetail() {
                   </div>
                 </div>
 
+                <div className="d-flex justify-content-center mt-5">
+                  <div className="d-flex align-items-center">
+                    <h4 className="me-3 buy_now_price">
+                      SALE FOR : ${" "}
+                      {productInfo.buyNowPrice === null
+                        ? 0
+                        : productInfo.buyNowPrice}
+                    </h4>
+                  </div>
+                </div>
+
                 <div className="mt-5 mb-5">
                   <div className="">
                     <div className="bid-panel">
@@ -185,7 +176,7 @@ export default function LiveLotDetail() {
                         </button>
                         <div className="ms-3">
                           <div className="bid-input">
-                            <input type="number" min={1} max={10} defaultValue={1} value={multiplier} onChange={handleMultiplierChange} />
+                            <input type="number" min={1} max={productInfo.maxStep} defaultValue={1} value={multiplier} onChange={handleMultiplierChange} />
                           </div>
                         </div>
                       </div>
