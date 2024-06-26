@@ -120,11 +120,6 @@ public class AccountService implements IAccountService {
         Account account = accountRepository.findById(accountId.intValue()).orElseThrow(
                 () -> new RuntimeException("Account not found")
         );
-
-        if (account.getMembers() != null) {
-            return AccountMapper.toAccountMemberDTO(account);
-        }
-        //staff
         return AccountMapper.toAccountDTO(account);
 
     }
@@ -247,7 +242,7 @@ public class AccountService implements IAccountService {
         Map<String, Object> map = new HashMap<>();
         AccountDTO accountDTO;
         if (account.getMembers() != null) {
-            accountDTO = AccountMapper.toAccountMemberDTO(account);
+            accountDTO = AccountMapper.toAccountDTO(account);
             MemberDTO memberDTO = memberMapper.toMemberDTO(account.getMembers());
             map.put("account", accountDTO);
             map.put("member", memberDTO);

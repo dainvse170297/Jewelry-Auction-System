@@ -10,22 +10,18 @@ public class AccountMapper {
     public static AccountDTO toAccountDTO(Account account) {
         AccountDTO accountDTO = new AccountDTO();
         accountDTO.setId(account.getId());
-        accountDTO.setFullname(account.getStaff().getFullname());
-        accountDTO.setRole(account.getRole().getId());
-        accountDTO.setStaffId(account.getStaff().getId());
-        accountDTO.setRoleName(account.getRole().getName());
-     //   accountDTO.setMemberId(account.getMembers().getId());
-        accountDTO.setCreateDate(account.getCreateDate());
-        return accountDTO;
-    }
-    public static AccountDTO toAccountMemberDTO(Account account) {
-        AccountDTO accountDTO = new AccountDTO();
-        accountDTO.setId(account.getId());
-        accountDTO.setFullname(account.getMembers().getFullname());
         accountDTO.setRole(account.getRole().getId());
         accountDTO.setRoleName(account.getRole().getName());
-       // accountDTO.setStaffId(account.getStaff().getId());
-        accountDTO.setMemberId(account.getMembers().getId());
+        if(account.getMembers() != null){
+            accountDTO.setMemberId(account.getMembers().getId());
+            accountDTO.setFullname(account.getMembers().getFullname());
+        }else if(account.getStaff() != null){
+            accountDTO.setStaffId(account.getStaff().getId());
+            accountDTO.setFullname(account.getStaff().getFullname());
+        } else if (account.getManager() != null){
+            accountDTO.setManagerId(account.getManager().getId());
+            accountDTO.setFullname(account.getManager().getFullname());
+        }
         accountDTO.setCreateDate(account.getCreateDate());
         return accountDTO;
     }
