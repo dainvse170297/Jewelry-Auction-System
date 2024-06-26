@@ -24,9 +24,9 @@ public interface IFinancialProofService {
 
     FinancialProofRequestDTO rejectFinancialProofRequest(Integer idRq, String username);
 
-    Set<FinancialProofRequestDTO> viewListVIP();
+    List<FinancialProofRequestDTO> getPendingApproval();
 
-    FinancialProofRequestDTO confirmVIPFinancialProof(Integer idRq, Integer managerId, boolean confirm);
+    FinancialProofRequestDTO confirmVip(Integer idRq, Integer managerId, boolean confirm);
 
 }
 

@@ -21,4 +21,6 @@ public class AccountDTO {
     private LocalDateTime createDate;
     private Integer memberId;
     private Integer staffId;
+    private Integer managerId;
+
 }
