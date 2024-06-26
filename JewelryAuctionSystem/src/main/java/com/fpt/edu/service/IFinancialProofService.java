@@ -26,7 +26,7 @@ public interface IFinancialProofService {
 
     List<FinancialProofRequestDTO> getPendingApproval();
 
-    FinancialProofRequestDTO confirmVip(Integer idRq,Integer managerId,Boolean confirm);
+    FinancialProofRequestDTO confirmVip(Integer idRq, Integer managerId, boolean confirm);
 
 }
 

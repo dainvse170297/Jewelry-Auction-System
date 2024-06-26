@@ -24,8 +24,7 @@ public interface IFinancialProofRequestRepository extends JpaRepository<Financia
     Optional<FinancialProofRequest> findByIdWithImages(Integer id);
 
 
-     List<FinancialProofRequest> findByMember(Member member);
+    List<FinancialProofRequest> findByMember(Member member);
 
-
-    List<FinancialProofRequest> findByStatus(FinancialProofRequestStatus financialProofRequestStatus);
+    List<FinancialProofRequest> findByStatus(FinancialProofRequestStatus status);
 }
