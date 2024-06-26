@@ -1,3 +1,4 @@
+import WebSocketHandler from "../../web-socket-handler/WebSocketHandler";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { LinearProgress } from "@mui/material";
 import axios from "axios";
@@ -59,7 +60,6 @@ export default function LiveLotDetail() {
     getBidHistory();
   }, [id]);
 
-
   const calculateBid = async () => {
     let price = parseFloat(productInfo.currentPrice);
     let calculatedAmount;
@@ -107,7 +107,6 @@ export default function LiveLotDetail() {
         toast.error("Failed to place bid");
       }
     }
-
   };
 
   return (
@@ -118,6 +117,7 @@ export default function LiveLotDetail() {
         </a>
       </div>
       <hr />
+
       <h3>Live Auction</h3>
       {isLoading ? (
         <>
@@ -125,6 +125,7 @@ export default function LiveLotDetail() {
         </>
       ) : (
         <>
+          <WebSocketHandler lotId={id} />
           <div className="row mt-5">
             <div className="col-lg-6">
               <div className="lot-img">
@@ -170,15 +171,18 @@ export default function LiveLotDetail() {
                     <div className="bid-panel">
                       <h5 className="text-center">Bidding Panel</h5>
                       <div className="d-flex justify-content-center">
-                        <button className="buy-now-btn">
-                          BUY NOW
-                        </button>
+                        <button className="buy-now-btn">BUY NOW</button>
                         <button onClick={calculateBid} className="bid-btn">
                           PLACE BID
                         </button>
                         <div className="ms-3">
                           <div className="bid-input">
-                            <input type="number" min={1} max={10} defaultValue={1} />
+                            <input
+                              type="number"
+                              min={1}
+                              max={10}
+                              defaultValue={1}
+                            />
                           </div>
                         </div>
                       </div>
@@ -186,11 +190,9 @@ export default function LiveLotDetail() {
                       <ToastContainer />
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
-
 
             {bidHistory.length > 0 && (
               <div className="col-lg-6 mt-3">
@@ -210,7 +212,6 @@ export default function LiveLotDetail() {
                 </div>
               </div>
             )}
-
           </div>
         </>
       )}

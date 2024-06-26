@@ -37,7 +37,11 @@ const LiveAuctionSessionDetail = () => {
   }, [id]);
 
   if (!sessionData) {
-    return <div><LinearProgress /></div>;
+    return (
+      <div>
+        <LinearProgress />
+      </div>
+    );
   }
 
   return (
@@ -60,7 +64,10 @@ const LiveAuctionSessionDetail = () => {
           <div className="col-xxl-10 col-lg-10 col-11 ">
             <div className="row">
               {sessionData.lots.map((lot, index) => (
-                <div key={index} className="col-xxl-3 col-lg-4 col-6 my-3 d-flex justify-content-center">
+                <div
+                  key={index}
+                  className="col-xxl-3 col-lg-4 col-6 my-3 d-flex justify-content-center"
+                >
                   <div className="">
                     <LotPreview lot={lot} sessionStatus="LIVE" />
                   </div>
