@@ -23,14 +23,15 @@ import "bootstrap/dist/css/bootstrap.css";
 // import PreliminaryValuationList from "./component/staff/PreliminaryValuationList.jsx";
 // import AllValuationRequestList from "./component/valuation-request/AllValuationRequestList.jsx";
 import AppRoute from "./routes/AppRoute.jsx";
+import { UserProvider } from "./context/UserContext.jsx";
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="App">
+    <UserProvider>
+      <BrowserRouter>
         <AppRoute />
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </UserProvider>
   );
   // return (
   //   <>

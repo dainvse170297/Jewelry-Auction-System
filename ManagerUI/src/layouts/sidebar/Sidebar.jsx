@@ -10,8 +10,49 @@ import NightModeIcon from "@mui/icons-material/NightsStay";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Link } from "react-router-dom";
 import "./sidebar.scss";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../context/UserContext";
+
+const staffNavigation = [
+  {
+    name: "Valuation Request",
+    icon: ValuationRequestIcon,
+    href: "/valuation-request",
+  },
+  { name: "Auction", icon: AuctionIcon, href: "/auction" },
+  { name: "Product", icon: ProductIcon, href: "/product" },
+  { name: "User", icon: UserIcon, href: "/user" },
+  { name: "Setting", icon: SettingsIcon, href: "/setting" },
+  { name: "Profile", icon: ProfileIcon, href: "/profile" },
+];
+
+const managerNavigation = [
+  { name: "Dashboard", icon: DashboardIcon, href: "/home" },
+  { name: "Valuation Request", icon: ValuationRequestIcon, href: "/valuation" },
+  { name: "Auction", icon: AuctionIcon, href: "/auction" },
+  { name: "Product", icon: ProductIcon, href: "/product" },
+  { name: "User", icon: UserIcon, href: "/user" },
+  { name: "Setting", icon: SettingsIcon, href: "/setting" },
+  { name: "Profile", icon: ProfileIcon, href: "/profile" },
+  { name: "Staff", icon: FolderShared, href: "/staff" },
+  { name: "Manager", icon: ManageAccounts, href: "/manager" },
+];
 
 const Sidebar = () => {
+  const user = {
+    name: sessionStorage.getItem("name"),
+    role: sessionStorage.getItem("role"),
+  };
+  const [currentNavigation, setCurrentNavigation] = useState();
+
+  useEffect(() => {
+    if (user.role === "STAFF") {
+      setCurrentNavigation(staffNavigation);
+    } else if (user.role === "MANAGER") {
+      setCurrentNavigation(managerNavigation);
+    }
+  }, [user]);
+
   return (
     <div className="sidebar">
       {/* Top of side bar */}
@@ -29,54 +70,17 @@ const Sidebar = () => {
       {/* Center of side bar */}
       <div className="center">
         <ul>
-          {/* Main */}
-          <p className="title">MAIN</p>
-          <li>
-            <DashboardIcon className="icon" />
-            <span>Dashboard</span>
-          </li>
-
-          {/* Menu list/Feature */}
-          <p className="title">MENU</p>
-          <li>
-            <ValuationRequestIcon className="icon" />
-            <span>Valuation Request</span>
-          </li>
-          <li>
-            <AuctionIcon className="icon" />
-            <span>Auction</span>
-          </li>
-          <li>
-            <ProductIcon className="icon" />
-            <span>Product</span>
-          </li>
-          <li>
-            <UserIcon className="icon" />
-            <span>User</span>
-          </li>
-
-          {/* User service*/}
-          <p className="title">SERVICE</p>
-          <li>
-            <SettingsIcon className="icon" />
-            <span>Setting</span>
-          </li>
-          <li>
-            <ProfileIcon className="icon" />
-            <span>Profile</span>
-          </li>
-          <li>
-            <Link to={"/staff-function"} className="non-deco">
-              <FolderShared className="icon" />
-              <span>Staff</span>
-            </Link>
-          </li>
-          <li>
-            <Link to={"/Manager"} className="non-deco">
-              <ManageAccounts className="icon" />
-              <span>Manager</span>
-            </Link>
-          </li>
+          {currentNavigation &&
+            currentNavigation.map((item, index) => (
+              <>
+                <li key={index}>
+                  <Link to={item.href} className="non-deco">
+                    <item.icon className="icon" />
+                    <span>{item.name}</span>
+                  </Link>
+                </li>
+              </>
+            ))}
         </ul>
       </div>
       <hr />
