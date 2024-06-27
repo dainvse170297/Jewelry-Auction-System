@@ -1,15 +1,22 @@
+import React, { useContext } from "react";
 import "./avatar.scss";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../../context/UserContext";
 
 const Avatar = ({ imageUrl }) => {
+  const { logout } = useContext(UserContext);
+
+  const user = {
+    name: sessionStorage.getItem("name"),
+    role: sessionStorage.getItem("role"),
+  };
   const navigate = useNavigate();
   const handleLogout = () => {
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("account");
+    logout();
     navigate("/");
     window.location.reload();
   };
@@ -38,6 +45,11 @@ const Avatar = ({ imageUrl }) => {
               ></img>
 
               <ul className="dropdown-menu dropdown-menu-end mt-2">
+                <li>
+                  <p className="dropdown-item" href="#">
+                    {user.name}
+                  </p>
+                </li>
                 <li>
                   <a className="dropdown-item" href="#">
                     <PersonIcon /> Profile

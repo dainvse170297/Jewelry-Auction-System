@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./login.scss";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { Spinner } from "react-bootstrap";
-import { postLogin } from "../../../services/apiService";
+import { postLogin } from "../../../services/userService";
+import { UserContext } from "../../../context/UserContext";
 const Login = () => {
   const navigate = useNavigate();
-
+  const { user, login } = useContext(UserContext);
   const location = useLocation();
 
   const [auth, setAuth] = useState({
@@ -41,10 +41,10 @@ const Login = () => {
         (data.account.roleName === "STAFF" ||
           data.account.roleName === "MANAGER")
       ) {
-        sessionStorage.setItem("token", JSON.stringify(data.token));
-        sessionStorage.setItem("account", JSON.stringify(data.account));
+        login(data.account.fullname, data.account.roleName);
         toast.success("Login successful");
         const redirectTo = location.state?.from || "/home";
+
         setTimeout(() => {
           navigate(redirectTo);
         }, 1000);
@@ -60,6 +60,7 @@ const Login = () => {
         setErrorMsg("Server error");
       } else {
         setErrorMsg("An error occurred");
+        console.log(error.message);
       }
     }
   };

@@ -4,10 +4,9 @@ import Form from "react-bootstrap/Form";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-export default function AllValuationRequestDetail({
-  valuationRequest,
-  onHide,
-}) {
+export { ValuationRequested };
+
+function ValuationRequested({ valuationRequest, onHide }) {
   const [preliminaryValuation, setPreliminaryValuation] = useState({
     id: "",
     estimateMin: "",
@@ -74,12 +73,6 @@ export default function AllValuationRequestDetail({
         <div className="row">
           <h3 className="text-center">Valuation request detail</h3>
         </div>
-        {/* {valuationRequest.valuationImagesUrls && (
-          <>
-            <FullScreenImage imageUrl={valuationRequest.valuationImagesUrls} />
-          </>
-        )} */}
-
         <div className="row px-5">
           {valuationRequest && (
             <>
