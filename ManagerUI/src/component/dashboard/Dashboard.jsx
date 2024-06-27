@@ -47,42 +47,6 @@ const Dashboard = () => {
               className="mb-3"
             />
           </Grid>
-          <Grid item xs={12} md={3}>
-            <StatisticsCard
-              title="Yearly Breakup"
-              value="$36,358"
-              percentage={9}
-              isIncrease={true}
-              className="mb-3"
-            />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <StatisticsCard
-              title="Monthly Earnings"
-              value="$6,820"
-              percentage={-9}
-              isIncrease={false}
-              className="mb-3"
-            />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <StatisticsCard
-              title="Monthly Earnings"
-              value="$6,820"
-              percentage={-9}
-              isIncrease={false}
-              className="mb-3"
-            />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <StatisticsCard
-              title="Monthly Earnings"
-              value="$6,820"
-              percentage={-9}
-              isIncrease={false}
-              className="mb-3"
-            />
-          </Grid>
 
           <Grid item xs={12} md={10}>
             <ChartComponent />
