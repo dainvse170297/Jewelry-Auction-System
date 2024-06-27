@@ -1,10 +1,25 @@
-import React from "react";
-import "./profile.scss";
-import ValuationResponseList from "./valuation-response/ValuationResponseList";
-import MyValuationRequest from "./valuation-request/MyValuationRequest";
-
+import React, { useEffect } from 'react'
+import './profile.scss'
+import ProfileDetail from './ProfileDetail/ProfileDetail'
+import { useNavigate } from 'react-router-dom';
+import ChangePassword from './ChangePassword/ChangePassword';
+import MyValuationRequest from './valuation-request/MyValuationRequest';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import CheckOut from '../checkout/CheckOut';
 const Profile = () => {
+
   const currentUser = JSON.parse(localStorage.getItem("account"));
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    let memberId = null;
+    if (currentUser) {
+      memberId = currentUser.memberId;
+    } else {
+      navigate("/login", { state: { from: `/profile` } })
+    }
+    //console.log("memberId", memberId);
+  }, [currentUser])
 
   return (
     <div className="container">
@@ -35,7 +50,6 @@ const Profile = () => {
                   </svg>
                   Profile Information
                 </a>
-
                 <a
                   href="#security"
                   data-toggle="tab"
@@ -55,25 +69,14 @@ const Profile = () => {
                   >
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                   </svg>
-                  Valuation Request
+                  Change Password
                 </a>
                 <a
                   href="#notification"
                   data-toggle="tab"
                   className="nav-item nav-link has-icon nav-link-faded"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={24}
-                    height={24}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="feather feather-bell mr-2 me-3"
-                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" className="main-grid-item-icon me-3" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
                     <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                     <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                   </svg>
@@ -101,6 +104,29 @@ const Profile = () => {
                   </svg>
                   Financial Proof
                 </a>
+                <a
+                  href="#valuationRequest"
+                  data-toggle="tab"
+                  className="nav-item nav-link has-icon nav-link-faded"
+                >
+
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                    className="main-grid-item-icon me-3" fill="none" stroke="currentColor" strokeLinecap="round"
+                    strokeLinejoin="round" strokeWidth="2">
+                    <line x1="22" x2="11" y1="2" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                  </svg>
+                  My Valuation Request
+                </a>
+                {/* <a
+                  href="#winnerAuction"
+                  data-toggle="tab"
+                  className="nav-item nav-link has-icon nav-link-faded"
+                >
+                  <ShoppingCartIcon className='me-3' />
+
+                  My Winner Auction
+                </a> */}
               </nav>
             </div>
           </div>
@@ -136,7 +162,7 @@ const Profile = () => {
                     </svg>
                   </a>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <a
                     href="#account"
                     data-toggle="tab"
@@ -158,7 +184,7 @@ const Profile = () => {
                       <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                     </svg>
                   </a>
-                </li>
+                </li> */}
                 <li className="nav-item">
                   <a
                     href="#security"
@@ -187,21 +213,12 @@ const Profile = () => {
                     data-toggle="tab"
                     className="nav-link has-icon"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width={24}
-                      height={24}
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="feather feather-bell"
-                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" className="main-grid-item-icon" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
                       <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                       <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                     </svg>
+
+
                   </a>
                 </li>
                 <li className="nav-item">
@@ -227,115 +244,32 @@ const Profile = () => {
                     </svg>
                   </a>
                 </li>
+
+                <li className="nav-item">
+                  <a
+                    href="#valuationRequest"
+                    data-toggle="tab"
+                    className="nav-link has-icon"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                      className="main-grid-item-icon me-3" fill="none" stroke="currentColor" strokeLinecap="round"
+                      strokeLinejoin="round" strokeWidth="2">
+                      <line x1="22" x2="11" y1="2" y2="13" />
+                      <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                    </svg>
+                  </a>
+                </li>
               </ul>
             </div>
             <div className="card-body tab-content">
               <div className="tab-pane active" id="profile">
-                <h6>YOUR PROFILE INFORMATION</h6>
-                <hr />
-                <form>
-                  <div className="form-group">
-                    <label htmlFor="fullName">Full Name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="fullName"
-                      aria-describedby="fullNameHelp"
-                      placeholder="Enter your fullname"
-                      defaultValue="Kenneth Valdez"
-                    />
-                    <small id="fullNameHelp" className="form-text text-muted">
-                      Your name may appear around here where you are mentioned.
-                      You can change or remove it at any time.
-                    </small>
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="bio">Your Bio</label>
-                    <textarea
-                      className="form-control autosize"
-                      id="bio"
-                      placeholder="Write something about you"
-                      style={{
-                        overflow: "hidden",
-                        overflowWrap: "break-word",
-                        resize: "none",
-                        height: 62,
-                      }}
-                      defaultValue={
-                        "A front-end developer that focus more on user interface design, a web interface wizard, a connector of awesomeness."
-                      }
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="url">URL</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="url"
-                      placeholder="Enter your website address"
-                      defaultValue="http://benije.ke/pozzivkij"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="location">Location</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="location"
-                      placeholder="Enter your location"
-                      defaultValue="Bay Area, San Francisco, CA"
-                    />
-                  </div>
-                  <div className="form-group small text-muted">
-                    All of the fields on this page are optional and can be
-                    deleted at any time, and by filling them out, you're giving
-                    us consent to share this data wherever your user profile
-                    appears.
-                  </div>
-                  <button type="button" className="btn btn-primary">
-                    Update Profile
-                  </button>
-                  <button type="reset" className="btn btn-light">
-                    Reset Changes
-                  </button>
-                </form>
+                <ProfileDetail memberId={currentUser.memberId} />
               </div>
-              <div className="tab-pane" id="account">
-                <h6>ACCOUNT SETTINGS</h6>
-                <hr />
-                <form>
-                  <div className="form-group">
-                    <label htmlFor="username">Username</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="username"
-                      aria-describedby="usernameHelp"
-                      placeholder="Enter your username"
-                      defaultValue="kennethvaldez"
-                    />
-                    <small id="usernameHelp" className="form-text text-muted">
-                      After changing your username, your old username becomes
-                      available for anyone else to claim.
-                    </small>
-                  </div>
-                  <hr />
-                  <div className="form-group">
-                    <label className="d-block text-danger">
-                      Delete Account
-                    </label>
-                    <p className="text-muted font-size-sm">
-                      Once you delete your account, there is no going back.
-                      Please be certain.
-                    </p>
-                  </div>
-                  <button className="btn btn-danger" type="button">
-                    Delete Account
-                  </button>
-                </form>
+              <div className="tab-pane" id="winnerAuction">
+                <CheckOut />
               </div>
               <div className="tab-pane" id="security">
-                <MyValuationRequest id={currentUser.memberId} />
+                <ChangePassword />
               </div>
               <div className="tab-pane" id="notification">
                 <h6>NOTIFICATION SETTINGS</h6>
@@ -455,32 +389,16 @@ const Profile = () => {
                   </div>
                 </form>
               </div>
-              <div className="tab-pane" id="billing">
-                <h6>BILLING SETTINGS</h6>
-                <hr />
-                <form>
-                  <div className="form-group">
-                    <label className="d-block mb-0">Payment Method</label>
-                    <div className="small text-muted mb-3">
-                      You have not added a payment method
-                    </div>
-                    <button className="btn btn-info" type="button">
-                      Add Payment Method
-                    </button>
-                  </div>
-                  <div className="form-group mb-0">
-                    <label className="d-block">Payment History</label>
-                    <div className="border border-gray-500 bg-gray-200 p-3 text-center font-size-sm">
-                      You have not made any payment.
-                    </div>
-                  </div>
-                </form>
+              <div className="tab-pane" id="valuationRequest">
+                <MyValuationRequest id={currentUser.memberId} />
               </div>
             </div>
           </div>
         </div>
       </div>
+
     </div>
+
   );
 };
 

@@ -55,11 +55,11 @@ input[type=checkbox] {
                     padding-top: 30px;
 
                     &.product__cart__item {
-                        width: 400px;
+                        width: 100px;
 
                         .product__cart__item__pic {
                             float: left;
-                            margin-right: 30px;
+                            margin-right: 10px;
                         }
 
                         .product__cart__item__text {
@@ -134,7 +134,7 @@ input[type=checkbox] {
 
 .cart__total {
     background: #f3f2ee;
-    padding: 35px 40px 40px;
+    padding: 20px 30px 30px;
 
     h6 {
         color: $heading-color;

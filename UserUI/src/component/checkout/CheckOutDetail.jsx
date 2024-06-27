@@ -78,7 +78,7 @@ const CheckOutDetail = () => {
               {selectedProducts.map((p) => (
                 <li key={p.id}>{p.lot?.product?.name} <span>${p.finalPrice}</span></li>
               ))}
-              <li className='text-secondary'>+ 20% VAT</li>
+              <li className='text-secondary'>+ 20% fee for platform</li>
             </ul>
             <ul className="checkout__total__all">
               <li>Subtotal <span>${totalPrice}</span></li>

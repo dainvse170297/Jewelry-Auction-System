@@ -175,7 +175,7 @@ const UpcomingSessionLot = () => {
             </div>
           ) : (
             <div className="mt-3">
-              {wasBid && (
+              {(wasBid === 0 || wasBid) && (
                 <p className>
                   You have placed a bid:
                   <strong style={{ color: "red" }}> ${wasBid}</strong>

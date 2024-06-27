@@ -36,9 +36,19 @@
         @Column(name = "current_winner_id")
         private Integer currentWinnerId;
 
-        @Column(name = "status")
-        @Enumerated(EnumType.STRING)
-        private LotStatus status;
+
+    @Column(name = "buy_now_price", precision = 19, scale = 1, nullable = true)
+    private BigDecimal buyNowPrice;
+
+    @Column(name = "price_per_step", nullable = true)
+    private BigDecimal pricePerStep;
+
+    @Column(name = "max_step")
+    private Integer maxStep;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private LotStatus status;
 
         @OneToMany(fetch = FetchType.LAZY, mappedBy = "lot")
         private Set<AuctionRegister> auctionRegisters = new LinkedHashSet<>();
