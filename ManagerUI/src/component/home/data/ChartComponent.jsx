@@ -66,7 +66,7 @@ const ChartComponent = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h6">Total Revenue</Typography>
+          <Typography variant="h6">Monthly Total Revenue</Typography>
           <Typography variant="body2">March 2023</Typography>
         </Box>
         <Bar data={data} options={options} />

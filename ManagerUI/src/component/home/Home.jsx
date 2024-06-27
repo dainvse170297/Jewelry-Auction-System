@@ -12,11 +12,17 @@ const Home = () => {
       <Sidebar />
       <div className="homeContainer">
         <Navbar />
+
+        <div className="header">
+          <div className="title">Dashboard</div>
+          <div className="year">Year: 2024</div>
+        </div>
+
         <div className="mainContent mt-3">
           <Grid container spacing={3} justifyContent="center">
             <Grid item xs={12} md={3}>
               <StatisticsCard
-                title="Yearly Breakup"
+                title="Total Revenue"
                 value="$36,358"
                 percentage={9}
                 isIncrease={true}
@@ -25,7 +31,7 @@ const Home = () => {
             </Grid>
             <Grid item xs={12} md={3}>
               <StatisticsCard
-                title="Monthly Earnings"
+                title="Total Auction Session"
                 value="$6,820"
                 percentage={-9}
                 isIncrease={false}
@@ -34,7 +40,7 @@ const Home = () => {
             </Grid>
             <Grid item xs={12} md={3}>
               <StatisticsCard
-                title="Monthly Earnings"
+                title="Total Auction Lots"
                 value="$6,820"
                 percentage={-9}
                 isIncrease={false}
@@ -43,43 +49,7 @@ const Home = () => {
             </Grid>
             <Grid item xs={12} md={3}>
               <StatisticsCard
-                title="Monthly Earnings"
-                value="$6,820"
-                percentage={-9}
-                isIncrease={false}
-                className="mb-3"
-              />
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <StatisticsCard
-                title="Yearly Breakup"
-                value="$36,358"
-                percentage={9}
-                isIncrease={true}
-                className="mb-3"
-              />
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <StatisticsCard
-                title="Monthly Earnings"
-                value="$6,820"
-                percentage={-9}
-                isIncrease={false}
-                className="mb-3"
-              />
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <StatisticsCard
-                title="Monthly Earnings"
-                value="$6,820"
-                percentage={-9}
-                isIncrease={false}
-                className="mb-3"
-              />
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <StatisticsCard
-                title="Monthly Earnings"
+                title="Total Lot Sold"
                 value="$6,820"
                 percentage={-9}
                 isIncrease={false}
