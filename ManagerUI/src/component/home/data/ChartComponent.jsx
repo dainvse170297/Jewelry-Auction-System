@@ -12,32 +12,31 @@ import {
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const ChartComponent = () => {
+const ChartComponent = ({ revenueCurrentYear, revenueBeforeYear }) => {
   const data = {
     labels: [
-      "01/01",
-      "01/02",
-      "01/02",
-      "01/03",
-      "01/04",
-      "01/05",
-      "01/06",
-      "01/07",
-      "01/08",
-      "01/09",
-      "01/10",
-      "01/11",
-      "01/12",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
     ],
     datasets: [
       {
-        label: "2023",
-        data: [300, 200, 300, 400, 300, 200, 300, 300, 200, 300, 400, 300, 90],
+        label: "Previous Year",
+        data: revenueBeforeYear,
         backgroundColor: "rgba(54, 162, 235, 0.6)",
       },
       {
-        label: "2024",
-        data: [200, 100, 200, 300, 200, 100, 200, 200, 700, 200, 300, 200, 100],
+        label: "Current Year",
+        data: revenueCurrentYear,
         backgroundColor: "rgba(75, 192, 192, 0.6)",
       },
     ],
@@ -51,7 +50,15 @@ const ChartComponent = () => {
       },
       title: {
         display: true,
-        text: "Sales Overview",
+        text: "Monthly Total Revenue",
+      },
+    },
+    scales: {
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true,
       },
     },
   };
@@ -67,7 +74,7 @@ const ChartComponent = () => {
           }}
         >
           <Typography variant="h6">Monthly Total Revenue</Typography>
-          <Typography variant="body2">March 2023</Typography>
+          <Typography variant="body2">Year 2024</Typography>
         </Box>
         <Bar data={data} options={options} />
       </CardContent>
