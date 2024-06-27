@@ -1,6 +1,6 @@
 import React from "react";
-import ChartComponent from "../home/data/ChartComponent";
-import StatisticsCard from "../home/data/StatisticsCard";
+import ChartComponent from "./data/ChartComponent";
+import StatisticsCard from "./data/StatisticsCard";
 import { Grid } from "@mui/material";
 
 const Dashboard = () => {

@@ -4,6 +4,10 @@ import AuctionAssigned from "../component/staff/AuctionAssigned";
 import Dashboard from "../component/dashboard/Dashboard";
 import Setting from "../component/manager/SystemSetting";
 import UserManage from "../component/manager/UserManage";
+import AuctionSessionList from "../component/auction-session/AuctionSessionList";
+import CreateAuction from "../component/manager/CreateAuction";
+import { ReadyLots } from "../component/lots/LotList";
+import { FinancialProofRequestList } from "../component/financial-proof-request/FinancialProofRequestList";
 
 const ManagerRoutes = [
   {
@@ -24,7 +28,19 @@ const ManagerRoutes = [
   },
   {
     path: "/auction",
-    element: <AuctionAssigned />,
+    element: <AuctionSessionList />,
+  },
+  {
+    path: "/auction/create",
+    element: <CreateAuction />,
+  },
+  {
+    path: "/auction/ready-lots",
+    element: <ReadyLots />,
+  },
+  {
+    path: "/financial-request",
+    element: <FinancialProofRequestList />,
   },
 ];
 
