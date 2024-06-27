@@ -4,8 +4,6 @@ import "./footer.scss";
 const Footer = () => {
     const currentYear = new Date().getFullYear();
     return (<>
-        <br /><br /><br />
-        <br /><br /><br /><br /><br />
         <footer className="footer mt-5">
             <div className="container">
                 <div className="row">
@@ -74,7 +72,6 @@ const Footer = () => {
                 </div>
             </div>
         </footer>
-
     </>
     );
 }

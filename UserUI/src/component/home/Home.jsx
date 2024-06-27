@@ -25,6 +25,9 @@ const Home = () => {
           </Carousel.Item>
         </Carousel>
       </div>
+      <div className="">
+        <h4 className="text-center mt-3 text-secondary">LIVE AUCTIONS</h4>
+      </div>
     </>
   );
 };

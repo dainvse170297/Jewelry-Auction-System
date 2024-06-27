@@ -1,6 +1,35 @@
 .home {
     display: flex;
-    .homeContainer{
-        flex:5;
-    }
-}
+  }
+  
+  .homeContainer {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .mt-3 {
+    margin-top: 20px;
+  }
+  .home {
+    display: flex;
+  }
+  
+  .sidebar {
+    flex: 1;
+    border-right: 0.5px solid rgb(190, 190, 190);
+    min-height: 100vh;
+  }
+  
+  .homeContainer {
+    flex: 4;
+    padding: 20px;
+  }
+  
+  .mainContent {
+    padding-top: 20px;
+  }
+  
+  .mt-3 {
+    margin-top: 3rem;
+  }
+  

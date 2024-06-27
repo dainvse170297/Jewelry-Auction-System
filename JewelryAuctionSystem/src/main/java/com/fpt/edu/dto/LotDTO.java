@@ -26,4 +26,7 @@ public class LotDTO {
         private LotStatus status;
         private List<ProductImage> productImages;
         private Integer numberOfRegister;
+        private BigDecimal buyNowPrice;
+        private BigDecimal pricePerStep;
+        private int maxStep;
 }

@@ -65,7 +65,7 @@ const Header = () => {
           <Nav className="ms-auto me-auto">
             <Nav.Link href="#contact">CONTACT</Nav.Link>
             <Nav.Link href="#policies">POLICIES</Nav.Link>
-            <Nav.Link href="#notifications"><Bell size={24} /></Nav.Link>
+            <Nav.Link href="#notifications" className=""><Bell size={24} /></Nav.Link>
             <Dropdown>
               <Dropdown.Toggle as={Nav.Link} id="dropdown-profile">
                 <Person size={24} />
@@ -83,8 +83,8 @@ const Header = () => {
                   </>
                 ) : (
                   <>
-                    <Dropdown.Item href="#settings"> <LoginIcon /> Sign In</Dropdown.Item>
-                    <Dropdown.Item href="#logout"> <PersonAddAltIcon /> Sign Up</Dropdown.Item>
+                    <Dropdown.Item href="/login"> <LoginIcon /> Sign In</Dropdown.Item>
+                    <Dropdown.Item href="#" onClick={handleLogout}> <PersonAddAltIcon /> Sign Up</Dropdown.Item>
                   </>
 
                 )}

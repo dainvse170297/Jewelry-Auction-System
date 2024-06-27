@@ -19,47 +19,50 @@ import PaymentFailure from "./component/checkout/PaymentFailure.jsx";
 import Profile from "./component/profile/Profile.jsx";
 import Footer from "./component/layout/footer/Footer.jsx";
 import ValuationResponseList from "./component/profile/valuation-response/ValuationResponseList.jsx";
+import Layout from "./component/layout/Layout.jsx";
 
 function App() {
   return (
     <>
       <BrowserRouter>
-        <Header />
-        <div style={{ paddingTop: '70px' }}>
-          <Routes>
-            <Route path="/" element={<Navigate to="/home" />} />
-            <Route path="/home/*" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/profile" element={<Profile />}></Route>
-            <Route path="/create-valuation" element={<CreateValuation />} />
-            <Route path="/selling" element={<Selling />} />
-            <Route path="/upcoming" element={<UpcomingSessionList />} />
-            <Route
-              path="/upcoming-session-detail/:id"
-              element={<UpcomingSessionDetail />}
-            />
-            <Route path="/live-lot-detail/:id" element={<LiveLotDetail />} />
+        <Layout>
+          <Header />
+          <div style={{ paddingTop: '70px' }}>
+            <Routes>
+              <Route path="/" element={<Navigate to="/home" />} />
+              <Route path="/home/*" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/profile" element={<Profile />}></Route>
+              <Route path="/create-valuation" element={<CreateValuation />} />
+              <Route path="/selling" element={<Selling />} />
+              <Route path="/upcoming" element={<UpcomingSessionList />} />
+              <Route
+                path="/upcoming-session-detail/:id"
+                element={<UpcomingSessionDetail />}
+              />
+              <Route path="/live-lot-detail/:id" element={<LiveLotDetail />} />
 
-            <Route path="/live" element={<LiveSessionList />} />
-            <Route
-              path="/live-session-detail/:id"
-              element={<LiveAuctionSessionDetail />}
-            />
-            <Route path="/sign-up" element={<Register />} />
-            <Route
-              path="/upcoming-session-lot/:lotId"
-              element={<UpcomingSessionLot />}
-            />
-            <Route path="/checkout" element={<CheckOut />} />
-            <Route path="/checkout-detail" element={<CheckOutDetail />} />
+              <Route path="/live" element={<LiveSessionList />} />
+              <Route
+                path="/live-session-detail/:id"
+                element={<LiveAuctionSessionDetail />}
+              />
+              <Route path="/sign-up" element={<Register />} />
+              <Route
+                path="/upcoming-session-lot/:lotId"
+                element={<UpcomingSessionLot />}
+              />
+              <Route path="/checkout" element={<CheckOut />} />
+              <Route path="/checkout-detail" element={<CheckOutDetail />} />
 
-            <Route path="/payment-callback" element={<PaymentCallback />} />
-            <Route path="/payment-success" element={<PaymentSuccess />} />
-            <Route path="/payment-failure" element={<PaymentFailure />} />
+              <Route path="/payment-callback" element={<PaymentCallback />} />
+              <Route path="/payment-success" element={<PaymentSuccess />} />
+              <Route path="/payment-failure" element={<PaymentFailure />} />
 
-          </Routes>
-        </div>
-        <Footer />
+            </Routes>
+          </div>
+          <Footer />
+        </Layout>
       </BrowserRouter>
     </>
   );
