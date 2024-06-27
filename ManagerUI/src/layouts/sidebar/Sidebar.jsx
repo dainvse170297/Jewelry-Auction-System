@@ -1,17 +1,14 @@
-import { FolderShared, ManageAccounts } from "@mui/icons-material";
+import React from "react";
 import ProfileIcon from "@mui/icons-material/AccountCircle";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ProductIcon from "@mui/icons-material/Diamond";
 import ValuationRequestIcon from "@mui/icons-material/DocumentScanner";
 import AuctionIcon from "@mui/icons-material/Gavel";
-import LightModeIcon from "@mui/icons-material/LightMode";
 import UserIcon from "@mui/icons-material/ManageAccounts";
-import NightModeIcon from "@mui/icons-material/NightsStay";
 import SettingsIcon from "@mui/icons-material/Settings";
+import FinancialProofRequestIcon from "@mui/icons-material/RequestQuote";
 import { Link } from "react-router-dom";
 import "./sidebar.scss";
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../context/UserContext";
+import { useEffect, useState } from "react";
 
 import logo from "../../assets/logos/logo.jpg";
 
@@ -21,23 +18,27 @@ const staffNavigation = [
     icon: ValuationRequestIcon,
     href: "/valuation-request",
   },
+  {
+    name: "Financial Proof Request",
+    icon: FinancialProofRequestIcon,
+    href: "/financial-request",
+  },
   { name: "Auction", icon: AuctionIcon, href: "/auction" },
-  { name: "Product", icon: ProductIcon, href: "/product" },
-  { name: "User", icon: UserIcon, href: "/user" },
-  { name: "Setting", icon: SettingsIcon, href: "/setting" },
+  // { name: "Setting", icon: SettingsIcon, href: "/setting" },
   { name: "Profile", icon: ProfileIcon, href: "/profile" },
 ];
 
 const managerNavigation = [
-  { name: "Dashboard", icon: DashboardIcon, href: "/home" },
-  { name: "Valuation Request", icon: ValuationRequestIcon, href: "/valuation" },
+  { name: "Dashboard", icon: DashboardIcon, href: "/dashboard" },
+  {
+    name: "Valuation Request",
+    icon: ValuationRequestIcon,
+    href: "/valuation-request",
+  },
   { name: "Auction", icon: AuctionIcon, href: "/auction" },
-  { name: "Product", icon: ProductIcon, href: "/product" },
-  { name: "User", icon: UserIcon, href: "/user" },
+  { name: "User", icon: UserIcon, href: "/user-manage" },
   { name: "Setting", icon: SettingsIcon, href: "/setting" },
   { name: "Profile", icon: ProfileIcon, href: "/profile" },
-  { name: "Staff", icon: FolderShared, href: "/staff" },
-  { name: "Manager", icon: ManageAccounts, href: "/manager" },
 ];
 
 const Sidebar = () => {
@@ -80,14 +81,16 @@ const Sidebar = () => {
         <ul>
           {currentNavigation &&
             currentNavigation.map((item, index) => (
-              <>
-                <li key={index}>
+              <React.Fragment key={index}>
+                {" "}
+                {/* Add a unique key prop here */}
+                <li>
                   <Link to={item.href} className="non-deco">
                     <item.icon className="icon" />
                     <span>{item.name}</span>
                   </Link>
                 </li>
-              </>
+              </React.Fragment>
             ))}
         </ul>
       </div>

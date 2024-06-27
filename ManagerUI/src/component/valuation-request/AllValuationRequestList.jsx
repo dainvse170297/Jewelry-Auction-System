@@ -3,7 +3,7 @@ import { FaBackward } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Paginator from "../common/Paginator";
 import { ToastContainer, toast } from "react-toastify";
-import AllValuationRequestDetail from "./AllValuationRequestDetail.jsx";
+import { ValuationRequested } from "./AllValuationRequestDetail.jsx";
 import moment from "moment";
 import { getAllValuationRequests } from "../../services/apiService.jsx";
 
@@ -153,7 +153,7 @@ const AllValuationRequestList = () => {
               <div className="col-sm-5">
                 {currentItemsDetail && (
                   <>
-                    <AllValuationRequestDetail
+                    <ValuationRequested
                       valuationRequest={currentItemsDetail}
                       onHide={() => setCurrentItemsDetail(null)}
                     />
