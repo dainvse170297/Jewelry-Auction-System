@@ -36,9 +36,6 @@ const FullScreenImage = ({ imageUrls }) => {
                 onClick={() => openModal(index)}
               >
                 <img src={url} alt={`Preview ${index}`} />
-                {index === 2 && imageUrls.length > 3 && (
-                  <div className="overlay">+{imageUrls.length - 2}</div>
-                )}
               </div>
             </div>
           ))}

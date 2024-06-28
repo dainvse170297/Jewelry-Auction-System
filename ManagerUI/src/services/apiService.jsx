@@ -7,6 +7,7 @@ export {
   getFinalValuationRequests,
   getFinalValuationDetail,
   postAproveFinalValuation,
+  postSendFinalValuationToMember,
   postProductReceive,
 };
 
@@ -47,6 +48,13 @@ const getFinalValuationDetail = async (id) => {
 
 const postAproveFinalValuation = async (id) => {
   return axios.post(`valuation/approve-final-valuation/${id}`);
+};
+
+const postSendFinalValuationToMember = async (id, staffId) => {
+  const param = new URLSearchParams();
+  param.append("id", id);
+  param.append("staffId", staffId);
+  return axios.post(`valuation/send-final-valuation-to-member`, param);
 };
 
 const getRevenueByYear = async (anYear) => {

@@ -10,6 +10,7 @@ import {
   ValuationRequested,
   PreliminaryValuated,
   PendingApproval,
+  ManagerApproved,
 } from "./AllValuationRequestDetail.jsx";
 
 import {
@@ -178,6 +179,16 @@ const AllValuationRequestList = () => {
                     "PRELIMINARY_VALUATED" && (
                     <>
                       <PreliminaryValuated
+                        valuationRequest={currentItemsDetail}
+                        onHide={() => setCurrentItemsDetail(null)}
+                        staffId={user.id}
+                      />
+                    </>
+                  )}
+                {currentItemsDetail &&
+                  currentItemsDetail.valuationStatus === "MANAGER_APPROVED" && (
+                    <>
+                      <ManagerApproved
                         valuationRequest={currentItemsDetail}
                         onHide={() => setCurrentItemsDetail(null)}
                         staffId={user.id}
