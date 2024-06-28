@@ -1,0 +1,107 @@
+.createFinancialProof {
+    padding: 20px;
+  
+    h1 {
+      font-size: 2rem;
+      color: #333;
+    }
+  
+    .upload-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+  
+    .upload-box {
+      background-color: #f9f9f9;
+      border: 2px dashed #ccc;
+      text-align: center;
+      padding: 20px;
+      cursor: pointer;
+      
+      strong {
+        font-size: 1rem;
+      }
+    }
+  
+    .custom-file-upload {
+      display: inline-block;
+      padding: 10px 20px;
+      cursor: pointer;
+      color: #fff;
+      background-color: #007bff;
+      border-radius: 5px;
+      text-align: center;
+  
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  
+    .file-formats {
+      font-size: 0.875rem;
+      color: #777;
+    }
+  
+    .review img {
+      max-width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  
+    button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .upload-box {
+        padding: 10px;
+      }
+  
+      .custom-file-upload {
+        padding: 5px 10px;
+      }
+  
+      button {
+        padding: 5px 10px;
+      }
+  
+      .review .col-4 {
+        width: 50%;
+        padding: 5px;
+      }
+    }
+  
+    @media (max-width: 576px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+  
+      .upload-box {
+        padding: 5px;
+      }
+  
+      .custom-file-upload {
+        padding: 3px 5px;
+      }
+  
+      button {
+        padding: 3px 5px;
+      }
+  
+      .review .col-4 {
+        width: 100%;
+        padding: 5px;
+      }
+    }
+  }
+  

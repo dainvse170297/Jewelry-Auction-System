@@ -74,7 +74,7 @@ const FinancialProofRequestList = () => {
           <div className="col">
             <div className="row">
               <div className="col-sm-7 text-center">
-                <h2>Requested valuation request</h2>
+                <h2>Requested Financial Proof Request</h2>
                 <div className="row">
                   <div className="col-3">
                     <select

@@ -37,11 +37,12 @@ function FinancialProofRequestDetail({ valuationRequest, onHide, staffId }) {
         preliminaryValuation.financialProofAmount
       );
 
-      if (
-        data.status === "AVAILABLE" ||
-        data.status === "PENDING_MANAGER_APPROVAL"
-      ) {
+      if (data.status === "AVAILABLE") {
         toast.success("Financial Proof Successfully");
+        onHide(true);
+      }
+      if (data.status === "PENDING_MANAGER_APPROVAL") {
+        toast.success("Financial Proof Sent to Manager for Approval");
         onHide(true);
       } else {
         console.log("Failed");

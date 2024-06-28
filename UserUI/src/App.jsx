@@ -20,20 +20,25 @@ import Profile from "./component/profile/Profile.jsx";
 import Footer from "./component/layout/footer/Footer.jsx";
 import ValuationResponseList from "./component/profile/valuation-response/ValuationResponseList.jsx";
 import Layout from "./component/layout/Layout.jsx";
-
+import CreateFinancialProofRequest from "./component/FinancialProof/CreateFinancialProofRequest.jsx";
 function App() {
   return (
     <>
       <BrowserRouter>
         <Layout>
           <Header />
-          <div style={{ paddingTop: '70px' }}>
+          <div style={{ paddingTop: "70px" }}>
             <Routes>
               <Route path="/" element={<Navigate to="/home" />} />
               <Route path="/home/*" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />}></Route>
               <Route path="/create-valuation" element={<CreateValuation />} />
+              <Route
+                path="/create-financial-proof"
+                element={<CreateFinancialProofRequest />}
+              />
+
               <Route path="/selling" element={<Selling />} />
               <Route path="/upcoming" element={<UpcomingSessionList />} />
               <Route
@@ -58,7 +63,6 @@ function App() {
               <Route path="/payment-callback" element={<PaymentCallback />} />
               <Route path="/payment-success" element={<PaymentSuccess />} />
               <Route path="/payment-failure" element={<PaymentFailure />} />
-
             </Routes>
           </div>
           <Footer />

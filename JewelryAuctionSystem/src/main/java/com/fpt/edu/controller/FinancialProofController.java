@@ -27,7 +27,7 @@ public class FinancialProofController {
 
     @PostMapping("/create")
     public ResponseEntity<FinancialProofRequestDTO> createFinancialProof(@RequestParam("memberId") Integer memberId,
-                                                                         @RequestParam("files") Set<MultipartFile> files){
+                                                                         @RequestParam("image") Set<MultipartFile> files){
         return ResponseEntity.ok(financialProofService.createFinancialProofRequest(memberId, files));
 
     }

@@ -1,25 +1,25 @@
-import React, { useEffect } from 'react'
-import './profile.scss'
-import ProfileDetail from './ProfileDetail/ProfileDetail'
-import { useNavigate } from 'react-router-dom';
-import ChangePassword from './ChangePassword/ChangePassword';
-import MyValuationRequest from './valuation-request/MyValuationRequest';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import CheckOut from '../checkout/CheckOut';
+import React, { useEffect } from "react";
+import "./profile.scss";
+import ProfileDetail from "./ProfileDetail/ProfileDetail";
+import { useNavigate } from "react-router-dom";
+import ChangePassword from "./ChangePassword/ChangePassword";
+import MyValuationRequest from "./valuation-request/MyValuationRequest";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import CheckOut from "../checkout/CheckOut";
+import CreateFinancialProofRequest from "../FinancialProof/CreateFinancialProofRequest";
 const Profile = () => {
-
   const currentUser = JSON.parse(localStorage.getItem("account"));
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     let memberId = null;
     if (currentUser) {
       memberId = currentUser.memberId;
     } else {
-      navigate("/login", { state: { from: `/profile` } })
+      navigate("/login", { state: { from: `/profile` } });
     }
     //console.log("memberId", memberId);
-  }, [currentUser])
+  }, [currentUser]);
 
   return (
     <div className="container">
@@ -76,7 +76,18 @@ const Profile = () => {
                   data-toggle="tab"
                   className="nav-item nav-link has-icon nav-link-faded"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" className="main-grid-item-icon me-3" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    className="main-grid-item-icon me-3"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                  >
                     <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                     <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                   </svg>
@@ -109,10 +120,18 @@ const Profile = () => {
                   data-toggle="tab"
                   className="nav-item nav-link has-icon nav-link-faded"
                 >
-
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                    className="main-grid-item-icon me-3" fill="none" stroke="currentColor" strokeLinecap="round"
-                    strokeLinejoin="round" strokeWidth="2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    className="main-grid-item-icon me-3"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                  >
                     <line x1="22" x2="11" y1="2" y2="13" />
                     <polygon points="22 2 15 22 11 13 2 9 22 2" />
                   </svg>
@@ -213,12 +232,21 @@ const Profile = () => {
                     data-toggle="tab"
                     className="nav-link has-icon"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" className="main-grid-item-icon" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      className="main-grid-item-icon"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                    >
                       <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                       <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                     </svg>
-
-
                   </a>
                 </li>
                 <li className="nav-item">
@@ -251,9 +279,18 @@ const Profile = () => {
                     data-toggle="tab"
                     className="nav-link has-icon"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                      className="main-grid-item-icon me-3" fill="none" stroke="currentColor" strokeLinecap="round"
-                      strokeLinejoin="round" strokeWidth="2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      className="main-grid-item-icon me-3"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                    >
                       <line x1="22" x2="11" y1="2" y2="13" />
                       <polygon points="22 2 15 22 11 13 2 9 22 2" />
                     </svg>
@@ -389,6 +426,7 @@ const Profile = () => {
                   </div>
                 </form>
               </div>
+
               <div className="tab-pane" id="valuationRequest">
                 <MyValuationRequest id={currentUser.memberId} />
               </div>
@@ -396,9 +434,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
-
     </div>
-
   );
 };
 

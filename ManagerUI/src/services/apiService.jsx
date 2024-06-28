@@ -8,6 +8,8 @@ export {
   getFinalValuationDetail,
   postAproveFinalValuation,
   postProductReceive,
+  postSetAmountFinancialProof,
+  getAllFinancialProof,
 };
 
 const getAllValuationRequests = async () => {
