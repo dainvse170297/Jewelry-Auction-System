@@ -25,6 +25,9 @@ public class FinancialProofService implements IFinancialProofService {
     private final FinancialProofRequestMapper financialProofRequestMapper;
     private final IAccountRepository iAccountRepository;
     private final IManagerRepository iManagerRepository;
+    private final BigDecimal FINANCIAL_VIP = new BigDecimal(100000); // dolar
+
+
     @Override
     public ResponseEntity<String> checkAvailableFinancialProofRequest(Integer memberId) {
 
@@ -113,7 +116,7 @@ public class FinancialProofService implements IFinancialProofService {
         staff.setId(staffId);
         financialProofRequest.setStaff(staff);
         financialProofRequest.setFinancialProofAmount(financialProofAmount);
-        if(financialProofAmount.compareTo(new BigDecimal(1000000000)) > 0){
+        if(financialProofAmount.compareTo(FINANCIAL_VIP) > 0){
             financialProofRequest.setStatus(FinancialProofRequestStatus. PENDING_MANAGER_APPROVAL);
         }else{
             financialProofRequest.setStatus(FinancialProofRequestStatus.AVAILABLE);
