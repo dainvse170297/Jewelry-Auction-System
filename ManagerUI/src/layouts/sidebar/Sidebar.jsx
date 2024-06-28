@@ -139,9 +139,8 @@ const Sidebar = () => {
                     <ul>
                       {activeKey && activeKey === index && (
                         <div
-                          className={`dropdown ${
-                            activeKey === index ? "dropdown-visible" : ""
-                          }`}
+                          className={`dropdown ${activeKey === index ? "dropdown-visible" : ""
+                            }`}
                         >
                           {item.children.map((child, index) => (
                             <li key={index}>
@@ -155,13 +154,13 @@ const Sidebar = () => {
                     </ul>
                   </>
                 )) || (
-                  <li>
-                    <Link to={item.href} className="non-deco">
-                      <item.icon className="icon" />
-                      <span>{item.name}</span>
-                    </Link>
-                  </li>
-                )}
+                    <li>
+                      <Link to={item.href} className="non-deco">
+                        <item.icon className="icon" />
+                        <span>{item.name}</span>
+                      </Link>
+                    </li>
+                  )}
               </>
             ))}
         </ul>

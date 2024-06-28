@@ -33,6 +33,9 @@
         @Column(name = "current_price", precision = 19, scale = 1)
         private BigDecimal currentPrice;
 
+        @Column(name = "start_price", precision = 19, scale = 1)
+        private BigDecimal startPrice;
+
         @Column(name = "current_winner_id")
         private Integer currentWinnerId;
 

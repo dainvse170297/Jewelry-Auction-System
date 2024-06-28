@@ -27,9 +27,13 @@ public class ProductController {
                                               @RequestParam("description") String description,
                                               @RequestParam("estimatePriceMax") BigDecimal estimatePriceMax,
                                               @RequestParam("estimatePriceMin") BigDecimal estimatePriceMin,
-                                              @RequestParam("photos") MultipartFile[] photos) throws IOException {
+                                              @RequestParam("photos") MultipartFile[] photos,
+                                              @RequestParam("buyNowPrice") BigDecimal buyNowPrice,
+                                              @RequestParam("pricePerStep") BigDecimal pricePerStep,
+                                              @RequestParam("maxStep") Integer maxStep,
+                                              @RequestParam("startPrice") BigDecimal startPrice) throws IOException {
 
-        Product product = productService.createProduct(valuationRequestId,categoryId,name,description,estimatePriceMax,estimatePriceMin, photos);
+        Product product = productService.createProduct(valuationRequestId,categoryId,name,description,estimatePriceMax,estimatePriceMin, photos, buyNowPrice, pricePerStep, maxStep, startPrice);
 
         return ResponseEntity.ok(product);
     }
