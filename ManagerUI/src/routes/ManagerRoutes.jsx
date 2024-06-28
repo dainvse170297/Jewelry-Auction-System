@@ -7,8 +7,7 @@ import UserManage from "../component/manager/UserManage";
 import AuctionSessionList from "../component/auction-session/AuctionSessionList";
 import CreateAuction from "../component/manager/CreateAuction";
 import { ReadyLots } from "../component/lots/LotList";
-import { FinancialProofRequestList } from "../component/financial-proof-request/FinancialProofRequestList";
-
+import { VIPFinancialProofRequestList } from "../component/financial-proof-request/FinancialProofRequestList";
 const ManagerRoutes = [
   {
     path: "/dashboard",
@@ -40,7 +39,7 @@ const ManagerRoutes = [
   },
   {
     path: "/financial-request",
-    element: <FinancialProofRequestList />,
+    element: <VIPFinancialProofRequestList />,
   },
 ];
 
