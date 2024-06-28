@@ -12,32 +12,36 @@ import {
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const ChartComponent = () => {
+const ChartComponent = ({
+  revenueCurrentYear,
+  revenueBeforeYear,
+  currentYearData,
+  beforeYearData,
+}) => {
   const data = {
     labels: [
-      "01/01",
-      "01/02",
-      "01/02",
-      "01/03",
-      "01/04",
-      "01/05",
-      "01/06",
-      "01/07",
-      "01/08",
-      "01/09",
-      "01/10",
-      "01/11",
-      "01/12",
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
     ],
     datasets: [
       {
-        label: "2023",
-        data: [300, 200, 300, 400, 300, 200, 300, 300, 200, 300, 400, 300, 90],
+        label: beforeYearData.year,
+        data: revenueBeforeYear,
         backgroundColor: "rgba(54, 162, 235, 0.6)",
       },
       {
-        label: "2024",
-        data: [200, 100, 200, 300, 200, 100, 200, 200, 700, 200, 300, 200, 100],
+        label: currentYearData.year,
+        data: revenueCurrentYear,
         backgroundColor: "rgba(75, 192, 192, 0.6)",
       },
     ],
@@ -47,11 +51,19 @@ const ChartComponent = () => {
     responsive: true,
     plugins: {
       legend: {
-        position: "top",
+        position: "bottom",
       },
       title: {
         display: true,
-        text: "Sales Overview",
+        text: "Monthly Total Revenue",
+      },
+    },
+    scales: {
+      x: {
+        stacked: false,
+      },
+      y: {
+        stacked: false,
       },
     },
   };
@@ -66,8 +78,10 @@ const ChartComponent = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h6">Total Revenue</Typography>
-          <Typography variant="body2">March 2023</Typography>
+          <Typography variant="h6">Monthly Total Revenue</Typography>
+          <Typography variant="body2">
+            Year: {beforeYearData.year} - {currentYearData.year}
+          </Typography>
         </Box>
         <Bar data={data} options={options} />
       </CardContent>

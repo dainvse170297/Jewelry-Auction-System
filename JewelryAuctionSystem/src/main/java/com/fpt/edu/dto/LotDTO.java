@@ -29,4 +29,5 @@ public class LotDTO {
         private BigDecimal buyNowPrice;
         private BigDecimal pricePerStep;
         private int maxStep;
+
 }
