@@ -102,12 +102,6 @@ const Login = () => {
                 me
               </label>
             </div>
-            <div className="mt-3">
-              No account yet?{" "}
-              <a className="register" href="/sign-up">
-                Create an account
-              </a>
-            </div>
             {errorMsg && (
               <div className="alert alert-danger mt-3">{errorMsg}</div>
             )}

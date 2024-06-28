@@ -17,13 +17,13 @@ public interface  IAuctionSessionService {
 
     List<AuctionSession> getAllAuctionSession();
 
-    AuctionSession createSession(String name, String description, LocalDateTime startDate, LocalDateTime endDate, LocalDateTime startingBid, int staffId, MultipartFile image) throws IOException;
+    AuctionSessionDTO createSession(String name, String description, LocalDateTime startDate, LocalDateTime endDate, LocalDateTime startingBid, int staffId, MultipartFile image) throws IOException;
 
-    List<AuctionSession> getAllAuctionSessionByCreatedStatus();
+    List<AuctionSessionDTO> getAllAuctionSessionByCreatedStatus();
 
     AuctionSession addLotToSession(int lotId, int sessionId);
 
-    AuctionSession getAuctionSessionById(int id);
+    AuctionSessionDTO getAuctionSessionById(int id);
 
     List<AuctionSessionDTO> getAuctionSession(AuctionSessionStatus status);
 

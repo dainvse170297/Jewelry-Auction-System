@@ -22,7 +22,7 @@ public class LotMapper {
             lotDTO.setEstimatePriceMin(lot.getProduct().getEstimatePriceMin());
             lotDTO.setEstimatePriceMax(lot.getProduct().getEstimatePriceMax());
             lotDTO.setDescription(lot.getProduct().getDescription());
-            lotDTO.setEndTime(lot.getAuctionSession().getEndTime());
+            if (lot.getAuctionSession() != null) lotDTO.setEndTime(lot.getAuctionSession().getEndTime());
             lotDTO.setProductImages(lot.getProduct().getProductImages());
             lotDTO.setStatus(lot.getStatus());
             lotDTO.setNumberOfRegister(lot.getAuctionRegisters().size());
@@ -33,6 +33,8 @@ public class LotMapper {
             lotDTO.setMaxStep(lot.getMaxStep());
             return lotDTO;
         }
-
+    public List<LotDTO> toLotDTOS(List<Lot> lots) {
+        return lots.stream().map(this::toLotDTO).toList();
+    }
 
 }
