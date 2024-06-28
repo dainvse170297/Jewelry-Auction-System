@@ -25,7 +25,7 @@ public class Notify {
     @Column(name = "title", length = 50)
     private String title;
 
-    @Column(name = "description")
+    @Column(name = "description", length=1000)
     private String description;
 
     @Column(name = "date")

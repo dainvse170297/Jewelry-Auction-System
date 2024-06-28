@@ -1,104 +1,65 @@
 import React, { useState } from "react";
+import { Modal, Button } from "react-bootstrap";
 
 const FullScreenImage = ({ imageUrls }) => {
-  // Changed to accept an array of URLs
-  const [isFullScreen, setIsFullScreen] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0); // State to track current image index
+  const [showModal, setShowModal] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const toggleFullScreen = () => {
-    setIsFullScreen(!isFullScreen);
+  const openModal = (index) => {
+    setCurrentImageIndex(index);
+    setShowModal(true);
   };
 
-  const handleCloseClick = (e) => {
-    e.stopPropagation();
-    setIsFullScreen(false);
+  const closeModal = () => {
+    setShowModal(false);
   };
 
-  const handleNext = (e) => {
-    e.stopPropagation();
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % imageUrls.length); // Move to next image, cycle back to start
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imageUrls.length);
   };
 
-  const handlePrev = (e) => {
-    e.stopPropagation();
-    setCurrentIndex(
+  const prevImage = () => {
+    setCurrentImageIndex(
       (prevIndex) => (prevIndex - 1 + imageUrls.length) % imageUrls.length
-    ); // Move to previous image, cycle back to end
+    );
   };
 
   return (
-    <div
-      onClick={toggleFullScreen}
-      style={
-        isFullScreen
-          ? {
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100vw",
-              height: "100vh",
-              zIndex: 1000,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-            }
-          : {}
-      }
-    >
-      {isFullScreen && (
-        <>
+    <>
+      <div className="image-preview-container">
+        <div className="row d-flex">
+          {imageUrls.slice(0, 3).map((url, index) => (
+            <div className="col-4">
+              <div
+                key={index}
+                className={`image-preview ${index === 2 ? "blur" : ""}`}
+                onClick={() => openModal(index)}
+              >
+                <img src={url} alt={`Preview ${index}`} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Modal show={showModal} onHide={closeModal} size="lg" centered>
+        <Modal.Body>
           <img
-            src={imageUrls[currentIndex]}
-            alt="Full screen"
-            style={{ maxWidth: "90%", maxHeight: "90%" }}
+            src={imageUrls[currentImageIndex]}
+            alt="Full Size"
+            style={{ width: "100%" }}
           />
-          <button
-            onClick={handlePrev}
-            style={{
-              position: "absolute",
-              left: 20,
-              fontSize: "1.5rem",
-              color: "white",
-              backgroundColor: "transparent",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
-            {"<"}
-          </button>
-          <button
-            onClick={handleNext}
-            style={{
-              position: "absolute",
-              right: 20,
-              fontSize: "1.5rem",
-              color: "white",
-              backgroundColor: "transparent",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
-            {">"}
-          </button>
-          <button
-            onClick={handleCloseClick}
-            style={{
-              position: "absolute",
-              top: 20,
-              right: 20,
-              fontSize: "1.5rem",
-              color: "white",
-              backgroundColor: "transparent",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
-            ×
-          </button>
-        </>
-      )}
-    </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={prevImage}>
+            Previous
+          </Button>
+          <Button variant="primary" onClick={nextImage}>
+            Next
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
 
