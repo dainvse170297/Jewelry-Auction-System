@@ -62,12 +62,6 @@ const AllValuationRequestList = () => {
       <ToastContainer />
       <div className="homeContainer">
         <div className="ms-5">
-          <div className="">
-            <Link to={"/staff-function"}>
-              <FaBackward />
-            </Link>
-          </div>
-
           <div className="col">
             <div className="row">
               <div className="col-sm-7 text-center">
