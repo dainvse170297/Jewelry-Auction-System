@@ -27,4 +27,5 @@ public class AuctionSessionMapper {
     public List<AuctionSessionDTO> toAuctionSessionDTOList(List<AuctionSession> auctionSessions) {
         return auctionSessions.stream().map(this::toAuctionSessionDTO).collect(Collectors.toList());
     }
+
 }

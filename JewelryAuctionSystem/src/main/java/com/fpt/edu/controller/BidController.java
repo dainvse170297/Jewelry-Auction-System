@@ -20,28 +20,31 @@ import java.util.List;
 @RequestMapping("/bid")
 @RequiredArgsConstructor
 public class BidController {
-    private final IBidService iBidService;
+        private final IBidService iBidService;
 
-    @Autowired
-    private SimpMessagingTemplate messagingTemplate;
+        @Autowired
+        private SimpMessagingTemplate messagingTemplate;
 
-    @PostMapping("/place-bid")
-    public ResponseEntity<BidDTO> placeBid(@RequestParam("memberId") Integer memberId,
-                                           @RequestParam("lotId") Integer lotId,
-                                           @RequestParam("price") BigDecimal price) {
-        ResponseEntity<BidDTO> response = iBidService.placeForBid(memberId, lotId, price);
+        @PostMapping("/place-bid")
+        public ResponseEntity<BidDTO> placeBid(@RequestParam("memberId") Integer memberId,
+                                               @RequestParam("lotId") Integer lotId,
+                                               @RequestParam("price") BigDecimal price) {
+                ResponseEntity<BidDTO> response = iBidService.placeForBid(memberId, lotId, price);
 
-        // If the bid was placed successfully, send a message to the WebSocket broker
-        if (response.getStatusCode().is2xxSuccessful()) {
-            messagingTemplate.convertAndSend("/topic/bids/" + lotId, response.getBody());
+                if(response.getStatusCode().is2xxSuccessful()){
+                        messagingTemplate.convertAndSend("/topic/bids/" + lotId, response.getBody());
+                }
+                if (response.getStatusCode().is2xxSuccessful()) {
+                        messagingTemplate.convertAndSend("/topic/bids/" + lotId +"/history", "update bid history");
+                }
+                return response;
+    }
+
+        @GetMapping("/list-bid")
+        public ResponseEntity<List<BidDTO>> listBid(@RequestParam("lotId") Integer lotId) {
+                ResponseEntity<List<BidDTO>> response = ResponseEntity.ok(iBidService.getListBidByLotIdWithTimeDesc(lotId));
+                return response;
         }
-        return response;
-    }
-
-    @GetMapping("/list-bid")
-    public ResponseEntity<List<BidDTO>> listBid(@RequestParam("lotId") Integer lotId) {
-        return ResponseEntity.ok(iBidService.getListBidByLotIdWithTimeDesc(lotId));
-    }
 
 
 }

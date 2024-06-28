@@ -1,4 +1,3 @@
-import WebSocketHandler from "../../web-socket-handler/WebSocketHandler";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { LinearProgress } from "@mui/material";
 import axios from "axios";
@@ -9,6 +8,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Countdown from "../../countdown/Countdown";
 import "./LiveLotDetail.scss";
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import WebSocketHandler from "../../web-socket-handler/WebSocketHandler";
 
 export default function LiveLotDetail() {
   const location = useLocation();
@@ -23,6 +24,9 @@ export default function LiveLotDetail() {
   const currentUser = JSON.parse(localStorage.getItem("account"));
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const [multiplier, setMultiplier] = useState(1);
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     const getInfo = async () => {
@@ -58,55 +62,61 @@ export default function LiveLotDetail() {
       }
     };
     getBidHistory();
-  }, [id]);
+  }, [id])
+
+  const handleMultiplierChange = (e) => {
+    setMultiplier(e.target.value);
+  }
+
+  useEffect(() => {
+    if (message) {
+      setProductInfo((prevInfo) => ({
+        ...prevInfo,
+        currentPrice: message.price,
+      }));
+      // setBidHistory((prevHistory) => [
+      //   { price: message.price, bidTime: message.bidTime },
+      //   ...prevHistory,
+      // ]);
+    }
+  }, [message]);
 
   const calculateBid = async () => {
     let price = parseFloat(productInfo.currentPrice);
-    let calculatedAmount;
-
-    if (price < 1000) {
-      calculatedAmount = price + 50;
-    } else if (price >= 1000 && price <= 2000) {
-      calculatedAmount = price + 100;
-    } else if (price > 2000 && price <= 5000) {
-      calculatedAmount = price + 250;
-    } else if (price > 5000 && price <= 10000) {
-      calculatedAmount = price + 500;
-    } else if (price > 10000 && price <= 20000) {
-      calculatedAmount = price + 1000;
-    } else if (price > 20000 && price <= 30000) {
-      calculatedAmount = price + 2000;
-    } else if (price > 30000 && price <= 50000) {
-      calculatedAmount = price + 2500;
-    } else if (price > 50000 && price <= 100000) {
-      calculatedAmount = price + 5000;
-    } else if (price > 100000) {
-      calculatedAmount = price + 10000;
-    }
+    let calculatedAmount = price + parseFloat(productInfo.pricePerStep) * multiplier;
 
     setAmountBid(calculatedAmount);
     if (currentUser === null) {
       navigate("/login", { state: { from: `/live-lot-detail/${id}` } });
     } else {
-      // console.log("calculatedAmount: ", calculatedAmount, "lotId: ", productInfo.id, "memberId: ", currentUser.memberId)
       const formData = new FormData();
       formData.append("price", calculatedAmount);
       formData.append("lotId", productInfo.id);
       formData.append("memberId", currentUser.memberId);
 
-      const placeBid = await axios.post(
-        "http://localhost:8080/bid/place-bid",
-        formData
-      );
-      if (placeBid.status === 200) {
-        toast.success("Bid placed successfully");
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      } else {
+      try {
+        const placeBid = await axios.post("http://localhost:8080/bid/place-bid", formData);
+        if (placeBid.status === 200) {
+          toast.success(`Successfully placed bid at $${calculatedAmount}`, {
+            autoClose: 2500,
+          });
+          // Manually update the current price and bid history
+          setProductInfo((prevInfo) => ({
+            ...prevInfo,
+            currentPrice: calculatedAmount,
+          }));
+          // setBidHistory((prevHistory) => [
+          //   { price: calculatedAmount, bidTime: new Date() },
+          //   ...prevHistory,
+          // ]);
+        } else {
+          toast.error("Failed to place bid");
+        }
+      } catch (error) {
         toast.error("Failed to place bid");
       }
     }
+
   };
 
   return (
@@ -117,7 +127,6 @@ export default function LiveLotDetail() {
         </a>
       </div>
       <hr />
-
       <h3>Live Auction</h3>
       {isLoading ? (
         <>
@@ -125,7 +134,6 @@ export default function LiveLotDetail() {
         </>
       ) : (
         <>
-          <WebSocketHandler lotId={id} />
           <div className="row mt-5">
             <div className="col-lg-6">
               <div className="lot-img">
@@ -162,6 +170,19 @@ export default function LiveLotDetail() {
                       {productInfo.currentPrice === null
                         ? 0
                         : productInfo.currentPrice}
+
+                    </h4>
+                    <WebSocketHandler lotId={id} setMessage={setMessage} setBidHistory={setBidHistory} />
+                  </div>
+                </div>
+
+                <div className="d-flex justify-content-center mt-5">
+                  <div className="d-flex align-items-center">
+                    <h4 className="me-3 buy_now_price">
+                      SALE FOR : ${" "}
+                      {productInfo.buyNowPrice === null
+                        ? 0
+                        : productInfo.buyNowPrice}
                     </h4>
                   </div>
                 </div>
@@ -171,18 +192,16 @@ export default function LiveLotDetail() {
                     <div className="bid-panel">
                       <h5 className="text-center">Bidding Panel</h5>
                       <div className="d-flex justify-content-center">
-                        <button className="buy-now-btn">BUY NOW</button>
+                        <button className="buy-now-btn">
+                          <ShoppingBagIcon className="me-3" />
+                          BUY NOW
+                        </button>
                         <button onClick={calculateBid} className="bid-btn">
                           PLACE BID
                         </button>
                         <div className="ms-3">
                           <div className="bid-input">
-                            <input
-                              type="number"
-                              min={1}
-                              max={10}
-                              defaultValue={1}
-                            />
+                            <input type="number" min={1} max={productInfo.maxStep} value={multiplier} onChange={handleMultiplierChange} />
                           </div>
                         </div>
                       </div>
@@ -190,10 +209,14 @@ export default function LiveLotDetail() {
                       <ToastContainer />
                     </div>
                   </div>
+
                 </div>
               </div>
             </div>
 
+            <div className="col-lg-6 mt-3">
+
+            </div>
             {bidHistory.length > 0 && (
               <div className="col-lg-6 mt-3">
                 <div className="bid-history">
@@ -212,6 +235,7 @@ export default function LiveLotDetail() {
                 </div>
               </div>
             )}
+
           </div>
         </>
       )}

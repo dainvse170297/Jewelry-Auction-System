@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Stomp, { client } from "stompjs";
 import SockJS from "sockjs-client/dist/sockjs";
+import axios from "axios";
 
-const WebSocketHandler = ({ lotId }) => {
-  const [message, setMessage] = useState("");
+const WebSocketHandler = ({ lotId, setMessage, setBidHistory }) => {
   const [messages, setMessages] = useState([]);
   const [stompClient, setStompClient] = useState(null);
   const [connected, setConnected] = useState(false);
@@ -12,13 +12,26 @@ const WebSocketHandler = ({ lotId }) => {
     const socket = new SockJS("http:/localhost:8080/ws");
     const client = Stomp.over(socket);
     client.connect({}, () => {
-      setConnected(true); // Also set connected to true when successfully connected
+      setConnected(true);
+      // Also set connected to true when successfully connected
       // Declare subscription before using it
-      let subscription = client.subscribe(`/topic/bids/${lotId}`, (message) => {
+      client.subscribe(`/topic/bids/${lotId}`, (message) => {
         // Assuming the message body is a JSON string that needs to be parsed
         const newMessage = JSON.parse(message.body);
         // Update the messages state with the new message
-        setMessages((prevMessages) => [...prevMessages, newMessage]);
+        //setMessages((prevMessages) => [...prevMessages, newMessage]);
+        setMessage(newMessage);
+      });
+      client.subscribe(`/topic/bids/${lotId}/history`, async () => {
+        try {
+          await axios
+            .get(`http://localhost:8080/bid/list-bid?lotId=${lotId}`) // Ensure `lotId` is defined in your component
+            .then((result) => {
+              setBidHistory(result.data); // Assuming setBidHistory is your state setter
+            });
+        } catch (error) {
+          console.log("Error:", error.message);
+        }
       });
     });
 
@@ -29,27 +42,9 @@ const WebSocketHandler = ({ lotId }) => {
         stompClient.disconnect();
       }
     };
-  }, []);
+  }, [setMessage, lotId, setBidHistory]);
 
-  return (
-    <div>
-      <h1>WebSocket Example</h1>
-      <h2>Connected: {stompClient ? "Yes" : "No"}</h2>
-      <h3>Messages: </h3>
-      <ul>
-        {messages.map((msg, index) => (
-          <div>
-            <p>Bid ID: ${msg.bidId}</p>
-            <p>Member ID: ${msg.memberId}</p>
-            <p>Lot ID: ${msg.lotId}</p>
-            <p>Member Name: ${msg.memberName}</p>
-            <p>Price: ${msg.price}</p>
-            <p>Bid Time: ${msg.bidTime}</p>
-          </div>
-        ))}
-      </ul>
-    </div>
-  );
+  return null;
 };
 
 export default WebSocketHandler;

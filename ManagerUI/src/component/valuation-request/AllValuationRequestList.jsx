@@ -1,14 +1,11 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaBackward } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Paginator from "../common/Paginator";
-import Sidebar from "../layout/sidebar/Sidebar";
-import "../home/home.scss";
-import Navbar from "../layout/navbar/Navbar";
 import { ToastContainer, toast } from "react-toastify";
-import AllValuationRequestDetail from "./AllValuationRequestDetail.jsx";
+import { ValuationRequested } from "./AllValuationRequestDetail.jsx";
 import moment from "moment";
+import { getAllValuationRequests } from "../../services/apiService.jsx";
 
 const AllValuationRequestList = () => {
   const [valuationRequests, setValuationRequests] = useState([]);
@@ -35,9 +32,8 @@ const AllValuationRequestList = () => {
     // setIsLoading(true)
     const getAll = async () => {
       try {
-        axios.get("http://localhost:8080/valuation/all").then((result) => {
-          setValuationRequests(result.data);
-        });
+        const data = await getAllValuationRequests();
+        setValuationRequests(data);
       } catch (error) {
         setErrorMsg("Error fetching data from server");
       }
@@ -63,17 +59,9 @@ const AllValuationRequestList = () => {
   }, [filteredValuationRequests, sortOrder]);
   return (
     <div className="home">
-      <Sidebar />
       <ToastContainer />
       <div className="homeContainer">
-        <Navbar />
         <div className="ms-5">
-          <div className="">
-            <Link to={"/staff-function"}>
-              <FaBackward />
-            </Link>
-          </div>
-
           <div className="col">
             <div className="row">
               <div className="col-sm-7 text-center">
@@ -159,7 +147,7 @@ const AllValuationRequestList = () => {
               <div className="col-sm-5">
                 {currentItemsDetail && (
                   <>
-                    <AllValuationRequestDetail
+                    <ValuationRequested
                       valuationRequest={currentItemsDetail}
                       onHide={() => setCurrentItemsDetail(null)}
                     />
