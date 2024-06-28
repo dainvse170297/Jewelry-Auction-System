@@ -70,6 +70,37 @@ public class BidService implements IBidService {
         log.info("Role: {}", authentication.getAuthorities());
 
         Lot lot = iLotRepository.findById(lotId).get();
+        BigDecimal byNowPrice = lot.getBuyNowPrice();
+        //handle by now case
+        if(byNowPrice.compareTo(price) <= 0){
+
+            if(lot.getStatus() == LotStatus.SOLD){
+                return ResponseEntity.badRequest().build();
+            }
+
+            log.info("Check buy now");
+
+            // update lot info
+            lot.setCurrentPrice(byNowPrice);
+            lot.setCurrentWinnerId(memberId);
+            lot.setStatus(LotStatus.SOLD);
+            iLotRepository.save(lot);
+
+            Bid bid = createAndSaveBid( memberId, lotId,byNowPrice);
+            //update auction register
+            if (auctionRegister != null) {
+                auctionRegister.setCurrentPrice(byNowPrice);
+                auctionRegister.setFinalPrice(byNowPrice);
+                auctionRegister.setStatus(AuctionRegisterStatus.PENDING_PAYMENT);
+                iAuctionRegisterRepository.save(auctionRegister);
+            }
+
+            //sync data to all client
+            Map map = Map.of("bid", bidMapper.mapToBidDTO(bid, memberName));
+            webSocketService.sendToAllClient(map);
+            return ResponseEntity.ok(bidMapper.mapToBidDTO(bid, memberName));
+        }
+
         BigDecimal currentPrice = lot.getCurrentPrice() == null ? lot.getStartPrice() : lot.getCurrentPrice();
 
             if(currentPrice.compareTo(price) < 0){

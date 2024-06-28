@@ -41,7 +41,7 @@ public interface IValuationRequestService {
 
     public ValuationRequestDetailDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax, Integer staffId);
 
-    public ProductDetailDTO getProductDetail(Integer id);
+    public LotDTO getProductDetail(Integer id);
     
     public ViewDetailValuationRequestFinalApprovedDTO ViewDetailValuationRequestFinalApproved(Integer id);
 

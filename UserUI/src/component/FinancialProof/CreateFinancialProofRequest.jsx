@@ -105,7 +105,9 @@ export default function CreateFinancialProofRequest() {
                     </div>
                   </div>
                   <div className="row d-flex justify-content-center px-5 mx-3 my-3">
-                    <Button type="submit">Submit Valuation Request</Button>{" "}
+                    <Button type="submit">
+                      Submit Financial Proof Request
+                    </Button>{" "}
                     {/* Used Bootstrap Button component */}
                   </div>
                 </div>

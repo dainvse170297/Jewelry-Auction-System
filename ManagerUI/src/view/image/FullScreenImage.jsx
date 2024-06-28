@@ -35,7 +35,11 @@ const FullScreenImage = ({ imageUrls }) => {
                 className={`image-preview ${index === 2 ? "blur" : ""}`}
                 onClick={() => openModal(index)}
               >
-                <img src={url} alt={`Preview ${index}`} />
+                <img
+                  src={url}
+                  alt={`Preview ${index}`}
+                  style={{ height: "10rem" }}
+                />
               </div>
             </div>
           ))}
