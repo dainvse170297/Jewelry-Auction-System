@@ -10,6 +10,8 @@ export {
   postSendFinalValuationToMember,
   postProductReceive,
   publicCreatedSession,
+  getAllCreatedSession,
+  getAllAuctionSession,
 };
 
 const getAllValuationRequests = async () => {
