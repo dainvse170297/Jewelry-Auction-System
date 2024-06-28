@@ -4,15 +4,15 @@ import { Card, Carousel } from 'react-bootstrap'
 import { FaBackward } from 'react-icons/fa'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
-import '../../home/home.scss'
-import Navbar from '../../layout/navbar/Navbar'
-import Sidebar from '../../layout/sidebar/Sidebar'
+// import '../../home/home.scss'
+// import Navbar from '../../layout/navbar/Navbar'
+// import Sidebar from '../../layout/sidebar/Sidebar'
 import ShowAuctionSessionDetail from './ShowAuctionSessionDetail'
 import './style.scss'
 
 const AddLotToSession = () => {
 
-    const [lot, setLot] = useState([])
+    const [lot, setLot] = useState({})
     const { id } = useParams()
 
     const [data, setData] = useState({
@@ -76,7 +76,7 @@ const AddLotToSession = () => {
                     console.log("Lot added to session")
                     toast.success("Lot added to session successfully!")
                     setTimeout(() => {
-                        navigate("/ready-lots")
+                        navigate("/auction/ready-lots")
                     }, 4000)
                 })
                 .catch((error) => {
@@ -90,13 +90,11 @@ const AddLotToSession = () => {
 
     return (
         <div className='home'>
-            <Sidebar />
             <div className="homeContainer">
-                <Navbar />
                 <div className="ms-5 me-5">
-                    <div className="mt-3">
+                    {/* <div className="mt-3">
                         <Link to={"/ready-lots"}><FaBackward /></Link>
-                    </div>
+                    </div> */}
                     <h1 className='text-center mt-3 mb-5'>Add Lot to Session</h1>
                     <form action="" onSubmit={handleFormSubmit}>
                         <div className="container">
@@ -106,13 +104,13 @@ const AddLotToSession = () => {
                                     <div className="col-lg-3">
                                         <h3 className='text-center'>Lot Information</h3>
                                         <Carousel>
-                                            {lot.product?.productImages?.map((image, index) => (
+                                            {lot.productImages?.map((image, index) => (
 
                                                 <Carousel.Item key={index}>
                                                     <img
                                                         className="d-block w-100"
                                                         src={image.imageUrl}
-                                                        alt={lot.product.name + ' photo'}
+                                                        alt={lot.productName + ' photo'}
                                                         style={{ height: '300px', width: '200px' }}
                                                     />
                                                 </Carousel.Item>
@@ -121,12 +119,16 @@ const AddLotToSession = () => {
                                         </Carousel>
                                         <Card>
                                             <Card.Body>
-                                                <Card.Title className='text-center'><strong>{lot.product?.name}</strong></Card.Title>
+                                                <Card.Title className='text-center'><strong>{lot.productName}</strong></Card.Title>
                                                 <Card.Text>
-                                                    <p><em>{lot.product?.description}</em></p>
-                                                    <p>Estimate Max Price: <strong>{lot.product?.estimatePriceMax}</strong></p>
-                                                    <p>Estimate Min Price: <strong>{lot.product?.estimatePriceMin}</strong></p>
+                                                    <em>{lot.description}</em>
                                                     {/* <p>Current Price: <strong>{lot.currentPrice}</strong></p> */}
+                                                </Card.Text>
+                                                <Card.Text>
+                                                    Estimate Max Price: $<strong>{lot.estimatePriceMax}</strong>
+                                                </Card.Text>
+                                                <Card.Text>
+                                                    Estimate Min Price: $<strong>{lot.estimatePriceMin}</strong>
                                                 </Card.Text>
                                             </Card.Body>
                                         </Card>
@@ -158,7 +160,7 @@ const AddLotToSession = () => {
                                                 </button>
 
                                                 <button className='cancel-btn'>
-                                                    <Link to='/ready-lots'>Cancel</Link>
+                                                    <Link to='/auction/ready-lots'>Cancel</Link>
                                                 </button>
                                             </div>
                                         )}

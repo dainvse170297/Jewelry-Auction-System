@@ -12,20 +12,20 @@ import banner7 from "../../assets/banner/banner7.jpg";
 const Home = () => {
   return (
     <>
-      <div className="">
-        <Carousel className="slide">
-          <Carousel.Item>
-            <img src={banner7} alt="Banner 1" />
-          </Carousel.Item>
-          <Carousel.Item>
-            <img src={banner6} alt="Banner2" />
-          </Carousel.Item>
-          <Carousel.Item>
-            <img src={banner4} alt="Banner 3" />
-          </Carousel.Item>
-        </Carousel>
-      </div>
-      <div className="">
+
+      <Carousel className="slide">
+        <Carousel.Item>
+          <img src={banner7} alt="Banner 1" />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img src={banner6} alt="Banner2" />
+        </Carousel.Item>
+        <Carousel.Item>
+          <img src={banner4} alt="Banner 3" />
+        </Carousel.Item>
+      </Carousel>
+
+      <div className="mt-5">
         <h4 className="text-center mt-3 text-secondary">LIVE AUCTIONS</h4>
       </div>
     </>

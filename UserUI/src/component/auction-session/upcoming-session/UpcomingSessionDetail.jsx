@@ -5,6 +5,7 @@ import axios from "axios";
 import LotPreview from "../../lot/LotPreview";
 import Paginator from "../../common/Paginator";
 import AuctionSession from "../AuctionSession";
+import { LinearProgress } from "@mui/material";
 
 const UpcomingSessionDetail = () => {
   const { id } = useParams();
@@ -20,6 +21,7 @@ const UpcomingSessionDetail = () => {
     console.log("New Page:", pageNumber);
   };
 
+
   const [lotRegisters, setLotRegisters] = useState([
     {
       lot: "",
@@ -27,10 +29,12 @@ const UpcomingSessionDetail = () => {
     },
   ]);
 
+  const currentUser = JSON.parse(localStorage.getItem("account"));
+
   useEffect(() => {
     try {
       const params = new URLSearchParams();
-      params.append("memberId", "1");
+      params.append("memberId", 0);
       params.append("sessionId", id);
 
       const getAll = async () => {
@@ -81,9 +85,7 @@ const UpcomingSessionDetail = () => {
   return (
     <>
       {loading ? (
-        <Spinner animation="border" role="status">
-          {/* <span className="sr-only">Loading...</span> */}
-        </Spinner>
+        <LinearProgress />
       ) : (
         <div className="col session-detail">
           {/* Session information */}
