@@ -11,6 +11,7 @@ import {
   AllValuationRequestList,
   PendingApprovalList,
 } from "../component/valuation-request/AllValuationRequestList";
+import PublicCreatedSession from "../component/manager/Session/PublicCreatedSession";
 
 const ManagerRoutes = [
   {
@@ -52,6 +53,10 @@ const ManagerRoutes = [
   {
     path: "/add-session/:id",
     element: <AddLotToSession />,
+  },
+  {
+    path: "/sessions/created",
+    element: <PublicCreatedSession />,
   },
 ];
 
