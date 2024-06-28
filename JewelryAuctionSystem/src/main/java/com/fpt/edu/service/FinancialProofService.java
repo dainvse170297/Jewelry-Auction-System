@@ -116,7 +116,7 @@ public class FinancialProofService implements IFinancialProofService {
         staff.setId(staffId);
         financialProofRequest.setStaff(staff);
         financialProofRequest.setFinancialProofAmount(financialProofAmount);
-        if(financialProofAmount.compareTo(FINANCIAL_VIP) > 0){
+        if(financialProofAmount.compareTo(FINANCIAL_VIP) >= 0){
             financialProofRequest.setStatus(FinancialProofRequestStatus. PENDING_MANAGER_APPROVAL);
         }else{
             financialProofRequest.setStatus(FinancialProofRequestStatus.AVAILABLE);
