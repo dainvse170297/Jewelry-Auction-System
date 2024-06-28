@@ -31,6 +31,7 @@ public class LotMapper {
             lotDTO.setBuyNowPrice(lot.getBuyNowPrice());
             lotDTO.setPricePerStep(lot.getPricePerStep());
             lotDTO.setMaxStep(lot.getMaxStep());
+            lotDTO.setStartPrice(lot.getStartPrice());
             return lotDTO;
         }
     public List<LotDTO> toLotDTOS(List<Lot> lots) {

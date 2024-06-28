@@ -3,7 +3,7 @@ import { LinearProgress } from "@mui/material";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { Carousel } from "react-bootstrap";
+import { Button, Carousel, Modal } from "react-bootstrap";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Countdown from "../../countdown/Countdown";
@@ -14,6 +14,10 @@ import WebSocketHandler from "../../web-socket-handler/WebSocketHandler";
 export default function LiveLotDetail() {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const [showModal, setShowModal] = useState(false);
+
+
 
   const { id } = useParams();
   const [errorMsg, setErrorMsg] = useState("");
@@ -74,16 +78,12 @@ export default function LiveLotDetail() {
         ...prevInfo,
         currentPrice: message.price,
       }));
-      // setBidHistory((prevHistory) => [
-      //   { price: message.price, bidTime: message.bidTime },
-      //   ...prevHistory,
-      // ]);
     }
   }, [message]);
 
-  const calculateBid = async () => {
-    let price = parseFloat(productInfo.currentPrice);
-    let calculatedAmount = price + parseFloat(productInfo.pricePerStep) * multiplier;
+  const placeBid = async (calculatedAmount) => {
+    // let price = parseFloat(productInfo.currentPrice);
+    // let calculatedAmount = price + parseFloat(productInfo.pricePerStep) * multiplier;
 
     setAmountBid(calculatedAmount);
     if (currentUser === null) {
@@ -119,6 +119,21 @@ export default function LiveLotDetail() {
 
   };
 
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
+
+  const calculateBid = () => {
+    let price = parseFloat(productInfo.currentPrice);
+    let calculatedAmount = price + parseFloat(productInfo.pricePerStep) * multiplier;
+
+    placeBid(calculatedAmount);
+  }
+
+  const handleBuyNow = () => {
+    let buyNowPrice = parseFloat(productInfo.buyNowPrice);
+    placeBid(buyNowPrice);
+  }
+
   return (
     <div className="container">
       <div className="">
@@ -150,7 +165,6 @@ export default function LiveLotDetail() {
             <div className="col-lg-6">
               <div className="clock">
                 <div className="mx-auto">
-                  {/* {console.log(productInfo.endTime)} */}
                   <Countdown targetDate={productInfo.endTime} />
                 </div>
               </div>
@@ -192,7 +206,7 @@ export default function LiveLotDetail() {
                     <div className="bid-panel">
                       <h5 className="text-center">Bidding Panel</h5>
                       <div className="d-flex justify-content-center">
-                        <button className="buy-now-btn">
+                        <button className="buy-now-btn" onClick={handleShowModal}>
                           <ShoppingBagIcon className="me-3" />
                           BUY NOW
                         </button>
@@ -239,6 +253,21 @@ export default function LiveLotDetail() {
           </div>
         </>
       )}
+
+      <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Buy Now?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Would you like to buy this jewelry with price ${productInfo.buyNowPrice}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleCloseModal}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
