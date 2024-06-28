@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ChartComponent from "../dashboard/data/ChartComponent";
 import StatisticsCard from "../dashboard/data/StatisticsCard";
 import { Grid, Button } from "@mui/material";
-import axios from "axios";
+import { getRevenueByYear } from "../../services/apiService";
 
 const Dashboard = () => {
   const currentYear = new Date().getFullYear();
@@ -15,11 +15,9 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchRevenueCurrentYear = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/dashboard/data/${currentYear}`
-        );
-        setRevenueCurrentYear(response.data.revenue);
-        setCurrentYearData(response.data);
+        const data = await getRevenueByYear(currentYear);
+        setRevenueCurrentYear(data.revenue);
+        setCurrentYearData(data);
       } catch (error) {
         console.error("Error fetching current year revenue", error);
       }
@@ -27,11 +25,9 @@ const Dashboard = () => {
 
     const fetchRevenueBeforeYear = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/dashboard/data/${currentYear - 1}`
-        );
-        setRevenueBeforeYear(response.data.revenue);
-        setBeforeYearData(response.data);
+        const data = await getRevenueByYear(currentYear - 1);
+        setRevenueBeforeYear(data.revenue);
+        setBeforeYearData(data);
       } catch (error) {
         console.error("Error fetching revenue for previous year:", error);
       }

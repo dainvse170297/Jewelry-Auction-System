@@ -6,23 +6,28 @@ const UserContext = createContext({});
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
+    id: "",
     name: "",
     role: "",
     auth: false,
   });
 
-  const login = (username, role) => {
+  const login = (id, username, role, token) => {
     setUser((user) => ({
+      id: id,
       name: username,
       role: role,
       auth: true,
     }));
+    sessionStorage.setItem("id", id);
     sessionStorage.setItem("name", username);
     sessionStorage.setItem("role", role);
+    sessionStorage.setItem("token", token);
   };
 
   const logout = () => {
     setUser((user) => ({
+      id: "",
       name: "",
       role: "",
       auth: false,

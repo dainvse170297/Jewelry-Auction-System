@@ -3,10 +3,14 @@ import { Button, Carousel } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { toast } from "react-toastify";
 import axios from "axios";
+import {
+  postPreliminaryConfirm,
+  postProductReceive,
+} from "../../services/apiService.jsx";
 
-export { ValuationRequested };
+export { ValuationRequested, PreliminaryValuated };
 
-function ValuationRequested({ valuationRequest, onHide }) {
+function ValuationRequested({ valuationRequest, staffId, onHide }) {
   const [preliminaryValuation, setPreliminaryValuation] = useState({
     id: "",
     estimateMin: "",
@@ -33,29 +37,13 @@ function ValuationRequested({ valuationRequest, onHide }) {
 
   const PreliminaryConfirm = async (e) => {
     try {
-      const formData = new FormData();
-
-      formData.append("id", valuationRequest.id);
-      formData.append("estimateMin", preliminaryValuation.estimateMin);
-      formData.append("estimateMax", preliminaryValuation.estimateMax);
-      // formData.append("staffId", 1);
-      console.log("id", preliminaryValuation.id);
-      console.log("estimateMin", preliminaryValuation.estimateMin);
-      console.log("estimateMax", preliminaryValuation.estimateMax);
-
-      //Default staff id
-      formData.append("staffId", 1);
-
-      const response = await axios.post(
-        `http://localhost:8080/valuation/preliminary-valuation`,
-        formData
+      const data = await postPreliminaryConfirm(
+        valuationRequest.id,
+        preliminaryValuation.estimateMin,
+        preliminaryValuation.estimateMax,
+        staffId
       );
-
-      if (
-        response.status === 200 &&
-        response.data.valuationStatus === "PRELIMINARY_VALUATED"
-      ) {
-        console.log("Success");
+      if (data.valuationStatus === "PRELIMINARY_VALUATED") {
         toast.success("Preliminary successfully");
         onHide(true);
       } else {
@@ -146,6 +134,94 @@ function ValuationRequested({ valuationRequest, onHide }) {
                       onClick={PreliminaryConfirm}
                     >
                       Send preliminary valuation
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+        <div className="row">
+          <div className="col p-4">
+            <Carousel>
+              {valuationRequest.valuationImagesUrls &&
+                valuationRequest.valuationImagesUrls.map((image, index) => (
+                  <Carousel.Item key={index}>
+                    <img
+                      className="d-fluid w-70 h-50 px-5"
+                      src={image}
+                      alt={`Slide ${index}`}
+                    />
+                  </Carousel.Item>
+                ))}
+            </Carousel>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function PreliminaryValuated({ valuationRequest, staffId, onHide }) {
+  const handleConfirm = async (e) => {
+    try {
+      const data = await postProductReceive(valuationRequest.id);
+
+      if (data.valuationStatus === "PRODUCT_RECEIVED") {
+        toast.success("Confirm product received successfully");
+        onHide(true);
+      } else {
+        console.log("Failed");
+      }
+    } catch (error) {
+      console.log("Error:", error.message);
+      toast.error("Error when confirm product received");
+    }
+  };
+
+  return (
+    <>
+      <div className="col card">
+        <div className="row">
+          <h3 className="text-center">Valuation request detail</h3>
+        </div>
+        <div className="row px-5">
+          {valuationRequest && (
+            <>
+              <div className="card card-body">
+                <p>
+                  Member Id: <strong>{valuationRequest.memberId}</strong>
+                </p>
+                <p>
+                  Description: <strong>{valuationRequest.description}</strong>
+                </p>
+                <p>
+                  Time request: <strong>{valuationRequest.timeRequest}</strong>
+                </p>
+                <p>
+                  Valuation status:{" "}
+                  <strong>{valuationRequest.valuationStatus}</strong>
+                </p>
+                <p>
+                  Member estimate price:{" "}
+                  {valuationRequest.memberEstimatePrice === null ? (
+                    <strong>No</strong>
+                  ) : (
+                    <strong>{valuationRequest.memberEstimatePrice}$</strong>
+                  )}
+                </p>
+                <p>
+                  Preliminary price min:{" "}
+                  <strong>{valuationRequest.estimatePriceMin}$</strong>
+                </p>
+                <p>
+                  Preliminary price max:{" "}
+                  <strong>{valuationRequest.estimatePriceMax}$</strong>
+                </p>
+                <div className="col">
+                  <div className="row-sm-9 d-flex justify-content-center">
+                    <Button className="btn-success" onClick={handleConfirm}>
+                      Confirm product received
                     </Button>
                   </div>
                 </div>

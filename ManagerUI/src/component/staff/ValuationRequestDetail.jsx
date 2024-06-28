@@ -7,8 +7,6 @@ import { FaBackward } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "../home/home.scss";
-import Navbar from "../layout/navbar/Navbar";
-import Sidebar from "../../layouts/sidebar/Sidebar";
 
 const ValuationRequestDetail = () => {
   const { id } = useParams();
@@ -154,9 +152,7 @@ const ValuationRequestDetail = () => {
 
   return (
     <div className="home">
-      <Sidebar />
       <div className="homeContainer">
-        <Navbar />
         <div className="ms-5 me-5">
           <div className="mt-3">
             <Link to={"/valuation-request"}>
