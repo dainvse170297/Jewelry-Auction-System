@@ -53,7 +53,7 @@ public class AuctionSessionService implements IAuctionSessionService {
     }
 
     @Override
-    public AuctionSession createSession(String name, String description, LocalDateTime startDate, LocalDateTime endDate, LocalDateTime startingBid, int staffId, MultipartFile image) throws IOException {
+    public AuctionSessionDTO createSession(String name, String description, LocalDateTime startDate, LocalDateTime endDate, LocalDateTime startingBid, int staffId, MultipartFile image) throws IOException {
         Staff staff = staffRepository.findById(staffId).get();
         AuctionSession auctionSession = new AuctionSession();
         auctionSession.setName(name);
@@ -72,12 +72,14 @@ public class AuctionSessionService implements IAuctionSessionService {
         }
         auctionSessionRepository.save(auctionSession);
 
-        return auctionSession;
+        return auctionSessionMapper.toAuctionSessionDTO(auctionSession);
     }
 
     @Override
-    public List<AuctionSession> getAllAuctionSessionByCreatedStatus() {
-        return auctionSessionRepository.findByStatus(AuctionSessionStatus.CREATED);
+    public List<AuctionSessionDTO> getAllAuctionSessionByCreatedStatus() {
+        List<AuctionSession> listCreatedAuctionSessions = auctionSessionRepository.findByStatus(AuctionSessionStatus.CREATED);
+
+        return auctionSessionMapper.toAuctionSessionDTOList(listCreatedAuctionSessions);
     }
 
     @Override
@@ -91,8 +93,8 @@ public class AuctionSessionService implements IAuctionSessionService {
     }
 
     @Override
-    public AuctionSession getAuctionSessionById(int id) {
-        return auctionSessionRepository.findById(id).get();
+    public AuctionSessionDTO getAuctionSessionById(int id) {
+        return auctionSessionMapper.toAuctionSessionDTO(auctionSessionRepository.findById(id).get());
     }
 
     @Override

@@ -3,12 +3,21 @@ import { FaBackward } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Paginator from "../common/Paginator";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
+import moment from "moment";
+
 import {
   ValuationRequested,
   PreliminaryValuated,
+  PendingApproval,
 } from "./AllValuationRequestDetail.jsx";
-import moment from "moment";
-import { getAllValuationRequests } from "../../services/apiService.jsx";
+
+import {
+  getAllValuationRequests,
+  getFinalValuationRequests,
+} from "../../services/apiService.jsx";
+
+export { AllValuationRequestList, PendingApprovalList };
 
 const AllValuationRequestList = () => {
   const user = {
@@ -184,4 +193,98 @@ const AllValuationRequestList = () => {
   );
 };
 
-export default AllValuationRequestList;
+const PendingApprovalList = () => {
+  const [Finalvaluation, setFinalValuation] = useState([]);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemPerPage, setItemPerPage] = useState(10);
+
+  const handleUpdate = (e) => {
+    console.log("Update");
+    window.location.reload();
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  useEffect(() => {
+    const getList = async () => {
+      try {
+        const data = await getFinalValuationRequests();
+        setFinalValuation(data);
+      } catch (error) {
+        console.log("Error nek:", error.message);
+        setErrorMsg("Error fetching data from server");
+      }
+    };
+    getList();
+  }, []);
+
+  const calculateTotalPage = (itemPerPage, Finalvaluation) => {
+    const totalItem = Finalvaluation.length;
+    return Math.ceil(totalItem / itemPerPage);
+  };
+
+  const indexOfLastItem = currentPage * itemPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemPerPage;
+  const currentItems = Finalvaluation.slice(indexOfFirstItem, indexOfLastItem);
+
+  return (
+    <div className="container">
+      <div className="row  d-flex justify-content-center">
+        <div className="col-lg-10">
+          <div className="row">
+            <h2 className="text-center">Pending Approval List</h2>
+          </div>
+          <div className="row">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">From</th>
+                  <th scope="col">Time</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentItems.map((request, key) => (
+                  <>
+                    <tr>
+                      <th scope="row">{key + 1}</th>
+                      <td>Member {request.memberId}</td>
+                      <td>
+                        {/* {request.timeRequest} */}
+                        {moment(request.timeRequest).format(
+                          "DD/MM/YYYY HH:mm:ss"
+                        )}
+                      </td>
+                      <td>{request.valuationStatus}</td>
+                      <td>
+                        <PendingApproval
+                          valuationRequestId={request.id}
+                          onUpdate={() => handleUpdate()}
+                        />
+                      </td>
+                    </tr>
+                  </>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="row">
+            <div className="flex align-items-center justify-content-center">
+              <Paginator
+                currentPage={currentPage}
+                totalPages={calculateTotalPage(itemPerPage, Finalvaluation)}
+                onPageChange={handlePageChange}
+              ></Paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

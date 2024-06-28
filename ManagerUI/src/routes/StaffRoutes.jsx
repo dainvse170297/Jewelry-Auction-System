@@ -1,5 +1,5 @@
 import React from "react";
-import AllValuationRequestList from "../component/valuation-request/AllValuationRequestList";
+import { AllValuationRequestList } from "../component/valuation-request/AllValuationRequestList";
 import AuctionAssigned from "../component/staff/AuctionAssigned";
 import { FinancialProofRequestList } from "../component/financial-proof-request/FinancialProofRequestList";
 

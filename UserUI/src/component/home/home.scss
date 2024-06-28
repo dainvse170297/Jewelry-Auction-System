@@ -31,7 +31,8 @@ $border-1: #e1e1e1;
 .slide {
     img {
         width: 100%;
-        height: 650px;
+        height: 800px;
+        object-fit: fill;
     }
 }
 

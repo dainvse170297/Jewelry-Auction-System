@@ -24,6 +24,16 @@ const Avatar = ({ imageUrl }) => {
   return (
     <>
       <div className="avatar my-1 mx-5">
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavDarkDropdown"
+          aria-controls="navbarNavDarkDropdown"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        ></button>
+
         <div className="collapse navbar-collapse" id="navbarNavDarkDropdown">
           <ul className="navbar-nav">
             <li className="nav-item dropdown">
