@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import ChartComponent from "../home/data/ChartComponent";
-import StatisticsCard from "../home/data/StatisticsCard";
+import ChartComponent from "../dashboard/data/ChartComponent";
+import StatisticsCard from "../dashboard/data/StatisticsCard";
 import { Grid, Button } from "@mui/material";
 import axios from "axios";
 
