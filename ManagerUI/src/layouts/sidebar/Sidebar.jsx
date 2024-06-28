@@ -17,17 +17,21 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 // Navigation
 const staffNavigation = [
+  { name: "Auction", icon: AuctionIcon, href: "/auction" },
+
   {
     name: "Valuation Request",
     icon: ValuationRequestIcon,
-    href: "/valuation-request",
+    children: [
+      { name: "All request", href: "/valuation-request" },
+      { name: "Set up product", href: "/valuation-request/received" },
+    ],
   },
   {
-    name: "Financial Proof Request",
+    name: "Financial Request",
     icon: FinancialProofRequestIcon,
     href: "/financial-request",
   },
-  { name: "Auction", icon: AuctionIcon, href: "/auction" },
   // { name: "Setting", icon: SettingsIcon, href: "/setting" },
   { name: "Profile", icon: ProfileIcon, href: "/profile" },
 ];
@@ -108,11 +112,11 @@ const Sidebar = () => {
         <ul>
           {currentNavigation &&
             currentNavigation.map((item, index) => (
-              <React.Fragment key={index}>
+              <>
                 {(item.children && (
                   <>
                     <li
-                      className="d-flex justify-content-between px-4"
+                      className="d-flex justify-content-between pl-4"
                       onClick={() => handleToggle(index)}
                     >
                       <div>
@@ -131,7 +135,7 @@ const Sidebar = () => {
                         />
                       </div>
                     </li>
-                    <div className="child-side"></div>
+                    {/* <div className="child-side"></div> */}
                     <ul>
                       {activeKey && activeKey === index && (
                         <div
@@ -158,7 +162,7 @@ const Sidebar = () => {
                     </Link>
                   </li>
                 )}
-              </React.Fragment>
+              </>
             ))}
         </ul>
       </div>

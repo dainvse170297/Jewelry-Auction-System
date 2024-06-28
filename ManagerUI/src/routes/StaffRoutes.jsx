@@ -3,10 +3,15 @@ import AllValuationRequestList from "../component/valuation-request/AllValuation
 import AuctionAssigned from "../component/staff/AuctionAssigned";
 import { FinancialProofRequestList } from "../component/financial-proof-request/FinancialProofRequestList";
 
+import ValuationRequestList from "../component/staff/ValuationRequestProductReceivedList";
 const StaffRoutes = [
   {
     path: "/valuation-request",
     element: <AllValuationRequestList />,
+  },
+  {
+    path: "/valuation-request/received",
+    element: <ValuationRequestList />,
   },
   {
     path: "/financial-request",

@@ -31,7 +31,7 @@ const ReadyLots = () => {
     <div className="home">
       <div className="homeContainer">
         <div className="ms-5 me-5">
-          <h2 className="text-center mt-2">Ready Lots (đang lỗi)</h2>
+          <h2 className="text-center mt-2">Ready Lots</h2>
           <div className="row">
             {readyLots.map((lot, index) => (
               <Col md={3} key={index}>

@@ -3,11 +3,20 @@ import { FaBackward } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Paginator from "../common/Paginator";
 import { ToastContainer, toast } from "react-toastify";
-import { ValuationRequested } from "./AllValuationRequestDetail.jsx";
+import {
+  ValuationRequested,
+  PreliminaryValuated,
+} from "./AllValuationRequestDetail.jsx";
 import moment from "moment";
 import { getAllValuationRequests } from "../../services/apiService.jsx";
 
 const AllValuationRequestList = () => {
+  const user = {
+    id: sessionStorage.getItem("id"),
+    name: sessionStorage.getItem("name"),
+    role: sessionStorage.getItem("role"),
+  };
+
   const [valuationRequests, setValuationRequests] = useState([]);
   const [currentItemsDetail, setCurrentItemsDetail] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("");
@@ -145,22 +154,30 @@ const AllValuationRequestList = () => {
               </div>
 
               <div className="col-sm-5">
-                {currentItemsDetail && (
-                  <>
-                    <ValuationRequested
-                      valuationRequest={currentItemsDetail}
-                      onHide={() => setCurrentItemsDetail(null)}
-                    />
-                  </>
-                )}
+                {currentItemsDetail &&
+                  currentItemsDetail.valuationStatus === "REQUESTED" && (
+                    <>
+                      <ValuationRequested
+                        valuationRequest={currentItemsDetail}
+                        onHide={() => setCurrentItemsDetail(null)}
+                        staffId={user.id}
+                      />
+                    </>
+                  )}
+                {currentItemsDetail &&
+                  currentItemsDetail.valuationStatus ===
+                    "PRELIMINARY_VALUATED" && (
+                    <>
+                      <PreliminaryValuated
+                        valuationRequest={currentItemsDetail}
+                        onHide={() => setCurrentItemsDetail(null)}
+                        staffId={user.id}
+                      />
+                    </>
+                  )}
               </div>
             </div>
           </div>
-
-          {/* <div className="col-lg-3"></div>
-          <div className="col-lg-6"></div>
-          <div className="col-lg-3"></div> */}
-          {/* )} */}
         </div>
       </div>
     </div>

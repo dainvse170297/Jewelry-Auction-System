@@ -4,11 +4,36 @@ const getAllValuationRequests = async () => {
   return axios.get(`valuation/all`);
 };
 
-const postLogin = async (username, password) => {
+const postPreliminaryConfirm = async (
+  id,
+  estimateMin,
+  estimateMax,
+  staffId
+) => {
   const formData = new FormData();
-  formData.append("username", username);
-  formData.append("password", password);
-  return axios.post(`auth/token`, formData);
+
+  formData.append("id", id);
+  formData.append("estimateMin", estimateMin);
+  formData.append("estimateMax", estimateMax);
+  formData.append("staffId", staffId);
+  console.log("formData", id, estimateMin, estimateMax, staffId);
+
+  return axios.post(`valuation/preliminary-valuation`, formData);
 };
 
-export { postLogin, getAllValuationRequests };
+const postProductReceive = async (id) => {
+  const formData = new FormData();
+  formData.append("id", id);
+  return axios.post(`valuation/product-received`, formData);
+};
+
+const getRevenueByYear = async (anYear) => {
+  return axios.get(`dashboard/data/${anYear}`);
+};
+
+export {
+  getAllValuationRequests,
+  getRevenueByYear,
+  postPreliminaryConfirm,
+  postProductReceive,
+};

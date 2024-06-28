@@ -41,7 +41,12 @@ const Login = () => {
         (data.account.roleName === "STAFF" ||
           data.account.roleName === "MANAGER")
       ) {
-        login(data.account.fullname, data.account.roleName);
+        login(
+          data.account.staffId ? data.account.staffId : data.account.managerId,
+          data.account.fullname,
+          data.account.roleName,
+          data.token
+        );
         toast.success("Login successful");
         const redirectTo = location.state?.from || "/home";
 
