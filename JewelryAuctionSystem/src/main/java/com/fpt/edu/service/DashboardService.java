@@ -27,7 +27,7 @@ public class DashboardService implements IDashboardService {
     private final IAuctionSessionRepository auctionSessionRepository;
     private final ILotRepository lotRepository;
     private final IAuctionRegisterRepository auctionRegisterRepository;
-    
+
     private List<AuctionSession> getListAuctionSession(int year) {
         LocalDateTime startDate = LocalDateTime.of(year, 1, 1, 0, 0);
         LocalDateTime endDate = LocalDateTime.of(year, 12, 31, 23, 59);

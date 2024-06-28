@@ -12,7 +12,12 @@ import {
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const ChartComponent = ({ revenueCurrentYear, revenueBeforeYear }) => {
+const ChartComponent = ({
+  revenueCurrentYear,
+  revenueBeforeYear,
+  currentYearData,
+  beforeYearData,
+}) => {
   const data = {
     labels: [
       "January",
@@ -30,12 +35,12 @@ const ChartComponent = ({ revenueCurrentYear, revenueBeforeYear }) => {
     ],
     datasets: [
       {
-        label: "Previous Year",
+        label: beforeYearData.year,
         data: revenueBeforeYear,
         backgroundColor: "rgba(54, 162, 235, 0.6)",
       },
       {
-        label: "Current Year",
+        label: currentYearData.year,
         data: revenueCurrentYear,
         backgroundColor: "rgba(75, 192, 192, 0.6)",
       },
@@ -46,7 +51,7 @@ const ChartComponent = ({ revenueCurrentYear, revenueBeforeYear }) => {
     responsive: true,
     plugins: {
       legend: {
-        position: "top",
+        position: "bottom",
       },
       title: {
         display: true,
@@ -55,10 +60,10 @@ const ChartComponent = ({ revenueCurrentYear, revenueBeforeYear }) => {
     },
     scales: {
       x: {
-        stacked: true,
+        stacked: false,
       },
       y: {
-        stacked: true,
+        stacked: false,
       },
     },
   };
@@ -74,7 +79,9 @@ const ChartComponent = ({ revenueCurrentYear, revenueBeforeYear }) => {
           }}
         >
           <Typography variant="h6">Monthly Total Revenue</Typography>
-          <Typography variant="body2">Year 2024</Typography>
+          <Typography variant="body2">
+            Year: {beforeYearData.year} - {currentYearData.year}
+          </Typography>
         </Box>
         <Bar data={data} options={options} />
       </CardContent>
