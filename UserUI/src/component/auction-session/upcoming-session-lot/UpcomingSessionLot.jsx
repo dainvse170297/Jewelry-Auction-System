@@ -58,9 +58,11 @@ const UpcomingSessionLot = () => {
           `http://localhost:8080/auction-register/check-member-register/${memberId}/${lotId}`
         );
         // handleChangeRegister(response.data);
-        if (response.data.status === "REGISTERED") {
+        if (response.data?.status === "REGISTERED") {
           setWasBid(response.data.previousPrice);
           setIsRegister(true);
+        } else {
+          setIsRegister(false);
         }
         console.log(wasBid);
       } catch (error) {

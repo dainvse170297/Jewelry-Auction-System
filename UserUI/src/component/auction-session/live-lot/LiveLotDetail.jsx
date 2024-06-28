@@ -8,7 +8,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Countdown from "../../countdown/Countdown";
 import "./LiveLotDetail.scss";
-import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import WebSocketHandler from "../../web-socket-handler/WebSocketHandler";
 
 export default function LiveLotDetail() {
@@ -16,8 +16,6 @@ export default function LiveLotDetail() {
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
-
-
 
   const { id } = useParams();
   const [errorMsg, setErrorMsg] = useState("");
@@ -66,11 +64,11 @@ export default function LiveLotDetail() {
       }
     };
     getBidHistory();
-  }, [id])
+  }, [id]);
 
   const handleMultiplierChange = (e) => {
     setMultiplier(e.target.value);
-  }
+  };
 
   useEffect(() => {
     if (message) {
@@ -93,9 +91,17 @@ export default function LiveLotDetail() {
       formData.append("price", calculatedAmount);
       formData.append("lotId", productInfo.id);
       formData.append("memberId", currentUser.memberId);
-
+      console.log(
+        "formData",
+        calculatedAmount,
+        productInfo.id,
+        currentUser.memberId
+      );
       try {
-        const placeBid = await axios.post("http://localhost:8080/bid/place-bid", formData);
+        const placeBid = await axios.post(
+          "http://localhost:8080/bid/place-bid",
+          formData
+        );
         if (placeBid.status === 200) {
           toast.success(`Successfully placed bid at $${calculatedAmount}`, {
             autoClose: 2500,
@@ -116,23 +122,29 @@ export default function LiveLotDetail() {
         toast.error("Failed to place bid");
       }
     }
-
   };
 
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
 
   const calculateBid = () => {
-    let price = parseFloat(productInfo.currentPrice);
-    let calculatedAmount = price + parseFloat(productInfo.pricePerStep) * multiplier;
+    let price;
+    if (productInfo.currentPrice === 0) {
+      price = parseFloat(productInfo.startPrice);
+      console.log("price", price);
+    } else {
+      price = parseFloat(productInfo.currentPrice);
+    }
+    let calculatedAmount =
+      price + parseFloat(productInfo.pricePerStep) * multiplier;
 
     placeBid(calculatedAmount);
-  }
+  };
 
   const handleBuyNow = () => {
     let buyNowPrice = parseFloat(productInfo.buyNowPrice);
     placeBid(buyNowPrice);
-  }
+  };
 
   return (
     <div className="container">
@@ -179,14 +191,20 @@ export default function LiveLotDetail() {
 
                 <div className="d-flex justify-content-center mt-5">
                   <div className="d-flex align-items-center">
-                    <h4 className="me-3">
-                      Current Price: ${" "}
-                      {productInfo.currentPrice === null
-                        ? 0
-                        : productInfo.currentPrice}
-
-                    </h4>
-                    <WebSocketHandler lotId={id} setMessage={setMessage} setBidHistory={setBidHistory} />
+                    {productInfo.currentPrice !== 0 ? (
+                      <h4 className="me-3">
+                        CURRENT PRICE : ${productInfo.currentPrice}
+                      </h4>
+                    ) : (
+                      <h4 className="me-3">
+                        START PRICE : ${productInfo.startPrice}
+                      </h4>
+                    )}
+                    <WebSocketHandler
+                      lotId={id}
+                      setMessage={setMessage}
+                      setBidHistory={setBidHistory}
+                    />
                   </div>
                 </div>
 
@@ -206,7 +224,10 @@ export default function LiveLotDetail() {
                     <div className="bid-panel">
                       <h5 className="text-center">Bidding Panel</h5>
                       <div className="d-flex justify-content-center">
-                        <button className="buy-now-btn" onClick={handleShowModal}>
+                        <button
+                          className="buy-now-btn"
+                          onClick={handleShowModal}
+                        >
                           <ShoppingBagIcon className="me-3" />
                           BUY NOW
                         </button>
@@ -215,7 +236,13 @@ export default function LiveLotDetail() {
                         </button>
                         <div className="ms-3">
                           <div className="bid-input">
-                            <input type="number" min={1} max={productInfo.maxStep} value={multiplier} onChange={handleMultiplierChange} />
+                            <input
+                              type="number"
+                              min={1}
+                              max={productInfo.maxStep}
+                              value={multiplier}
+                              onChange={handleMultiplierChange}
+                            />
                           </div>
                         </div>
                       </div>
@@ -223,14 +250,11 @@ export default function LiveLotDetail() {
                       <ToastContainer />
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
 
-            <div className="col-lg-6 mt-3">
-
-            </div>
+            <div className="col-lg-6 mt-3"></div>
             {bidHistory.length > 0 && (
               <div className="col-lg-6 mt-3">
                 <div className="bid-history">
@@ -249,7 +273,6 @@ export default function LiveLotDetail() {
                 </div>
               </div>
             )}
-
           </div>
         </>
       )}
@@ -258,7 +281,10 @@ export default function LiveLotDetail() {
         <Modal.Header closeButton>
           <Modal.Title>Buy Now?</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Would you like to buy this jewelry with price ${productInfo.buyNowPrice}</Modal.Body>
+        <Modal.Body>
+          Would you like to buy this jewelry with price $
+          {productInfo.buyNowPrice}
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
             Close

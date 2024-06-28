@@ -18,7 +18,7 @@ public class LotMapper {
             lotDTO.setId(lot.getId());
             lotDTO.setProductId(lot.getProduct().getId());
             lotDTO.setProductName(lot.getProduct().getName());
-            lotDTO.setCurrentPrice(lot.getCurrentPrice());
+            lotDTO.setCurrentPrice(lot.getCurrentPrice()==null? BigDecimal.ZERO:lot.getCurrentPrice());
             lotDTO.setEstimatePriceMin(lot.getProduct().getEstimatePriceMin());
             lotDTO.setEstimatePriceMax(lot.getProduct().getEstimatePriceMax());
             lotDTO.setDescription(lot.getProduct().getDescription());

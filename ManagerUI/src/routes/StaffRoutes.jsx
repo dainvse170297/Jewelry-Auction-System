@@ -25,7 +25,11 @@ const StaffRoutes = [
   {
     path: "/valuation-request/product-received/confirm/:id",
     element: <ValuationRequestDetail />,
-  }
+  },
+  {
+    path: "/product/pending-send",
+    element: <ValuationRequestDetail />,
+  },
 ];
 
 export default StaffRoutes;

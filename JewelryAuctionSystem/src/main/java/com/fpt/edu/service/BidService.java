@@ -65,9 +65,11 @@ public class BidService implements IBidService {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info("Username: {}", authentication.getName());
         log.info("Role: {}", authentication.getAuthorities());
-        Lot lot = iLotRepository.findById(lotId).get();
 
-            if(lot.getCurrentPrice().compareTo(price) < 0){
+        Lot lot = iLotRepository.findById(lotId).get();
+        BigDecimal currentPrice = lot.getCurrentPrice() == null ? lot.getStartPrice() : lot.getCurrentPrice();
+
+            if(currentPrice.compareTo(price) < 0){
                 lot.setCurrentPrice(price);
                 lot.setCurrentWinnerId(memberId);
                 iLotRepository.save(lot);
@@ -79,7 +81,7 @@ public class BidService implements IBidService {
                     iAuctionRegisterRepository.save(auctionRegister);
                 }
                 Map map = Map.of("bid", bidMapper.mapToBidDTO(bid, memberName));
-                webSocketService.sendToAllClient(map);
+//                webSocketService.sendToAllClient(map);
                 return ResponseEntity.ok(bidMapper.mapToBidDTO(bid, memberName));
             }
 

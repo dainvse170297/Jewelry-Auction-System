@@ -393,7 +393,6 @@ function ManagerApproved({ valuationRequest, staffId, onHide }) {
       if (data !== null) {
         toast.success("Send to member successfully");
         onHide(true);
-        // window.location.reload();
       }
     } catch (error) {
       console.log("Error:", error.message);
