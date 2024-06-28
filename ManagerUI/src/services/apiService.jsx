@@ -12,10 +12,16 @@ export {
   publicCreatedSession,
   getAllCreatedSession,
   getAllAuctionSession,
+  postSetAmountFinancialProof,
+  getAllFinancialProof,
 };
 
 const getAllValuationRequests = async () => {
   return axios.get(`valuation/all`);
+};
+
+const getAllFinancialProof = async () => {
+  return axios.get(`/financial-proof/get-all`);
 };
 
 const postPreliminaryConfirm = async (
@@ -33,6 +39,21 @@ const postPreliminaryConfirm = async (
   console.log("formData", id, estimateMin, estimateMax, staffId);
 
   return axios.post(`valuation/preliminary-valuation`, formData);
+};
+
+const postSetAmountFinancialProof = async (
+  id,
+  staffId,
+  financialProofAmount
+) => {
+  const formData = new FormData();
+
+  formData.append("id", id);
+  formData.append("staffId", staffId);
+  formData.append("financialProofAmount", financialProofAmount);
+  console.log("formData", id, staffId, financialProofAmount);
+
+  return axios.post(`/financial-proof/set-amount`, formData);
 };
 
 const postProductReceive = async (id) => {

@@ -7,6 +7,8 @@ import com.fpt.edu.repository.*;
 import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.FinancialProofRequestStatus;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +20,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class FinancialProofService implements IFinancialProofService {
 
+    private static final Logger log = LoggerFactory.getLogger(FinancialProofService.class);
     private final IMemberRepository iMemberRepository;
     private final CloudinaryService cloudinaryService;
     private final IFinancialProofRequestRepository iFinancialProofRequestRepository;
@@ -25,6 +28,9 @@ public class FinancialProofService implements IFinancialProofService {
     private final FinancialProofRequestMapper financialProofRequestMapper;
     private final IAccountRepository iAccountRepository;
     private final IManagerRepository iManagerRepository;
+    private final BigDecimal FINANCIAL_VIP = new BigDecimal(100000); // dolar
+
+
     @Override
     public ResponseEntity<String> checkAvailableFinancialProofRequest(Integer memberId) {
 
@@ -113,10 +119,14 @@ public class FinancialProofService implements IFinancialProofService {
         staff.setId(staffId);
         financialProofRequest.setStaff(staff);
         financialProofRequest.setFinancialProofAmount(financialProofAmount);
-        if(financialProofAmount.compareTo(new BigDecimal(1000000000)) > 0){
-            financialProofRequest.setStatus(FinancialProofRequestStatus. PENDING_MANAGER_APPROVAL);
+        log.info("Financial proof amount: {}", financialProofAmount);
+        log.info("FINANCIAL_VIP: {}", FINANCIAL_VIP);
+        if(financialProofAmount.compareTo(FINANCIAL_VIP) >= 0){
+            financialProofRequest.setStatus(FinancialProofRequestStatus.PENDING_MANAGER_APPROVAL);
         }else{
             financialProofRequest.setStatus(FinancialProofRequestStatus.AVAILABLE);
+            Member member = financialProofRequest.getMember();
+            member.setFinancialProofAmount(financialProofAmount);
             List<FinancialProofRequest> financialProofRequests =
                     iFinancialProofRequestRepository.findByMember(financialProofRequest.getMember());
             for (FinancialProofRequest financialProofRequest1 : financialProofRequests) {
@@ -178,6 +188,9 @@ public class FinancialProofService implements IFinancialProofService {
         financialProofRequest.setManager(manager);
         if(confirm){
             financialProofRequest.setStatus(FinancialProofRequestStatus.AVAILABLE);
+            Member member = financialProofRequest.getMember();
+            member.setFinancialProofAmount(financialProofRequest.getFinancialProofAmount());
+            
             List<FinancialProofRequest> financialProofRequests =
                     iFinancialProofRequestRepository.findByMember(financialProofRequest.getMember());
             for (FinancialProofRequest financialProofRequest1 : financialProofRequests) {

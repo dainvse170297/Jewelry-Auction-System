@@ -10,6 +10,8 @@ import com.fpt.edu.repository.IAuctionRegisterRepository;
 import com.fpt.edu.repository.IBidRepository;
 import com.fpt.edu.repository.ILotRepository;
 import com.fpt.edu.repository.IMemberRepository;
+import com.fpt.edu.status.AuctionRegisterStatus;
+import com.fpt.edu.status.LotStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -62,6 +64,7 @@ public class BidService implements IBidService {
 
         AuctionRegister auctionRegister = iAuctionRegisterRepository.findByLotIdAndMemberId(lotId, memberId);
         //check log xem ai dang nhap
+        log.info("auction: {}", auctionRegister.getId());
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info("Username: {}", authentication.getName());
         log.info("Role: {}", authentication.getAuthorities());
@@ -70,6 +73,7 @@ public class BidService implements IBidService {
         BigDecimal currentPrice = lot.getCurrentPrice() == null ? lot.getStartPrice() : lot.getCurrentPrice();
 
             if(currentPrice.compareTo(price) < 0){
+
                 lot.setCurrentPrice(price);
                 lot.setCurrentWinnerId(memberId);
                 iLotRepository.save(lot);
