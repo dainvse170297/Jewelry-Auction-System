@@ -39,7 +39,7 @@ public class AuctionSessionController {
     }
 
     @GetMapping("/all-session")
-    public ResponseEntity<List<AuctionSession>> getAllAuctionSession() {
+    public ResponseEntity<List<AuctionSessionDTO>> getAllAuctionSession() {
         return ResponseEntity.ok(auctionSessionService.getAllAuctionSession());
     }
 
@@ -80,5 +80,11 @@ public class AuctionSessionController {
     @GetMapping("/session/live")
     public ResponseEntity<List<AuctionSessionDTO>> getLiveAuctionSession() {
         return ResponseEntity.ok(auctionSessionService.getAuctionSession(AuctionSessionStatus.LIVE));
+    }
+
+    //Change status of auction session from CREATED to UPCOMING
+    @PostMapping("/public-session/{sessionId}")
+    public ResponseEntity<?> publicAuctionSession(@PathVariable Integer sessionId) {
+        return ResponseEntity.ok(auctionSessionService.publicAuctionSession(sessionId));
     }
 }

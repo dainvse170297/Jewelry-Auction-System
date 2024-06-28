@@ -60,6 +60,7 @@ const AppRoute = (props) => {
         <Route path="/sign-up" element={<Register />} />
         {/* <Route path="/account" element={<Account />} /> */}
         <Route path="/add-session/:lotId" element={<AddLotToSession />} />
+
         <Route path="/*">404 Not Found</Route>
       </Routes>
     </>

@@ -31,9 +31,25 @@ const getRevenueByYear = async (anYear) => {
   return axios.get(`dashboard/data/${anYear}`);
 };
 
+const getAllAuctionSession = async () => {
+  return axios.get(`auction/all-session`);
+};
+
+const getAllCreatedSession = async () => {
+  return axios.get(`auction/all-created-session`);
+}
+
+const publicCreatedSession = async (sessionId) => {
+  return axios.post(`auction/public-session/${sessionId}`);
+
+}
+
 export {
   getAllValuationRequests,
   getRevenueByYear,
   postPreliminaryConfirm,
   postProductReceive,
+  getAllAuctionSession,
+  getAllCreatedSession,
+  publicCreatedSession,
 };

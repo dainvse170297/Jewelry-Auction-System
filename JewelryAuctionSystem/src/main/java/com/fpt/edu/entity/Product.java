@@ -42,6 +42,7 @@ public class Product {
     @Column(name = "estimate_price_min", precision = 19, scale = 1)
     private BigDecimal estimatePriceMin;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private Set<Lot> lots = new LinkedHashSet<>();
 

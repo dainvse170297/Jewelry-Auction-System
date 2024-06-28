@@ -9,6 +9,8 @@ import CreateAuction from "../component/manager/CreateAuction";
 import { ReadyLots } from "../component/lots/LotList";
 import { FinancialProofRequestList } from "../component/financial-proof-request/FinancialProofRequestList";
 import AddLotToSession from "../component/manager/Session/AddLotToSession";
+import { elements } from "chart.js";
+import PublicCreatedSession from "../component/manager/Session/PublicCreatedSession";
 
 const ManagerRoutes = [
   {
@@ -46,6 +48,10 @@ const ManagerRoutes = [
   {
     path: "/add-session/:id",
     element: <AddLotToSession />,
+  },
+  {
+    path: "/sessions/created",
+    element: <PublicCreatedSession />,
   }
 ];
 

@@ -47,12 +47,22 @@ const managerNavigation = [
     name: "Auction",
     icon: AuctionIcon,
     children: [
-      { name: "Auction sessions", href: "/auction" },
-      { name: "Create auction", href: "/auction/create" },
+      {
+        name: "Auction sessions",
+        href: "/auction"
+      },
+      {
+        name: "Create auction",
+        href: "/auction/create"
+      },
       {
         name: "Ready lots",
         href: "/auction/ready-lots",
       },
+      {
+        name: "Public to UPCOMING Auctions",
+        href: "/sessions/created",
+      }
     ],
   },
   {

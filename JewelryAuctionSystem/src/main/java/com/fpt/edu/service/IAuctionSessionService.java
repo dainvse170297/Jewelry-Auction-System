@@ -15,7 +15,7 @@ import java.util.Map;
 
 public interface  IAuctionSessionService {
 
-    List<AuctionSession> getAllAuctionSession();
+    List<AuctionSessionDTO> getAllAuctionSession();
 
     AuctionSessionDTO createSession(String name, String description, LocalDateTime startDate, LocalDateTime endDate, LocalDateTime startingBid, int staffId, MultipartFile image) throws IOException;
 
@@ -32,5 +32,5 @@ public interface  IAuctionSessionService {
     Map<String, Object> getAuctionSessionDetails(Integer sessionId, Integer memberId);
 
 
-
+    AuctionSessionDTO publicAuctionSession(Integer sessionId);
 }

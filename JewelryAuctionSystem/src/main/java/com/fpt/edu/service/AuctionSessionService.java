@@ -48,8 +48,8 @@ public class AuctionSessionService implements IAuctionSessionService {
     private final InvalidatedTokenRepository invalidatedTokenRepository;
 
     @Override
-    public List<AuctionSession> getAllAuctionSession() {
-        return auctionSessionRepository.findAll();
+    public List<AuctionSessionDTO> getAllAuctionSession() {
+        return auctionSessionMapper.toAuctionSessionDTOList(auctionSessionRepository.findAll());
     }
 
     @Override
@@ -165,6 +165,14 @@ public class AuctionSessionService implements IAuctionSessionService {
         map.put("AuctionSession", auctionSessionDTO);
         map.put("Registers", registerDTOS);
         return map;
+    }
+
+    @Override
+    public AuctionSessionDTO publicAuctionSession(Integer sessionId) {
+        AuctionSession auctionSession = auctionSessionRepository.findById(sessionId).get();
+        auctionSession.setStatus(AuctionSessionStatus.UPCOMING);
+        auctionSessionRepository.save(auctionSession);
+        return auctionSessionMapper.toAuctionSessionDTO(auctionSession);
     }
 
     public List<AuctionSession> getAuctionSessions(AuctionSessionStatus status) {
