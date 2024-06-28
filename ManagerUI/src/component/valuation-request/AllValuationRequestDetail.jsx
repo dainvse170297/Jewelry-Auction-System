@@ -1,14 +1,18 @@
-import React, { useState } from "react";
-import { Button, Carousel } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Modal, Button, Carousel } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import { toast } from "react-toastify";
-import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "./valuationRequest.scss";
+
 import {
   postPreliminaryConfirm,
   postProductReceive,
+  postAproveFinalValuation,
+  getFinalValuationDetail,
 } from "../../services/apiService.jsx";
+import FullScreenImage from "../../view/image/FullScreenImage.jsx";
 
-export { ValuationRequested, PreliminaryValuated };
+export { ValuationRequested, PreliminaryValuated, PendingApproval };
 
 function ValuationRequested({ valuationRequest, staffId, onHide }) {
   const [preliminaryValuation, setPreliminaryValuation] = useState({
@@ -246,6 +250,129 @@ function PreliminaryValuated({ valuationRequest, staffId, onHide }) {
           </div>
         </div>
       </div>
+    </>
+  );
+}
+
+function PendingApproval({ valuationRequestId, onUpdate }) {
+  const [productInfo, setProductInfo] = useState({});
+  const [show, setShow] = useState(false);
+  const [selectedImageUrl, setSelectedImageUrl] = useState(null);
+  const [urlList, setUrlList] = useState([]);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const handleImageClick = (imageUrl) => {
+    setSelectedImageUrl(imageUrl);
+  };
+  const handleImageClose = () => {
+    setSelectedImageUrl(null);
+  };
+
+  useEffect(() => {
+    try {
+      const fetchProductInfo = async () => {
+        const data = await getFinalValuationDetail(valuationRequestId);
+        setProductInfo(data);
+        data.productImages &&
+          setUrlList(data.productImages.map((image) => image.imageUrl));
+      };
+      fetchProductInfo();
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+  }, [valuationRequestId]);
+
+  const handleApprove = async () => {
+    try {
+      const id = valuationRequestId;
+
+      const data = await postAproveFinalValuation(id);
+
+      if (data !== null) {
+        toast.success("Approved successfully");
+        handleClose();
+        onUpdate(true);
+        // navigate("/final-valuation-request-list");
+      } else {
+        toast.error("Failed to approve");
+      }
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+  };
+
+  return (
+    <>
+      <ToastContainer />
+      <button onClick={handleShow} className="btn btn-primary" type="button">
+        Detail
+      </button>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Valuation request detail</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {productInfo && (
+            <div className="productInfo">
+              <h3>{productInfo.nameProduct}</h3>
+              <p>
+                <strong>Category:</strong> {productInfo.categoryName}
+              </p>
+              <p>{productInfo.description}</p>
+              <p>
+                <strong>Estimated Price:</strong> $
+                {productInfo.estimatePriceMin} - ${productInfo.estimatePriceMax}
+              </p>
+              <div className="productImages">
+                <div className="productImages">
+                  {productInfo.productImages &&
+                    Array.isArray(productInfo.productImages) && (
+                      <FullScreenImage imageUrls={urlList} />
+
+                      // productInfo.productImages.map((image, index) => (
+                      //   <img
+                      //     key={index}
+                      //     src={image.imageUrl}
+                      //     alt={`Product Image ${index + 1}`}
+                      //     onClick={() => handleImageClick(image.imageUrl)}
+                      //     onError={(e) => {
+                      //       e.target.onerror = null;
+                      //       e.target.src = image.defaultImage;
+                      //     }}
+                      //     style={{
+                      //       width: "100px",
+                      //       height: "100px",
+                      //     }}
+                      //   />
+                    )}
+                </div>
+              </div>
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="success" onClick={handleApprove}>
+            Approve
+          </Button>
+          <Button variant="danger" onClick={handleClose}>
+            Reject
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={!!selectedImageUrl} onHide={handleImageClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Product Image</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <img
+            src={selectedImageUrl}
+            alt="Selected Product"
+            style={{ width: "100%" }}
+          />
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

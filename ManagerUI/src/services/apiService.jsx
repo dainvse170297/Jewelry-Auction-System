@@ -1,5 +1,15 @@
 import axios from "../utils/axiosCustomize";
 
+export {
+  getAllValuationRequests,
+  getRevenueByYear,
+  postPreliminaryConfirm,
+  getFinalValuationRequests,
+  getFinalValuationDetail,
+  postAproveFinalValuation,
+  postProductReceive,
+};
+
 const getAllValuationRequests = async () => {
   return axios.get(`valuation/all`);
 };
@@ -27,13 +37,18 @@ const postProductReceive = async (id) => {
   return axios.post(`valuation/product-received`, formData);
 };
 
-const getRevenueByYear = async (anYear) => {
-  return axios.get(`dashboard/data/${anYear}`);
+const getFinalValuationRequests = async () => {
+  return axios.get(`valuation/get-all-final-valuations`);
 };
 
-export {
-  getAllValuationRequests,
-  getRevenueByYear,
-  postPreliminaryConfirm,
-  postProductReceive,
+const getFinalValuationDetail = async (id) => {
+  return axios.get(`valuation/view-final-request-details/${id}`);
+};
+
+const postAproveFinalValuation = async (id) => {
+  return axios.post(`valuation/approve-final-valuation/${id}`);
+};
+
+const getRevenueByYear = async (anYear) => {
+  return axios.get(`dashboard/data/${anYear}`);
 };

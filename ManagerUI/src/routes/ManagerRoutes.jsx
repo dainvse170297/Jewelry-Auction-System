@@ -1,6 +1,4 @@
 import React from "react";
-import AllValuationRequestList from "../component/valuation-request/AllValuationRequestList";
-import AuctionAssigned from "../component/staff/AuctionAssigned";
 import Dashboard from "../component/dashboard/Dashboard";
 import Setting from "../component/manager/SystemSetting";
 import UserManage from "../component/manager/UserManage";
@@ -9,6 +7,10 @@ import CreateAuction from "../component/manager/CreateAuction";
 import { ReadyLots } from "../component/lots/LotList";
 import { FinancialProofRequestList } from "../component/financial-proof-request/FinancialProofRequestList";
 import AddLotToSession from "../component/manager/Session/AddLotToSession";
+import {
+  AllValuationRequestList,
+  PendingApprovalList,
+} from "../component/valuation-request/AllValuationRequestList";
 
 const ManagerRoutes = [
   {
@@ -18,6 +20,10 @@ const ManagerRoutes = [
   {
     path: "/valuation-request",
     element: <AllValuationRequestList />,
+  },
+  {
+    path: "/valuation-request/pending-approval",
+    element: <PendingApprovalList />,
   },
   {
     path: "/user-manage",
@@ -46,7 +52,7 @@ const ManagerRoutes = [
   {
     path: "/add-session/:id",
     element: <AddLotToSession />,
-  }
+  },
 ];
 
 export default ManagerRoutes;
