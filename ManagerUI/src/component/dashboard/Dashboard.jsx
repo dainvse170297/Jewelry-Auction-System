@@ -1,55 +1,176 @@
-import React from "react";
-import ChartComponent from "./data/ChartComponent";
-import StatisticsCard from "./data/StatisticsCard";
-import { Grid } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import ChartComponent from "../dashboard/data/ChartComponent";
+import StatisticsCard from "../dashboard/data/StatisticsCard";
+import { Grid, Button } from "@mui/material";
+import axios from "axios";
 
 const Dashboard = () => {
+  const currentYear = new Date().getFullYear();
+  const [revenueCurrentYear, setRevenueCurrentYear] = useState([]);
+  const [revenueBeforeYear, setRevenueBeforeYear] = useState([]);
+  const [currentYearData, setCurrentYearData] = useState({});
+  const [beforeYearData, setBeforeYearData] = useState({});
+  const [selectedYear, setSelectedYear] = useState(currentYear);
+
+  useEffect(() => {
+    const fetchRevenueCurrentYear = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/dashboard/data/${currentYear}`
+        );
+        setRevenueCurrentYear(response.data.revenue);
+        setCurrentYearData(response.data);
+      } catch (error) {
+        console.error("Error fetching current year revenue", error);
+      }
+    };
+
+    const fetchRevenueBeforeYear = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/dashboard/data/${currentYear - 1}`
+        );
+        setRevenueBeforeYear(response.data.revenue);
+        setBeforeYearData(response.data);
+      } catch (error) {
+        console.error("Error fetching revenue for previous year:", error);
+      }
+    };
+
+    fetchRevenueCurrentYear();
+    fetchRevenueBeforeYear();
+  }, [currentYear]);
+
+  const calculatePercentageChange = (current, previous) => {
+    if (previous === 0) {
+      return current > 0 ? 100 : 0;
+    }
+    return ((current - previous) / previous) * 100;
+  };
+
+  const totalRevenueCurrentYear = revenueCurrentYear.reduce(
+    (total, revenue) => total + revenue,
+    0
+  );
+
+  const totalRevenueBeforeYear = revenueBeforeYear.reduce(
+    (total, revenue) => total + revenue,
+    0
+  );
+
+  const handleToggleYear = () => {
+    setSelectedYear((prevYear) =>
+      prevYear === currentYear ? currentYear - 1 : currentYear
+    );
+  };
+
+  const selectedData =
+    selectedYear === currentYear ? currentYearData : beforeYearData;
+  const selectedRevenue =
+    selectedYear === currentYear ? revenueCurrentYear : revenueBeforeYear;
+
+  const otherYearData =
+    selectedYear === currentYear ? beforeYearData : currentYearData;
+  const otherYearRevenue =
+    selectedYear === currentYear ? revenueBeforeYear : revenueCurrentYear;
+
+  const percentageRevenueChange = calculatePercentageChange(
+    selectedRevenue.reduce((total, revenue) => total + revenue, 0),
+    otherYearRevenue.reduce((total, revenue) => total + revenue, 0)
+  );
+  const isRevenueIncrease = percentageRevenueChange >= 0;
+
+  const percentageAuctionSessionChange = calculatePercentageChange(
+    selectedData.totalAuctionSession || 0,
+    otherYearData.totalAuctionSession || 0
+  );
+  const isAuctionSessionIncrease = percentageAuctionSessionChange >= 0;
+
+  const percentageAuctionLotsChange = calculatePercentageChange(
+    selectedData.totalAuctionLots || 0,
+    otherYearData.totalAuctionLots || 0
+  );
+  const isAuctionLotsIncrease = percentageAuctionLotsChange >= 0;
+
+  const percentageAuctionLotsSoldChange = calculatePercentageChange(
+    selectedData.totalAuctionLotsSold || 0,
+    otherYearData.totalAuctionLotsSold || 0
+  );
+  const isAuctionLotsSoldIncrease = percentageAuctionLotsSoldChange >= 0;
+
   return (
     <div className="home">
-      <div className="row">
-        <h2 className="text-center">Dashboard</h2>
+      <div
+        className="row"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <h2 className="text-center" style={{ flexGrow: 1 }}>
+          Dashboard
+        </h2>
+        <Button
+          variant="contained"
+          onClick={handleToggleYear}
+          style={{ fontSize: "0.8rem" }}
+        >
+          Show{" "}
+          {selectedYear === currentYear
+            ? beforeYearData.year
+            : currentYearData.year}
+        </Button>
       </div>
       <div className="mainContent mt-3">
         <Grid container spacing={3} justifyContent="center">
           <Grid item xs={12} md={3}>
             <StatisticsCard
-              title="Yearly Breakup"
-              value="$36,358"
-              percentage={9}
-              isIncrease={true}
+              title="Total Revenue"
+              value={`$${selectedRevenue.reduce(
+                (total, revenue) => total + revenue,
+                0
+              )}`}
+              percentage={percentageRevenueChange.toFixed(2)}
+              isIncrease={isRevenueIncrease}
               className="mb-3"
             />
           </Grid>
           <Grid item xs={12} md={3}>
             <StatisticsCard
-              title="Monthly Earnings"
-              value="$6,820"
-              percentage={-9}
-              isIncrease={false}
+              title="Total Auction Session"
+              value={selectedData.totalAuctionSession || 0}
+              percentage={percentageAuctionSessionChange.toFixed(2)}
+              isIncrease={isAuctionSessionIncrease}
               className="mb-3"
             />
           </Grid>
           <Grid item xs={12} md={3}>
             <StatisticsCard
-              title="Monthly Earnings"
-              value="$6,820"
-              percentage={-9}
-              isIncrease={false}
+              title="Total Auction Lots"
+              value={selectedData.totalAuctionLots || 0}
+              percentage={percentageAuctionLotsChange.toFixed(2)}
+              isIncrease={isAuctionLotsIncrease}
               className="mb-3"
             />
           </Grid>
           <Grid item xs={12} md={3}>
             <StatisticsCard
-              title="Monthly Earnings"
-              value="$6,820"
-              percentage={-9}
-              isIncrease={false}
+              title="Total Lot Sold"
+              value={selectedData.totalAuctionLotsSold || 0}
+              percentage={percentageAuctionLotsSoldChange.toFixed(2)}
+              isIncrease={isAuctionLotsSoldIncrease}
               className="mb-3"
             />
           </Grid>
 
           <Grid item xs={12} md={10}>
-            <ChartComponent />
+            <ChartComponent
+              revenueCurrentYear={revenueCurrentYear}
+              revenueBeforeYear={revenueBeforeYear}
+              currentYearData={currentYearData}
+              beforeYearData={beforeYearData}
+            />
           </Grid>
         </Grid>
       </div>
