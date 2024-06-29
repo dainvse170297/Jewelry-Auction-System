@@ -132,6 +132,7 @@ export default function LiveLotDetail() {
   const handleBuyNow = () => {
     let buyNowPrice = parseFloat(productInfo.buyNowPrice);
     placeBid(buyNowPrice);
+    setShowModal(false);
   }
 
   return (
@@ -177,6 +178,7 @@ export default function LiveLotDetail() {
                   {productInfo.description}
                 </div>
 
+
                 <div className="d-flex justify-content-center mt-5">
                   <div className="d-flex align-items-center">
                     <h4 className="me-3">
@@ -213,7 +215,11 @@ export default function LiveLotDetail() {
                         <button onClick={calculateBid} className="bid-btn">
                           PLACE BID
                         </button>
+
                         <div className="ms-3">
+                          <div className="text-center text-secondary">
+                            Price per step: ${productInfo.pricePerStep}
+                          </div>
                           <div className="bid-input">
                             <input type="number" min={1} max={productInfo.maxStep} value={multiplier} onChange={handleMultiplierChange} />
                           </div>
@@ -263,8 +269,8 @@ export default function LiveLotDetail() {
           <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleCloseModal}>
-            Save Changes
+          <Button variant="primary" onClick={handleBuyNow}>
+            Buy Now
           </Button>
         </Modal.Footer>
       </Modal>
