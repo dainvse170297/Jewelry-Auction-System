@@ -3,11 +3,30 @@ import { FaBackward } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Paginator from "../common/Paginator";
 import { ToastContainer, toast } from "react-toastify";
-import { ValuationRequested } from "./AllValuationRequestDetail.jsx";
+import axios from "axios";
 import moment from "moment";
-import { getAllValuationRequests } from "../../services/apiService.jsx";
+
+import {
+  ValuationRequested,
+  PreliminaryValuated,
+  PendingApproval,
+  ManagerApproved,
+} from "./AllValuationRequestDetail.jsx";
+
+import {
+  getAllValuationRequests,
+  getFinalValuationRequests,
+} from "../../services/apiService.jsx";
+
+export { AllValuationRequestList, PendingApprovalList };
 
 const AllValuationRequestList = () => {
+  const user = {
+    id: sessionStorage.getItem("id"),
+    name: sessionStorage.getItem("name"),
+    role: sessionStorage.getItem("role"),
+  };
+
   const [valuationRequests, setValuationRequests] = useState([]);
   const [currentItemsDetail, setCurrentItemsDetail] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("");
@@ -122,9 +141,9 @@ const AllValuationRequestList = () => {
                             <td>Member {request.memberId}</td>
                             <td>
                               {/* {request.timeRequest} */}
-                              {moment(request.timeRequest).format(
-                                "DD/MM/YYYY HH:mm:ss"
-                              )}
+                                {moment(request.timeRequest).format(
+                                  "DD/MM/YYYY HH:mm:ss"
+                                )}
                             </td>
                             <td>{request.valuationStatus}</td>
                             <td>
@@ -145,26 +164,138 @@ const AllValuationRequestList = () => {
               </div>
 
               <div className="col-sm-5">
-                {currentItemsDetail && (
-                  <>
-                    <ValuationRequested
-                      valuationRequest={currentItemsDetail}
-                      onHide={() => setCurrentItemsDetail(null)}
-                    />
-                  </>
-                )}
+                {currentItemsDetail &&
+                  currentItemsDetail.valuationStatus === "REQUESTED" && (
+                    <>
+                      <ValuationRequested
+                        valuationRequest={currentItemsDetail}
+                        onHide={() => setCurrentItemsDetail(null)}
+                        staffId={user.id}
+                      />
+                    </>
+                  )}
+                {currentItemsDetail &&
+                  currentItemsDetail.valuationStatus ===
+                    "PRELIMINARY_VALUATED" && (
+                    <>
+                      <PreliminaryValuated
+                        valuationRequest={currentItemsDetail}
+                        onHide={() => setCurrentItemsDetail(null)}
+                        staffId={user.id}
+                      />
+                    </>
+                  )}
+                {currentItemsDetail &&
+                  currentItemsDetail.valuationStatus === "MANAGER_APPROVED" && (
+                    <>
+                      <ManagerApproved
+                        valuationRequest={currentItemsDetail}
+                        onHide={() => setCurrentItemsDetail(null)}
+                        staffId={user.id}
+                      />
+                    </>
+                  )}
               </div>
             </div>
           </div>
-
-          {/* <div className="col-lg-3"></div>
-          <div className="col-lg-6"></div>
-          <div className="col-lg-3"></div> */}
-          {/* )} */}
         </div>
       </div>
     </div>
   );
 };
 
-export default AllValuationRequestList;
+const PendingApprovalList = () => {
+  const [Finalvaluation, setFinalValuation] = useState([]);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemPerPage, setItemPerPage] = useState(10);
+
+  const handleUpdate = (e) => {
+    console.log("Update");
+    window.location.reload();
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  useEffect(() => {
+    const getList = async () => {
+      try {
+        const data = await getFinalValuationRequests();
+        setFinalValuation(data);
+      } catch (error) {
+        console.log("Error nek:", error.message);
+        setErrorMsg("Error fetching data from server");
+      }
+    };
+    getList();
+  }, []);
+
+  const calculateTotalPage = (itemPerPage, Finalvaluation) => {
+    const totalItem = Finalvaluation.length;
+    return Math.ceil(totalItem / itemPerPage);
+  };
+
+  const indexOfLastItem = currentPage * itemPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemPerPage;
+  const currentItems = Finalvaluation.slice(indexOfFirstItem, indexOfLastItem);
+
+  return (
+    <div className="container">
+      <div className="row  d-flex justify-content-center">
+        <div className="col-lg-10">
+          <div className="row">
+            <h2 className="text-center">Pending Approval List</h2>
+          </div>
+          <div className="row">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">From</th>
+                  <th scope="col">Time</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentItems.map((request, key) => (
+                  <>
+                    <tr>
+                      <th scope="row">{key + 1}</th>
+                      <td>Member {request.memberId}</td>
+                      <td>
+                        {/* {request.timeRequest} */}
+                        {moment(request.timeRequest).format(
+                          "DD/MM/YYYY HH:mm:ss"
+                        )}
+                      </td>
+                      <td>{request.valuationStatus}</td>
+                      <td>
+                        <PendingApproval
+                          valuationRequestId={request.id}
+                          onUpdate={() => handleUpdate()}
+                        />
+                      </td>
+                    </tr>
+                  </>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="row">
+            <div className="flex align-items-center justify-content-center">
+              <Paginator
+                currentPage={currentPage}
+                totalPages={calculateTotalPage(itemPerPage, Finalvaluation)}
+                onPageChange={handlePageChange}
+              ></Paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

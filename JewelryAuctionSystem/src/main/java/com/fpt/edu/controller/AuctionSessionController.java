@@ -25,31 +25,31 @@ public class AuctionSessionController {
     private final IAuctionSessionService auctionSessionService;
 
     @PostMapping("/create-session")
-    public ResponseEntity<AuctionSession> createAuctionSession(@RequestParam("name") String name,
+    public ResponseEntity<AuctionSessionDTO> createAuctionSession(@RequestParam("name") String name,
                                                                @RequestParam("description") String description,
                                                                @RequestParam("startTime") LocalDateTime startDate,
                                                                @RequestParam("endTime") LocalDateTime endDate,
                                                                @RequestParam("startingBid") LocalDateTime startingBid,
                                                                @RequestParam("staffId") int staffId,
                                                                @RequestParam(value = "image", required = false) MultipartFile image) throws IOException {
-    AuctionSession auction = auctionSessionService.createSession(name, description, startDate, endDate, startingBid, staffId, image);
+    AuctionSessionDTO auction = auctionSessionService.createSession(name, description, startDate, endDate, startingBid, staffId, image);
 
 
         return ResponseEntity.ok(auction);
     }
 
     @GetMapping("/all-session")
-    public ResponseEntity<List<AuctionSession>> getAllAuctionSession() {
+    public ResponseEntity<List<AuctionSessionDTO>> getAllAuctionSession() {
         return ResponseEntity.ok(auctionSessionService.getAllAuctionSession());
     }
 
     @GetMapping("/session/{id}")
-    public ResponseEntity<AuctionSession> getAuctionSessionById(@PathVariable int id) {
+    public ResponseEntity<AuctionSessionDTO> getAuctionSessionById(@PathVariable int id) {
         return ResponseEntity.ok(auctionSessionService.getAuctionSessionById(id));
     }
 
     @GetMapping("/all-created-session")
-    public ResponseEntity<List<AuctionSession>> getAllAuctionSessionByCreatedStatus() {
+    public ResponseEntity<List<AuctionSessionDTO>> getAllAuctionSessionByCreatedStatus() {
         return ResponseEntity.ok(auctionSessionService.getAllAuctionSessionByCreatedStatus());
     }
 
@@ -80,5 +80,11 @@ public class AuctionSessionController {
     @GetMapping("/session/live")
     public ResponseEntity<List<AuctionSessionDTO>> getLiveAuctionSession() {
         return ResponseEntity.ok(auctionSessionService.getAuctionSession(AuctionSessionStatus.LIVE));
+    }
+
+    //Change status of auction session from CREATED to UPCOMING
+    @PostMapping("/public-session/{sessionId}")
+    public ResponseEntity<?> publicAuctionSession(@PathVariable Integer sessionId) {
+        return ResponseEntity.ok(auctionSessionService.publicAuctionSession(sessionId));
     }
 }

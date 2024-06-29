@@ -25,8 +25,8 @@ public class LotController {
     }
 
     @GetMapping("/ready-lot/{id}")
-    public ResponseEntity<Lot> getReadyLotById(@PathVariable int id) {
-        return ResponseEntity.ok(lotService.getLotsByStatusReadyById(id));
+    public ResponseEntity<LotDTO> getReadyLotById(@PathVariable int id) {
+        return ResponseEntity.ok(lotMapper.toLotDTO(lotService.getLotsByStatusReadyById(id)));
     }
     @GetMapping("/view-live-lot-detail/{id}")
     public ResponseEntity<LotDTO> viewLiveLotDetail(@PathVariable Integer id) { //id lot

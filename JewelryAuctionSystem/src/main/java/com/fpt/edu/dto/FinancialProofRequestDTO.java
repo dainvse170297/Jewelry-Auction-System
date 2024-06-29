@@ -25,4 +25,5 @@ public class FinancialProofRequestDTO {
     private FinancialProofRequestStatus status;
     private BigDecimal financialProofAmount;
     private Set<String> financialProofImages;
+
 }

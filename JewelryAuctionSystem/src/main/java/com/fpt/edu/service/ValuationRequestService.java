@@ -2,6 +2,7 @@ package com.fpt.edu.service;
 
 import com.fpt.edu.dto.*;
 import com.fpt.edu.entity.*;
+import com.fpt.edu.mapper.LotMapper;
 import com.fpt.edu.mapper.NotifyMapper;
 import com.fpt.edu.repository.*;
 import com.fpt.edu.status.ValuationRequestStatus;
@@ -29,6 +30,7 @@ public class ValuationRequestService implements IValuationRequestService {
     private final IValuationImageRepository iValuationImageRepository;
     private final IStaffRepository iStaffRepository;
     private final INotifyRepository iNotifyRepository;
+    private final ILotRepository iLotRepository;
 
     private final ValuationRequestMapper valuationRequestMapper;
 
@@ -39,6 +41,7 @@ public class ValuationRequestService implements IValuationRequestService {
     private final ProductService productService;
 
     private final ResponseValuationRequestService responseValuationRequestService;
+    private final LotMapper lotMapper;
 
 
     @Override
@@ -85,7 +88,7 @@ public class ValuationRequestService implements IValuationRequestService {
     public List<ValuationRequestDetailDTO> getAll() {
         List<ValuationRequest> valuationRequests = iValuationRequestRepository.findAll();
         for (ValuationRequest valuationRequest : valuationRequests) {
-            Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
+            Set<ValuationImage> valuationImages = new HashSet<>(iValuationImageRepository.findByRequest(valuationRequest));
             valuationRequest.setValuationImages(valuationImages);
         }
         return valuationRequestMapper.mapToValuationRequestDetailDTOList(valuationRequests);
@@ -241,11 +244,17 @@ public class ValuationRequestService implements IValuationRequestService {
     }
 
     @Override
-    public ProductDetailDTO getProductDetail(Integer id) {
-        ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
-        return productService.viewProductDetails(valuationRequest.getProduct().getId());
+    public LotDTO getProductDetail(Integer id) {
+        Integer productId = iValuationRequestRepository.getReferenceById(id).getProduct().getId();
+        LotDTO result = null;
+        List<Lot> lots = iLotRepository.findLotByProduct_Id(productId);
+        if (!lots.isEmpty()){
+            Lot lot = lots.get(0);
+            result = lotMapper.toLotDTO(lot);
+        }
+        return result;
+//        return productService.viewProductDetails(valuationRequest.getProduct().getId());
     }
-
 
     @Override
     public List<Map<String, String>> sendFinalValuationToMember(Integer id, Integer staffId) {

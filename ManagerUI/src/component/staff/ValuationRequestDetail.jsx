@@ -6,9 +6,6 @@ import Form from "react-bootstrap/Form";
 import { FaBackward } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import "../home/home.scss";
-import Navbar from "../layout/navbar/Navbar";
-import Sidebar from "../../layouts/sidebar/Sidebar";
 
 const ValuationRequestDetail = () => {
   const { id } = useParams();
@@ -31,6 +28,10 @@ const ValuationRequestDetail = () => {
     estimatePriceMin: "",
     photos: [],
     photoPreview: [],
+    buyNowPrice: "",
+    maxStep: "",
+    pricePerStep: "",
+    startPrice: "",
   });
 
   const [categories, setCategories] = useState([]);
@@ -110,7 +111,12 @@ const ValuationRequestDetail = () => {
       product.description.trim() === "" ||
       product.categoryId.trim() === "" ||
       product.estimatePriceMax.trim() === "" ||
-      product.estimatePriceMin.trim() === ""
+      product.estimatePriceMin.trim() === "" ||
+      product.buyNowPrice.trim() === "" ||
+      product.maxStep.trim() === "" ||
+      product.pricePerStep.trim() === "" ||
+      product.photos.length === 0 ||
+      product.startPrice.trim() === ""
     ) {
       toast.warning("Need to fill all fields");
     } else {
@@ -123,6 +129,10 @@ const ValuationRequestDetail = () => {
         formData.append("description", product.description);
         formData.append("estimatePriceMax", product.estimatePriceMax);
         formData.append("estimatePriceMin", product.estimatePriceMin);
+        formData.append("buyNowPrice", product.buyNowPrice);
+        formData.append("maxStep", product.maxStep);
+        formData.append("pricePerStep", product.pricePerStep);
+        formData.append("startPrice", product.startPrice);
         product.photos.forEach((photo, index) => {
           formData.append("photos", photo);
         });
@@ -138,8 +148,8 @@ const ValuationRequestDetail = () => {
             toast.success("Product submitted successfully!");
             setIsWaiting(false);
             setTimeout(() => {
-              navigate("/valuation-request");
-            }, 6000);
+              navigate("/valuation-request/received");
+            }, 5000);
           })
           .catch((error) => {
             console.error("Error submitting form:", error);
@@ -154,12 +164,10 @@ const ValuationRequestDetail = () => {
 
   return (
     <div className="home">
-      <Sidebar />
       <div className="homeContainer">
-        <Navbar />
         <div className="ms-5 me-5">
           <div className="mt-3">
-            <Link to={"/valuation-request"}>
+            <Link to={"/valuation-request/received"}>
               <FaBackward />
             </Link>
           </div>
@@ -173,10 +181,10 @@ const ValuationRequestDetail = () => {
                 Description: <strong>{valuationRequest.description}</strong>
               </p>
               <p>
-                Min Price: <strong>{valuationRequest.estimatePriceMin}</strong>
+                Min Price: $<strong>{valuationRequest.estimatePriceMin}</strong>
               </p>
               <p>
-                Max Price: <strong>{valuationRequest.estimatePriceMax}</strong>
+                Max Price: $<strong>{valuationRequest.estimatePriceMax}</strong>
               </p>
             </div>
           </div>
@@ -231,9 +239,67 @@ const ValuationRequestDetail = () => {
                     onChange={handleInputChange}
                     onBlur={handleBlur}
                   />
+
+                  {/* INPUT Lot START PRICE */}
+                  <Form.Label htmlFor="startPrice">
+                    Start Price <span style={{ color: "red" }}>*</span>
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    id="startPrice"
+                    aria-describedby="passwordHelpBlock"
+                    name="startPrice"
+                    value={product.startPrice}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                  />
+
+                  {/* INPUT Lot BUY NOW PRICE */}
+                  <Form.Label htmlFor="buyNowPrice">
+                    Buy Now Price <span style={{ color: "red" }}>*</span>
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    id="buyNowPrice"
+                    aria-describedby="passwordHelpBlock"
+                    name="buyNowPrice"
+                    value={product.buyNowPrice}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                  />
+
+                  {/* INPUT Lot MAX STEP */}
+                  <Form.Label htmlFor="maxStep">
+                    Max Step <span style={{ color: "red" }}>*</span>
+                  </Form.Label>
+                  <Form.Control
+                    type="number"
+                    id="maxStep"
+                    aria-describedby="passwordHelpBlock"
+                    name="maxStep"
+                    value={product.maxStep}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    className="col-sm-2"
+                  />
+
+                  {/* INPUT Lot PRICE PER STEP */}
+                  <Form.Label htmlFor="pricePerStep">
+                    Price/Step <span style={{ color: "red" }}>*</span>
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    id="pricePerStep"
+                    aria-describedby="passwordHelpBlock"
+                    name="pricePerStep"
+                    value={product.pricePerStep}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                  />
+
                   <div className="mt-4">
                     {!isWaiting ? (
-                      <Button variant="success" type="submit">
+                      <Button variant="primary" type="submit" size="lg">
                         Submit
                       </Button>
                     ) : (

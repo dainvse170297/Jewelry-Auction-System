@@ -41,7 +41,12 @@ const Login = () => {
         (data.account.roleName === "STAFF" ||
           data.account.roleName === "MANAGER")
       ) {
-        login(data.account.fullname, data.account.roleName);
+        login(
+          data.account.staffId ? data.account.staffId : data.account.managerId,
+          data.account.fullname,
+          data.account.roleName,
+          data.token
+        );
         toast.success("Login successful");
         const redirectTo = location.state?.from || "/home";
 
@@ -101,12 +106,6 @@ const Login = () => {
                 <input className="form-check-input" type="checkbox" /> Remember
                 me
               </label>
-            </div>
-            <div className="mt-3">
-              No account yet?{" "}
-              <a className="register" href="/sign-up">
-                Create an account
-              </a>
             </div>
             {errorMsg && (
               <div className="alert alert-danger mt-3">{errorMsg}</div>

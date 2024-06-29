@@ -11,10 +11,9 @@ import AuctionIcon from "@mui/icons-material/Gavel";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const Header = () => {
-
   const navigate = useNavigate();
 
   const navigateToValuationRequest = () => {
@@ -28,7 +27,7 @@ const Header = () => {
     localStorage.removeItem("account");
     navigate("/");
     window.location.reload();
-  }
+  };
 
   return (
     <Navbar bg="white" expand="lg" className="border-bottom" fixed="top">
@@ -45,7 +44,9 @@ const Header = () => {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item href="/live">Live Auctions</Dropdown.Item>
-                <Dropdown.Item href="/upcoming">Upcoming Auctions</Dropdown.Item>
+                <Dropdown.Item href="/upcoming">
+                  Upcoming Auctions
+                </Dropdown.Item>
                 <Dropdown.Item href="#action3">Past Auctions</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -55,7 +56,12 @@ const Header = () => {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item href="/selling">About Selling</Dropdown.Item>
-                <Dropdown.Item href="/create-valuation">Send Valuation Request</Dropdown.Item>
+                <Dropdown.Item href="/create-valuation">
+                  Send Valuation Request
+                </Dropdown.Item>
+                <Dropdown.Item href="/create-financial-proof">
+                  Create My Financial Proof
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Nav>
@@ -65,30 +71,48 @@ const Header = () => {
           <Nav className="ms-auto me-auto">
             <Nav.Link href="#contact">CONTACT</Nav.Link>
             <Nav.Link href="#policies">POLICIES</Nav.Link>
-            <Nav.Link href="#notifications" className=""><Bell size={24} /></Nav.Link>
+            <Nav.Link href="#notifications" className="">
+              <Bell size={24} />
+            </Nav.Link>
             <Dropdown>
               <Dropdown.Toggle as={Nav.Link} id="dropdown-profile">
                 <Person size={24} />
               </Dropdown.Toggle>
               <Dropdown.Menu>
-
-
                 {currentUser ? (
                   <>
-                    <Dropdown.Item href="/profile"> <PersonIcon /> Profile</Dropdown.Item>
-                    <Dropdown.Item href="#"> <AuctionIcon /> My Auction</Dropdown.Item>
-                    <Dropdown.Item href="#"> <Valuation /> My Valuation</Dropdown.Item>
-                    <Dropdown.Item href="/checkout"> <ShoppingCartIcon /> My Winner Auction</Dropdown.Item>
-                    <Dropdown.Item href="" onClick={handleLogout}> <LogoutIcon /> Log Out</Dropdown.Item>
+                    <Dropdown.Item href="/profile">
+                      {" "}
+                      <PersonIcon /> Profile
+                    </Dropdown.Item>
+                    <Dropdown.Item href="#">
+                      {" "}
+                      <AuctionIcon /> My Auction
+                    </Dropdown.Item>
+                    <Dropdown.Item href="#">
+                      {" "}
+                      <Valuation /> My Valuation
+                    </Dropdown.Item>
+                    <Dropdown.Item href="/checkout">
+                      {" "}
+                      <ShoppingCartIcon /> My Winner Auction
+                    </Dropdown.Item>
+                    <Dropdown.Item href="" onClick={handleLogout}>
+                      {" "}
+                      <LogoutIcon /> Log Out
+                    </Dropdown.Item>
                   </>
                 ) : (
                   <>
-                    <Dropdown.Item href="/login"> <LoginIcon /> Sign In</Dropdown.Item>
-                    <Dropdown.Item href="#" onClick={handleLogout}> <PersonAddAltIcon /> Sign Up</Dropdown.Item>
+                    <Dropdown.Item href="/login">
+                      {" "}
+                      <LoginIcon /> Sign In
+                    </Dropdown.Item>
+                    <Dropdown.Item href="/sign-up">
+                      <PersonAddAltIcon /> Sign Up
+                    </Dropdown.Item>
                   </>
-
                 )}
-
               </Dropdown.Menu>
             </Dropdown>
           </Nav>
@@ -96,7 +120,6 @@ const Header = () => {
       </Container>
     </Navbar>
   );
-}
-
+};
 
 export default Header;

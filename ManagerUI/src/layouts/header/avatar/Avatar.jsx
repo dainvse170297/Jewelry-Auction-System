@@ -24,7 +24,7 @@ const Avatar = ({ imageUrl }) => {
   return (
     <>
       <div className="avatar my-1 mx-5">
-        {/* <button
+        <button
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
@@ -32,7 +32,7 @@ const Avatar = ({ imageUrl }) => {
           aria-controls="navbarNavDarkDropdown"
           aria-expanded="false"
           aria-label="Toggle navigation"
-        ></button> */}
+        ></button>
 
         <div className="collapse navbar-collapse" id="navbarNavDarkDropdown">
           <ul className="navbar-nav">
@@ -75,12 +75,6 @@ const Avatar = ({ imageUrl }) => {
           </ul>
         </div>
       </div>
-      {/* <img
-        src="imageUrl"
-        className="d-fluid rounded-circle"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      ></img> */}
     </>
   );
 };

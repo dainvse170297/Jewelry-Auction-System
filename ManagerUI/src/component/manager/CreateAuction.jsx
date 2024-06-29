@@ -1,23 +1,22 @@
+import { Box, CircularProgress, TextField } from "@mui/material";
 import axios from "axios";
 import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { FaBackward } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import { CircularProgress } from "@mui/material";
 
 const CreateAuction = () => {
   const [staffs, setStaffs] = useState([]);
 
   const [auctionSession, setAuctionSession] = useState({
-    name: "",
-    description: "",
-    startTime: "",
-    endTime: "",
-    startingBid: "",
-    staffId: "",
-    image: "",
+    name: '',
+    description: '',
+    startTime: '',
+    endTime: '',
+    startingBid: '',
+    staffId: '',
+    image: '',
   });
 
   const [isWaiting, setIsWaiting] = useState(false);
@@ -84,17 +83,21 @@ const CreateAuction = () => {
         formData.append("image", auctionSession.image);
         setIsWaiting(true);
         const createSession = await axios
-          .post("http://localhost:8080/auction/create-session", formData)
+          .post("http://localhost:8080/auction/create-session", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
           .then((response) => {
             console.log("Auction session created");
             toast.success("Auction Session created successfully!");
             setIsWaiting(false);
             setTimeout(() => {
-              navigate("/manager");
+              navigate("/auction");
             }, 2000);
           })
           .catch((error) => {
-            console.log("Error create auction session");
+
             toast.error(
               "Error occurred when create Session, please try again!"
             );
@@ -111,6 +114,7 @@ const CreateAuction = () => {
       <div className="ms-5 me-5">
         <h2 className="text-center mt-2">Create Auction Session</h2>
         <div className="mt-3">
+
           <form action="" onSubmit={handleFormSubmit}>
             <div className="row d-flex justify-content-center">
               <div className="col-lg-6">
@@ -126,6 +130,8 @@ const CreateAuction = () => {
                   value={auctionSession.name}
                   onChange={handleInputChange}
                 />
+
+
 
                 {/* Input session description */}
 
@@ -182,13 +188,13 @@ const CreateAuction = () => {
                   <option value="" className="text-secondary">
                     -- Select Staff --
                   </option>
-                  {staffs.map((staff) => (
+                  {staffs.map((staff, index) => (
                     <option
-                      key={staff.staffId}
+                      key={index}
                       value={staff.staffId}
                       className=""
                     >
-                      {staff.username}
+                      {staff.fullname}
                     </option>
                   ))}
                 </Form.Select>
@@ -219,13 +225,13 @@ const CreateAuction = () => {
                   <img
                     src={imagePreview}
                     alt="Preview Auction Banner"
-                    style={{ widows: "400px", maxHeight: "400px" }}
+                    style={{ width: "200px", maxHeight: "200px" }}
                   />
                 )}
-
+                <br />
                 {!isWaiting ? (
-                  <Button variant="success" type="submit" className="mt-3">
-                    Submit
+                  <Button variant="primary" type="submit" size="lg" className="mt-3">
+                    Create
                   </Button>
                 ) : (
                   <CircularProgress />

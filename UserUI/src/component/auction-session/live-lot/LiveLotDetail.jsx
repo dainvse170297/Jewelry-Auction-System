@@ -3,19 +3,22 @@ import { LinearProgress } from "@mui/material";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { Carousel } from "react-bootstrap";
+import { Button, Carousel, Modal } from "react-bootstrap";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Countdown from "../../countdown/Countdown";
 import "./LiveLotDetail.scss";
-import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import WebSocketHandler from "../../web-socket-handler/WebSocketHandler";
 
 export default function LiveLotDetail() {
+  const { id } = useParams();
+
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { id } = useParams();
+  const [showModal, setShowModal] = useState(false);
+
   const [errorMsg, setErrorMsg] = useState("");
   const [productInfo, setProductInfo] = useState({});
   const [bidHistory, setBidHistory] = useState([]);
@@ -44,6 +47,7 @@ export default function LiveLotDetail() {
       }
     };
     getInfo();
+    console.log("location", location);
   }, [id]);
 
   //http://localhost:8080/bid/list-bid?lotId=68
@@ -62,11 +66,11 @@ export default function LiveLotDetail() {
       }
     };
     getBidHistory();
-  }, [id])
+  }, [id]);
 
   const handleMultiplierChange = (e) => {
     setMultiplier(e.target.value);
-  }
+  };
 
   useEffect(() => {
     if (message) {
@@ -74,16 +78,12 @@ export default function LiveLotDetail() {
         ...prevInfo,
         currentPrice: message.price,
       }));
-      // setBidHistory((prevHistory) => [
-      //   { price: message.price, bidTime: message.bidTime },
-      //   ...prevHistory,
-      // ]);
     }
   }, [message]);
 
-  const calculateBid = async () => {
-    let price = parseFloat(productInfo.currentPrice);
-    let calculatedAmount = price + parseFloat(productInfo.pricePerStep) * multiplier;
+  const placeBid = async (calculatedAmount) => {
+    // let price = parseFloat(productInfo.currentPrice);
+    // let calculatedAmount = price + parseFloat(productInfo.pricePerStep) * multiplier;
 
     setAmountBid(calculatedAmount);
     if (currentUser === null) {
@@ -93,9 +93,17 @@ export default function LiveLotDetail() {
       formData.append("price", calculatedAmount);
       formData.append("lotId", productInfo.id);
       formData.append("memberId", currentUser.memberId);
-
+      console.log(
+        "formData",
+        calculatedAmount,
+        productInfo.id,
+        currentUser.memberId
+      );
       try {
-        const placeBid = await axios.post("http://localhost:8080/bid/place-bid", formData);
+        const placeBid = await axios.post(
+          "http://localhost:8080/bid/place-bid",
+          formData
+        );
         if (placeBid.status === 200) {
           toast.success(`Successfully placed bid at $${calculatedAmount}`, {
             autoClose: 2500,
@@ -103,7 +111,10 @@ export default function LiveLotDetail() {
           // Manually update the current price and bid history
           setProductInfo((prevInfo) => ({
             ...prevInfo,
-            currentPrice: calculatedAmount,
+            currentPrice:
+              calculatedAmount > prevInfo.buyNowPrice
+                ? prevInfo.buyNowPrice
+                : calculatedAmount,
           }));
           // setBidHistory((prevHistory) => [
           //   { price: calculatedAmount, bidTime: new Date() },
@@ -116,8 +127,42 @@ export default function LiveLotDetail() {
         toast.error("Failed to place bid");
       }
     }
-
   };
+
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
+
+  const calculateBid = () => {
+    let price;
+    if (productInfo.currentPrice === 0) {
+      price = parseFloat(productInfo.startPrice);
+      console.log("price", price);
+    } else {
+      price = parseFloat(productInfo.currentPrice);
+    }
+    let calculatedAmount =
+      price + parseFloat(productInfo.pricePerStep) * multiplier;
+
+    placeBid(calculatedAmount);
+  };
+
+  const handleBuyNow = () => {
+    let buyNowPrice = parseFloat(productInfo.buyNowPrice);
+    placeBid(buyNowPrice);
+  };
+
+  if (productInfo !== null && productInfo.status === "SOLD") {
+    return (
+      <div className="container">
+        <div className="text-center">
+          <h3>This item has been sold</h3>
+          <a href="/" className="a">
+            <ArrowBackIcon /> BACK TO HOME
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
@@ -150,7 +195,6 @@ export default function LiveLotDetail() {
             <div className="col-lg-6">
               <div className="clock">
                 <div className="mx-auto">
-                  {/* {console.log(productInfo.endTime)} */}
                   <Countdown targetDate={productInfo.endTime} />
                 </div>
               </div>
@@ -165,14 +209,20 @@ export default function LiveLotDetail() {
 
                 <div className="d-flex justify-content-center mt-5">
                   <div className="d-flex align-items-center">
-                    <h4 className="me-3">
-                      Current Price: ${" "}
-                      {productInfo.currentPrice === null
-                        ? 0
-                        : productInfo.currentPrice}
-
-                    </h4>
-                    <WebSocketHandler lotId={id} setMessage={setMessage} setBidHistory={setBidHistory} />
+                    {productInfo.currentPrice !== 0 ? (
+                      <h4 className="me-3">
+                        CURRENT PRICE : ${productInfo.currentPrice}
+                      </h4>
+                    ) : (
+                      <h4 className="me-3">
+                        START PRICE : ${productInfo.startPrice}
+                      </h4>
+                    )}
+                    <WebSocketHandler
+                      lotId={id}
+                      setMessage={setMessage}
+                      setBidHistory={setBidHistory}
+                    />
                   </div>
                 </div>
 
@@ -192,7 +242,10 @@ export default function LiveLotDetail() {
                     <div className="bid-panel">
                       <h5 className="text-center">Bidding Panel</h5>
                       <div className="d-flex justify-content-center">
-                        <button className="buy-now-btn">
+                        <button
+                          className="buy-now-btn"
+                          onClick={handleShowModal}
+                        >
                           <ShoppingBagIcon className="me-3" />
                           BUY NOW
                         </button>
@@ -200,8 +253,17 @@ export default function LiveLotDetail() {
                           PLACE BID
                         </button>
                         <div className="ms-3">
+                          <div className="text-center text-secondary">
+                            Price per step: ${productInfo.pricePerStep}
+                          </div>
                           <div className="bid-input">
-                            <input type="number" min={1} max={productInfo.maxStep} value={multiplier} onChange={handleMultiplierChange} />
+                            <input
+                              type="number"
+                              min={1}
+                              max={productInfo.maxStep}
+                              value={multiplier}
+                              onChange={handleMultiplierChange}
+                            />
                           </div>
                         </div>
                       </div>
@@ -209,14 +271,11 @@ export default function LiveLotDetail() {
                       <ToastContainer />
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
 
-            <div className="col-lg-6 mt-3">
-
-            </div>
+            <div className="col-lg-6 mt-3"></div>
             {bidHistory.length > 0 && (
               <div className="col-lg-6 mt-3">
                 <div className="bid-history">
@@ -235,10 +294,27 @@ export default function LiveLotDetail() {
                 </div>
               </div>
             )}
-
           </div>
         </>
       )}
+
+      <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Buy Now?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Would you like to buy this jewelry with price $
+          {productInfo.buyNowPrice}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleCloseModal}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

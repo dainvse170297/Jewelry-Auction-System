@@ -31,7 +31,7 @@ const ReadyLots = () => {
     <div className="home">
       <div className="homeContainer">
         <div className="ms-5 me-5">
-          <h2 className="text-center mt-2">Ready Lots (đang lỗi)</h2>
+          <h2 className="text-center mt-2">Ready Lots</h2>
           <div className="row">
             {readyLots.map((lot, index) => (
               <Col md={3} key={index}>
@@ -40,26 +40,26 @@ const ReadyLots = () => {
                     <div className="card-body">
                       {/* <productImages readyLots={lot} /> */}
                       <img
-                        src={lot.product.productImages[0].imageUrl}
-                        alt={lot.product.name + " photo"}
+                        src={lot.productImages[0].imageUrl}
+                        alt={lot.productName + " photo"}
                       />
                       <h5 className="card-title">
-                        <strong>{lot.product.name}</strong>
+                        <strong>{lot.productName}</strong>
                       </h5>
 
                       <p className="card-subtitle mb-2 text-muted">
-                        <em>{truncateText(lot.product.description, 40)}</em>
+                        <em>{truncateText(lot.description, 30)}</em>
                       </p>
-                      <p className="card-text">
+                      {/* <p className="card-text">
                         Category: <strong>{lot.product.category.name}</strong>
-                      </p>
+                      </p> */}
                       <p className="card-text">
                         Estimate Max Price:{" "}
-                        <strong>{lot.product.estimatePriceMax}</strong>
+                        <strong>{lot.estimatePriceMax}</strong>
                       </p>
                       <p className="card-text">
                         Estimate Min Price:{" "}
-                        <strong>{lot.product.estimatePriceMin}</strong>
+                        <strong>{lot.estimatePriceMin}</strong>
                       </p>
                       {/* <p className="card-text">Current Price: <strong>{lot.currentPrice}</strong></p> */}
                       <button className="link-btn">

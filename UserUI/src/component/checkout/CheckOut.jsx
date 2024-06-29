@@ -43,22 +43,6 @@ const CheckOut = () => {
         getProducts();
     }, [])
 
-    // const ProductImages = ({ data }) => {
-    //     const getFirstImageUrl = (productImages) => {
-    //         return productImages.length > 0 ? productImages[0].imageUrl : '';
-    //     };
-
-    //     return (
-    //         <div>
-    //             {data.map((item) => (
-    //                 <div key={item.id}>
-    //                     <img src={getFirstImageUrl(item.product.productImages)} alt={item.product.name} />
-    //                 </div>
-    //             ))}
-    //         </div>
-    //     );
-    // };
-
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
 

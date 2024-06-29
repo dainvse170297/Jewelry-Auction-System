@@ -26,6 +26,7 @@ public class FinancialProofRequestMapper {
                 financialProofRequest.getFinancialProofAmount(),
                 mapToFinancialProofImageUrls(financialProofRequest.getFinancialProofImages())
 
+
         );
     }
 

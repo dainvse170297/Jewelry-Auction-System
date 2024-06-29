@@ -10,6 +10,7 @@ import FullLayout from "../layouts/full-layout/FullLayout.jsx";
 /*****Routes of each protected role******/
 import StaffRoutes from "./StaffRoutes.jsx";
 import ManagerRoutes from "./ManagerRoutes.jsx";
+import AddLotToSession from "../component/manager/Session/AddLotToSession.jsx";
 /***** Pages ****/
 
 const Home = lazy(() => import("../layouts/home/Home.jsx"));
@@ -22,7 +23,7 @@ const AppRoute = (props) => {
     role: sessionStorage.getItem("role"),
   });
 
-  console.log("User:", user);
+  //console.log("User:", user);
 
   return (
     <>
@@ -58,6 +59,7 @@ const AppRoute = (props) => {
         <Route path="/login" element={<Login />} />
         <Route path="/sign-up" element={<Register />} />
         {/* <Route path="/account" element={<Account />} /> */}
+        <Route path="/add-session/:lotId" element={<AddLotToSession />} />
 
         <Route path="/*">404 Not Found</Route>
       </Routes>

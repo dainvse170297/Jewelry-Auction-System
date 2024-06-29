@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import avatar from "../../assets/profile/avatar/staff/avatar_01.jpg";
+import avatar from "../../assets/profile/avatar/staff/avatar_01.png";
 import Avatar from "./avatar/Avatar";
+
 const Header = () => {
   return (
     <>
