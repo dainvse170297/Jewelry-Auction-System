@@ -14,14 +14,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LotDTO {
-        private  Integer id;
-        private  Integer productId;
-        private  String productName;
+        private Integer id;
+        private Integer productId;
+        private String productName;
         private BigDecimal currentPrice;
         private Integer currentWinnerId;
         private BigDecimal estimatePriceMin;
         private BigDecimal estimatePriceMax;
-        private  String description;
+        private String description;
         private LocalDateTime endTime;
         private LotStatus status;
         private List<ProductImage> productImages;
@@ -30,5 +30,4 @@ public class LotDTO {
         private BigDecimal pricePerStep;
         private int maxStep;
         private BigDecimal startPrice;
-
 }

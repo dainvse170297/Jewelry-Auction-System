@@ -12,12 +12,13 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import WebSocketHandler from "../../web-socket-handler/WebSocketHandler";
 
 export default function LiveLotDetail() {
+  const { id } = useParams();
+
   const location = useLocation();
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
 
-  const { id } = useParams();
   const [errorMsg, setErrorMsg] = useState("");
   const [productInfo, setProductInfo] = useState({});
   const [bidHistory, setBidHistory] = useState([]);
@@ -46,6 +47,7 @@ export default function LiveLotDetail() {
       }
     };
     getInfo();
+    console.log("location", location);
   }, [id]);
 
   //http://localhost:8080/bid/list-bid?lotId=68
@@ -109,7 +111,10 @@ export default function LiveLotDetail() {
           // Manually update the current price and bid history
           setProductInfo((prevInfo) => ({
             ...prevInfo,
-            currentPrice: calculatedAmount,
+            currentPrice:
+              calculatedAmount > prevInfo.buyNowPrice
+                ? prevInfo.buyNowPrice
+                : calculatedAmount,
           }));
           // setBidHistory((prevHistory) => [
           //   { price: calculatedAmount, bidTime: new Date() },
@@ -145,6 +150,19 @@ export default function LiveLotDetail() {
     let buyNowPrice = parseFloat(productInfo.buyNowPrice);
     placeBid(buyNowPrice);
   };
+
+  if (productInfo !== null && productInfo.status === "SOLD") {
+    return (
+      <div className="container">
+        <div className="text-center">
+          <h3>This item has been sold</h3>
+          <a href="/" className="a">
+            <ArrowBackIcon /> BACK TO HOME
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
@@ -235,6 +253,9 @@ export default function LiveLotDetail() {
                           PLACE BID
                         </button>
                         <div className="ms-3">
+                          <div className="text-center text-secondary">
+                            Price per step: ${productInfo.pricePerStep}
+                          </div>
                           <div className="bid-input">
                             <input
                               type="number"

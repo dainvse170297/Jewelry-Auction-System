@@ -3,6 +3,7 @@ import { Modal, Button, Carousel } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { ToastContainer, toast } from "react-toastify";
 import "./valuationRequest.scss";
+import moment from "moment";
 
 import {
   postPreliminaryConfirm,
@@ -90,7 +91,11 @@ function ValuationRequested({ valuationRequest, staffId, onHide }) {
                 </p>
                 <p>
                   Member estimate price:{" "}
-                  <strong>{valuationRequest.memberEstimatePrice}$</strong>
+                  {valuationRequest.memberEstimatePrice === -1 ? (
+                    <strong>No</strong>
+                  ) : (
+                    <strong>${valuationRequest.memberEstimatePrice}</strong>
+                  )}
                 </p>
                 <div className="col">
                   <div className="row mb-4">
@@ -153,18 +158,11 @@ function ValuationRequested({ valuationRequest, staffId, onHide }) {
         </div>
         <div className="row">
           <div className="col p-4">
-            <Carousel>
-              {valuationRequest.valuationImagesUrls &&
-                valuationRequest.valuationImagesUrls.map((image, index) => (
-                  <Carousel.Item key={index}>
-                    <img
-                      className="d-fluid w-70 h-50 px-5"
-                      src={image}
-                      alt={`Slide ${index}`}
-                    />
-                  </Carousel.Item>
-                ))}
-            </Carousel>
+            {valuationRequest.valuationImagesUrls && (
+              <FullScreenImage
+                imageUrls={valuationRequest.valuationImagesUrls}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -206,7 +204,12 @@ function PreliminaryValuated({ valuationRequest, staffId, onHide }) {
                   Description: <strong>{valuationRequest.description}</strong>
                 </p>
                 <p>
-                  Time request: <strong>{valuationRequest.timeRequest}</strong>
+                  Time request:{" "}
+                  <strong>
+                    {moment(valuationRequest.timeRequest).format(
+                      "DD/MM/YYYY HH:mm:ss"
+                    )}
+                  </strong>
                 </p>
                 <p>
                   Valuation status:{" "}
@@ -214,19 +217,19 @@ function PreliminaryValuated({ valuationRequest, staffId, onHide }) {
                 </p>
                 <p>
                   Member estimate price:{" "}
-                  {valuationRequest.memberEstimatePrice === null ? (
+                  {valuationRequest.memberEstimatePrice === -1 ? (
                     <strong>No</strong>
                   ) : (
-                    <strong>{valuationRequest.memberEstimatePrice}$</strong>
+                    <strong>${valuationRequest.memberEstimatePrice}</strong>
                   )}
                 </p>
                 <p>
                   Preliminary price min:{" "}
-                  <strong>{valuationRequest.estimatePriceMin}$</strong>
+                  <strong>${valuationRequest.estimatePriceMin}</strong>
                 </p>
                 <p>
                   Preliminary price max:{" "}
-                  <strong>{valuationRequest.estimatePriceMax}$</strong>
+                  <strong>${valuationRequest.estimatePriceMax}</strong>
                 </p>
                 <div className="col">
                   <div className="row-sm-9 d-flex justify-content-center">
@@ -242,16 +245,11 @@ function PreliminaryValuated({ valuationRequest, staffId, onHide }) {
         <div className="row">
           <div className="col p-4">
             <Carousel>
-              {valuationRequest.valuationImagesUrls &&
-                valuationRequest.valuationImagesUrls.map((image, index) => (
-                  <Carousel.Item key={index}>
-                    <img
-                      className="d-fluid w-70 h-50 px-5"
-                      src={image}
-                      alt={`Slide ${index}`}
-                    />
-                  </Carousel.Item>
-                ))}
+              {valuationRequest.valuationImagesUrls && (
+                <FullScreenImage
+                  imageUrls={valuationRequest.valuationImagesUrls}
+                />
+              )}
             </Carousel>
           </div>
         </div>
@@ -314,22 +312,51 @@ function PendingApproval({ valuationRequestId, onUpdate }) {
       <button onClick={handleShow} className="btn btn-primary" type="button">
         Detail
       </button>
-      <Modal show={show} onHide={handleClose}>
+      <Modal size="lg" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Valuation request detail</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {productInfo && (
             <div className="productInfo">
-              <h3>{productInfo.nameProduct}</h3>
-              <p>
-                <strong>Category:</strong> {productInfo.categoryName}
-              </p>
+              <h3>{productInfo.productName}</h3>
               <p>{productInfo.description}</p>
-              <p>
-                <strong>Estimated Price:</strong> $
-                {productInfo.estimatePriceMin} - ${productInfo.estimatePriceMax}
-              </p>
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">
+                  <strong>Estimated Price:</strong>
+                </p>
+                ${productInfo.estimatePriceMin} - $
+                {productInfo.estimatePriceMax}
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">
+                  <strong>Start price:</strong>
+                </p>
+                ${productInfo.startPrice}
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">
+                  <strong>Buy now price:</strong>
+                </p>
+                ${productInfo.buyNowPrice}
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">
+                  <strong>Maximum bid step:</strong>
+                </p>
+                {productInfo.maxStep}
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">
+                  <strong>Amount for each bid step:</strong>
+                </p>
+                ${productInfo.pricePerStep}
+              </div>
+
               <div className="productImages">
                 <div className="productImages">
                   {productInfo.productImages &&
