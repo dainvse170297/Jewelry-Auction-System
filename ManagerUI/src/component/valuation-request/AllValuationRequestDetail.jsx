@@ -312,7 +312,7 @@ function PendingApproval({ valuationRequestId, onUpdate }) {
       <button onClick={handleShow} className="btn btn-primary" type="button">
         Detail
       </button>
-      <Modal show={show} onHide={handleClose}>
+      <Modal size="lg" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Valuation request detail</Modal.Title>
         </Modal.Header>

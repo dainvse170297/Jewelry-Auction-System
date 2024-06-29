@@ -253,6 +253,9 @@ export default function LiveLotDetail() {
                           PLACE BID
                         </button>
                         <div className="ms-3">
+                          <div className="text-center text-secondary">
+                            Price per step: ${productInfo.pricePerStep}
+                          </div>
                           <div className="bid-input">
                             <input
                               type="number"
