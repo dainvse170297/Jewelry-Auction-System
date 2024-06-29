@@ -54,20 +54,17 @@ public class MemberService implements IMemberService{
         ValuationRequest valuationRequest =  iValuationRequestRepository.findByProductId(productId);
         log.info("ValuationRequest: {}", valuationRequest.getId());
 
-        if(valuationRequest != null){
-            CreditCard creditCard = valuationRequest.getMember().getCreditCard();
-            CreditCardDTO creditCardDTO = new CreditCardDTO();
-            if(creditCard != null){
-                creditCardDTO.setId(creditCard.getId());
-                creditCardDTO.setAccountHolder(creditCard.getAccountHolder());
-                creditCardDTO.setBankName(creditCard.getBankName());
-                creditCardDTO.setBankNumber(creditCard.getBankNumber());
-            }
-            MemberDTO memberdto = mapToMemberDTO(valuationRequest.getMember(), valuationRequest.getMember().getId());
-            memberdto.setCreditCard(creditCardDTO);
-            return memberdto;
-
+        CreditCard creditCard = valuationRequest.getMember().getCreditCard();
+        CreditCardDTO creditCardDTO = new CreditCardDTO();
+        if(creditCard != null){
+            creditCardDTO.setId(creditCard.getId());
+            creditCardDTO.setAccountHolder(creditCard.getAccountHolder());
+            creditCardDTO.setBankName(creditCard.getBankName());
+            creditCardDTO.setBankNumber(creditCard.getBankNumber());
         }
-        return null;
+        MemberDTO memberdto = mapToMemberDTO(valuationRequest.getMember(), valuationRequest.getMember().getId());
+        memberdto.setCreditCard(creditCardDTO);
+        return memberdto;
+
     }
 }
