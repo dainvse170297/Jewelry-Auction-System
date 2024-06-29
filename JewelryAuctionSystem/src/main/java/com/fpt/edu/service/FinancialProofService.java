@@ -190,7 +190,7 @@ public class FinancialProofService implements IFinancialProofService {
             financialProofRequest.setStatus(FinancialProofRequestStatus.AVAILABLE);
             Member member = financialProofRequest.getMember();
             member.setFinancialProofAmount(financialProofRequest.getFinancialProofAmount());
-            
+
             List<FinancialProofRequest> financialProofRequests =
                     iFinancialProofRequestRepository.findByMember(financialProofRequest.getMember());
             for (FinancialProofRequest financialProofRequest1 : financialProofRequests) {

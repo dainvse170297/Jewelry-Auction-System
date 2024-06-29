@@ -22,4 +22,7 @@ public class MemberDTO {
     private String fullname;
     private String address;
     private String phone;
+    private CreditCardDTO creditCard;
+
+
 }
