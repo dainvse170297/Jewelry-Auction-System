@@ -58,6 +58,10 @@ public class FinancialProofService implements IFinancialProofService {
                                                                 Set<MultipartFile> files) {
 
         Member member = iMemberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("Member not found"));
+
+
+
+
         FinancialProofRequestStatus status = FinancialProofRequestStatus.REQUESTED;
         FinancialProofRequest financialProofRequest = new FinancialProofRequest();
         financialProofRequest.setStatus(status);

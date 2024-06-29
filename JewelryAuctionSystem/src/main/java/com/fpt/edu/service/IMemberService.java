@@ -8,4 +8,6 @@ public interface IMemberService {
     Member getMemberById(Integer id);
 
     MemberDTO getMemberByProductId(Integer productId);
+
+    MemberDTO getMyInfoFinancialProof(Integer memberId);
 }

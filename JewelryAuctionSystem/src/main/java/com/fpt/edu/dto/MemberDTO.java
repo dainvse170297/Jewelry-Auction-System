@@ -23,6 +23,6 @@ public class MemberDTO {
     private String address;
     private String phone;
     private CreditCardDTO creditCard;
-
+    private FinancialProofRequestDTO financialProofRequest;
 
 }
