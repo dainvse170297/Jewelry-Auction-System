@@ -427,6 +427,51 @@ const Profile = () => {
                 </form>
               </div>
 
+              <div className="tab-pane" id="billing">
+                <h6>FINANCIAL PROOF</h6>
+                <hr />
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="card mb-3">
+                      <div className="card-body">
+                        <h6 className="card-title">Bank Account</h6>
+                        <p className="card-text text-muted">
+                          <strong>Bank Name:</strong> Vietcombank
+                        </p>
+                        <p className="card-text text-muted">
+                          <strong>Account Number:</strong> 123456789
+                        </p>
+                        <p className="card-text text-muted">
+                          <strong>Account Name:</strong> Nguyen Van A
+                        </p>
+                        <p className="card-text text-muted">
+                          <strong>Branch:</strong> Ho Chi Minh
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="card mb-3">
+                      <div className="card-body">
+                        <h6 className="card-title">Credit Card</h6>
+                        <p className="card-text text-muted">
+                          <strong>Card Number:</strong> 1234 5678 1234 5678
+                        </p>
+                        <p className="card-text text-muted">
+                          <strong>Card Holder:</strong> Nguyen Van A
+                        </p>
+                        <p className="card-text text-muted">
+                          <strong>Expiration Date:</strong> 12/24
+                        </p>
+                        <p className="card-text text-muted">
+                          <strong>CVV:</strong> 123
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div className="tab-pane" id="valuationRequest">
                 <MyValuationRequest id={currentUser.memberId} />
               </div>

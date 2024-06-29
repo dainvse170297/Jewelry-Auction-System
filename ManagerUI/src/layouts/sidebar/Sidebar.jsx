@@ -32,7 +32,11 @@ const staffNavigation = [
     icon: FinancialProofRequestIcon,
     href: "/financial-request",
   },
-  // { name: "Setting", icon: SettingsIcon, href: "/setting" },
+  {
+    name: "Product",
+    icon: SettingsIcon,
+    children: [{ name: "Pending to send", href: "/product/pending-send" }],
+  },
   { name: "Profile", icon: ProfileIcon, href: "/profile" },
 ];
 
@@ -50,12 +54,22 @@ const managerNavigation = [
     name: "Auction",
     icon: AuctionIcon,
     children: [
-      { name: "Auction sessions", href: "/auction" },
-      { name: "Create auction", href: "/auction/create" },
+      {
+        name: "Auction sessions",
+        href: "/auction"
+      },
+      {
+        name: "Create auction",
+        href: "/auction/create"
+      },
       {
         name: "Ready lots",
         href: "/auction/ready-lots",
       },
+      {
+        name: "Public to UPCOMING Auctions",
+        href: "/sessions/created",
+      }
     ],
   },
   {

@@ -9,10 +9,16 @@ import {
   postProductReceive,
   postAproveFinalValuation,
   getFinalValuationDetail,
+  postSendFinalValuationToMember,
 } from "../../services/apiService.jsx";
 import FullScreenImage from "../../view/image/FullScreenImage.jsx";
 
-export { ValuationRequested, PreliminaryValuated, PendingApproval };
+export {
+  ValuationRequested,
+  PreliminaryValuated,
+  PendingApproval,
+  ManagerApproved,
+};
 
 function ValuationRequested({ valuationRequest, staffId, onHide }) {
   const [preliminaryValuation, setPreliminaryValuation] = useState({
@@ -373,6 +379,87 @@ function PendingApproval({ valuationRequestId, onUpdate }) {
           />
         </Modal.Body>
       </Modal>
+    </>
+  );
+}
+
+function ManagerApproved({ valuationRequest, staffId, onHide }) {
+  const handleSend = async (e) => {
+    try {
+      const data = await postSendFinalValuationToMember(
+        valuationRequest.id,
+        staffId
+      );
+      if (data !== null) {
+        toast.success("Send to member successfully");
+        onHide(true);
+      }
+    } catch (error) {
+      console.log("Error:", error.message);
+      toast.error("Error when confirm product received");
+    }
+  };
+
+  return (
+    <>
+      <div className="col card">
+        <div className="row">
+          <h3 className="text-center">Valuation request detail</h3>
+        </div>
+        <div className="row px-5">
+          {valuationRequest && (
+            <>
+              <div className="card card-body">
+                <p>
+                  Member Id: <strong>{valuationRequest.memberId}</strong>
+                </p>
+                <p>
+                  Description: <strong>{valuationRequest.description}</strong>
+                </p>
+                <p>
+                  Time request: <strong>{valuationRequest.timeRequest}</strong>
+                </p>
+                <p>
+                  Valuation status:{" "}
+                  <strong>{valuationRequest.valuationStatus}</strong>
+                </p>
+                <p>
+                  Member estimate price:{" "}
+                  {valuationRequest.memberEstimatePrice === null ? (
+                    <strong>No</strong>
+                  ) : (
+                    <strong>{valuationRequest.memberEstimatePrice}$</strong>
+                  )}
+                </p>
+                <p>
+                  Preliminary price min:{" "}
+                  <strong>{valuationRequest.estimatePriceMin}$</strong>
+                </p>
+                <p>
+                  Preliminary price max:{" "}
+                  <strong>{valuationRequest.estimatePriceMax}$</strong>
+                </p>
+                <div className="col">
+                  <div className="row-sm-9 d-flex justify-content-center">
+                    <Button className="btn-success" onClick={handleSend}>
+                      Send to Member
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+        <div className="row">
+          <div className="col p-4">
+            {valuationRequest && valuationRequest.valuationImagesUrls && (
+              <FullScreenImage
+                imageUrls={valuationRequest.valuationImagesUrls}
+              />
+            )}
+          </div>
+        </div>
+      </div>
     </>
   );
 }

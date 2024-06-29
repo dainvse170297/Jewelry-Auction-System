@@ -39,14 +39,16 @@ public class ProductService implements IProductService {
                                  String description,
                                  BigDecimal estimatePriceMax,
                                  BigDecimal estimatePriceMin,
-                                 MultipartFile[] photos) throws IOException {
+                                 MultipartFile[] photos,
+                                 BigDecimal buyNowPrice,
+                                 BigDecimal pricePerStep,
+                                 Integer maxStep,
+                                 BigDecimal startPrice) throws IOException {
 
         Category category = categoryRepository.findById(categoryId).get();
 
         ValuationRequest valuationRequest = valuationRequestRepository.findById(valuationRequestId).get();
         valuationRequest.setValuationStatus(ValuationRequestStatus.PENDING_MANAGER_APPROVAL);
-
-
 
         Product product = new Product();
         product.setCategory(category);
@@ -79,6 +81,11 @@ public class ProductService implements IProductService {
         Lot lot = new Lot();
         lot.setProduct(product);
         lot.setStatus(LotStatus.WAITING);
+
+        lot.setStartPrice(startPrice);
+        lot.setBuyNowPrice(buyNowPrice);
+        lot.setMaxStep(maxStep);
+        lot.setPricePerStep(pricePerStep);
         lot.setAuctionSession(null);
         lotRepository.save(lot);
 

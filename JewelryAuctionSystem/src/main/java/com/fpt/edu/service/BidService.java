@@ -68,33 +68,11 @@ public class BidService implements IBidService {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info("Username: {}", authentication.getName());
         log.info("Role: {}", authentication.getAuthorities());
-         Lot lot = iLotRepository.findById(lotId).get();
-            log.info("Check lot {}", lot.getCurrentPrice(), price);
 
-         if(lot.getBuyNowPrice().compareTo(price) <= 0){
-             if(lot.getStatus() == LotStatus.SOLD){
-                 return ResponseEntity.badRequest().build();
-             }
-                log.info("Check buy now");
-                lot.setCurrentPrice(price);
-                lot.setCurrentWinnerId(memberId);
-                lot.setStatus(LotStatus.SOLD);
-                iLotRepository.save(lot);
-                Bid bid = createAndSaveBid( memberId, lotId,price);
-                // update lại bảng Auction Register với mỗi lần bid của 1 member
-                if (auctionRegister != null) {
-                    auctionRegister.setCurrentPrice(price);
-                    auctionRegister.setFinalPrice(price);
-                    auctionRegister.setStatus(AuctionRegisterStatus.FINISHED);
-                    iAuctionRegisterRepository.save(auctionRegister);
-                }
-                Map map = Map.of("bid", bidMapper.mapToBidDTO(bid, memberName));
-                webSocketService.sendToAllClient(map);
-                return ResponseEntity.ok(bidMapper.mapToBidDTO(bid, memberName));
-            }
+        Lot lot = iLotRepository.findById(lotId).get();
+        BigDecimal currentPrice = lot.getCurrentPrice() == null ? lot.getStartPrice() : lot.getCurrentPrice();
 
-            if(lot.getCurrentPrice().compareTo(price) < 0){
-                log.info("Check place bid normal", lot.getCurrentPrice(), price);
+            if(currentPrice.compareTo(price) < 0){
 
                 lot.setCurrentPrice(price);
                 lot.setCurrentWinnerId(memberId);
@@ -107,7 +85,7 @@ public class BidService implements IBidService {
                     iAuctionRegisterRepository.save(auctionRegister);
                 }
                 Map map = Map.of("bid", bidMapper.mapToBidDTO(bid, memberName));
-                webSocketService.sendToAllClient(map);
+//                webSocketService.sendToAllClient(map);
                 return ResponseEntity.ok(bidMapper.mapToBidDTO(bid, memberName));
             }
 

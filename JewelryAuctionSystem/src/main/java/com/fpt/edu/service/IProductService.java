@@ -15,7 +15,11 @@ public interface IProductService {
                           String description,
                           BigDecimal estimatePriceMax,
                           BigDecimal estimatePriceMin,
-                          MultipartFile[] photos) throws IOException;
+                          MultipartFile[] photos,
+                          BigDecimal buyNowPrice,
+                          BigDecimal pricePerStep,
+                          Integer maxStep,
+                          BigDecimal startPrice) throws IOException;
 
     public ProductDetailDTO viewProductDetails(Integer productId);
 }

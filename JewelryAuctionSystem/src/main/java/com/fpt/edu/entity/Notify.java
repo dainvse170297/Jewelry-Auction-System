@@ -22,10 +22,10 @@ public class Notify {
     @JoinColumn(name = "member_id", nullable = true)
     private Member member;
 
-    @Column(name = "title", length = 50)
+    @Column(name = "title", length = 255)
     private String title;
 
-    @Column(name = "description")
+    @Column(name = "description", length=1000)
     private String description;
 
     @Column(name = "date")

@@ -7,7 +7,11 @@ export {
   getFinalValuationRequests,
   getFinalValuationDetail,
   postAproveFinalValuation,
+  postSendFinalValuationToMember,
   postProductReceive,
+  publicCreatedSession,
+  getAllCreatedSession,
+  getAllAuctionSession,
   postSetAmountFinancialProof,
   getAllFinancialProof,
 };
@@ -70,6 +74,25 @@ const postAproveFinalValuation = async (id) => {
   return axios.post(`valuation/approve-final-valuation/${id}`);
 };
 
+const postSendFinalValuationToMember = async (id, staffId) => {
+  const param = new URLSearchParams();
+  param.append("id", id);
+  param.append("staffId", staffId);
+  return axios.post(`valuation/send-final-valuation-to-member`, param);
+};
+
 const getRevenueByYear = async (anYear) => {
   return axios.get(`dashboard/data/${anYear}`);
+};
+
+const getAllAuctionSession = async () => {
+  return axios.get(`auction/all-session`);
+};
+
+const getAllCreatedSession = async () => {
+  return axios.get(`auction/all-created-session`);
+};
+
+const publicCreatedSession = async (sessionId) => {
+  return axios.post(`auction/public-session/${sessionId}`);
 };

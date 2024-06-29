@@ -26,6 +26,7 @@ public class Lot {
     @JoinColumn(name = "product_id", nullable = true)
     private Product product;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "auction_session_id", nullable = true)
     private AuctionSession auctionSession;
@@ -33,9 +34,11 @@ public class Lot {
     @Column(name = "current_price", precision = 19, scale = 1)
     private BigDecimal currentPrice;
 
+    @Column(name = "start_price", precision = 19, scale = 1)
+    private BigDecimal startPrice;
+
     @Column(name = "current_winner_id")
     private Integer currentWinnerId;
-
 
     @Column(name = "buy_now_price", precision = 19, scale = 1, nullable = true)
     private BigDecimal buyNowPrice;
@@ -50,9 +53,11 @@ public class Lot {
     @Enumerated(EnumType.STRING)
     private LotStatus status;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "lot")
     private Set<AuctionRegister> auctionRegisters = new LinkedHashSet<>();
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "lot")
     private Set<Bid> bids = new LinkedHashSet<>();
 
