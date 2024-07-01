@@ -47,7 +47,7 @@ const Header = () => {
                 <Dropdown.Item href="/upcoming">
                   Upcoming Auctions
                 </Dropdown.Item>
-                <Dropdown.Item href="#action3">Past Auctions</Dropdown.Item>
+                <Dropdown.Item href="/past">Past Auctions</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
             <Dropdown>
