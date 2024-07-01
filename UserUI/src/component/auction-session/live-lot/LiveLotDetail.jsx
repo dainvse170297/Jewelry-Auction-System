@@ -31,6 +31,8 @@ export default function LiveLotDetail() {
   const [multiplier, setMultiplier] = useState(1);
   const [message, setMessage] = useState(null);
 
+  const [isSold, setIsSold] = useState(false);
+
   useEffect(() => {
     const getInfo = async () => {
       setIsLoading(true);
@@ -81,6 +83,10 @@ export default function LiveLotDetail() {
     }
   }, [message]);
 
+  const handleWinningMessage = (winningMessage) => {
+    toast(winningMessage, { autoClose: 2500 })
+  }
+
   const placeBid = async (calculatedAmount) => {
     // let price = parseFloat(productInfo.currentPrice);
     // let calculatedAmount = price + parseFloat(productInfo.pricePerStep) * multiplier;
@@ -116,6 +122,13 @@ export default function LiveLotDetail() {
                 ? prevInfo.buyNowPrice
                 : calculatedAmount,
           }));
+
+          if (calculatedAmount == parseFloat(productInfo.buyNowPrice)) {
+            handleWinningMessage("Congratulations! You have won the auction")
+            setTimeout(() => {
+              window.location.reload();
+            }, 2500);
+          }
           // setBidHistory((prevHistory) => [
           //   { price: calculatedAmount, bidTime: new Date() },
           //   ...prevHistory,
@@ -313,7 +326,7 @@ export default function LiveLotDetail() {
           <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleBuyNow}>
+          <Button variant="danger" onClick={handleBuyNow}>
             Buy Now
           </Button>
         </Modal.Footer>

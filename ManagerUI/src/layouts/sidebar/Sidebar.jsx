@@ -14,6 +14,7 @@ import UserIcon from "@mui/icons-material/ManageAccounts";
 import SettingsIcon from "@mui/icons-material/Settings";
 import FinancialProofRequestIcon from "@mui/icons-material/RequestQuote";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { MonetizationOn } from "@mui/icons-material";
 
 // Navigation
 const staffNavigation = [
@@ -87,6 +88,7 @@ const managerNavigation = [
     icon: FinancialProofRequestIcon,
     href: "/financial-request",
   },
+  { name: "Paid  List", icon: MonetizationOn, href: "/paid-list" },
   { name: "User", icon: UserIcon, href: "/user-manage" },
   { name: "Setting", icon: SettingsIcon, href: "/setting" },
   { name: "Profile", icon: ProfileIcon, href: "/profile" },
