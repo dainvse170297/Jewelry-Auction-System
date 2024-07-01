@@ -27,7 +27,7 @@ public class FinancialProofController {
 
     @PostMapping("/create")
     public ResponseEntity<FinancialProofRequestDTO> createFinancialProof(@RequestParam("memberId") Integer memberId,
-                                                                         @RequestParam("files") Set<MultipartFile> files){
+                                                                         @RequestParam("image") Set<MultipartFile> files){
         return ResponseEntity.ok(financialProofService.createFinancialProofRequest(memberId, files));
 
     }
@@ -57,15 +57,15 @@ public class FinancialProofController {
 
 
 
-//    @GetMapping("/pending-approval") // get all financial proof request that is pending approval
-//    public ResponseEntity<List<FinancialProofRequestDTO>> getPendingApproval(){
-//        return ResponseEntity.ok(financialProofService.getPendingApproval());
-//    }
+    @GetMapping("/pending-approval") // get all financial proof request that is pending approval
+    public ResponseEntity<List<FinancialProofRequestDTO>> getPendingApproval(){
+        return ResponseEntity.ok(financialProofService.getPendingApproval());
+    }
 
-//    @PostMapping("/confirm-vip")
-//    public ResponseEntity<FinancialProofRequestDTO> confirmVip(@RequestParam("id") Integer idRq,
-//                                                              @RequestParam("managerId") Integer managerId,
-//                                                               @RequestParam("confirm") Boolean confirm){
-//        return ResponseEntity.ok(financialProofService.confirmVip(idRq, managerId, confirm));
-//    }
+    @PostMapping("/confirm-vip")
+    public ResponseEntity<FinancialProofRequestDTO> confirmVip(@RequestParam("id") Integer idRq,
+                                                              @RequestParam("managerId") Integer managerId,
+                                                               @RequestParam("confirm") Boolean confirm){
+        return ResponseEntity.ok(financialProofService.confirmVip(idRq, managerId, confirm));
+    }
 }

@@ -5,13 +5,15 @@ import UserManage from "../component/manager/UserManage";
 import AuctionSessionList from "../component/auction-session/AuctionSessionList";
 import CreateAuction from "../component/manager/CreateAuction";
 import { ReadyLots } from "../component/lots/LotList";
+import { VIPFinancialProofRequestList } from "../component/financial-proof-request/FinancialProofRequestList";
 import { FinancialProofRequestList } from "../component/financial-proof-request/FinancialProofRequestList";
 import AddLotToSession from "../component/manager/Session/AddLotToSession";
-import PublicCreatedSession from "../component/manager/Session/PublicCreatedSession";
 import {
   AllValuationRequestList,
   PendingApprovalList,
 } from "../component/valuation-request/AllValuationRequestList";
+import PublicCreatedSession from "../component/manager/Session/PublicCreatedSession";
+import { ViewPurchasedLot } from "../component/manager/Lots/ViewPurchasedLot";
 
 
 const ManagerRoutes = [
@@ -49,7 +51,7 @@ const ManagerRoutes = [
   },
   {
     path: "/financial-request",
-    element: <FinancialProofRequestList />,
+    element: <VIPFinancialProofRequestList />,
   },
   {
     path: "/add-session/:id",
@@ -58,7 +60,11 @@ const ManagerRoutes = [
   {
     path: "/sessions/created",
     element: <PublicCreatedSession />,
-  }
+  },
+  {
+    path: "/auction/delivered-lots",
+    element: <ViewPurchasedLot />,
+  },
 
 ];
 

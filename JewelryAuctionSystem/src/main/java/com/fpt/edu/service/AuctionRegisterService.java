@@ -62,8 +62,11 @@ public class AuctionRegisterService implements IAuctionRegisterService {
 
     @Override
     public AuctionRegisterDTO checkMemberRegister(int id, int lotId) {
-        AuctionRegister auctionRegister = auctionRegisterRepository.findByLotIdAndMemberId(lotId, id);
 
+        AuctionRegister auctionRegister = auctionRegisterRepository.findByLotIdAndMemberId(lotId, id);
+        if (auctionRegister == null) {
+            return null;
+        }
         return AuctionRegisterMapper.toAuctionRegisterDTO(auctionRegister);
     }
 

@@ -118,7 +118,7 @@ public class ValuationRequestController {
     }
 
     @GetMapping("/view-final-request-details/{id}")
-    public ResponseEntity<ProductDetailDTO> getDetailsProductById(@PathVariable Integer id) {//valuation request id
+    public ResponseEntity<LotDTO> getDetailsProductById(@PathVariable Integer id) {//valuation request id
         return ResponseEntity.ok(valuationRequestService.getProductDetail(id));
     }
 

@@ -10,6 +10,8 @@ import com.fpt.edu.repository.IAuctionRegisterRepository;
 import com.fpt.edu.repository.IBidRepository;
 import com.fpt.edu.repository.ILotRepository;
 import com.fpt.edu.repository.IMemberRepository;
+import com.fpt.edu.status.AuctionRegisterStatus;
+import com.fpt.edu.status.LotStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -62,12 +64,47 @@ public class BidService implements IBidService {
 
         AuctionRegister auctionRegister = iAuctionRegisterRepository.findByLotIdAndMemberId(lotId, memberId);
         //check log xem ai dang nhap
+        log.info("auction: {}", auctionRegister.getId());
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info("Username: {}", authentication.getName());
         log.info("Role: {}", authentication.getAuthorities());
-        Lot lot = iLotRepository.findById(lotId).get();
 
-            if(lot.getCurrentPrice().compareTo(price) < 0){
+        Lot lot = iLotRepository.findById(lotId).get();
+        BigDecimal byNowPrice = lot.getBuyNowPrice();
+        //handle by now case
+        if(byNowPrice.compareTo(price) <= 0){
+
+            if(lot.getStatus() == LotStatus.SOLD){
+                return ResponseEntity.badRequest().build();
+            }
+
+            log.info("Check buy now");
+
+            // update lot info
+            lot.setCurrentPrice(byNowPrice);
+            lot.setCurrentWinnerId(memberId);
+            lot.setStatus(LotStatus.SOLD);
+            iLotRepository.save(lot);
+
+            Bid bid = createAndSaveBid( memberId, lotId,byNowPrice);
+            //update auction register
+            if (auctionRegister != null) {
+                auctionRegister.setCurrentPrice(byNowPrice);
+                auctionRegister.setFinalPrice(byNowPrice);
+                auctionRegister.setStatus(AuctionRegisterStatus.PENDING_PAYMENT);
+                iAuctionRegisterRepository.save(auctionRegister);
+            }
+
+            //sync data to all client
+            Map map = Map.of("bid", bidMapper.mapToBidDTO(bid, memberName));
+            webSocketService.sendToAllClient(map);
+            return ResponseEntity.ok(bidMapper.mapToBidDTO(bid, memberName));
+        }
+
+        BigDecimal currentPrice = lot.getCurrentPrice() == null ? lot.getStartPrice() : lot.getCurrentPrice();
+
+            if(currentPrice.compareTo(price) < 0){
+
                 lot.setCurrentPrice(price);
                 lot.setCurrentWinnerId(memberId);
                 iLotRepository.save(lot);
@@ -79,7 +116,7 @@ public class BidService implements IBidService {
                     iAuctionRegisterRepository.save(auctionRegister);
                 }
                 Map map = Map.of("bid", bidMapper.mapToBidDTO(bid, memberName));
-                webSocketService.sendToAllClient(map);
+//                webSocketService.sendToAllClient(map);
                 return ResponseEntity.ok(bidMapper.mapToBidDTO(bid, memberName));
             }
 

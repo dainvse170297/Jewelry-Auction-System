@@ -141,9 +141,9 @@ const AllValuationRequestList = () => {
                             <td>Member {request.memberId}</td>
                             <td>
                               {/* {request.timeRequest} */}
-                              {moment(request.timeRequest).format(
-                                "DD/MM/YYYY HH:mm:ss"
-                              )}
+                                {moment(request.timeRequest).format(
+                                  "DD/MM/YYYY HH:mm:ss"
+                                )}
                             </td>
                             <td>{request.valuationStatus}</td>
                             <td>

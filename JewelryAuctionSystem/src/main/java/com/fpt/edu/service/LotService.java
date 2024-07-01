@@ -1,11 +1,15 @@
 package com.fpt.edu.service;
 
 import com.fpt.edu.dto.LotDTO;
+import com.fpt.edu.dto.PaymentInfoDTO;
 import com.fpt.edu.entity.AuctionRegister;
 import com.fpt.edu.entity.Lot;
+import com.fpt.edu.entity.PaymentInfo;
 import com.fpt.edu.mapper.LotMapper;
 import com.fpt.edu.repository.IAuctionRegisterRepository;
 import com.fpt.edu.repository.ILotRepository;
+import com.fpt.edu.repository.IMemberRepository;
+import com.fpt.edu.repository.IPaymentInfoRepository;
 import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.LotStatus;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.fpt.edu.mapper.PaymentInfoMapper.toPaymentInfoDTO;
+
 @Service
 @RequiredArgsConstructor
 public class LotService implements ILotService{
@@ -22,6 +28,9 @@ public class LotService implements ILotService{
     private final ILotRepository lotRepository;
     private final LotMapper lotMapper;
     private final IAuctionRegisterRepository auctionRegisterRepository;
+    private final IMemberRepository iMemberRepository;
+    private final IPaymentInfoRepository paymentInfoRepository;
+
     @Override
     public List<Lot> getLotsByStatusReady() {
         return lotRepository.findByStatus(LotStatus.READY);
@@ -57,6 +66,7 @@ public class LotService implements ILotService{
         AuctionRegisterStatus status = AuctionRegisterStatus.WINNER_PURCHASED;
           List<AuctionRegister> auctionRegisters =
                   auctionRegisterRepository.findByStatus(status);
+
           List<Lot> lots = auctionRegisters.stream().map(AuctionRegister::getLot).toList();
           
             List<LotDTO> lotDTOS = new ArrayList<>();
@@ -64,6 +74,10 @@ public class LotService implements ILotService{
                 if(lot.getStatus().equals(LotStatus.SOLD)){
                     LotDTO lotDTO = lotMapper.toLotDTO(lot);
                     lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotIdAndStatus(lot.getId(), status));
+                    lotDTO.setCurrentWinnerName(iMemberRepository.findById(lot.getCurrentWinnerId()).get().getFullname());
+                    lotDTO.setAuctionRegistersId(auctionRegisterRepository.findByLotIdAndStatus(lot.getId(),status).getId());
+                    PaymentInfo paymentInfo =paymentInfoRepository.findByAuctionRegisterId(auctionRegisterRepository.findByLotIdAndStatus(lot.getId(),status).getId());
+                    lotDTO.setPaymentInfoDTO(toPaymentInfoDTO(paymentInfo));
                     lotDTOS.add(lotDTO);
                 }
             }
@@ -81,6 +95,10 @@ public class LotService implements ILotService{
         for (Lot lot : lots) {
             if(lot.getStatus().equals(LotStatus.SOLD)){
                 LotDTO lotDTO = lotMapper.toLotDTO(lot);
+                lotDTO.setCurrentWinnerName(iMemberRepository.findById(lot.getCurrentWinnerId()).get().getFullname());
+                lotDTO.setPaymentInfoDTO(toPaymentInfoDTO(paymentInfoRepository.
+                        findByAuctionRegisterId(auctionRegisterRepository.
+                                findByLotIdAndStatus(lot.getId(),status).getId())));
                 lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotIdAndStatus(lot.getId(), status));
                 lotDTOS.add(lotDTO);
             }
