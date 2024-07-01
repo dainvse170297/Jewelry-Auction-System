@@ -1,0 +1,24 @@
+/* selling.scss */
+
+.selling-image {
+    border-radius: 50%; // Làm tròn ảnh
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); // Đổ bóng cho ảnh
+  }
+.slogan{
+  background-color: #FFE9D0;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #090000;
+    margin-bottom: 1rem;
+}
+.author{
+  font-size: 0.8rem;
+  color: #7A7A7A;
+}
+.whysell{
+
+  font-size: 0.9rem;
+  padding: 0 80px;
+  color: #090000;
+  margin-bottom: 1rem;
+}
