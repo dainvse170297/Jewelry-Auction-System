@@ -3,21 +3,23 @@ package com.fpt.edu.service;
 import com.fpt.edu.dto.LotDTO;
 import com.fpt.edu.dto.PaymentInfoDTO;
 import com.fpt.edu.entity.AuctionRegister;
+import com.fpt.edu.entity.AuctionSession;
 import com.fpt.edu.entity.Lot;
 import com.fpt.edu.entity.PaymentInfo;
 import com.fpt.edu.mapper.LotMapper;
-import com.fpt.edu.repository.IAuctionRegisterRepository;
-import com.fpt.edu.repository.ILotRepository;
-import com.fpt.edu.repository.IMemberRepository;
-import com.fpt.edu.repository.IPaymentInfoRepository;
+import com.fpt.edu.repository.*;
 import com.fpt.edu.status.AuctionRegisterStatus;
+import com.fpt.edu.status.AuctionSessionStatus;
 import com.fpt.edu.status.LotStatus;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.fpt.edu.mapper.PaymentInfoMapper.toPaymentInfoDTO;
 
@@ -25,12 +27,13 @@ import static com.fpt.edu.mapper.PaymentInfoMapper.toPaymentInfoDTO;
 @RequiredArgsConstructor
 public class LotService implements ILotService{
 
+    private static final Logger log = LoggerFactory.getLogger(LotService.class);
     private final ILotRepository lotRepository;
     private final LotMapper lotMapper;
     private final IAuctionRegisterRepository auctionRegisterRepository;
     private final IMemberRepository iMemberRepository;
     private final IPaymentInfoRepository paymentInfoRepository;
-
+    private final IAuctionSessionRepository auctionSessionRepository;
     @Override
     public List<Lot> getLotsByStatusReady() {
         return lotRepository.findByStatus(LotStatus.READY);
@@ -105,4 +108,7 @@ public class LotService implements ILotService{
         }
         return lotDTOS;
     }
+
+
+
 }

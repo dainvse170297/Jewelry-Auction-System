@@ -21,6 +21,8 @@ import Footer from "./component/layout/footer/Footer.jsx";
 import ValuationResponseList from "./component/profile/valuation-response/ValuationResponseList.jsx";
 import Layout from "./component/layout/Layout.jsx";
 import CreateFinancialProofRequest from "./component/FinancialProof/CreateFinancialProofRequest.jsx";
+import PastSessionList from "./component/auction-session/past-session/PastSessionList.jsx";
+import PastSessionDetail from "./component/auction-session/past-session/PastSessionDetail.jsx";
 function App() {
   return (
     <>
@@ -47,7 +49,13 @@ function App() {
               />
               <Route path="/live-lot-detail/:id" element={<LiveLotDetail />} />
 
+              <Route
+                path="/past-session-detail/:id"
+                element={<PastSessionDetail />}
+              />
               <Route path="/live" element={<LiveSessionList />} />
+              <Route path="/past" element={<PastSessionList />} />
+
               <Route
                 path="/live-session-detail/:id"
                 element={<LiveAuctionSessionDetail />}

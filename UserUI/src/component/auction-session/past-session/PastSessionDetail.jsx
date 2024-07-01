@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./LiveAuctionSessionDetail.scss";
-import LotPreview from "../../lot/LotPreview";
-import AuctionSession from "../AuctionSession";
-//import Paginator from "../../common/Paginator";
 import { useParams } from "react-router-dom";
 import { LinearProgress } from "@mui/material";
+import LotPreview from "../../lot/LotPreview";
+import AuctionSession from "../AuctionSession";
+import "./PastSessionDetail.scss";
 
-const LiveAuctionSessionDetail = () => {
+const PastSessionDetail = () => {
   const { id } = useParams();
   const [sessionData, setSessionData] = useState(null);
 
   useEffect(() => {
-    // Fetch data from API
     const fetchSessionData = async () => {
       try {
         const formData = new FormData();
         formData.append("sessionId", id);
-        formData.append("memberId", 4);
 
         const response = await axios.post(
-          `http://localhost:8080/auction/session/view-live-auction-session-detail`,
+          `http://localhost:8080/auction/session/past/details`,
           formData
         );
         if (response.status === 200) {
@@ -60,17 +57,15 @@ const LiveAuctionSessionDetail = () => {
             />
           </div>
         </div>
-        <div className="row d-flex justify-content-center ">
-          <div className="col-xxl-10 col-lg-10 col-11 ">
+        <div className="row d-flex justify-content-center">
+          <div className="col-xxl-10 col-lg-10 col-11">
             <div className="row">
               {sessionData.lots.map((lot, index) => (
                 <div
                   key={index}
                   className="col-xxl-3 col-lg-4 col-6 my-3 d-flex justify-content-center"
                 >
-                  <div className="">
-                    <LotPreview lot={lot} sessionStatus="LIVE" />
-                  </div>
+                  <LotPreview lot={lot} sessionStatus="PAST" />
                 </div>
               ))}
             </div>
@@ -81,4 +76,4 @@ const LiveAuctionSessionDetail = () => {
   );
 };
 
-export default LiveAuctionSessionDetail;
+export default PastSessionDetail;
