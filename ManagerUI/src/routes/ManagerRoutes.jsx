@@ -13,6 +13,7 @@ import {
   PendingApprovalList,
 } from "../component/valuation-request/AllValuationRequestList";
 import PublicCreatedSession from "../component/manager/Session/PublicCreatedSession";
+import { ViewPurchasedLot } from "../component/manager/Lots/ViewPurchasedLot";
 
 const ManagerRoutes = [
   {
@@ -58,6 +59,10 @@ const ManagerRoutes = [
   {
     path: "/sessions/created",
     element: <PublicCreatedSession />,
+  },
+  {
+    path: "/auction/delivered-lots",
+    element: <ViewPurchasedLot />,
   },
 ];
 

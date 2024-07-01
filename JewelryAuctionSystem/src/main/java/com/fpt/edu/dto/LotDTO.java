@@ -15,10 +15,12 @@ import java.util.List;
 @AllArgsConstructor
 public class LotDTO {
         private  Integer id;
+        private Integer auctionRegistersId;
         private  Integer productId;
         private  String productName;
         private BigDecimal currentPrice;
         private Integer currentWinnerId;
+        private String currentWinnerName;
         private BigDecimal estimatePriceMin;
         private BigDecimal estimatePriceMax;
         private  String description;
@@ -30,5 +32,5 @@ public class LotDTO {
         private BigDecimal pricePerStep;
         private int maxStep;
         private BigDecimal startPrice;
-
+        private PaymentInfoDTO paymentInfoDTO = new PaymentInfoDTO();
 }
