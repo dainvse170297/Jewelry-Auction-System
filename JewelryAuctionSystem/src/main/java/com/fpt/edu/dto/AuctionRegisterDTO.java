@@ -22,4 +22,5 @@ public class AuctionRegisterDTO {
     private BigDecimal currentPrice;
     private BigDecimal finalPrice;
     private Set<Integer> paymentInfoId;
+
 }
