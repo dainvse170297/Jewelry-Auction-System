@@ -206,10 +206,6 @@ public class AuctionSessionService implements IAuctionSessionService {
     @Override
     public AuctionSessionDTO publicAuctionSession(Integer sessionId) {
         AuctionSession auctionSession = auctionSessionRepository.findById(sessionId).get();
-        for (Lot lot : auctionSession.getLots()) {
-            lot.setStatus(LotStatus.AUCTIONING);
-            lotRepository.save(lot);
-        }
         auctionSession.setStatus(AuctionSessionStatus.UPCOMING);
         auctionSessionRepository.save(auctionSession);
         return auctionSessionMapper.toAuctionSessionDTO(auctionSession);

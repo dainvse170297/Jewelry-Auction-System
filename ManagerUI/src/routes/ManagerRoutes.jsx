@@ -14,7 +14,6 @@ import {
 } from "../component/valuation-request/AllValuationRequestList";
 import PublicCreatedSession from "../component/manager/Session/PublicCreatedSession";
 import { ViewPurchasedLot } from "../component/manager/Lots/ViewPurchasedLot";
-import PaidList from "../component/manager/AuctionRegister/PaidList";
 
 
 const ManagerRoutes = [
@@ -65,10 +64,6 @@ const ManagerRoutes = [
   {
     path: "/auction/delivered-lots",
     element: <ViewPurchasedLot />,
-  },
-  {
-    path: "/paid-list",
-    element: <PaidList />,
   },
 
 ];
