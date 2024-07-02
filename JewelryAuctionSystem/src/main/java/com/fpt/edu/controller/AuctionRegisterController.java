@@ -54,4 +54,14 @@ public class AuctionRegisterController {
         return ResponseEntity.ok(auctionRegisterService.getAuctionRegisterByMemberId(memberId));
     }
 
+    @GetMapping("/get-purchased-auction-register")
+    public ResponseEntity<List<AuctionRegister>> getPurchasedAuctionRegister() {
+        return ResponseEntity.ok(auctionRegisterService.getPurchasedAuctionRegister());
+    }
+
+    @GetMapping("/get-purchased-auction-register/{id}")
+    public ResponseEntity<AuctionRegister> getPurchasedAuctionRegisterById(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(auctionRegisterService.getPurchasedAuctionRegisterById(id));
+    }
+
 }

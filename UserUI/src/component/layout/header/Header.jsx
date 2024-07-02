@@ -108,8 +108,7 @@ const Header = () => {
                       {" "}
                       <LoginIcon /> Sign In
                     </Dropdown.Item>
-                    <Dropdown.Item href="#" onClick={handleLogout}>
-                      {" "}
+                    <Dropdown.Item href="/sign-up">
                       <PersonAddAltIcon /> Sign Up
                     </Dropdown.Item>
                   </>

@@ -1,6 +1,7 @@
 package com.fpt.edu.controller;
 
 import com.fpt.edu.dto.*;
+import com.fpt.edu.entity.ValuationRequest;
 import com.fpt.edu.service.ResponseValuationRequestService;
 import com.fpt.edu.service.ValuationRequestService;
 import lombok.RequiredArgsConstructor;
@@ -117,7 +118,7 @@ public class ValuationRequestController {
     }
 
     @GetMapping("/view-final-request-details/{id}")
-    public ResponseEntity<ProductDetailDTO> getDetailsProductById(@PathVariable Integer id) {//valuation request id
+    public ResponseEntity<LotDTO> getDetailsProductById(@PathVariable Integer id) {//valuation request id
         return ResponseEntity.ok(valuationRequestService.getProductDetail(id));
     }
 

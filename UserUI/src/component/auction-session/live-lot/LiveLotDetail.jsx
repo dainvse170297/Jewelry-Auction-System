@@ -12,12 +12,13 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import WebSocketHandler from "../../web-socket-handler/WebSocketHandler";
 
 export default function LiveLotDetail() {
+  const { id } = useParams();
+
   const location = useLocation();
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
 
-  const { id } = useParams();
   const [errorMsg, setErrorMsg] = useState("");
   const [productInfo, setProductInfo] = useState({});
   const [bidHistory, setBidHistory] = useState([]);
@@ -29,6 +30,8 @@ export default function LiveLotDetail() {
 
   const [multiplier, setMultiplier] = useState(1);
   const [message, setMessage] = useState(null);
+
+  const [isSold, setIsSold] = useState(false);
 
   useEffect(() => {
     const getInfo = async () => {
@@ -46,6 +49,7 @@ export default function LiveLotDetail() {
       }
     };
     getInfo();
+    console.log("location", location);
   }, [id]);
 
   //http://localhost:8080/bid/list-bid?lotId=68
@@ -79,6 +83,10 @@ export default function LiveLotDetail() {
     }
   }, [message]);
 
+  const handleWinningMessage = (winningMessage) => {
+    toast(winningMessage, { autoClose: 2500 })
+  }
+
   const placeBid = async (calculatedAmount) => {
     // let price = parseFloat(productInfo.currentPrice);
     // let calculatedAmount = price + parseFloat(productInfo.pricePerStep) * multiplier;
@@ -109,8 +117,18 @@ export default function LiveLotDetail() {
           // Manually update the current price and bid history
           setProductInfo((prevInfo) => ({
             ...prevInfo,
-            currentPrice: calculatedAmount,
+            currentPrice:
+              calculatedAmount > prevInfo.buyNowPrice
+                ? prevInfo.buyNowPrice
+                : calculatedAmount,
           }));
+
+          if (calculatedAmount == parseFloat(productInfo.buyNowPrice)) {
+            handleWinningMessage("Congratulations! You have won the auction")
+            setTimeout(() => {
+              window.location.reload();
+            }, 2500);
+          }
           // setBidHistory((prevHistory) => [
           //   { price: calculatedAmount, bidTime: new Date() },
           //   ...prevHistory,
@@ -144,7 +162,21 @@ export default function LiveLotDetail() {
   const handleBuyNow = () => {
     let buyNowPrice = parseFloat(productInfo.buyNowPrice);
     placeBid(buyNowPrice);
+    setShowModal(false);
   };
+
+  if (productInfo !== null && productInfo.status === "SOLD") {
+    return (
+      <div className="container">
+        <div className="text-center">
+          <h3>This item has been sold</h3>
+          <a href="/" className="a">
+            <ArrowBackIcon /> BACK TO HOME
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
@@ -188,6 +220,7 @@ export default function LiveLotDetail() {
                 <div className="text-center text-secondary">
                   {productInfo.description}
                 </div>
+
 
                 <div className="d-flex justify-content-center mt-5">
                   <div className="d-flex align-items-center">
@@ -234,7 +267,11 @@ export default function LiveLotDetail() {
                         <button onClick={calculateBid} className="bid-btn">
                           PLACE BID
                         </button>
+
                         <div className="ms-3">
+                          <div className="text-center text-secondary">
+                            Price per step: ${productInfo.pricePerStep}
+                          </div>
                           <div className="bid-input">
                             <input
                               type="number"
@@ -289,8 +326,8 @@ export default function LiveLotDetail() {
           <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleCloseModal}>
-            Save Changes
+          <Button variant="danger" onClick={handleBuyNow}>
+            Buy Now
           </Button>
         </Modal.Footer>
       </Modal>

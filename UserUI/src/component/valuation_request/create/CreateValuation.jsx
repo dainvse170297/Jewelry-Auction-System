@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./createValuation.scss";
-import { Form } from "react-bootstrap";
+import { Form, Spinner } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { ToastContainer, toast } from "react-toastify";
 import ValuationInfo from "../../../info/valuation-request/ValuationInfo";
@@ -22,7 +22,7 @@ export default function CreateValuation() {
   if (currentUser) {
     memberId = currentUser.memberId;
   } else {
-    navigate("/login", { state: { from: `/create-valuation` } })
+    navigate("/login", { state: { from: `/create-valuation` } });
   }
 
   const [valuation, setValuation] = useState({
@@ -31,6 +31,8 @@ export default function CreateValuation() {
     memberEstimate: "",
     photos: [],
   });
+
+  const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("token") === null) {
@@ -57,7 +59,7 @@ export default function CreateValuation() {
 
   async function Create(e) {
     e.preventDefault();
-
+    setIsSending(true);
     try {
       const formData = new FormData();
       formData.append("memberId", valuation.memberId);
@@ -86,6 +88,7 @@ export default function CreateValuation() {
           memberEstimate: "",
           photos: [],
         });
+        setIsSending(false);
       } else {
         toast.error("Error set request!");
       }
@@ -154,9 +157,16 @@ export default function CreateValuation() {
                       </div>
                     </div>
                   </div>
-                  <div className="row d-flex justify-content-center px-5 mx-3 my-3">
-                    <button type="submit"> Submit Valuation Request</button>
-                  </div>
+                  {!isSending && (
+                    <div className="row d-flex justify-content-center px-5 mx-3 my-3">
+                      <button type="submit"> Submit Valuation Request</button>
+                    </div>
+                  )}
+                  {isSending && (
+                    <div className="row d-flex justify-content-center px-5 mx-3 my-3">
+                      <Spinner />
+                    </div>
+                  )}
                 </div>
 
                 <div className="col-xxl-6 col-lg-5 col-11">

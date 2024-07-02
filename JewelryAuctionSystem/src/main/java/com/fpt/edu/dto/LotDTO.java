@@ -23,7 +23,7 @@ public class LotDTO {
         private String currentWinnerName;
         private BigDecimal estimatePriceMin;
         private BigDecimal estimatePriceMax;
-        private  String description;
+        private String description;
         private LocalDateTime endTime;
         private LotStatus status;
         private List<ProductImage> productImages;
