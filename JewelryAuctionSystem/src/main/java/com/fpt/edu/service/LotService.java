@@ -46,7 +46,7 @@ public class LotService implements ILotService{
     }
     @Override
     public LotDTO viewLiveLotDetail(Integer id) {
-        AuctionRegisterStatus status = AuctionRegisterStatus.BID;
+        AuctionRegisterStatus status = AuctionRegisterStatus.REGISTERED;
         Optional<Lot> lots = lotRepository.findById(id);
         if (lots.isEmpty()) {
             throw new RuntimeException("Lot not found");
