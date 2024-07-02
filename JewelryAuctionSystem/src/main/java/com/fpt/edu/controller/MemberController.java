@@ -36,6 +36,4 @@ public class MemberController {
         MemberDTO memberDTO = memberService.getMyInfoFinancialProof(memberId);
         return ResponseEntity.ok().body(memberDTO);
     }
-
-
 }
