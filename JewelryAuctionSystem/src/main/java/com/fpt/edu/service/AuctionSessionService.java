@@ -106,15 +106,13 @@ public class AuctionSessionService implements IAuctionSessionService {
     public ResponseEntity<?> viewLiveAuctionSessionDetail(Integer sessionId, Integer memberId) {
         AuctionRegisterStatus statusRegister = AuctionRegisterStatus.REGISTERED;
         LotStatus statusLot = LotStatus.AUCTIONING;
-        // lay dah sach dang ky cua member
+
         List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, statusRegister);
-        auctionRegisters.addAll(auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, AuctionRegisterStatus.REGISTERED));
-        // tim ra lot cua member
+      //  auctionRegisters.addAll(auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, AuctionRegisterStatus.REGISTERED));
+
         List<Lot> lots = auctionRegisters.stream()
                 .map(AuctionRegister::getLot)
                 .collect(Collectors.toList());
-        // lấy
-        // ds lots cua session
 
 
         List<Lot> lotOfSession = lotRepository.findByAuctionSession_IdAndStatus(sessionId, statusLot);
