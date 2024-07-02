@@ -94,7 +94,7 @@ public class ValuationRequestController {
         return ResponseEntity.ok(valuationRequestService.CancelFinalValuationRequest(id));
     }
 
-    //bao gom sendNotifyToMember service
+
     @PostMapping("/send-final-valuation-to-member")
     public ResponseEntity<List<Map<String, String>>> sendFinalValuationToMember(@RequestParam Integer id, //valauation request id
                                                                                 @RequestParam Integer staffId) {

@@ -45,9 +45,7 @@ public class BidService implements IBidService {
     @Autowired
     WebSocketService webSocketService;
 
-    // cuoc doi la nhung chuyen di
-    // va chuyen di dang nho nhat la mua he 2024
-    // di SWP
+
     private Bid createAndSaveBid(Integer memberId, Integer lotId,BigDecimal price) {
         Bid bid = new Bid();
         bid.setPrice(price);
@@ -63,7 +61,7 @@ public class BidService implements IBidService {
         String memberName = iMemberRepository.findById(memberId).get().getFullname();
 
         AuctionRegister auctionRegister = iAuctionRegisterRepository.findByLotIdAndMemberId(lotId, memberId);
-        //check log xem ai dang nhap
+
         log.info("auction: {}", auctionRegister.getId());
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info("Username: {}", authentication.getName());
@@ -78,7 +76,7 @@ public class BidService implements IBidService {
                 lot.setCurrentWinnerId(memberId);
                 iLotRepository.save(lot);
                 Bid bid = createAndSaveBid( memberId, lotId,price);
-                // update lại bảng Auction Register với mỗi lần bid của 1 member
+
                 if (auctionRegister != null) {
                     auctionRegister.setCurrentPrice(price);
                     auctionRegister.setFinalPrice(price);

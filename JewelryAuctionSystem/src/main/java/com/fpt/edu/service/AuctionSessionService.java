@@ -266,7 +266,7 @@ public class AuctionSessionService implements IAuctionSessionService {
         }
     }
 
-    @Scheduled(fixedRate = 1000 * 60 * 5)  // chay moi 5 minutes
+    @Scheduled(fixedRate = 1000 * 60 * 5)
     public void deleteTokenInvalidated() {
         List<InvalidatedToken> invalidatedTokens = invalidatedTokenRepository.findAll();
         LocalDateTime now = LocalDateTime.now();
