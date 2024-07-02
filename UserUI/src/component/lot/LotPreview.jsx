@@ -1,14 +1,15 @@
-import { Carousel, Card } from "react-bootstrap";
+import { Carousel, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./LotPreview.scss";
 
-const LotPreview = ({ lot, sessionStatus }) => {
+const LotPreview = ({ lot, registeredValue, sessionStatus }) => {
+
   const truncate = (text, maxLength) => {
     if (text.length <= maxLength) {
       return text;
     }
     return text.substr(0, maxLength) + "...";
-  };
+  }
 
   return (
     <Card style={{ width: "20rem" }}>
@@ -27,7 +28,9 @@ const LotPreview = ({ lot, sessionStatus }) => {
       </Carousel>
       <Card.Body className=" text-center ">
         <Card.Title>
-          <strong>{truncate(lot.productName, 35)}</strong>
+          <strong>
+            {truncate(lot.productName, 20)}
+          </strong>
         </Card.Title>
 
         <Card.Text>
@@ -43,36 +46,20 @@ const LotPreview = ({ lot, sessionStatus }) => {
           )}
           {sessionStatus === "LIVE" && (
             <>
+              {" "}
               <p>
-                Current Price: {lot.currentPrice} <strong>$</strong>
+                Current Price: {lot.currentPrice} <strong>$</strong>{" "}
               </p>
-              <Link to={`/live-lot-detail/${lot.id}`} className="btn">
-                <button className="placebid">Place Bid</button>
+              <Link to={`/live-lot-detail/${lot.id}`} className="btn ">
+                <button className="placebid ">Place Bid</button>
               </Link>
             </>
           )}
-          {sessionStatus === "PAST" && (
-            <>
-              {lot.status === "SOLD" ? (
-                <>
-                  <p>
-                    Sold Price: {lot.currentPrice} <strong>$</strong>
-                  </p>
-                  <p>
-                    {" "}
-                    <strong className="sold">SOLD</strong>
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p>Sold Price: No</p>
-                  <p>
-                    <strong className="ready">READY</strong>
-                  </p>
-                </>
-              )}
-            </>
-          )}
+
+          {/* {registeredValue && <p>Registered Value: {registeredValue}</p>}
+          <Link to={`/upcoming-session-lot/${lot.id}`}>
+            <button className="detail-button">View details</button>
+          </Link> */}
         </Card.Text>
       </Card.Body>
     </Card>

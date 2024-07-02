@@ -17,7 +17,7 @@ const LiveAuctionSessionDetail = () => {
       try {
         const formData = new FormData();
         formData.append("sessionId", id);
-        formData.append("memberId", 4);
+        formData.append("memberId", 1);
 
         const response = await axios.post(
           `http://localhost:8080/auction/session/view-live-auction-session-detail`,
@@ -37,11 +37,7 @@ const LiveAuctionSessionDetail = () => {
   }, [id]);
 
   if (!sessionData) {
-    return (
-      <div>
-        <LinearProgress />
-      </div>
-    );
+    return <div><LinearProgress /></div>;
   }
 
   return (
@@ -64,10 +60,7 @@ const LiveAuctionSessionDetail = () => {
           <div className="col-xxl-10 col-lg-10 col-11 ">
             <div className="row">
               {sessionData.lots.map((lot, index) => (
-                <div
-                  key={index}
-                  className="col-xxl-3 col-lg-4 col-6 my-3 d-flex justify-content-center"
-                >
+                <div key={index} className="col-xxl-3 col-lg-4 col-6 my-3 d-flex justify-content-center">
                   <div className="">
                     <LotPreview lot={lot} sessionStatus="LIVE" />
                   </div>
