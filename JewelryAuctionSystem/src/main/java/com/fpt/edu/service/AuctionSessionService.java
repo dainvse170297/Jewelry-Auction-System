@@ -104,7 +104,7 @@ public class AuctionSessionService implements IAuctionSessionService {
 
     @Override
     public ResponseEntity<?> viewLiveAuctionSessionDetail(Integer sessionId, Integer memberId) {
-        AuctionRegisterStatus statusRegister = AuctionRegisterStatus.BID;
+        AuctionRegisterStatus statusRegister = AuctionRegisterStatus.REGISTERED;
         LotStatus statusLot = LotStatus.AUCTIONING;
         // lay dah sach dang ky cua member
         List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, statusRegister);

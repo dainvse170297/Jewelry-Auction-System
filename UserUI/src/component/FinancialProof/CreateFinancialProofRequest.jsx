@@ -54,8 +54,7 @@ export default function CreateFinancialProofRequest() {
       const formData = new FormData();
       formData.append("memberId", valuation.memberId);
 
-      valuation;
-      photos.forEach((photo) => {
+      valuation.photos.forEach((photo) => {
         formData.append("image", photo);
       });
 
