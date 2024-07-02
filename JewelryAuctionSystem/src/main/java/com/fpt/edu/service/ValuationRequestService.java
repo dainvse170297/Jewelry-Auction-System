@@ -11,15 +11,12 @@ import com.fpt.edu.dto.ValuationRequestDTO;
 import com.fpt.edu.status.ResponseValuationRequestStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +35,6 @@ public class ValuationRequestService implements IValuationRequestService {
     private final NotifyMapper NotifyMapper;
     private final INotifyService iNotifyService;
     private final IResponseRequestValuationService iResponseRequestValuationService;
-    private final ProductService productService;
 
     private final ResponseValuationRequestService responseValuationRequestService;
     private final LotMapper lotMapper;
@@ -88,7 +84,7 @@ public class ValuationRequestService implements IValuationRequestService {
     public List<ValuationRequestDetailDTO> getAll() {
         List<ValuationRequest> valuationRequests = iValuationRequestRepository.findAll();
         for (ValuationRequest valuationRequest : valuationRequests) {
-            Set<ValuationImage> valuationImages = new HashSet<>(iValuationImageRepository.findByRequest(valuationRequest));
+            Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
             valuationRequest.setValuationImages(valuationImages);
         }
         return valuationRequestMapper.mapToValuationRequestDetailDTOList(valuationRequests);
