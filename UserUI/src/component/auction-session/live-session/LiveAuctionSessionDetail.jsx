@@ -11,13 +11,15 @@ const LiveAuctionSessionDetail = () => {
   const { id } = useParams();
   const [sessionData, setSessionData] = useState(null);
 
+  const currentUser = JSON.parse(localStorage.getItem("account"));
+
   useEffect(() => {
     // Fetch data from API
     const fetchSessionData = async () => {
       try {
         const formData = new FormData();
         formData.append("sessionId", id);
-        formData.append("memberId", 4);
+        formData.append("memberId", currentUser?.memberId);
 
         const response = await axios.post(
           `http://localhost:8080/auction/session/view-live-auction-session-detail`,

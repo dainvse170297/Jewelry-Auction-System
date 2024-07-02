@@ -26,8 +26,8 @@ const Profile = () => {
     <div className="container">
       <div className="row gutters-sm">
         <div className="col-md-4 d-none d-md-block">
-          <div className="card">
-            <div className="card-body">
+          <div className="">
+            <div className="">
               <nav className="nav flex-column nav-pills nav-gap-y-1">
                 <a
                   href="#profile"
@@ -153,8 +153,8 @@ const Profile = () => {
         </div>
 
         <div className="col-md-8">
-          <div className="card">
-            <div className="card-header border-bottom mb-3 d-flex d-md-none">
+          <div className="">
+            <div className=" border-bottom mb-3 d-flex d-md-none">
               <ul
                 className="nav nav-tabs card-header-tabs nav-gap-x-1"
                 role="tablist"
@@ -299,7 +299,7 @@ const Profile = () => {
                 </li>
               </ul>
             </div>
-            <div className="card-body tab-content">
+            <div className="tab-content">
               <div className="tab-pane active" id="profile">
                 <ProfileDetail memberId={currentUser.memberId} />
               </div>
