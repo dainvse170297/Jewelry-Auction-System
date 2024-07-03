@@ -59,10 +59,11 @@ const CustomerDetail = ({ productId, transferAmount, auctionRegisterId }) => {
 
             if (response.status === 200) {
                 toast.success('Transfered successfully')
-
+                setIsLoading(false)
+                window.location.reload()
             }
-            setIsLoading(false)
-            window.location.reload()
+
+
         } catch (error) {
             console.log(error)
         }

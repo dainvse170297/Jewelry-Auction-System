@@ -19,7 +19,7 @@ const Profile = () => {
     } else {
       navigate("/login", { state: { from: `/profile` } });
     }
-    //console.log("memberId", memberId);
+
   }, [currentUser]);
 
   return (
@@ -138,15 +138,6 @@ const Profile = () => {
                   </svg>
                   My Valuation Request
                 </a>
-                {/* <a
-                  href="#winnerAuction"
-                  data-toggle="tab"
-                  className="nav-item nav-link has-icon nav-link-faded"
-                >
-                  <ShoppingCartIcon className='me-3' />
-
-                  My Winner Auction
-                </a> */}
               </nav>
             </div>
           </div>
@@ -182,29 +173,6 @@ const Profile = () => {
                     </svg>
                   </a>
                 </li>
-                {/* <li className="nav-item">
-                  <a
-                    href="#account"
-                    data-toggle="tab"
-                    className="nav-link has-icon"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width={24}
-                      height={24}
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="feather feather-settings"
-                    >
-                      <circle cx={12} cy={12} r={3} />
-                      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                    </svg>
-                  </a>
-                </li> */}
                 <li className="nav-item">
                   <a
                     href="#security"
@@ -310,122 +278,9 @@ const Profile = () => {
                 <ChangePassword />
               </div>
               <div className="tab-pane" id="notification">
-                <h6>NOTIFICATION SETTINGS</h6>
+                <h6>NOTIFICATION HERE</h6>
                 <hr />
-                <form>
-                  <div className="form-group">
-                    <label className="d-block mb-0">Security Alerts</label>
-                    <div className="small text-muted mb-3">
-                      Receive security alert notifications via email
-                    </div>
-                    <div className="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        className="custom-control-input"
-                        id="customCheck1"
-                        defaultChecked=""
-                      />
-                      <label
-                        className="custom-control-label"
-                        htmlFor="customCheck1"
-                      >
-                        Email each time a vulnerability is found
-                      </label>
-                    </div>
-                    <div className="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        className="custom-control-input"
-                        id="customCheck2"
-                        defaultChecked=""
-                      />
-                      <label
-                        className="custom-control-label"
-                        htmlFor="customCheck2"
-                      >
-                        Email a digest summary of vulnerability
-                      </label>
-                    </div>
-                  </div>
-                  <div className="form-group mb-0">
-                    <label className="d-block">SMS Notifications</label>
-                    <ul className="list-group list-group-sm">
-                      <li className="list-group-item has-icon">
-                        Comments
-                        <div className="custom-control custom-control-nolabel custom-switch ml-auto">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="customSwitch1"
-                            defaultChecked=""
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="customSwitch1"
-                          />
-                        </div>
-                      </li>
-                      <li className="list-group-item has-icon">
-                        Updates From People
-                        <div className="custom-control custom-control-nolabel custom-switch ml-auto">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="customSwitch2"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="customSwitch2"
-                          />
-                        </div>
-                      </li>
-                      <li className="list-group-item has-icon">
-                        Reminders
-                        <div className="custom-control custom-control-nolabel custom-switch ml-auto">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="customSwitch3"
-                            defaultChecked=""
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="customSwitch3"
-                          />
-                        </div>
-                      </li>
-                      <li className="list-group-item has-icon">
-                        Events
-                        <div className="custom-control custom-control-nolabel custom-switch ml-auto">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="customSwitch4"
-                            defaultChecked=""
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="customSwitch4"
-                          />
-                        </div>
-                      </li>
-                      <li className="list-group-item has-icon">
-                        Pages You Follow
-                        <div className="custom-control custom-control-nolabel custom-switch ml-auto">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="customSwitch5"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="customSwitch5"
-                          />
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </form>
+
               </div>
 
               <div className="tab-pane" id="billing">

@@ -16,10 +16,6 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 const Header = () => {
   const navigate = useNavigate();
 
-  const navigateToValuationRequest = () => {
-    navigate("/valuation-request/1");
-  };
-
   const currentUser = JSON.parse(localStorage.getItem("account")) || null;
 
   const handleLogout = () => {

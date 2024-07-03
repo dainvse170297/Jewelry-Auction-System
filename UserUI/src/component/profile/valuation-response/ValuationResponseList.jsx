@@ -82,7 +82,7 @@ const ValuationResponseList = ({ id }) => {
           </div> */}
           <div className="row">
             {/* Response list */}
-            <div className="card card-body">
+            <div className="">
               <div className="row d-flex justify-content-center">
                 <h4 className="text-center">Valuation Request</h4>
               </div>
