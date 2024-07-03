@@ -24,7 +24,11 @@ const ViewFinancialProof = ({ id }) => {
   }, [id]);
 
   if (!financialProof) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        You Don't Have Credit Card ! Please Add Credit Card in Your Profile
+      </div>
+    );
   }
 
   return (

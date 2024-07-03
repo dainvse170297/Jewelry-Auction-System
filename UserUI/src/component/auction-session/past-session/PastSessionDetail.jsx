@@ -45,7 +45,7 @@ const PastSessionDetail = () => {
     <div className="container-fluid">
       <div className="row">
         <h1 className="text-center py-3 red-title mb-4">
-          Live Auction Session
+          Past Auction Session
         </h1>
 
         <div className="mb-3">
