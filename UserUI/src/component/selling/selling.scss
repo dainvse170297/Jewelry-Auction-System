@@ -1,0 +1,104 @@
+.container-fluid {
+  .request{
+    background-color: #ff0000; // Red color
+    border-color: #ff0000;
+    color: #fff;
+    font-size: 1.25rem; // Increase font size
+    padding: 0.75rem 1.5rem; // Increase padding for a bigger button
+    border-radius: 0.3rem; // Slightly rounded corners
+    transition: background-color 0.3s ease, transform 0.3s ease; // Smooth transition for hover effect
+    margin: 15px 0;
+    &:hover {
+      background-color: darken(#ff0000, 10%); // Darker color on hover
+      border-color: darken(#ff0000, 10%);
+      transform: scale(1.05); // Slightly enlarge the button on hover
+    }
+  
+    &:focus, &:active {
+      background-color: darken(#ff0000, 20%); // Even darker color when focused or active
+      border-color: darken(#ff0000, 20%);
+      box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.5); // Add a shadow to indicate focus
+    }
+  }
+  
+  
+  
+  padding: 20px;
+  font-family: 'Arial, sans-serif';
+
+  h1 {
+    font-size: 2.5rem;
+    color: #2c3e50; // Darker shade for main headings
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555; // Slightly lighter shade for paragraph text
+  }
+
+  .slogan {
+    font-style: italic;
+    color: #3498db; // Accent color for slogan
+    margin-bottom: 30px;
+  }
+
+  .author {
+    font-size: 1.2rem;
+    color: #e74c3c; // Different accent color for author name
+  }
+
+  .btn-primary {
+    background-color: #3498db;
+    border: none;
+    &:hover {
+      background-color: #2980b9;
+    }
+  }
+
+  .img-fluid {
+    border-radius: 10px; // Rounded corners for images
+    margin-bottom: 20px;
+  }
+
+  .img-content {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+  }
+
+  .whysell, .theprocess {
+    font-size: 1.1rem;
+    color: #34495e;
+    padding: 20px;
+    background-color: #ecf0f1; // Light background for contrast
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+
+  // Adding specific styles for steps
+  .step {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    margin-bottom: 20px;
+
+    h1 {
+      font-size: 1.8rem;
+      color: #2980b9; // Different color for step headings
+      margin-bottom: 15px;
+    }
+
+    p {
+      color: #2c3e50;
+    }
+
+    &:nth-child(even) {
+      background-color: #e9ecef;
+    }
+  }
+
+  .text-center {
+    text-align: center;
+  }
+}

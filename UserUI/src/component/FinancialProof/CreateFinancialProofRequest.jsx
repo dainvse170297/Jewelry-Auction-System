@@ -16,18 +16,18 @@ export default function CreateFinancialProofRequest() {
     emptyDescription: "",
   });
 
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login", { state: { from: "/create-financial-proof" } });
+    }
+  }, [navigate]);
+
   const currentUser = JSON.parse(localStorage.getItem("account"));
 
   const [valuation, setValuation] = useState({
-    memberId: currentUser.memberId,
+    memberId: currentUser?.memberId || null,
     photos: [],
   });
-
-  useEffect(() => {
-    if (localStorage.getItem("token") === null) {
-      navigate("/login");
-    }
-  }, [navigate]);
 
   const handleImagesUpload = (images) => {
     setValuation({ ...valuation, photos: images });
@@ -71,9 +71,7 @@ export default function CreateFinancialProofRequest() {
       if (createValuation.status === 200) {
         toast.success("Successfully");
         setValuation({
-          memberId: currentUser.memberId,
-          description: "",
-          memberEstimate: "",
+          memberId: currentUser?.memberId || null,
           photos: [],
         });
       } else {

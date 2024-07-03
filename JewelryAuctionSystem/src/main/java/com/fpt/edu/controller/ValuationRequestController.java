@@ -1,6 +1,7 @@
 package com.fpt.edu.controller;
 
 import com.fpt.edu.dto.*;
+import com.fpt.edu.entity.ValuationRequest;
 import com.fpt.edu.service.ResponseValuationRequestService;
 import com.fpt.edu.service.ValuationRequestService;
 import lombok.RequiredArgsConstructor;

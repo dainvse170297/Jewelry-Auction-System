@@ -14,11 +14,18 @@ import UserIcon from "@mui/icons-material/ManageAccounts";
 import SettingsIcon from "@mui/icons-material/Settings";
 import FinancialProofRequestIcon from "@mui/icons-material/RequestQuote";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { MonetizationOn } from "@mui/icons-material";
 
 // Navigation
 const staffNavigation = [
-  { name: "Auction", icon: AuctionIcon, href: "/auction" },
-
+  {
+    name: "Auction",
+    icon: AuctionIcon,
+    children: [
+      { name: "Auction", href: "/auction" },
+      { name: "Waiting To Deliver", href: "/auction/deliver" },
+    ],
+  },
   {
     name: "Valuation Request",
     icon: ValuationRequestIcon,
@@ -56,11 +63,11 @@ const managerNavigation = [
     children: [
       {
         name: "Auction sessions",
-        href: "/auction"
+        href: "/auction",
       },
       {
         name: "Create auction",
-        href: "/auction/create"
+        href: "/auction/create",
       },
       {
         name: "Ready lots",
@@ -69,7 +76,11 @@ const managerNavigation = [
       {
         name: "Public to UPCOMING Auctions",
         href: "/sessions/created",
-      }
+      },
+      {
+        name: "Delivered lots",
+        href: "/auction/delivered-lots",
+      },
     ],
   },
   {
@@ -77,6 +88,7 @@ const managerNavigation = [
     icon: FinancialProofRequestIcon,
     href: "/financial-request",
   },
+  { name: "Paid  List", icon: MonetizationOn, href: "/paid-list" },
   { name: "User", icon: UserIcon, href: "/user-manage" },
   { name: "Setting", icon: SettingsIcon, href: "/setting" },
   { name: "Profile", icon: ProfileIcon, href: "/profile" },
@@ -129,8 +141,8 @@ const Sidebar = () => {
         <ul>
           {currentNavigation &&
             currentNavigation.map((item, index) => (
-              <>
-                {(item.children && (
+              <React.Fragment key={index}>
+                {item.children ? (
                   <>
                     <li
                       className="d-flex justify-content-between pl-4"
@@ -152,34 +164,26 @@ const Sidebar = () => {
                         />
                       </div>
                     </li>
-                    {/* <div className="child-side"></div> */}
                     <ul>
-                      {activeKey && activeKey === index && (
-                        <div
-                          className={`dropdown ${
-                            activeKey === index ? "dropdown-visible" : ""
-                          }`}
-                        >
-                          {item.children.map((child, index) => (
-                            <li key={index}>
-                              <Link to={child.href} className="non-deco">
-                                <span>{child.name}</span>
-                              </Link>
-                            </li>
-                          ))}
-                        </div>
-                      )}
+                      {activeKey === index &&
+                        item.children.map((child, childIndex) => (
+                          <li key={childIndex}>
+                            <Link to={child.href} className="non-deco">
+                              <span>{child.name}</span>
+                            </Link>
+                          </li>
+                        ))}
                     </ul>
                   </>
-                )) || (
-                  <li>
+                ) : (
+                  <li key={index}>
                     <Link to={item.href} className="non-deco">
                       <item.icon className="icon" />
                       <span>{item.name}</span>
                     </Link>
                   </li>
                 )}
-              </>
+              </React.Fragment>
             ))}
         </ul>
       </div>

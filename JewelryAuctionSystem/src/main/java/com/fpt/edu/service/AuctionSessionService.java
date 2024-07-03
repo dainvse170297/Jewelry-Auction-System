@@ -102,20 +102,17 @@ public class AuctionSessionService implements IAuctionSessionService {
         return auctionSessionMapper.toAuctionSessionDTOList(auctionSessionRepository.findByStatus(status));
     }
 
-
     @Override
     public ResponseEntity<?> viewLiveAuctionSessionDetail(Integer sessionId, Integer memberId) {
-        AuctionRegisterStatus statusRegister = AuctionRegisterStatus.BID;
+        AuctionRegisterStatus statusRegister = AuctionRegisterStatus.REGISTERED;
         LotStatus statusLot = LotStatus.AUCTIONING;
-        // lay dah sach dang ky cua member
+
         List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, statusRegister);
-        auctionRegisters.addAll(auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, AuctionRegisterStatus.REGISTERED));
-        // tim ra lot cua member
+      //  auctionRegisters.addAll(auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, AuctionRegisterStatus.REGISTERED));
+
         List<Lot> lots = auctionRegisters.stream()
                 .map(AuctionRegister::getLot)
                 .collect(Collectors.toList());
-        // lấy
-        // ds lots cua session
 
 
         List<Lot> lotOfSession = lotRepository.findByAuctionSession_IdAndStatus(sessionId, statusLot);
@@ -147,6 +144,43 @@ public class AuctionSessionService implements IAuctionSessionService {
         return ResponseEntity.ok(viewLiveAuctionSessionDetailDTO);
 
     }
+    @Override
+    public ViewLiveAuctionSessionDetailDTO getPastAuctionSessionDetail(Integer sessionId) {
+        AuctionSession auctionSession = auctionSessionRepository.findById(sessionId).get();
+        ViewLiveAuctionSessionDetailDTO viewLiveAuctionSessionDetailDTO = new ViewLiveAuctionSessionDetailDTO();
+        viewLiveAuctionSessionDetailDTO.setId(auctionSession.getId());
+        viewLiveAuctionSessionDetailDTO.setStaffId(auctionSession.getStaff().getId());
+        viewLiveAuctionSessionDetailDTO.setStartTime(auctionSession.getStartTime());
+        viewLiveAuctionSessionDetailDTO.setEndTime(auctionSession.getEndTime());
+        viewLiveAuctionSessionDetailDTO.setName(auctionSession.getName());
+        viewLiveAuctionSessionDetailDTO.setDescription(auctionSession.getDescription());
+        viewLiveAuctionSessionDetailDTO.setStatus(auctionSession.getStatus());
+        Set<Lot> lots = auctionSession.getLots();
+        Set<LotDTO> lotDTOS = new HashSet<>();
+        for (Lot lot : lots) {
+            LotDTO lotDTO = new LotDTO();
+            lotDTO.setId(lot.getId());
+            lotDTO.setProductId(lot.getProduct().getId());
+            lotDTO.setProductName(lot.getProduct().getName());
+            lotDTO.setCurrentPrice(lot.getCurrentPrice());
+            lotDTO.setEstimatePriceMin(lot.getProduct().getEstimatePriceMin());
+            lotDTO.setEstimatePriceMax(lot.getProduct().getEstimatePriceMax());
+            lotDTO.setStatus(lot.getStatus());
+            lotDTO.setProductImages(lot.getProduct().getProductImages());
+            lotDTO.setPaymentInfoDTO(new PaymentInfoDTO());
+            lotDTOS.add(lotDTO);
+        }
+        viewLiveAuctionSessionDetailDTO.setLots(lotDTOS);
+        return viewLiveAuctionSessionDetailDTO;
+    }
+
+
+
+
+
+
+
+
 
     @Override
     public Map<String, Object> getAuctionSessionDetails(Integer sessionId, Integer memberId) {
@@ -170,6 +204,10 @@ public class AuctionSessionService implements IAuctionSessionService {
     @Override
     public AuctionSessionDTO publicAuctionSession(Integer sessionId) {
         AuctionSession auctionSession = auctionSessionRepository.findById(sessionId).get();
+        for (Lot lot : auctionSession.getLots()) {
+            lot.setStatus(LotStatus.AUCTIONING);
+            lotRepository.save(lot);
+        }
         auctionSession.setStatus(AuctionSessionStatus.UPCOMING);
         auctionSessionRepository.save(auctionSession);
         return auctionSessionMapper.toAuctionSessionDTO(auctionSession);
