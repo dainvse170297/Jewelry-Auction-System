@@ -19,7 +19,7 @@ const Selling = () => {
           <p>
             With the lowest seller’s fees/premiums, very frequent (bi-weekly)
             auctions, a substantial global following, record-breaking results,
-            and a flawless 5-star Google rating, FORTUNA stands head and
+            and a flawless 5-star Google rating, FU Auction stands head and
             shoulders above the rest.
           </p>
           <div>
