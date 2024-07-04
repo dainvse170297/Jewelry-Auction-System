@@ -1,0 +1,15 @@
+.header {
+  background-color: rgb(30, 136, 229);
+  display: flex;
+  justify-content: space-between;
+  border-radius: 0.3rem;
+  margin-left: 0.5rem;
+  button {
+    border: none;
+    background-color: rgb(79, 159, 230);
+
+    .icon {
+      color: white;
+    }
+  }
+}

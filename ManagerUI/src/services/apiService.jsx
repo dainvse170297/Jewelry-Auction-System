@@ -14,10 +14,21 @@ export {
   getAllAuctionSession,
   postSetAmountFinancialProof,
   getAllFinancialProof,
+<<<<<<< Updated upstream
+=======
+  getAllWinnerPurchasedAuctionRegister,
+  getMemberByProductId,
+  getValuationRequestById,
+  getRejectValuationRequest,
+>>>>>>> Stashed changes
 };
 
 const getAllValuationRequests = async () => {
   return axios.get(`valuation/all`);
+};
+
+const getValuationRequestById = async (id) => {
+  return axios.get(`valuation/valuation-request-detail/${id}`);
 };
 
 const getAllFinancialProof = async () => {
@@ -96,3 +107,18 @@ const getAllCreatedSession = async () => {
 const publicCreatedSession = async (sessionId) => {
   return axios.post(`auction/public-session/${sessionId}`);
 };
+<<<<<<< Updated upstream
+=======
+
+const getAllWinnerPurchasedAuctionRegister = async () => {
+  return axios.get(`auction-register/get-purchased-auction-register`);
+};
+
+const getMemberByProductId = async (productId) => {
+  return axios.get(`member/product/${productId}`);
+};
+
+const getRejectValuationRequest = async (id) => {
+  return axios.get(`valuation/staff-cancel/${id}`);
+};
+>>>>>>> Stashed changes

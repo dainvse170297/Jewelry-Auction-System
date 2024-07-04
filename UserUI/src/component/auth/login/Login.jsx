@@ -3,6 +3,7 @@ import "./login.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import { postLogin } from "../../../services/userService";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -30,26 +31,19 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // console.log(auth);
     try {
-      const formData = new FormData();
-      formData.append("username", auth.username);
-      formData.append("password", auth.password);
-      const response = await axios
-        .post("http://localhost:8080/auth/token", formData)
-        .then((res) => {
-          if (res.data.token && res.data.account.roleName === "MEMBER") {
-            localStorage.setItem("token", JSON.stringify(res.data.token));
-            localStorage.setItem("account", JSON.stringify(res.data.account));
-            toast.success("Login successful");
-            const redirectTo = location.state?.from || "/";
-            setTimeout(() => {
-              navigate(redirectTo);
-            }, 1000);
-          } else {
-            setErrorMsg("Invalid username or password");
-          }
-        });
+      const data = await postLogin(auth.username, auth.password);
+      if (data.token && data.account.roleName === "MEMBER") {
+        localStorage.setItem("token", JSON.stringify(data.token));
+        localStorage.setItem("account", JSON.stringify(data.account));
+        toast.success("Login successful");
+        const redirectTo = location.state?.from || "/";
+        setTimeout(() => {
+          navigate(redirectTo);
+        }, 1000);
+      } else {
+        setErrorMsg("Invalid username or password");
+      }
     } catch (error) {
       if (error.response) {
         setErrorMsg(error.response.data.message);

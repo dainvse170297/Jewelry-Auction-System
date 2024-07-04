@@ -23,7 +23,7 @@ const ValuationInfo = () => {
             to="/selling"
             className="d-flex justify-content-center no-underline"
           >
-            <button>Learn about selling with TEAM 6</button>
+            <button className="px-2">Learn about selling with TEAM 6</button>
           </Link>
         </div>
         <div className="row">

@@ -19,7 +19,6 @@ const Profile = () => {
     } else {
       navigate("/login", { state: { from: `/profile` } });
     }
-    //console.log("memberId", memberId);
   }, [currentUser]);
 
   return (

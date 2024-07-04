@@ -48,4 +48,7 @@ public interface IValuationRequestService {
     public Boolean cancelValuationRequest(Integer id);
 
     public Boolean cancelValuationRequestByStaff(Integer id);
+
+    public ValuationRequestDetailDTO getValuationRequestDetail(Integer id);
+
 }

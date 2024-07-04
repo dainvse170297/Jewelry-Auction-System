@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./sidebar.scss";
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "../../assets/logos/logo.jpg";
+import logo from "../../assets/logos/logo.png";
 
 // Icons
 import ProfileIcon from "@mui/icons-material/AccountCircle";
@@ -14,6 +14,11 @@ import UserIcon from "@mui/icons-material/ManageAccounts";
 import SettingsIcon from "@mui/icons-material/Settings";
 import FinancialProofRequestIcon from "@mui/icons-material/RequestQuote";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+<<<<<<< Updated upstream
+=======
+import { MonetizationOn } from "@mui/icons-material";
+import { Nav } from "react-bootstrap";
+>>>>>>> Stashed changes
 
 // Navigation
 const staffNavigation = [
@@ -114,55 +119,47 @@ const Sidebar = () => {
   }, [user]);
 
   return (
-    <div className="sidebar">
-      {/* Top of side bar */}
-      <div className="row d-flex justify-content-center">
-        <img className="logo-circle" src={logo} alt="" />
-      </div>
-      <div className="row">
-        <div className="top">
-          <Link
-            to={"/home"}
-            className="non-deco"
-            style={{ textDecoration: "none" }}
-          >
-            <span className="logo">Office Employee</span>
-          </Link>
-        </div>
+    <div
+      className="d-flex flex-column vh-100 bg-light sidebar"
+      // style={{ width: "250px", position: "fixed" }}
+    >
+      <div className="text-center my-2 mx-0">
+        <img
+          src={logo}
+          alt="Jewelry Auction Logo"
+          className="img-fluid rounded-2"
+          style={{ maxWidth: "80%" }}
+        />
       </div>
 
-      <hr />
-
-      {/* Center of side bar */}
-      <div className="row"></div>
-      <div className="center">
-        <ul>
-          {currentNavigation &&
-            currentNavigation.map((item, index) => (
-              <React.Fragment key={index}>
-                {item.children ? (
-                  <>
-                    <li
-                      className="d-flex justify-content-between pl-4"
-                      onClick={() => handleToggle(index)}
-                    >
-                      <div>
-                        <item.icon className="icon" />
-                        <span>{item.name}</span>
-                      </div>
-                      <div className="down-icon">
-                        <ExpandMoreIcon
-                          style={{
-                            transform:
-                              activeKey === index
-                                ? "rotate(180deg)"
-                                : "rotate(0deg)",
-                            transition: "transform 0.3s ease",
-                          }}
-                        />
-                      </div>
-                    </li>
-                    <ul>
+      <Nav className="flex-column" style={{ marginLeft: "1rem" }}>
+        {currentNavigation &&
+          currentNavigation.map((item, index) => (
+            <React.Fragment key={index}>
+              {item.children ? (
+                <>
+                  <Nav
+                    className="main-item d-flex justify-content-between"
+                    onClick={() => handleToggle(index)}
+                  >
+                    <div>
+                      <item.icon className="icon" />
+                      <span>{item.name}</span>
+                    </div>
+                    <div className="down-icon">
+                      <ExpandMoreIcon
+                        style={{
+                          transform:
+                            activeKey === index
+                              ? "rotate(180deg)"
+                              : "rotate(0deg)",
+                          transition: "transform 0.3s ease",
+                        }}
+                      />
+                    </div>
+                  </Nav>
+                  <div>
+                    <ul className="p-0 m-0">
                       {activeKey === index &&
                         item.children.map((child, childIndex) => (
                           <li key={childIndex}>
@@ -172,20 +169,17 @@ const Sidebar = () => {
                           </li>
                         ))}
                     </ul>
-                  </>
-                ) : (
-                  <li key={index}>
-                    <Link to={item.href} className="non-deco">
-                      <item.icon className="icon" />
-                      <span>{item.name}</span>
-                    </Link>
-                  </li>
-                )}
-              </React.Fragment>
-            ))}
-        </ul>
-      </div>
-      <hr />
+                  </div>
+                </>
+              ) : (
+                <Link className="main-item" to={item.href} key={index}>
+                  <item.icon className="icon" />
+                  <span>{item.name}</span>
+                </Link>
+              )}
+            </React.Fragment>
+          ))}
+      </Nav>
     </div>
   );
 };

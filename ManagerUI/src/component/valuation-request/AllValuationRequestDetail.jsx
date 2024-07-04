@@ -11,8 +11,11 @@ import {
   postAproveFinalValuation,
   getFinalValuationDetail,
   postSendFinalValuationToMember,
+  getValuationRequestById,
+  getRejectValuationRequest,
 } from "../../services/apiService.jsx";
 import FullScreenImage from "../../view/image/FullScreenImage.jsx";
+import Confirm from "../../view/confirm/Confirm.jsx";
 
 export {
   ValuationRequested,
@@ -21,12 +24,41 @@ export {
   ManagerApproved,
 };
 
-function ValuationRequested({ valuationRequest, staffId, onHide }) {
+function ValuationRequested({ valuationRequestId, staffId, onHide }) {
+  const [valuationRequest, setValuationRequest] = useState({});
+
   const [preliminaryValuation, setPreliminaryValuation] = useState({
     id: "",
     estimateMin: "",
     estimateMax: "",
   });
+
+  const [show, setShow] = useState(false);
+  const [selectedImageUrl, setSelectedImageUrl] = useState(null);
+  const [urlList, setUrlList] = useState([]);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const handleImageClick = (imageUrl) => {
+    setSelectedImageUrl(imageUrl);
+  };
+
+  const handleImageClose = () => {
+    setSelectedImageUrl(null);
+  };
+
+  useEffect(() => {
+    try {
+      const getData = async () => {
+        const data = await getValuationRequestById(valuationRequestId);
+        setValuationRequest(data);
+        data.valuationImages &&
+          setUrlList(data.valuationImages.map((image) => image.imageUrl));
+      };
+      getData();
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+  }, [valuationRequestId]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -46,163 +78,67 @@ function ValuationRequested({ valuationRequest, staffId, onHide }) {
     }
   };
 
+  const handleReject = async (confirmValue) => {
+    if (confirmValue) {
+      try {
+        const data = await getRejectValuationRequest(valuationRequestId);
+        console.log("data", data);
+        if (data) {
+          setShow(false);
+          toast.success("Rejected successfully");
+        } else {
+          console.log("Failed");
+        }
+      } catch (error) {
+        console.log("Error:", error.message);
+        toast.error("Error when reject valuation request");
+      }
+    }
+  };
+
   const PreliminaryConfirm = async (e) => {
-    try {
-      const data = await postPreliminaryConfirm(
-        valuationRequest.id,
-        preliminaryValuation.estimateMin,
-        preliminaryValuation.estimateMax,
-        staffId
-      );
-      if (data.valuationStatus === "PRELIMINARY_VALUATED") {
-        toast.success("Preliminary successfully");
-        onHide(true);
-      } else {
-        console.log("Failed");
+    if (preliminaryValuation.estimateMin >= preliminaryValuation.estimateMax) {
+      toast.error("Minimum price must be less than maximum price");
+      return;
+    } else {
+      try {
+        const data = await postPreliminaryConfirm(
+          valuationRequestId,
+          preliminaryValuation.estimateMin,
+          preliminaryValuation.estimateMax,
+          1
+        );
+
+        if (data.valuationStatus === "PRELIMINARY_VALUATED") {
+          toast.success("Preliminary successfully");
+          setTimeout(() => {
+            setShow(false);
+          }, 1000);
+        } else {
+          console.log("Failed");
+        }
+      } catch (error) {
+        console.log("Error:", error.message);
+        toast.error("Error when sending preliminary valuation");
       }
-    } catch (error) {
-      console.log("Error:", error.message);
-      toast.error("Error when sending preliminary valuation");
     }
   };
 
   return (
     <>
-      <div className="col card">
-        <div className="row">
-          <h3 className="text-center">Valuation request detail</h3>
-        </div>
-        <div className="row px-5">
+      <button onClick={handleShow} className="btn btn-primary" type="button">
+        Detail
+      </button>
+      <Modal size="lg" show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Valuation request detail</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
           {valuationRequest && (
-            <>
-              <div className="card card-body">
-                <p>
-                  Member Id: <strong>{valuationRequest.memberId}</strong>
-                </p>
-                <p>
-                  Description: <strong>{valuationRequest.description}</strong>
-                </p>
-                <p>
-                  Time request: <strong>{valuationRequest.timeRequest}</strong>
-                </p>
-                <p>
-                  Valuation status:{" "}
-                  <strong>{valuationRequest.valuationStatus}</strong>
-                </p>
-                <p>
-                  Member estimate price:{" "}
-                  {valuationRequest.memberEstimatePrice === -1 ? (
-                    <strong>No</strong>
-                  ) : (
-                    <strong>${valuationRequest.memberEstimatePrice}</strong>
-                  )}
-                </p>
-                <div className="col">
-                  <div className="row mb-4">
-                    <span className="text-center">
-                      <strong>Preliminary valuation for request</strong>
-                    </span>
-                  </div>
+            <div className="productInfo">
+              <p>{valuationRequest.description}</p>
 
-                  <div className="row mb-3 mx-2 d-flex justify-content-center">
-                    <div className="col-sm-6">
-                      <Form.Label htmlFor="estimateMin">
-                        Minimum Price <span style={{ color: "red" }}>*</span>
-                      </Form.Label>
-                    </div>
-                    <div className="col-sm-6">
-                      <Form.Control
-                        type="number"
-                        id="estimateMin"
-                        aria-describedby="passwordHelpBlock"
-                        name="estimateMin"
-                        value={preliminaryValuation.estimateMin}
-                        onChange={handleInputChange}
-                        onBlur={handleBlur}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="row mb-3 mx-2 d-flex justify-content-center">
-                    <div className="col-sm-6">
-                      <Form.Label htmlFor="estimateMax">
-                        New Maximum Price{" "}
-                        <span style={{ color: "red" }}>*</span>
-                      </Form.Label>
-                    </div>
-                    <div className="col-sm-6">
-                      <Form.Control
-                        type="number"
-                        id="estimateMax"
-                        aria-describedby="passwordHelpBlock"
-                        name="estimateMax"
-                        value={preliminaryValuation.estimateMax}
-                        onChange={handleInputChange}
-                        onBlur={handleBlur}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="row-sm-9 d-flex justify-content-center">
-                    <Button
-                      className="btn-success"
-                      onClick={PreliminaryConfirm}
-                    >
-                      Send preliminary valuation
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-        <div className="row">
-          <div className="col p-4">
-            {valuationRequest.valuationImagesUrls && (
-              <FullScreenImage
-                imageUrls={valuationRequest.valuationImagesUrls}
-              />
-            )}
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
-function PreliminaryValuated({ valuationRequest, staffId, onHide }) {
-  const handleConfirm = async (e) => {
-    try {
-      const data = await postProductReceive(valuationRequest.id);
-
-      if (data.valuationStatus === "PRODUCT_RECEIVED") {
-        toast.success("Confirm product received successfully");
-        onHide(true);
-      } else {
-        console.log("Failed");
-      }
-    } catch (error) {
-      console.log("Error:", error.message);
-      toast.error("Error when confirm product received");
-    }
-  };
-
-  return (
-    <>
-      <div className="col card">
-        <div className="row">
-          <h3 className="text-center">Valuation request detail</h3>
-        </div>
-        <div className="row px-5">
-          {valuationRequest && (
-            <>
-              <div className="card card-body">
-                <p>
-                  Member Id: <strong>{valuationRequest.memberId}</strong>
-                </p>
-                <p>
-                  Description: <strong>{valuationRequest.description}</strong>
-                </p>
+              <div className="d-flex justify-content-between">
                 <p>
                   Time request:{" "}
                   <strong>
@@ -215,45 +151,240 @@ function PreliminaryValuated({ valuationRequest, staffId, onHide }) {
                   Valuation status:{" "}
                   <strong>{valuationRequest.valuationStatus}</strong>
                 </p>
-                <p>
-                  Member estimate price:{" "}
-                  {valuationRequest.memberEstimatePrice === -1 ? (
-                    <strong>No</strong>
-                  ) : (
-                    <strong>${valuationRequest.memberEstimatePrice}</strong>
-                  )}
-                </p>
-                <p>
-                  Preliminary price min:{" "}
-                  <strong>${valuationRequest.estimatePriceMin}</strong>
-                </p>
-                <p>
-                  Preliminary price max:{" "}
-                  <strong>${valuationRequest.estimatePriceMax}</strong>
-                </p>
-                <div className="col">
-                  <div className="row-sm-9 d-flex justify-content-center">
-                    <Button className="btn-success" onClick={handleConfirm}>
-                      Confirm product received
-                    </Button>
-                  </div>
+                <p className="mb-1">Member estimated price:</p>
+                {valuationRequest.memberEstimatePrice === -1 ||
+                valuationRequest.memberEstimatePrice === null ? (
+                  <strong>No</strong>
+                ) : (
+                  <strong>${valuationRequest.memberEstimatePrice}</strong>
+                )}
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="productImages">
+                <div className="productImages">
+                  {valuationRequest.valuationImagesUrls &&
+                    Array.isArray(valuationRequest.valuationImagesUrls) && (
+                      <FullScreenImage imageUrls={urlList} />
+                    )}
                 </div>
               </div>
-            </>
+            </div>
           )}
-        </div>
-        <div className="row">
-          <div className="col p-4">
-            <Carousel>
-              {valuationRequest.valuationImagesUrls && (
-                <FullScreenImage
-                  imageUrls={valuationRequest.valuationImagesUrls}
+
+          <div className="row d-flex justify-content-center">
+            <div className="col-10 ">
+              <h5 className="text-center py-1">Preliminary valuation</h5>
+              <div className="row mb-3 mx-2 d-flex justify-content-center">
+                <div className="col-sm-6">
+                  <Form.Label htmlFor="estimateMin">
+                    Minimum Price <span style={{ color: "red" }}>*</span>
+                  </Form.Label>
+                </div>
+                <div className="col-sm-6">
+                  <Form.Control
+                    type="number"
+                    id="estimateMin"
+                    aria-describedby="passwordHelpBlock"
+                    name="estimateMin"
+                    value={preliminaryValuation.estimateMin}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                  />
+                </div>
+              </div>
+              <div className="row mb-3 mx-2 d-flex justify-content-center">
+                <div className="col-sm-6">
+                  <Form.Label htmlFor="estimateMax">
+                    New Maximum Price <span style={{ color: "red" }}>*</span>
+                  </Form.Label>
+                </div>
+                <div className="col-sm-6">
+                  <Form.Control
+                    type="number"
+                    id="estimateMax"
+                    aria-describedby="passwordHelpBlock"
+                    name="estimateMax"
+                    value={preliminaryValuation.estimateMax}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                  />
+                </div>
+              </div>
+              <Modal.Footer className="row-sm-9 d-flex justify-content-center">
+                <Button
+                  className="btn-success mx-2"
+                  onClick={PreliminaryConfirm}
+                >
+                  Send preliminary valuation
+                </Button>
+                <Confirm
+                  message="Are you sure you want to reject this valuation request?"
+                  mainLabel="Reject the request"
+                  className="danger"
+                  labelYes="Yes"
+                  labelNo="No"
+                  onConfirm={handleReject}
                 />
-              )}
-            </Carousel>
+              </Modal.Footer>
+            </div>
           </div>
-        </div>
-      </div>
+        </Modal.Body>
+      </Modal>
+      <Modal show={!!selectedImageUrl} onHide={handleImageClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Product Image</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <img
+            src={selectedImageUrl}
+            alt="Selected Product"
+            style={{ width: "100%" }}
+          />
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+}
+
+function PreliminaryValuated({ valuationRequestId, staffId, onHide }) {
+  const [valuationRequest, setValuationRequest] = useState({});
+
+  const [preliminaryValuation, setPreliminaryValuation] = useState({
+    id: "",
+    estimateMin: "",
+    estimateMax: "",
+  });
+
+  const [show, setShow] = useState(false);
+  const [selectedImageUrl, setSelectedImageUrl] = useState(null);
+  const [urlList, setUrlList] = useState([]);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const handleImageClick = (imageUrl) => {
+    setSelectedImageUrl(imageUrl);
+  };
+
+  const handleImageClose = () => {
+    setSelectedImageUrl(null);
+  };
+
+  const handleConfirm = async (e) => {
+    try {
+      const data = await postProductReceive(valuationRequestId);
+
+      if (data.valuationStatus === "PRODUCT_RECEIVED") {
+        toast.success("Confirm product received successfully");
+      } else {
+        console.log("Failed");
+      }
+    } catch (error) {
+      console.log("Error:", error.message);
+      toast.error("Error when confirm product received");
+    }
+  };
+
+  useEffect(() => {
+    try {
+      const getData = async () => {
+        const data = await getValuationRequestById(valuationRequestId);
+        setValuationRequest(data);
+        data.valuationImages &&
+          setUrlList(data.valuationImages.map((image) => image.imageUrl));
+      };
+      getData();
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+  }, [valuationRequestId]);
+
+  const handleReject = async (confirmValue) => {
+    if (confirmValue) {
+      try {
+        const data = await getRejectValuationRequest(valuationRequestId);
+        console.log("data", data);
+        if (data) {
+          setShow(false);
+          toast.success("Rejected successfully");
+        } else {
+          console.log("Failed");
+        }
+      } catch (error) {
+        console.log("Error:", error.message);
+        toast.error("Error when reject valuation request");
+      }
+    }
+  };
+
+  return (
+    <>
+      <button onClick={handleShow} className="btn btn-primary" type="button">
+        Detail
+      </button>
+      <Modal size="lg" show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Valuation request detail</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {valuationRequest && (
+            <div className="productInfo">
+              <p>{valuationRequest.description}</p>
+
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">Member estimated price:</p>
+                {valuationRequest.memberEstimatePrice === -1 ||
+                valuationRequest.memberEstimatePrice === null ? (
+                  <strong>No</strong>
+                ) : (
+                  <strong>${valuationRequest.memberEstimatePrice}</strong>
+                )}
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">
+                  <strong>Estimated Price:</strong>
+                </p>
+                ${valuationRequest.estimatePriceMin} - $
+                {valuationRequest.estimatePriceMax}
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="productImages">
+                <div className="productImages">
+                  {valuationRequest.valuationImagesUrls &&
+                    Array.isArray(valuationRequest.valuationImagesUrls) && (
+                      <FullScreenImage imageUrls={urlList} />
+                    )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          <Modal.Footer className="row-sm-9 d-flex justify-content-center">
+            <Button className="btn-success mx-2">
+              Confirm product received
+            </Button>
+            <Confirm
+              message="Are you sure you want to reject this valuation request?"
+              mainLabel="Reject the request"
+              className="danger"
+              labelYes="Yes"
+              labelNo="No"
+              onConfirm={handleReject}
+            />
+          </Modal.Footer>
+        </Modal.Body>
+      </Modal>
+      <Modal show={!!selectedImageUrl} onHide={handleImageClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Product Image</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <img
+            src={selectedImageUrl}
+            alt="Selected Product"
+            style={{ width: "100%" }}
+          />
+        </Modal.Body>
+      </Modal>
     </>
   );
 }
@@ -362,22 +493,6 @@ function PendingApproval({ valuationRequestId, onUpdate }) {
                   {productInfo.productImages &&
                     Array.isArray(productInfo.productImages) && (
                       <FullScreenImage imageUrls={urlList} />
-
-                      // productInfo.productImages.map((image, index) => (
-                      //   <img
-                      //     key={index}
-                      //     src={image.imageUrl}
-                      //     alt={`Product Image ${index + 1}`}
-                      //     onClick={() => handleImageClick(image.imageUrl)}
-                      //     onError={(e) => {
-                      //       e.target.onerror = null;
-                      //       e.target.src = image.defaultImage;
-                      //     }}
-                      //     style={{
-                      //       width: "100px",
-                      //       height: "100px",
-                      //     }}
-                      //   />
                     )}
                 </div>
               </div>

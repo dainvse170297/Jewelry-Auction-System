@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { FaBackward } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import Paginator from "../common/Paginator";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
 import moment from "moment";
+import Form from "react-bootstrap/Form";
+import Loading from "../../view/loading/Loading.jsx";
 
 import {
   ValuationRequested,
@@ -27,13 +26,30 @@ const AllValuationRequestList = () => {
     role: sessionStorage.getItem("role"),
   };
 
+  const [isLoading, setIsLoading] = useState(false);
+
+  const statusOptions = [
+    { value: "REQUESTED", label: "Requested" },
+    { value: "PRELIMINARY_VALUATED", label: "Preliminary Valuated" },
+    { value: "PRODUCT_RECEIVED", label: "Product Received" },
+    { value: "PENDING_MANAGER_APPROVAL", label: "Pending Manager Approval" },
+    { value: "MANAGER_APPROVED", label: "Manager Approved" },
+    { value: "PENDING_MEMBER_ACCEPTANCE", label: "Pending Member Acceptance" },
+    { value: "MEMBER_ACCEPTED", label: "Member Accepted" },
+    { value: "CANCELED", label: "Canceled" },
+  ];
+  const [dateOptions, setDateOptions] = useState([
+    { value: "newest", label: "Newest" },
+    { value: "oldest", label: "Oldest" },
+  ]);
+
   const [valuationRequests, setValuationRequests] = useState([]);
-  const [currentItemsDetail, setCurrentItemsDetail] = useState(null);
-  const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState(statusOptions[0].value);
   const [filteredValuationRequests, setFilteredValuationRequests] = useState(
     []
   );
-  const [sortOrder, setSortOrder] = useState(""); // Default sort order
+
+  const [sortOrder, setSortOrder] = useState(dateOptions[0].value); // Default sort order
   const [sortedRequests, setSortedRequests] = useState([]);
   const sortValuationRequests = (requests) => {
     return requests.sort((a, b) => {
@@ -48,21 +64,19 @@ const AllValuationRequestList = () => {
   };
 
   useEffect(() => {
-    // setIsLoading(true)
+    setIsLoading(true);
     const getAll = async () => {
       try {
         const data = await getAllValuationRequests();
         setValuationRequests(data);
+        setIsLoading(false);
+        isLoading(false);
       } catch (error) {
         setErrorMsg("Error fetching data from server");
       }
     };
     getAll();
   }, []);
-
-  const handleDetail = (item) => {
-    setCurrentItemsDetail(item);
-  };
 
   useEffect(() => {
     setFilteredValuationRequests(
@@ -81,48 +95,33 @@ const AllValuationRequestList = () => {
       <ToastContainer />
       <div className="homeContainer">
         <div className="ms-5">
-          <div className="col">
-            <div className="row">
-              <div className="col-sm-7 text-center">
-                <h2>Requested valuation request</h2>
-                <div className="row">
-                  <div className="col-3">
-                    <select
-                      value={selectedStatus}
-                      onChange={(e) => setSelectedStatus(e.target.value)}
-                    >
-                      <option value="">All</option>
-                      <option value="REQUESTED">Requested</option>
-                      <option value="PRELIMINARY_VALUATED">
-                        Preliminary Valuated
-                      </option>
-                      <option value="PRODUCT_RECEIVED">Product Received</option>
-                      <option value="PENDING_MANAGER_APPROVAL">
-                        Pending Manager Approval
-                      </option>
-                      <option value="MANAGER_APPROVED">Manager Approved</option>
-                      <option value="PENDING_MEMBER_ACCEPTANCE">
-                        Pending Member Acceptance
-                      </option>
-                      <option value="MEMBER_ACCEPTED">Member Accepted</option>
-                      <option value="CANCELED">Canceled</option>
-                    </select>
-                  </div>
-                  <div className="col-3">
-                    <select
-                      id="sortOrder"
-                      value={sortOrder}
-                      onChange={(e) => setSortOrder(e.target.value)}
-                    >
-                      <option value="">Sort by Date</option>{" "}
-                      {/* Default option */}
-                      <option value="newest">Newest</option>
-                      <option value="oldest">Oldest</option>
-                    </select>
-                  </div>
+          <div className="row d-flex justify-content-center">
+            <div className="col-sm-11">
+              <h2 className="text-center">Requested valuation request</h2>
+              <div className="row">
+                <hr />
+                <div className="col-5">
+                  <Form.Select
+                    onChange={(e) => setSelectedStatus(e.target.value)}
+                  >
+                    {statusOptions.map((option) => (
+                      <option value={option.value}>{option.label}</option>
+                    ))}
+                  </Form.Select>
                 </div>
+                <div className="col-3">
+                  <Form.Select onChange={(e) => setSortOrder(e.target.value)}>
+                    {dateOptions.map((option) => (
+                      <option value={option.value}>{option.label}</option>
+                    ))}
+                  </Form.Select>
+                </div>
+              </div>
 
-                <div className="row">
+              <div className="row  text-center">
+                {isLoading ? (
+                  <Loading delaytime={0} />
+                ) : (
                   <table className="table">
                     <thead>
                       <tr>
@@ -133,68 +132,43 @@ const AllValuationRequestList = () => {
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
+
                     <tbody>
+                      {sortedRequests.length === 0 && (
+                        <tr>
+                          <td colSpan="5">No data!!</td>
+                        </tr>
+                      )}
                       {sortedRequests.map((request, key) => (
                         <>
                           <tr>
                             <th scope="row">{key + 1}</th>
                             <td>Member {request.memberId}</td>
                             <td>
-                              {/* {request.timeRequest} */}
-                                {moment(request.timeRequest).format(
-                                  "DD/MM/YYYY HH:mm:ss"
-                                )}
+                              {moment(request.timeRequest).format(
+                                "DD/MM/YYYY HH:mm:ss"
+                              )}
                             </td>
                             <td>{request.valuationStatus}</td>
                             <td>
-                              <button
-                                onClick={() => handleDetail(request)}
-                                className="btn btn-primary"
-                                type="button"
-                              >
-                                Detail
-                              </button>
+                              {request.valuationStatus === "REQUESTED" && (
+                                <ValuationRequested
+                                  valuationRequestId={request.id}
+                                />
+                              )}
+                              {request.valuationStatus ===
+                                "PRELIMINARY_VALUATED" && (
+                                <PreliminaryValuated
+                                  valuationRequestId={request.id}
+                                />
+                              )}
                             </td>
                           </tr>
                         </>
                       ))}
                     </tbody>
                   </table>
-                </div>
-              </div>
-
-              <div className="col-sm-5">
-                {currentItemsDetail &&
-                  currentItemsDetail.valuationStatus === "REQUESTED" && (
-                    <>
-                      <ValuationRequested
-                        valuationRequest={currentItemsDetail}
-                        onHide={() => setCurrentItemsDetail(null)}
-                        staffId={user.id}
-                      />
-                    </>
-                  )}
-                {currentItemsDetail &&
-                  currentItemsDetail.valuationStatus ===
-                    "PRELIMINARY_VALUATED" && (
-                    <>
-                      <PreliminaryValuated
-                        valuationRequest={currentItemsDetail}
-                        onHide={() => setCurrentItemsDetail(null)}
-                        staffId={user.id}
-                      />
-                    </>
-                  )}
-                {currentItemsDetail &&
-                  currentItemsDetail.valuationStatus === "MANAGER_APPROVED" && (
-                    <>
-                      <ManagerApproved
-                        valuationRequest={currentItemsDetail}
-                        onHide={() => setCurrentItemsDetail(null)}
-                        staffId={user.id}
-                      />
-                    </>
-                  )}
+                )}
               </div>
             </div>
           </div>

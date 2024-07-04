@@ -163,7 +163,6 @@ public class ValuationRequestService implements IValuationRequestService {
                 iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PENDING_MANAGER_APPROVAL));
     }
 
-
     @Override
     public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId) {
         List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByMemberId(memberId);
@@ -348,6 +347,12 @@ public class ValuationRequestService implements IValuationRequestService {
                 return cancelValuationRequest(id);
             }
             return false;
+    }
+
+    @Override
+    public ValuationRequestDetailDTO getValuationRequestDetail(Integer id) {
+        ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
+        return valuationRequestMapper.mapToValuationRequestDetailDTO(valuationRequest);
     }
 
     @Scheduled (fixedRate = 1000*60*60*24) // 1 day
