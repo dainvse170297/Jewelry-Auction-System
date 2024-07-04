@@ -9,12 +9,16 @@ import com.fpt.edu.status.FinancialProofRequestStatus;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +32,7 @@ public class FinancialProofService implements IFinancialProofService {
     private final FinancialProofRequestMapper financialProofRequestMapper;
     private final IAccountRepository iAccountRepository;
     private final IManagerRepository iManagerRepository;
+    private final INotifyService iNotifyService;
     private final BigDecimal FINANCIAL_VIP = new BigDecimal(100000); // dolar
 
 
@@ -107,6 +112,22 @@ public class FinancialProofService implements IFinancialProofService {
     }
 
     @Override
+    public Page<FinancialProofRequestDTO> getAllFinancialProofRequests(FinancialProofRequestStatus status, Pageable pageable) {
+        Page<FinancialProofRequest> financialProofRequests = iFinancialProofRequestRepository.findByStatus(status, pageable);
+        return financialProofRequests.map(financialProofRequestMapper::mapToFinancialProofRequestDTO);
+    }
+
+
+
+
+
+
+
+
+
+
+
+    @Override
     public FinancialProofRequestDTO getFinancialProofRequestById(Integer id) {
         FinancialProofRequest financialProofRequest = iFinancialProofRequestRepository
                 .findByIdWithImages(id).orElseThrow(() -> new RuntimeException("Financial proof request not found"));
@@ -157,6 +178,7 @@ public class FinancialProofService implements IFinancialProofService {
         if(account.get().getRole().getName().equals("STAFF")){
             Staff staff = account.get().getStaff();
             financialProofRequest.setStaff(staff);
+
         }else{
             if(financialProofRequest.getStatus().equals(FinancialProofRequestStatus.AVAILABLE)){
                 Manager manager = account.get().getManager();
@@ -167,6 +189,10 @@ public class FinancialProofService implements IFinancialProofService {
         }
         financialProofRequest.setStatus(FinancialProofRequestStatus.REJECTED);
         iFinancialProofRequestRepository.save(financialProofRequest);
+        Member member = financialProofRequest.getMember();
+        iNotifyService.insertNotify(member,
+                "Your Financial Proof Request Has Been Reject ! ",
+                "Your financial proof request sent at  " +financialProofRequest.getTimeRequest() + " has been rejected !");
         return financialProofRequestMapper.mapToFinancialProofRequestDTO(financialProofRequest);
     }
 
@@ -209,6 +235,10 @@ public class FinancialProofService implements IFinancialProofService {
             financialProofRequest.setStatus(FinancialProofRequestStatus.REJECTED);
         }
         iFinancialProofRequestRepository.save(financialProofRequest);
+        Member member = financialProofRequest.getMember();
+        iNotifyService.insertNotify(member,
+                "Your Financial Proof Request Has Been Approved! ",
+                "Congratulations! Your request for financial proof sent at  " +financialProofRequest.getTimeRequest() + " has been approved. You can join our auction right now!");
         return financialProofRequestMapper.mapToFinancialProofRequestDTO(financialProofRequest);
     }
 

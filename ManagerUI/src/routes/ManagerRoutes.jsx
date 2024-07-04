@@ -16,7 +16,6 @@ import PublicCreatedSession from "../component/manager/Session/PublicCreatedSess
 import { ViewPurchasedLot } from "../component/manager/Lots/ViewPurchasedLot";
 import PaidList from "../component/manager/AuctionRegister/PaidList";
 
-
 const ManagerRoutes = [
   {
     path: "/dashboard",
@@ -70,7 +69,6 @@ const ManagerRoutes = [
     path: "/paid-list",
     element: <PaidList />,
   },
-
 ];
 
 export default ManagerRoutes;

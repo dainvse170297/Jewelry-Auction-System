@@ -3,6 +3,9 @@ package com.fpt.edu.service;
 import com.fpt.edu.dto.FinancialProofRequestDTO;
 import com.fpt.edu.entity.FinancialProofImage;
 import com.fpt.edu.entity.FinancialProofRequest;
+import com.fpt.edu.status.FinancialProofRequestStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +31,7 @@ public interface IFinancialProofService {
 
     FinancialProofRequestDTO confirmVip(Integer idRq, Integer managerId, boolean confirm);
 
+    public Page<FinancialProofRequestDTO> getAllFinancialProofRequests(FinancialProofRequestStatus status, Pageable pageable) ;
 }
 
 

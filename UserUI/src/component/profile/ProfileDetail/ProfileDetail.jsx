@@ -1,6 +1,9 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import ReactToastify CSS
+import { Modal, Button } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 
 const ProfileDetail = ({ memberId }) => {
   const [profile, setProfile] = useState({});
@@ -11,6 +14,7 @@ const ProfileDetail = ({ memberId }) => {
     bankName: "",
     bankNumber: "",
   });
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   useEffect(() => {
     const getMemberInfo = async () => {
@@ -84,6 +88,22 @@ const ProfileDetail = ({ memberId }) => {
     }
   };
 
+  const handleDeleteCreditCard = async () => {
+    setShowDeleteConfirmation(false);
+    try {
+      const response = await axios.delete(
+        `http://localhost:8080/member/profile/${memberId}/delete-credit-card`
+      );
+      if (response.status === 200) {
+        toast.success("Credit Card Deleted Successfully");
+        setProfile((prev) => ({ ...prev, creditCard: null }));
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete credit card");
+    }
+  };
+
   return (
     <>
       <ToastContainer />
@@ -147,192 +167,160 @@ const ProfileDetail = ({ memberId }) => {
       <hr />
       {profile.creditCard ? (
         <>
-          {showCreditCardForm && isEditing ? (
-            <form>
-              <div className="form-group">
-                <label htmlFor="accountHolder">Account Holder</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="accountHolder"
-                  placeholder="Enter account holder"
-                  value={newCreditCard.accountHolder}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="bankName">Bank Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="bankName"
-                  placeholder="Enter bank name"
-                  value={newCreditCard.bankName}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="bankNumber">Bank Number</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="bankNumber"
-                  placeholder="Enter bank number"
-                  value={newCreditCard.bankNumber}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={handleEditCreditCard}
-              >
-                Save Credit Card
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => setShowCreditCardForm(false)}
-              >
-                Cancel
-              </button>
-            </form>
-          ) : (
-            <form>
-              <div className="form-group">
-                <label htmlFor="accountHolder">Account Holder</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="accountHolder"
-                  placeholder="Enter account holder"
-                  defaultValue={profile.creditCard.accountHolder}
-                  readOnly
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="bankName">Bank Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="bankName"
-                  placeholder="Enter bank name"
-                  defaultValue={profile.creditCard.bankName}
-                  readOnly
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="bankNumber">Bank Number</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="bankNumber"
-                  placeholder="Enter bank number"
-                  defaultValue={profile.creditCard.bankNumber}
-                  readOnly
-                />
-              </div>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => {
-                  setIsEditing(true);
-                  setNewCreditCard({
-                    accountHolder: profile.creditCard.accountHolder,
-                    bankName: profile.creditCard.bankName,
-                    bankNumber: profile.creditCard.bankNumber,
-                  });
-                  setShowCreditCardForm(true);
-                }}
-              >
-                Edit Credit Card
-              </button>
-              <button
-                type="button"
-                className="btn btn-danger"
-                onClick={async () => {
-                  try {
-                    const response = await axios.delete(
-                      `http://localhost:8080/member/profile/${memberId}/delete-credit-card`
-                    );
-                    if (response.status === 200) {
-                      toast.success("Credit Card Deleted Successfully");
-                      setProfile((prev) => ({ ...prev, creditCard: null }));
-                    }
-                  } catch (error) {
-                    console.error(error);
-                    toast.error("Failed to delete credit card");
-                  }
-                }}
-              >
-                Delete Credit Card
-              </button>
-            </form>
-          )}
-        </>
-      ) : (
-        <>
-          {!showCreditCardForm ? (
+          <form>
+            <div className="form-group">
+              <label htmlFor="accountHolder">Account Holder</label>
+              <input
+                type="text"
+                className="form-control"
+                id="accountHolder"
+                placeholder="Enter account holder"
+                defaultValue={profile.creditCard.accountHolder}
+                readOnly
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="bankName">Bank Name</label>
+              <input
+                type="text"
+                className="form-control"
+                id="bankName"
+                placeholder="Enter bank name"
+                defaultValue={profile.creditCard.bankName}
+                readOnly
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="bankNumber">Bank Number</label>
+              <input
+                type="text"
+                className="form-control"
+                id="bankNumber"
+                placeholder="Enter bank number"
+                defaultValue={profile.creditCard.bankNumber}
+                readOnly
+              />
+            </div>
             <button
               type="button"
               className="btn btn-primary"
-              onClick={() => setShowCreditCardForm(true)}
+              onClick={() => {
+                setIsEditing(true);
+                setNewCreditCard({
+                  accountHolder: profile.creditCard.accountHolder,
+                  bankName: profile.creditCard.bankName,
+                  bankNumber: profile.creditCard.bankNumber,
+                });
+                setShowCreditCardForm(true);
+              }}
             >
-              Add Credit Card
+              Edit Credit Card
             </button>
-          ) : (
-            <form>
-              <div className="form-group">
-                <label htmlFor="accountHolder">Account Holder</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="accountHolder"
-                  placeholder="Enter account holder"
-                  value={newCreditCard.accountHolder}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="bankName">Bank Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="bankName"
-                  placeholder="Enter bank name"
-                  value={newCreditCard.bankName}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="bankNumber">Bank Number</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="bankNumber"
-                  placeholder="Enter bank number"
-                  value={newCreditCard.bankNumber}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={handleAddCreditCard}
-              >
-                Save Credit Card
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => setShowCreditCardForm(false)}
-              >
-                Cancel
-              </button>
-            </form>
-          )}
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={() => setShowDeleteConfirmation(true)}
+            >
+              Delete Credit Card
+            </button>
+          </form>
         </>
+      ) : (
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => setShowCreditCardForm(true)}
+        >
+          Add Credit Card
+        </button>
       )}
+
+      <Modal
+        show={showCreditCardForm}
+        onHide={() => setShowCreditCardForm(false)}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>
+            {isEditing ? "Edit Credit Card" : "Add Credit Card"}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form>
+            <div className="form-group">
+              <label htmlFor="accountHolder">Account Holder</label>
+              <input
+                type="text"
+                className="form-control"
+                id="accountHolder"
+                placeholder="Enter account holder"
+                value={newCreditCard.accountHolder}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="bankName">Bank Name</label>
+              <input
+                type="text"
+                className="form-control"
+                id="bankName"
+                placeholder="Enter bank name"
+                value={newCreditCard.bankName}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="bankNumber">Bank Number</label>
+              <input
+                type="text"
+                className="form-control"
+                id="bankNumber"
+                placeholder="Enter bank number"
+                value={newCreditCard.bankNumber}
+                onChange={handleInputChange}
+              />
+            </div>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setShowCreditCardForm(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="primary"
+            onClick={isEditing ? handleEditCreditCard : handleAddCreditCard}
+          >
+            {isEditing ? "Save Credit Card" : "Add Credit Card"}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={showDeleteConfirmation}
+        onHide={() => setShowDeleteConfirmation(false)}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Credit Card</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete this credit card?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setShowDeleteConfirmation(false)}
+          >
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleDeleteCreditCard}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
