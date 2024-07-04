@@ -10,7 +10,7 @@ import { LinearProgress } from "@mui/material";
 const LiveAuctionSessionDetail = () => {
   const { id } = useParams();
   const [sessionData, setSessionData] = useState(null);
-  const currentUser = JSON.parse(localStorage.getItem("user"));
+  const currentUser = JSON.parse(localStorage.getItem("account"));
   useEffect(() => {
     // Fetch data from API
     const fetchSessionData = async () => {

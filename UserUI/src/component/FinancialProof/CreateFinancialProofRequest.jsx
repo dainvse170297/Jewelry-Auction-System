@@ -95,7 +95,7 @@ export default function CreateFinancialProofRequest() {
   return (
     <div className="container mt-5">
       <ToastContainer />
-      <h1 className="text-center mb-4" style={{ color: "red" }}>
+      <h1 className="text-center mb-4" style={{ color: "#B23842" }}>
         Create Financial Proof Request
       </h1>
       <div className="shadow">

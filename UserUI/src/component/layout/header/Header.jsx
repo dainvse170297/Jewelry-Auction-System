@@ -69,7 +69,7 @@ const Header = () => {
             <Navbar.Brand href="/home">FU-AUCTION</Navbar.Brand>
           </Nav>
           <Nav className="ms-auto me-auto">
-            <Nav.Link href="#contact">CONTACT</Nav.Link>
+            <Nav.Link href="/contact">CONTACT</Nav.Link>
             <Nav.Link href="#policies">POLICIES</Nav.Link>
             <Nav.Link href="#notifications" className="">
               <Bell size={24} />

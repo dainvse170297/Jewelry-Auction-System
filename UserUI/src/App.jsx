@@ -23,6 +23,9 @@ import Layout from "./component/layout/Layout.jsx";
 import CreateFinancialProofRequest from "./component/FinancialProof/CreateFinancialProofRequest.jsx";
 import PastSessionList from "./component/auction-session/past-session/PastSessionList.jsx";
 import PastSessionDetail from "./component/auction-session/past-session/PastSessionDetail.jsx";
+import Delivery from "./component/delivery/Delivery.jsx";
+import ContactInfo from "./component/contact/ContactInfo.jsx";
+
 function App() {
   return (
     <>
@@ -40,8 +43,9 @@ function App() {
                 path="/create-financial-proof"
                 element={<CreateFinancialProofRequest />}
               />
-
+              <Route path="/delivery" element={<Delivery />} />
               <Route path="/selling" element={<Selling />} />
+              <Route path="/contact" element={<ContactInfo />} />
               <Route path="/upcoming" element={<UpcomingSessionList />} />
               <Route
                 path="/upcoming-session-detail/:id"

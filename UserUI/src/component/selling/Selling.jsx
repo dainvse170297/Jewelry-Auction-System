@@ -7,7 +7,7 @@ const Selling = () => {
       <div className="col-md-10 offset-md-1 my-5">
         <div className="row">
           <div className="col-md-6">
-            <h1 className="text-center">Selling with FU AUCTION</h1>
+            <h1 className="text-center h1">Selling with FU AUCTION</h1>
             <p>
               FU AUCTION has been specifically designed to protect your
               interests and maximize your results in the shortest possible
@@ -74,7 +74,7 @@ const Selling = () => {
 
         <div className="row">
           <div className="col-md-12">
-            <h1 className="text-center md-5">Why Sell With FU AUCTION?</h1>
+            <h1 className="text-center md-5 h1">Why Sell With FU AUCTION?</h1>
             <div className="my-5 whysell">
               <p>
                 At FU AUCTION, we’re committed to setting and upholding the
@@ -103,7 +103,7 @@ const Selling = () => {
 
         <div className="row my-5">
           <div className="col-md-6">
-            <h1 className="text-center">
+            <h1 className="text-center h1">
               1 of 5: Our Goals Are Aligned With Yours
             </h1>
             <p>
@@ -138,7 +138,7 @@ const Selling = () => {
 
         <div className="row my-5">
           <div className="col-md-6">
-            <h1 className="text-center">
+            <h1 className="text-center h1">
               2 of 5: We Have Solutions That Others Simply Do Not
             </h1>
             <p>
@@ -173,7 +173,7 @@ const Selling = () => {
 
         <div className="row my-5">
           <div className="col-md-6">
-            <h1 className="text-center">
+            <h1 className="text-center h1">
               3 of 5: We Are Trusted by Thousands of Sellers Worldwide
             </h1>
             <p>
@@ -208,7 +208,7 @@ const Selling = () => {
 
         <div className="row my-5">
           <div className="col-md-6">
-            <h1 className="text-center">
+            <h1 className="text-center h1">
               4 of 5: Our Marketing Efforts Are Unmatched
             </h1>
             <p>
@@ -243,7 +243,7 @@ const Selling = () => {
 
         <div className="row my-5">
           <div className="col-md-6">
-            <h1 className="text-center">
+            <h1 className="text-center h1">
               5 of 5: We Provide Comprehensive Support Throughout the Process
             </h1>
             <p>
@@ -277,7 +277,9 @@ const Selling = () => {
         </div>
 
         <div className="text-center md-5 my-5">
-          <h1>Understanding the Selling Process with FU AUCTION</h1>
+          <h1 className="h1">
+            Understanding the Selling Process with FU AUCTION
+          </h1>
           <p>
             Now that you understand why selling with FU AUCTION is a smart
             choice, let’s delve into the process itself. We have broken down the
