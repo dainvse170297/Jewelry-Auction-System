@@ -59,3 +59,23 @@
 h6 {
     font-size: 1.25rem;
 }
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    background-color: #B23842 !important;
+
+    span {
+        color: #fff;
+    }
+
+    svg {
+        stroke: #fff;
+    }
+}
+
+.nav-pills .nav-link,
+.nav-pills .show>.nav-link {
+    span {
+        color: #B23842;
+    }
+}

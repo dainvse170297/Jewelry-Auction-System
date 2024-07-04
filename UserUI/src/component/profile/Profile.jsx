@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import CheckOut from "../checkout/CheckOut";
+import AuctionRegisterHistoryList from "./AuctionRegisterHistory/AuctionRegisterHistoryList";
+import ChangePassword from "./ChangePassword/ChangePassword";
+import ViewFinancialProof from "./FinancialProof/ViewFinancialProof";
 import "./profile.scss";
 import ProfileDetail from "./ProfileDetail/ProfileDetail";
-import { useNavigate } from "react-router-dom";
-import ChangePassword from "./ChangePassword/ChangePassword";
 import MyValuationRequest from "./valuation-request/MyValuationRequest";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import CheckOut from "../checkout/CheckOut";
-import ViewFinancialProof from "./FinancialProof/ViewFinancialProof";
 
 const Profile = () => {
   const currentUser = JSON.parse(localStorage.getItem("account"));
@@ -40,7 +40,7 @@ const Profile = () => {
                     height={24}
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="currentColor"
+                    stroke="#B23842"
                     strokeWidth={2}
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -49,7 +49,8 @@ const Profile = () => {
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                     <circle cx={12} cy={7} r={4} />
                   </svg>
-                  Profile Information
+
+                  <span>Profile Information</span>
                 </a>
                 <a
                   href="#security"
@@ -62,7 +63,7 @@ const Profile = () => {
                     height={24}
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="currentColor"
+                    stroke="#B23842"
                     strokeWidth={2}
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -70,7 +71,7 @@ const Profile = () => {
                   >
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                   </svg>
-                  Change Password
+                  <span>Change Password</span>
                 </a>
                 <a
                   href="#notification"
@@ -84,7 +85,7 @@ const Profile = () => {
                     height="24"
                     className="main-grid-item-icon me-3"
                     fill="none"
-                    stroke="currentColor"
+                    stroke="#B23842"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="2"
@@ -92,7 +93,8 @@ const Profile = () => {
                     <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                     <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                   </svg>
-                  Notification
+
+                  <span>Notification</span>
                 </a>
                 <a
                   href="#billing"
@@ -105,7 +107,7 @@ const Profile = () => {
                     height={24}
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="currentColor"
+                    stroke="#B23842"
                     strokeWidth={2}
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -114,7 +116,8 @@ const Profile = () => {
                     <rect x={1} y={4} width={22} height={16} rx={2} ry={2} />
                     <line x1={1} y1={10} x2={23} y2={10} />
                   </svg>
-                  Financial Proof
+
+                  <span>Financial Proof</span>
                 </a>
                 <a
                   href="#valuationRequest"
@@ -128,7 +131,7 @@ const Profile = () => {
                     height="24"
                     className="main-grid-item-icon me-3"
                     fill="none"
-                    stroke="currentColor"
+                    stroke="#B23842"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="2"
@@ -136,8 +139,24 @@ const Profile = () => {
                     <line x1="22" x2="11" y1="2" y2="13" />
                     <polygon points="22 2 15 22 11 13 2 9 22 2" />
                   </svg>
-                  My Valuation Request
+
+                  <span>My Valuation Request</span>
                 </a>
+
+                <a
+                  href="#auctionsRegistered"
+                  data-toggle="tab"
+                  className="nav-item nav-link has-icon nav-link-faded"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" className="main-grid-item-icon me-3" fill="none" stroke="#B23842" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+                    <polyline points="21 8 21 21 3 21 3 8" />
+                    <rect height="5" width="22" x="1" y="3" />
+                    <line x1="10" x2="14" y1="12" y2="12" />
+                  </svg>
+
+                  <span>My Attend History</span>
+                </a>
+
               </nav>
             </div>
           </div>
@@ -162,7 +181,7 @@ const Profile = () => {
                       height={24}
                       viewBox="0 0 24 24"
                       fill="none"
-                      stroke="currentColor"
+                      stroke="#B23842"
                       strokeWidth={2}
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -185,7 +204,7 @@ const Profile = () => {
                       height={24}
                       viewBox="0 0 24 24"
                       fill="none"
-                      stroke="currentColor"
+                      stroke="#B23842"
                       strokeWidth={2}
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -208,7 +227,7 @@ const Profile = () => {
                       height="24"
                       className="main-grid-item-icon"
                       fill="none"
-                      stroke="currentColor"
+                      stroke="#B23842"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth="2"
@@ -230,7 +249,7 @@ const Profile = () => {
                       height={24}
                       viewBox="0 0 24 24"
                       fill="none"
-                      stroke="currentColor"
+                      stroke="#B23842"
                       strokeWidth={2}
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -255,7 +274,7 @@ const Profile = () => {
                       height="24"
                       className="main-grid-item-icon me-3"
                       fill="none"
-                      stroke="currentColor"
+                      stroke="#B23842"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth="2"
@@ -265,8 +284,26 @@ const Profile = () => {
                     </svg>
                   </a>
                 </li>
+
+                <li className="nav-item">
+                  <a
+                    href="#auctionsRegistered"
+                    data-toggle="tab"
+                    className="nav-link has-icon"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" className="main-grid-item-icon" fill="none" stroke="#B23842" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+                      <polyline points="21 8 21 21 3 21 3 8" />
+                      <rect height="5" width="22" x="1" y="3" />
+                      <line x1="10" x2="14" y1="12" y2="12" />
+                    </svg>
+                  </a>
+                </li>
+
+
               </ul>
             </div>
+
+
             <div className="tab-content">
               <div className="tab-pane active" id="profile">
                 <ProfileDetail memberId={currentUser.memberId} />
@@ -291,6 +328,10 @@ const Profile = () => {
 
               <div className="tab-pane" id="valuationRequest">
                 <MyValuationRequest id={currentUser.memberId} />
+              </div>
+
+              <div className="tab-pane" id="auctionsRegistered">
+                <AuctionRegisterHistoryList id={currentUser.memberId} />
               </div>
             </div>
           </div>

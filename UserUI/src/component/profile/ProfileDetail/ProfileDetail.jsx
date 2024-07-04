@@ -19,7 +19,7 @@ const ProfileDetail = ({ memberId }) => {
 
     return (
         <>
-            <h6>YOUR PROFILE INFORMATION</h6>
+            <h6>PROFILE INFORMATION</h6>
             <hr />
             <form>
                 <div className="form-group">

@@ -81,14 +81,14 @@ const Header = () => {
                       {" "}
                       <PersonIcon /> Profile
                     </Dropdown.Item>
-                    <Dropdown.Item href="#">
+                    {/* <Dropdown.Item href="#">
                       {" "}
                       <AuctionIcon /> My Auction
                     </Dropdown.Item>
                     <Dropdown.Item href="#">
                       {" "}
                       <Valuation /> My Valuation
-                    </Dropdown.Item>
+                    </Dropdown.Item> */}
                     <Dropdown.Item href="/checkout">
                       {" "}
                       <ShoppingCartIcon /> My Winner Auction
