@@ -59,14 +59,16 @@ const postPreliminaryConfirm = async (
 const postSetAmountFinancialProof = async (
   id,
   staffId,
-  financialProofAmount
+  financialProofAmount,
+  role
 ) => {
   const formData = new FormData();
 
   formData.append("id", id);
   formData.append("staffId", staffId);
   formData.append("financialProofAmount", financialProofAmount);
-  console.log("formData", id, staffId, financialProofAmount);
+  formData.append("role", role);
+  console.log("formData", id, staffId, financialProofAmount, role);
 
   return axios.post(`/financial-proof/set-amount`, formData);
 };

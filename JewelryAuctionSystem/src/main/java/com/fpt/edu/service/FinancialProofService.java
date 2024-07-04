@@ -137,12 +137,25 @@ public class FinancialProofService implements IFinancialProofService {
     }
 
    @Override
-    public FinancialProofRequestDTO updateFinancialProofRequest(Integer idRq, Integer staffId, BigDecimal financialProofAmount) {
+    public FinancialProofRequestDTO updateFinancialProofRequest(Integer idRq, Integer Id, BigDecimal financialProofAmount, String role) {
         FinancialProofRequest financialProofRequest = iFinancialProofRequestRepository
                 .findById(idRq).orElseThrow(() -> new RuntimeException("Financial proof request not found"));
-        Staff staff = new Staff();
-        staff.setId(staffId);
-        financialProofRequest.setStaff(staff);
+
+    if(role.equals("STAFF")){
+            Staff staff = new Staff();
+            staff.setId(Id);
+            financialProofRequest.setStaff(staff);
+        }
+    if(role.equals("MANAGER")){
+            Manager manager = new Manager();
+            manager.setId(Id);
+            financialProofRequest.setManager(manager);
+        }
+
+
+
+
+
         financialProofRequest.setFinancialProofAmount(financialProofAmount);
         log.info("Financial proof amount: {}", financialProofAmount);
         log.info("FINANCIAL_VIP: {}", FINANCIAL_VIP);

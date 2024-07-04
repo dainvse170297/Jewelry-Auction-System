@@ -50,8 +50,9 @@ public class FinancialProofController {
     @PostMapping("/set-amount")
     public ResponseEntity<FinancialProofRequestDTO> updateFinancialProofRequest(@RequestParam("id") Integer idRq,
                                                                               @RequestParam("staffId") Integer staffId,
-                                                                              @RequestParam("financialProofAmount") BigDecimal financialProofAmount){
-        return ResponseEntity.ok(financialProofService.updateFinancialProofRequest(idRq, staffId, financialProofAmount));
+                                                                              @RequestParam("financialProofAmount") BigDecimal financialProofAmount,
+                                                                                @RequestParam("role") String role ){
+        return ResponseEntity.ok(financialProofService.updateFinancialProofRequest(idRq, staffId, financialProofAmount,role));
     }
     @PostMapping("/reject")
     public ResponseEntity<FinancialProofRequestDTO> rejectFinancialProofRequest(@RequestParam("id") Integer idRq,

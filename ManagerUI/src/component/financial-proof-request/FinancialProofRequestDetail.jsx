@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { postSetAmountFinancialProof } from "../../services/apiService";
 
+import moment from "moment";
+
 const FinancialProofRequestDetail = ({
   valuationRequest,
   onHide,
@@ -46,10 +48,12 @@ const FinancialProofRequestDetail = ({
         await confirmVIP(true); // Assuming this function exists for manager actions
       } else {
         // Regular staff or manager action for setting financial proof amount
+
         const data = await postSetAmountFinancialProof(
           valuationRequest.id,
           staffId,
-          preliminaryValuation.financialProofAmount
+          preliminaryValuation.financialProofAmount,
+          userRole
         );
 
         if (data.status === "AVAILABLE") {
@@ -123,7 +127,10 @@ const FinancialProofRequestDetail = ({
           Member Id: <strong>{valuationRequest.memberId}</strong>
         </p>
         <p>
-          Time request: <strong>{valuationRequest.timeRequest}</strong>
+          Time request:{" "}
+          <strong>
+            {moment(valuationRequest.timeRequest).format("DD/MM/YYYY HH:mm:ss")}
+          </strong>
         </p>
         <p>
           Valuation status: <strong>{valuationRequest.status}</strong>
@@ -264,7 +271,12 @@ const VIPFinancialProofRequestDetail = ({
                   Description: <strong>{valuationRequest.description}</strong>
                 </p> */}
                 <p>
-                  Time request: <strong>{valuationRequest.timeRequest}</strong>
+                  Time request:{" "}
+                  <strong>
+                    {moment(valuationRequest.timeRequest).format(
+                      "DD/MM/YYYY HH:mm:ss"
+                    )}
+                  </strong>
                 </p>
                 <p>
                   Status: <strong>{valuationRequest.status}</strong>
