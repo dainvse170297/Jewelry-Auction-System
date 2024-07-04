@@ -54,7 +54,7 @@ const Selling = () => {
 
             <h3>Or want to learn more first?</h3>
             <p>
-              To continue learning about selling with FORTUNA, keep scrolling
+              To continue learning about selling with FU AUCTION, keep scrolling
               and reading.
             </p>
           </div>
@@ -62,13 +62,13 @@ const Selling = () => {
 
         <div className="text-center md-5 my-5">
           Now that you have an understanding of our mission and approach to
-          selling at FORTUNA, let’s delve deeper into the mechanics of our
+          selling at FU AUCTION, let’s delve deeper into the mechanics of our
           operation, and explore the topics that every potential seller should
-          know. The following sections will highlight what makes FORTUNA
-          different and answer the question, “Why FORTUNA?”, as well as walk you
-          through the entire process from start to finish. This guide is
-          designed to prepare you thoroughly for your selling journey with
-          FORTUNA, giving you the confidence to make informed decisions at every
+          know. The following sections will highlight what makes FU AUCTION
+          different and answer the question, “Why FU AUCTION?”, as well as walk
+          you through the entire process from start to finish. This guide is
+          designed to prepare you thoroughly for your selling journey with FU
+          AUCTION, giving you the confidence to make informed decisions at every
           step of the way.
         </div>
 
@@ -77,25 +77,25 @@ const Selling = () => {
             <h1 className="text-center md-5">Why Sell With FU AUCTION?</h1>
             <div className="my-5 whysell">
               <p>
-                At FORTUNA, we’re committed to setting and upholding the highest
-                standards for our sellers. Selling jewelry and watches can be a
-                challenging and confusing process, but it doesn’t have to be.
-                With FORTUNA by your side, you can rest assured that your
-                valuable assets are in the best hands possible.
+                At FU AUCTION, we’re committed to setting and upholding the
+                highest standards for our sellers. Selling jewelry and watches
+                can be a challenging and confusing process, but it doesn’t have
+                to be. With FU AUCTION by your side, you can rest assured that
+                your valuable assets are in the best hands possible.
               </p>
               <p>
                 We think of ourselves as a torch-bearer on the dimly-lit,
                 pitfall-filled path to selling jewelry and watches.
               </p>
               <p>
-                At FORTUNA, our core values of integrity, authenticity,
+                At FU AUCTION, our core values of integrity, authenticity,
                 accountability, and excellence are at the forefront of
                 everything we do. We believe our values, performance, and
                 reputation set us far apart from our competitors.
               </p>
               <p>
                 Here are the five (5) reasons that answer the question, “Why
-                Sell with FORTUNA?”:
+                Sell with FU AUCTION?”:
               </p>
             </div>
           </div>
@@ -118,7 +118,7 @@ const Selling = () => {
             <p>
               With the lowest seller’s fees/premiums, very frequent (bi-weekly)
               auctions, a substantial global following, record-breaking results,
-              and a flawless 5-star Google rating, FORTUNA stands head and
+              and a flawless 5-star Google rating, FU AUCTION stands head and
               shoulders above the rest.
             </p>
           </div>
@@ -131,7 +131,7 @@ const Selling = () => {
             />
             <p className="img-content">
               The Cartier Crash 1991 Limited Edition; achieved a record-high
-              $81,250 at Fortuna's 2019 IMPORTANT WATCHES auction.
+              $81,250 at FU AUCTION's 2019 IMPORTANT WATCHES auction.
             </p>
           </div>
         </div>
@@ -153,7 +153,7 @@ const Selling = () => {
             <p>
               With the lowest seller’s fees/premiums, very frequent (bi-weekly)
               auctions, a substantial global following, record-breaking results,
-              and a flawless 5-star Google rating, FORTUNA stands head and
+              and a flawless 5-star Google rating, FU AUCTION stands head and
               shoulders above the rest.
             </p>
           </div>
@@ -165,8 +165,8 @@ const Selling = () => {
               style={{ maxWidth: "350px", maxHeight: "350px" }}
             />
             <p className="img-content">
-              Group of Chanel Vintage Fashion Costume Jewelry. Sold at one of
-              FORTUNA's auctions for $25,000.
+              Group of Chanel Vintage Fashion Costume Jewelry. Sold at one of FU
+              AUCTION's auctions for $25,000.
             </p>
           </div>
         </div>
@@ -188,7 +188,7 @@ const Selling = () => {
             <p>
               With the lowest seller’s fees/premiums, very frequent (bi-weekly)
               auctions, a substantial global following, record-breaking results,
-              and a flawless 5-star Google rating, FORTUNA stands head and
+              and a flawless 5-star Google rating, FU AUCTION stands head and
               shoulders above the rest.
             </p>
           </div>
@@ -200,8 +200,8 @@ const Selling = () => {
               style={{ maxWidth: "350px", maxHeight: "350px" }}
             />
             <p className="img-content">
-              Rolex Daytona "Rainbow" in 18K Gold with Box and Papers Sold at
-              FORTUNA for $375,000
+              Rolex Daytona "Rainbow" in 18K Gold with Box and Papers Sold at FU
+              AUCTION for $375,000
             </p>
           </div>
         </div>
@@ -223,7 +223,7 @@ const Selling = () => {
             <p>
               With the lowest seller’s fees/premiums, very frequent (bi-weekly)
               auctions, a substantial global following, record-breaking results,
-              and a flawless 5-star Google rating, FORTUNA stands head and
+              and a flawless 5-star Google rating, FU AUCTION stands head and
               shoulders above the rest.
             </p>
           </div>
@@ -236,7 +236,7 @@ const Selling = () => {
             />
             <p className="img-content">
               Exceptionally Rare Type IIA D/IF 6.01-Carat Emerald-Cut Diamond,
-              GIA Certified with Mounting Sold at FORTUNA for $260,000
+              GIA Certified with Mounting Sold at FU AUCTION for $260,000
             </p>
           </div>
         </div>
@@ -258,7 +258,7 @@ const Selling = () => {
             <p>
               With the lowest seller’s fees/premiums, very frequent (bi-weekly)
               auctions, a substantial global following, record-breaking results,
-              and a flawless 5-star Google rating, FORTUNA stands head and
+              and a flawless 5-star Google rating, FU AUCTION stands head and
               shoulders above the rest.
             </p>
           </div>
@@ -271,7 +271,7 @@ const Selling = () => {
             />
             <p className="img-content">
               Suzanne Belperron "Cambodian" Chalcedony Cuff w/ Certificate of
-              Authenticity Sold at FORTUNA for $137,500
+              Authenticity Sold at FU AUCTION for $137,500
             </p>
           </div>
         </div>
