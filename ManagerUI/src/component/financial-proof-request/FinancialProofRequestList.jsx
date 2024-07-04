@@ -4,13 +4,13 @@ import { FaBackward } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { getAllFinancialProof } from "../../services/apiService.jsx";
 import { ToastContainer, toast } from "react-toastify";
+import { Button, Form, Modal, Carousel } from "react-bootstrap";
 import {
   FinancialProofRequestDetail,
   VIPFinancialProofRequestDetail,
 } from "./FinancialProofRequestDetail"; // Correct named import
 
 import moment from "moment";
-
 const FinancialProofRequestList = () => {
   const user = {
     id: sessionStorage.getItem("id"),
@@ -30,6 +30,7 @@ const FinancialProofRequestList = () => {
   const [pageSize] = useState(10); // Items per page
   const [totalPages, setTotalPages] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
+  const [showModal, setShowModal] = useState(false); // Modal state
 
   // Function to fetch data from the API
   const fetchFinancialProofRequests = async (status, page, size) => {
@@ -49,10 +50,8 @@ const FinancialProofRequestList = () => {
         }
       );
 
-      setValuationRequests(response.data.content || []); // Assuming API returns `content`
-      setTotalPages(response.data.totalPages || 0); // Assuming API returns `totalPages`
-      console.log("response", response);
-      console.log("totalPages", response.data.totalPages);
+      setValuationRequests(response.data.content || []);
+      setTotalPages(response.data.totalPages || 0);
     } catch (error) {
       setErrorMsg("Error fetching data from server");
     }
@@ -100,6 +99,12 @@ const FinancialProofRequestList = () => {
   // Function to handle showing detail of a request
   const handleDetail = (item) => {
     setCurrentItemsDetail(item);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setCurrentItemsDetail(null);
+    setShowModal(false);
   };
 
   return (
@@ -109,7 +114,7 @@ const FinancialProofRequestList = () => {
           <div className="col">
             <div className="row">
               <div className="col-sm-7 text-center">
-                <h2>Requested Financial Proof Request</h2>
+                <h2>Requested Financial Proof Requests</h2>
                 <div className="row">
                   <div className="col-3">
                     <select
@@ -201,14 +206,21 @@ const FinancialProofRequestList = () => {
               </div>
 
               <div className="col-sm-5">
-                {currentItemsDetail &&
-                  currentItemsDetail.status === "REQUESTED" && (
-                    <FinancialProofRequestDetail
-                      valuationRequest={currentItemsDetail}
-                      onHide={() => setCurrentItemsDetail(null)}
-                      staffId={user.id}
-                    />
-                  )}
+                {currentItemsDetail && (
+                  <Modal show={showModal} onHide={handleCloseModal} size="lg">
+                    <Modal.Header closeButton>
+                      <Modal.Title>Financial Proof Detail</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <FinancialProofRequestDetail
+                        valuationRequest={currentItemsDetail} // Pass current detail item as props
+                        onHide={handleCloseModal} // Pass close modal function
+                        staffId={user.id} // Pass staff id (assuming user.id is staff id)
+                        userRole={user.role}
+                      />
+                    </Modal.Body>
+                  </Modal>
+                )}
               </div>
             </div>
           </div>

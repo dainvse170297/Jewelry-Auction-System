@@ -73,7 +73,7 @@ public class FinancialProofService implements IFinancialProofService {
         financialProofRequest.setTimeRequest(LocalDateTime.now());
         financialProofRequest.setMember(member);
         financialProofRequest.setStaff(null);
-        financialProofRequest.setFinancialProofAmount(new BigDecimal(-1));
+        financialProofRequest.setFinancialProofAmount(new BigDecimal(0));
         iFinancialProofRequestRepository.save(financialProofRequest);
         Set<String> listFinancialProofImages = new HashSet<>();
         for (MultipartFile file : files) {
@@ -146,6 +146,12 @@ public class FinancialProofService implements IFinancialProofService {
         financialProofRequest.setFinancialProofAmount(financialProofAmount);
         log.info("Financial proof amount: {}", financialProofAmount);
         log.info("FINANCIAL_VIP: {}", FINANCIAL_VIP);
+
+        if(financialProofAmount.compareTo(BigDecimal.ZERO) < 0){
+            throw new RuntimeException("Financial proof amount must be greater than 0");
+        }
+
+
         if(financialProofAmount.compareTo(FINANCIAL_VIP) >= 0){
             financialProofRequest.setStatus(FinancialProofRequestStatus.PENDING_MANAGER_APPROVAL);
         }else{

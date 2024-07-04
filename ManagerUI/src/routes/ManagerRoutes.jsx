@@ -51,7 +51,7 @@ const ManagerRoutes = [
   },
   {
     path: "/financial-request",
-    element: <VIPFinancialProofRequestList />,
+    element: <FinancialProofRequestList />,
   },
   {
     path: "/add-session/:id",
