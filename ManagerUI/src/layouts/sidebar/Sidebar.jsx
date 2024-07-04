@@ -14,11 +14,8 @@ import UserIcon from "@mui/icons-material/ManageAccounts";
 import SettingsIcon from "@mui/icons-material/Settings";
 import FinancialProofRequestIcon from "@mui/icons-material/RequestQuote";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-<<<<<<< Updated upstream
-=======
 import { MonetizationOn } from "@mui/icons-material";
 import { Nav } from "react-bootstrap";
->>>>>>> Stashed changes
 
 // Navigation
 const staffNavigation = [
@@ -162,8 +159,12 @@ const Sidebar = () => {
                     <ul className="p-0 m-0">
                       {activeKey === index &&
                         item.children.map((child, childIndex) => (
-                          <li key={childIndex}>
-                            <Link to={child.href} className="non-deco">
+                          <li>
+                            <Link
+                              className="child-item"
+                              to={child.href}
+                              key={childIndex}
+                            >
                               <span>{child.name}</span>
                             </Link>
                           </li>

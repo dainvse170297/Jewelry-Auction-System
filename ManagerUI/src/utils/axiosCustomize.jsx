@@ -1,12 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-<<<<<<< Updated upstream
-  baseURL: "http://localhost:8080/",
-=======
   baseURL: "https://jewelry-auction-system.azurewebsites.net/",
   // baseURL: "http://localhost:8080/",
->>>>>>> Stashed changes
 });
 
 // Add a request interceptor
