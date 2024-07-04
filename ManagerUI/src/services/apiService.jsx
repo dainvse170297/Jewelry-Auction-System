@@ -14,6 +14,8 @@ export {
   getAllAuctionSession,
   postSetAmountFinancialProof,
   getAllFinancialProof,
+  getAllWinnerPurchasedAuctionRegister,
+  getMemberByProductId,
 };
 
 const getAllValuationRequests = async () => {
@@ -96,3 +98,11 @@ const getAllCreatedSession = async () => {
 const publicCreatedSession = async (sessionId) => {
   return axios.post(`auction/public-session/${sessionId}`);
 };
+
+const getAllWinnerPurchasedAuctionRegister = async () => {
+  return axios.get(`auction-register/get-purchased-auction-register`);
+}
+
+const getMemberByProductId = async (productId) => {
+  return axios.get(`member/product/${productId}`);
+}

@@ -4,6 +4,7 @@ import Countdown from "../countdown/Countdown";
 import { Link, useNavigate } from "react-router-dom";
 
 const AuctionSession = ({ session, showImage, showDetailBtn }) => {
+  
   return (
     <>
       {showImage && (
@@ -38,6 +39,14 @@ const AuctionSession = ({ session, showImage, showDetailBtn }) => {
                     <div className="col-sm-9">
                       <Countdown targetDate={session.endTime} />
                     </div>
+                  )}
+
+                  {session.status === "PAST" && (
+
+                    <div className="col-sm-9">
+                      <Countdown targetDate={session.endTime} />
+                    </div>
+
                   )}
                 </div>
               </div>
@@ -81,6 +90,14 @@ const AuctionSession = ({ session, showImage, showDetailBtn }) => {
 
               {session.status === "LIVE" && (
                 <Link to={`/live-session-detail/${session.id}`}>
+                  <button type="button" className="detail-button">
+                    View Detail
+                  </button>
+                </Link>
+              )}
+
+              {session.status === "PAST" && (
+                <Link to={`/past-session-detail/${session.id}`}>
                   <button type="button" className="detail-button">
                     View Detail
                   </button>

@@ -110,5 +110,21 @@ public class AuctionRegisterService implements IAuctionRegisterService {
         return auctionRegisterRepository.findAuctionRegisterByMemberId(memberId);
     }
 
+    @Override
+    public List<AuctionRegister> getPurchasedAuctionRegister() {
+        return auctionRegisterRepository.findByStatus(AuctionRegisterStatus.WINNER_PURCHASED);
+    }
+
+    @Override
+    public AuctionRegister getPurchasedAuctionRegisterById(Integer id) {
+        AuctionRegister auctionRegister = auctionRegisterRepository.findByIdAndStatus(id, AuctionRegisterStatus.WINNER_PURCHASED);
+        if(auctionRegister != null){
+            return auctionRegister;
+        }else{
+            throw new RuntimeException("Auction register is not in WINNER_PURCHASED status");
+        }
+
+    }
+
 
 }
