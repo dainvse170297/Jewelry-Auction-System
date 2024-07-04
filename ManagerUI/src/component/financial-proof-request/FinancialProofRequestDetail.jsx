@@ -9,7 +9,6 @@ const FinancialProofRequestDetail = ({
   onHide,
   staffId,
   userRole,
-  managerId,
 }) => {
   const [preliminaryValuation, setPreliminaryValuation] = useState({
     id: "",
@@ -86,8 +85,12 @@ const FinancialProofRequestDetail = ({
       if (response.status === 200) {
         if (confirmValue && response.data.status === "AVAILABLE") {
           toast.success("Approve successfully");
+
+          window.location.reload(); // Reload page to remove modal
         } else if (!confirmValue && response.data.status === "REJECTED") {
           toast.success("Reject successfully");
+
+          window.location.reload(); // Reload page to remove modal
         } else {
           toast.error("Failed to confirm VIP");
         }
@@ -204,6 +207,7 @@ const FinancialProofRequestDetail = ({
     </>
   );
 };
+
 const VIPFinancialProofRequestDetail = ({
   valuationRequest,
   onHide,

@@ -80,6 +80,7 @@ export default function CreateFinancialProofRequest() {
           memberId: currentUser?.memberId || null,
           photos: [],
         });
+        setSelectedImages([]);
       } else {
         toast.error("Error submitting financial proof request.");
       }
