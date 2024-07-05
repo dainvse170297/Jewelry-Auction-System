@@ -82,6 +82,11 @@ public class AuctionSessionController {
         return ResponseEntity.ok(auctionSessionService.getAuctionSession(AuctionSessionStatus.LIVE));
     }
 
+    @GetMapping("/session/past")
+    public ResponseEntity<List<AuctionSessionDTO>> getPastAuctionSession() {
+        return ResponseEntity.ok(auctionSessionService.getAuctionSession(AuctionSessionStatus.PAST));
+    }
+
     //Change status of auction session from CREATED to UPCOMING
     @PostMapping("/public-session/{sessionId}")
     public ResponseEntity<?> publicAuctionSession(@PathVariable Integer sessionId) {
