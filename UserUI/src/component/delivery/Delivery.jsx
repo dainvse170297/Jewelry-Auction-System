@@ -16,37 +16,10 @@ const Delivery = () => {
   return (
     <div className="container-fluid">
       <div className="col-md-10 offset-md-1 my-5">
-        <div className="row">
-          <h1 className="text-center h1">
-            Product packaging instructions with FU AUCTION
-          </h1>
-          <div className="col-md-6 my-5">
-            <p className="content-first">
-              FU AUCTION has been specifically designed to protect your
-              interests by ensuring that your valuable items are handled with
-              the utmost care and professionalism.
-            </p>
-            <p className="content-first">
-              Our comprehensive guide helps you understand the steps to securely
-              package and insure your items for safe transit.
-            </p>
-            <p className="content-first">
-              By following these instructions, you can minimize risks and ensure
-              that your items reach their destination in perfect condition.
-            </p>
-          </div>
-          <div className="col-md-6 my-5">
-            <img src={imgIntroduce} alt="Step 1" className="img-introduce" />
-          </div>
-        </div>
-
-        {/* New Section for Packaging and Insurance */}
-        <div className="row my-5">
-          <div className="col-md-12">
-            <h1 className="text-center md-5 h1">
-              Packaging and Insurance Guide
-            </h1>
-            <p className="text-center">
+        <div className="row mb-5">
+          <div className="col-md-12 text-center">
+            <h2 className="section-title">Delivery Instructions</h2>
+            <p>
               Ensuring the safety of your valuable items during transit is of
               utmost importance. Here is a comprehensive guide to help you
               package and insure your items effectively.
@@ -54,11 +27,9 @@ const Delivery = () => {
           </div>
         </div>
 
-        <div className="row my-5 step-section">
-          <div className="col-md-6">
-            <h2 className="text-center h2 step-title">
-              Step 1: Secure Packaging
-            </h2>
+        <div className="row mb-5 step-section">
+          <div className="col-md-6 mb-4">
+            <h3 className="text-center step-title">Step 1: Secure Packaging</h3>
             <img src={step1Img} alt="Step 1" className="img-fluid step-image" />
             <p>
               Use high-quality materials such as bubble wrap, packing peanuts,
@@ -72,10 +43,8 @@ const Delivery = () => {
               any remaining space with more packing peanuts to prevent movement.
             </p>
           </div>
-          <div className="col-md-6">
-            <h2 className="text-center h2 step-title">
-              Step 2: Proper Labeling
-            </h2>
+          <div className="col-md-6 mb-4">
+            <h3 className="text-center step-title">Step 2: Proper Labeling</h3>
             <img src={step2Img} alt="Step 2" className="img-fluid step-image" />
             <p>
               Clearly label your package with the recipient's address and your
@@ -91,11 +60,11 @@ const Delivery = () => {
           </div>
         </div>
 
-        <div className="row my-5 step-section">
-          <div className="col-md-6">
-            <h2 className="text-center h2 step-title">
+        <div className="row mb-5 step-section">
+          <div className="col-md-6 mb-4">
+            <h3 className="text-center step-title">
               Step 3: Choosing the Right Insurance
-            </h2>
+            </h3>
             <img src={step3Img} alt="Step 3" className="img-fluid step-image" />
             <p>
               Choose a reliable insurance provider to cover the full value of
@@ -108,10 +77,10 @@ const Delivery = () => {
               the insurance documentation for your records.
             </p>
           </div>
-          <div className="col-md-6">
-            <h2 className="text-center h2 step-title">
+          <div className="col-md-6 mb-4">
+            <h3 className="text-center step-title">
               Step 4: Tracking and Confirmation
-            </h2>
+            </h3>
             <img src={step4Img} alt="Step 4" className="img-fluid step-image" />
             <p>
               Use a shipping service that offers tracking and delivery

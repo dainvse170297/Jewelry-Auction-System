@@ -23,6 +23,9 @@ export {
   getValuationRepsonse,
   getAuctionRegisterHistory,
   getFinancialProof,
+  postAddCreditCard,
+  putEditCreditCard,
+  deleteCreditCard,
 };
 
 const postCreateValuation = async (valuation) => {
@@ -166,4 +169,37 @@ const getAuctionRegisterHistory = async (id) => {
 
 const getFinancialProof = async (id) => {
   return axios.get(`member/financial-proof/${id}`);
+};
+
+const postAddCreditCard = async (memberId, newCreditCard) => {
+  try {
+    const response = await axios.post(
+      `/member/profile/${memberId}/add-credit-card`,
+      newCreditCard
+    );
+    return response.data;
+  } catch (error) {
+    throw error; // Let the calling function handle the error
+  }
+};
+const putEditCreditCard = async (memberId, updatedCreditCard) => {
+  try {
+    const response = await instance.put(
+      `/member/profile/${memberId}/edit-credit-card`,
+      updatedCreditCard
+    );
+    return response.data;
+  } catch (error) {
+    throw error; // Let the calling function handle the error
+  }
+};
+const deleteCreditCard = async (memberId) => {
+  try {
+    const response = await instance.delete(
+      `/member/profile/${memberId}/delete-credit-card`
+    );
+    return response.data;
+  } catch (error) {
+    throw error; // Let the calling function handle the error
+  }
 };

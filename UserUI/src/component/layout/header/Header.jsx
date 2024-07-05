@@ -79,13 +79,13 @@ const Header = () => {
                 POLICIES
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item as={Link} to="/">
+                <Dropdown.Item href="/privacy-policy">
                   Privacy Policy
                 </Dropdown.Item>
-                <Dropdown.Item as={Link} to="/">
+                <Dropdown.Item href="/terms-conditions">
                   Terms & Conditions
                 </Dropdown.Item>
-                <Dropdown.Item as={Link} to="/delivery">
+                <Dropdown.Item href="/delivery">
                   Delivery instructions
                 </Dropdown.Item>
               </Dropdown.Menu>

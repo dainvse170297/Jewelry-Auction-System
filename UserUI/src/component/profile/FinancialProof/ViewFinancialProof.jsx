@@ -52,14 +52,6 @@ const ViewFinancialProof = ({ id }) => {
             <p className="card-text text-muted">
               <strong>Bank Name:</strong> {financialProof.creditCard.bankName}
             </p>
-            <p className="card-text text-muted">
-              <strong>Expiration Date:</strong> khong co field
-              {/* You may need to get this from the API if available */}
-            </p>
-            <p className="card-text text-muted">
-              <strong>CVV:</strong> khong co field
-              {/* You may need to get this from the API if available */}
-            </p>
           </div>
         </div>
       </div>
@@ -113,7 +105,9 @@ const ViewFinancialProof = ({ id }) => {
               </p>
             )}
             <Link to="/create-financial-proof">
-              <Button className="btn-create-new">Create New</Button>
+              <Button className="btn-create-new">
+                Create New Financial Proof
+              </Button>
             </Link>
           </div>
         </div>
