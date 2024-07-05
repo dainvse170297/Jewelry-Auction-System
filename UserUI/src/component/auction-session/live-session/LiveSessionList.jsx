@@ -1,25 +1,24 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-// import "./upcoming-session.scss";
 import { Spinner } from "react-bootstrap";
 import AuctionSession from "../AuctionSession";
-
+import { getLiveAuctionSessionList } from "../../../services/apiService";
 const LiveSessionList = () => {
   const [liveSessions, setLiveSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const getAll = async () => {
-      await axios
-        .get("http://localhost:8080/auction/session/live")
-        .then((response) => {
-          setLiveSessions(response.data);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    getAll();
+    try {
+      const getAll = async () => {
+        const data = await getLiveAuctionSessionList();
+        if (Array.isArray(data)) {
+          setLiveSessions(data);
+        }
+        setLoading(false);
+      };
+      getAll();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
   }, []);
 
   return (

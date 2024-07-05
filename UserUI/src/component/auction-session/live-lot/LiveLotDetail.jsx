@@ -50,7 +50,6 @@ export default function LiveLotDetail() {
     console.log("location", location);
   }, [id]);
 
-  //http://localhost:8080/bid/list-bid?lotId=68
   useEffect(() => {
     const getBidHistory = async () => {
       try {
@@ -207,7 +206,6 @@ export default function LiveLotDetail() {
                 <div className="text-center text-secondary">
                   {productInfo.description}
                 </div>
-
 
                 <div className="d-flex justify-content-center mt-5">
                   <div className="d-flex align-items-center">

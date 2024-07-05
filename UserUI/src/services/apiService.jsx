@@ -6,6 +6,10 @@ export {
   postUpcomingSessionDetail,
   getCheckLotRegister,
   getUpcomingLotDetail,
+  getLiveAuctionSessionList,
+  postLiveAuctionSessionDetail,
+  getPastSessionList,
+  postPastSessionDetail,
 };
 
 const postCreateValuation = async (valuation) => {
@@ -40,4 +44,28 @@ const getCheckLotRegister = async (memberId, lotId) => {
   return axios.get(
     `auction-register/check-member-register/${memberId}/${lotId}`
   );
+};
+
+const getLiveAuctionSessionList = async () => {
+  return axios.get(`auction/session/live`);
+};
+
+const postLiveAuctionSessionDetail = async (sessionId, memberId) => {
+  const formData = new FormData();
+  formData.append("sessionId", sessionId);
+  formData.append("memberId", memberId);
+  return axios.post(
+    `auction/session/view-live-auction-session-detail`,
+    formData
+  );
+};
+
+const getPastSessionList = async () => {
+  return axios.get(`auction/session/past`);
+};
+
+const postPastSessionDetail = async (sessionId) => {
+  const formData = new FormData();
+  formData.append("sessionId", sessionId);
+  return axios.post(`auction/session/past/details`, formData);
 };
