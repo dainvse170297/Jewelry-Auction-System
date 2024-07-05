@@ -26,7 +26,7 @@ const ChangePassword = () => {
                 </div>
                 <hr />
                 <div className="">
-                    <button type="button" className="btn  me-3">
+                    <button type="button" className="btn btn-danger me-3">
                         Save
                     </button>
                 </div>

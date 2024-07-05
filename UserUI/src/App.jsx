@@ -87,7 +87,9 @@ function App() {
             <Route path="/payment-success" element={<PaymentSuccess />} />
             <Route path="/payment-failure" element={<PaymentFailure />} />
           </Routes>
+
         </div>
+
         <Footer />
 
       </BrowserRouter >

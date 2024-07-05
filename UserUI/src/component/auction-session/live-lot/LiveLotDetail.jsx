@@ -330,7 +330,7 @@ export default function LiveLotDetail() {
           <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleBuyNow}>
+          <Button variant="danger" onClick={handleBuyNow}>
             Buy Now
           </Button>
         </Modal.Footer>

@@ -77,8 +77,9 @@ const AppRoute = (props) => {
           <Route path="*" element={<NotFound />} />
 
         </Routes>
-        <Footer />
+
       </div>
+      <Footer />
     </>
   );
 };
