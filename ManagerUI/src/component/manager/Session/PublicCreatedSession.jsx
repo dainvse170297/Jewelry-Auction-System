@@ -41,12 +41,12 @@ const PublicCreatedSession = () => {
                     <table className="table">
                         <thead>
                             <tr>
-                                <th></th>
+                                <th>#</th>
                                 <th>Session Name</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Status</th>
-                                <th>#</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>

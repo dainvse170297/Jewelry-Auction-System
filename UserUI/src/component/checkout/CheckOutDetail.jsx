@@ -1,10 +1,9 @@
-import axios from 'axios';
-import React, { useState } from 'react'
+import { CircularProgress } from '@mui/material';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import { getCheckOut } from '../../services/apiService';
 import './checkout.scss';
-import PaymentCallback from './PaymentCallback';
-import { CircularProgress } from '@mui/material';
 
 const CheckOutDetail = () => {
 
@@ -27,19 +26,21 @@ const CheckOutDetail = () => {
     } else {
       setIsLoading(true)
       try {
-        const response = await axios.get(`http://localhost:8080/api/payment/vnpay`, {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          params: {
-            amount,
-            bankCode
-          }
-        })
-        const data = response.data;
+        // const response = await axios.get(`http://localhost:8080/api/payment/vnpay`, {
+        //   headers: {
+        //     'Content-Type': 'application/json'
+        //   },
+        //   params: {
+        //     amount,
+        //     bankCode
+        //   }
+        // })
+        const response = await getCheckOut(bankCode, amount)
+        // const data = response.data;
         setIsLoading(false)
-        if (data.code === 200 && data.data.paymentUrl) {
-          window.location.href = data.data.paymentUrl;
+        console.log(response);
+        if (response && response.data.paymentUrl) {
+          window.location.href = response.data.paymentUrl;
         } else {
           console.error('Payment failed or payment URL is null');
         }

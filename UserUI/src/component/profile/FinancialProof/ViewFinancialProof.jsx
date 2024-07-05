@@ -5,6 +5,7 @@ import "./ViewFinancialProof.scss";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import moment from "moment/moment";
+import { getFinancialProof } from "../../../services/apiService";
 
 const ViewFinancialProof = ({ id }) => {
   const [financialProof, setFinancialProof] = useState(null);
@@ -12,10 +13,12 @@ const ViewFinancialProof = ({ id }) => {
   useEffect(() => {
     const fetchFinancialProof = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/member/financial-proof/${id}`
-        );
-        setFinancialProof(response.data);
+        // const response = await axios.get(
+        //   `http://localhost:8080/member/financial-proof/${id}`
+        // );
+
+        const response = await getFinancialProof(id);
+        setFinancialProof(response);
       } catch (error) {
         console.error("Error fetching financial proof data:", error);
       }

@@ -1,11 +1,10 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import Paginator from "../../common/Paginator";
-import './style.scss';
-import { Link } from "react-router-dom";
-import { Modal } from "react-bootstrap";
-import ValuationResponseList from "../valuation-response/ValuationResponseList";
 import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Modal } from "react-bootstrap";
+import { getSentValuationRequest } from "../../../services/apiService";
+import Paginator from "../../common/Paginator";
+import ValuationResponseList from "../valuation-response/ValuationResponseList";
+import './style.scss';
 
 export default function MyValuationRequest({ id }) {
   const [valuationRequests, setValuationRequests] = useState([]);
@@ -21,8 +20,9 @@ export default function MyValuationRequest({ id }) {
   useEffect(() => {
     const getInfo = async () => {
       try {
-        const result = await axios.get(`http://localhost:8080/valuation/view-sent-request/${id}`);
-        setValuationRequests(result.data);
+        // const result = await axios.get(`http://localhost:8080/valuation/view-sent-request/${id}`);
+        const result = await getSentValuationRequest(id);
+        setValuationRequests(result);
       } catch (error) {
         console.log("Error:", error.message);
         setErrorMsg("Error fetching data from server");
