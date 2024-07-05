@@ -20,6 +20,8 @@ export {
   getValuationRequestById, //Get a valuation request by id
   getRejectValuationRequest,
   getAllProductReceivedRequest,
+  getAllCategory,
+  postAddProduct,
 };
 
 const getAllValuationRequests = async () => {
@@ -146,3 +148,30 @@ const getRejectValuationRequest = async (id) => {
 const getAllProductReceivedRequest = async () => {
   return axios.get(`valuation/request/status/product-received`);
 };
+
+const getAllCategory = async () => {
+  return axios.get(`category/all`);
+}
+
+const postAddProduct = async (product) => {
+  const formData = new FormData();
+  formData.append("valuationRequestId", product.valuationRequestId);
+  formData.append("categoryId", product.categoryId);
+  formData.append("name", product.name);
+  formData.append("description", product.description);
+  formData.append("estimatePriceMax", product.estimatePriceMax);
+  formData.append("estimatePriceMin", product.estimatePriceMin);
+  formData.append("buyNowPrice", product.buyNowPrice);
+  formData.append("maxStep", product.maxStep);
+  formData.append("pricePerStep", product.pricePerStep);
+  formData.append("startPrice", product.startPrice);
+  product.photos.forEach((photo, index) => {
+    formData.append("photos", photo);
+  });
+
+  return axios.post("product/add-product", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  })
+}
