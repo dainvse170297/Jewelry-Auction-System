@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import privateRoutes from "./PrivateRoute";
 import RequireAuth from "./RequireAuth";
 import Footer from "../component/layout/footer/Footer";
+import Layout from "../component/layout/Layout";
 
 const UpcomingSessionList = lazy(() =>
   import("../component/auction-session/upcoming-session/UpcomingSessionList")
@@ -28,6 +29,8 @@ const NotFound = lazy(() => import("../views/NotFound"));
 const Login = lazy(() => import("../component/auth/login/Login"));
 const Register = lazy(() => import("../component/auth/register/Register"));
 const Selling = lazy(() => import("../component/selling/Selling"));
+const Delivery = lazy(() => import("../component/delivery/Delivery"));
+const ContactInfo = lazy(() => import("../component/contact/ContactInfo"));
 
 const AppRoute = () => {
   const [user, setUser] = useState({});
@@ -41,45 +44,51 @@ const AppRoute = () => {
 
   return (
     <>
-      <Header />
-      <div style={{ paddingTop: "70px" }}>
-        <Routes>
-          <Route path="/" element={<Navigate to="/home" />} />
-          <Route path="/home" element={<Home />} />
+      <Layout>
+        <Header />
+        <main style={{ paddingTop: "70px" }}>
+          <Routes>
+            <Route path="/" element={<Navigate to="/home" />} />
+            <Route path="/home" element={<Home />} />
 
-          {/* Private Routes */}
-          <Route element={<RequireAuth />}>
-            {user !== null &&
-              privateRoutes.map((route, index) => (
-                <Route key={index} path={`${route.path}`} element={route.element} />
-              ))}
-          </Route>
+            {/* Private Routes */}
+            <Route element={<RequireAuth />}>
+              {user !== null &&
+                privateRoutes.map((route, index) => (
+                  <Route
+                    key={index}
+                    path={`${route.path}`}
+                    element={route.element}
+                  />
+                ))}
+            </Route>
 
-          {/* Public Routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/sign-up" element={<Register />} />
-          <Route path="/selling" element={<Selling />} />
-          <Route path="/upcoming" element={<UpcomingSessionList />} />
-          <Route path="/live" element={<LiveSessionList />} />
-          <Route
-            path="/upcoming-session-detail/:id"
-            element={<UpcomingSessionDetail />}
-          />
-          <Route
-            path="/upcoming-session-lot/:lotId"
-            element={<UpcomingSessionLot />}
-          />
-          <Route path="/past" element={<PastSessionList />} />
-          <Route
-            path="/past-session-detail/:id"
-            element={<PastSessionDetail />}
-          />
-          <Route path="*" element={<NotFound />} />
-
-        </Routes>
-
-      </div>
-      <Footer />
+            {/* Public Routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/sign-up" element={<Register />} />
+            <Route path="/upcoming" element={<UpcomingSessionList />} />
+            <Route path="/live" element={<LiveSessionList />} />
+            <Route
+              path="/upcoming-session-detail/:id"
+              element={<UpcomingSessionDetail />}
+            />
+            <Route
+              path="/upcoming-session-lot/:lotId"
+              element={<UpcomingSessionLot />}
+            />
+            <Route path="/past" element={<PastSessionList />} />
+            <Route
+              path="/past-session-detail/:id"
+              element={<PastSessionDetail />}
+            />
+            <Route path="/delivery" element={<Delivery />} />
+            <Route path="/selling" element={<Selling />} />
+            <Route path="/contact" element={<ContactInfo />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+        <Footer />
+      </Layout>
     </>
   );
 };

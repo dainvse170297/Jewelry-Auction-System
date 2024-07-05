@@ -136,6 +136,7 @@ const Sidebar = () => {
               {item.children ? (
                 <>
                   <Nav
+                    key={index}
                     className="main-item d-flex justify-content-between"
                     onClick={() => handleToggle(index)}
                   >

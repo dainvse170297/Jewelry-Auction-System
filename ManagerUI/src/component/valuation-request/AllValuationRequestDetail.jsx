@@ -24,9 +24,7 @@ export {
   ManagerApproved,
 };
 
-function ValuationRequested({ valuationRequestId, staffId, onHide }) {
-  const [valuationRequest, setValuationRequest] = useState({});
-
+function ValuationRequested({ valuationRequest }) {
   const [preliminaryValuation, setPreliminaryValuation] = useState({
     id: "",
     estimateMin: "",
@@ -45,20 +43,6 @@ function ValuationRequested({ valuationRequestId, staffId, onHide }) {
   const handleImageClose = () => {
     setSelectedImageUrl(null);
   };
-
-  useEffect(() => {
-    try {
-      const getData = async () => {
-        const data = await getValuationRequestById(valuationRequestId);
-        setValuationRequest(data);
-        data.valuationImages &&
-          setUrlList(data.valuationImages.map((image) => image.imageUrl));
-      };
-      getData();
-    } catch (error) {
-      console.log("Error: ", error);
-    }
-  }, [valuationRequestId]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -81,7 +65,7 @@ function ValuationRequested({ valuationRequestId, staffId, onHide }) {
   const handleReject = async (confirmValue) => {
     if (confirmValue) {
       try {
-        const data = await getRejectValuationRequest(valuationRequestId);
+        const data = await getRejectValuationRequest(valuationRequest.id);
         console.log("data", data);
         if (data) {
           setShow(false);
@@ -139,18 +123,20 @@ function ValuationRequested({ valuationRequestId, staffId, onHide }) {
               <p>{valuationRequest.description}</p>
 
               <div className="d-flex justify-content-between">
-                <p>
-                  Time request:{" "}
-                  <strong>
-                    {moment(valuationRequest.timeRequest).format(
-                      "DD/MM/YYYY HH:mm:ss"
-                    )}
-                  </strong>
-                </p>
-                <p>
-                  Valuation status:{" "}
-                  <strong>{valuationRequest.valuationStatus}</strong>
-                </p>
+                <p className="m-0">Time request: </p>
+                <strong>
+                  {moment(valuationRequest.timeRequest).format(
+                    "DD/MM/YYYY HH:mm:ss"
+                  )}
+                </strong>
+              </div>
+              <hr className="p-0 mb-2 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="m-0">Valuation status: </p>
+                <strong>{valuationRequest.valuationStatus}</strong>
+              </div>
+              <hr className="p-0 mb-2 mt-0" />
+              <div className="d-flex justify-content-between">
                 <p className="mb-1">Member estimated price:</p>
                 {valuationRequest.memberEstimatePrice === -1 ||
                 valuationRequest.memberEstimatePrice === null ? (

@@ -1,105 +1,97 @@
 .footer {
-    background: #EFEBE8;
-    padding-top: 20px;
-    padding-bottom: 20px;
+  background: #efebe8;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .footer__about {
-
-
-    .footer__logo {
-        margin-bottom: 30px;
-
-        a {
-            display: inline-block;
-        }
+  .footer__logo {
+    margin-bottom: 30px;
+    a {
+      display: inline-block;
     }
-
-    p {
-        color: #000000;
-        margin-bottom: 30px;
-    }
+  }
+  p {
+    color: #000000;
+    margin-bottom: 30px;
+  }
 }
 
 .footer__widget {
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 
+  h6 {
+    color: #efebe8;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
 
-    h6 {
-        color: #EFEBE8;
+  ul {
+    li {
+      line-height: 36px;
+      list-style: none;
+
+      a {
+        color: #000000;
         font-size: 15px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        margin-bottom: 20px;
+        text-decoration: none;
+      }
+    }
+  }
+
+  .footer__newslatter {
+    p {
+      color: #000000;
     }
 
-    ul {
+    form {
+      position: relative;
 
-        li {
-            line-height: 36px;
-            list-style: none;
+      input {
+        width: 100%;
+        font-size: 15px;
+        color: #3d3d3d;
+        background: transparent;
+        border: none;
+        padding: 15px 0;
+        border-bottom: 2px solid #efebe8;
 
-            a {
-                color: #000000;
-                font-size: 15px;
-                text-decoration: none;
-            }
+        &::placeholder {
+          color: #3d3d3d;
         }
+      }
+
+      button {
+        color: #b7b7b7;
+        font-size: 16px;
+        position: absolute;
+        right: 5px;
+        top: 0;
+        height: 100%;
+        background: transparent;
+        border: none;
+      }
     }
-
-
-    .footer__newslatter {
-
-        p {
-            color: #000000;
-        }
-
-        form {
-            position: relative;
-
-            input {
-                width: 100%;
-                font-size: 15px;
-                color: #3d3d3d;
-                background: transparent;
-                border: none;
-                padding: 15px 0;
-                border-bottom: 2px solid #EFEBE8;
-
-                &::placeholder {
-                    color: #3d3d3d;
-                }
-            }
-
-            button {
-                color: #b7b7b7;
-                font-size: 16px;
-                position: absolute;
-                right: 5px;
-                top: 0;
-                height: 100%;
-                background: transparent;
-                border: none;
-            }
-        }
-    }
+  }
 }
 
 .footer__copyright__text {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 20px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0;
+  margin: 0;
+  p {
+    color: #000000;
+    margin-bottom: 0;
 
-    p {
-        color: #000000;
-        margin-bottom: 0;
-
-        i {
-            color: #3d3d3d;
-        }
-
-        a {
-            color: #3d3d3d;
-        }
+    i {
+      color: #3d3d3d;
     }
+
+    a {
+      color: #3d3d3d;
+    }
+  }
 }

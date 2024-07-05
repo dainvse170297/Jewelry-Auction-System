@@ -1,7 +1,5 @@
-import { createContext, useState } from "react";
-import React from "react";
+import { createContext, useState, useEffect } from "react";
 
-// @function  UserContext
 const UserContext = createContext({});
 
 const UserProvider = ({ children }) => {
@@ -12,13 +10,29 @@ const UserProvider = ({ children }) => {
     auth: false,
   });
 
+  useEffect(() => {
+    const id = sessionStorage.getItem("id");
+    const name = sessionStorage.getItem("name");
+    const role = sessionStorage.getItem("role");
+    const token = sessionStorage.getItem("token");
+
+    if (id && name && role && token) {
+      setUser({
+        id: id,
+        name: name,
+        role: role,
+        auth: true,
+      });
+    }
+  }, []);
+
   const login = (id, username, role, token) => {
-    setUser((user) => ({
+    setUser({
       id: id,
       name: username,
       role: role,
       auth: true,
-    }));
+    });
     sessionStorage.setItem("id", id);
     sessionStorage.setItem("name", username);
     sessionStorage.setItem("role", role);
@@ -26,12 +40,12 @@ const UserProvider = ({ children }) => {
   };
 
   const logout = () => {
-    setUser((user) => ({
+    setUser({
       id: "",
       name: "",
       role: "",
       auth: false,
-    }));
+    });
     sessionStorage.clear();
   };
 

@@ -39,10 +39,11 @@ const Header = () => {
                 AUCTION
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item href="/live">Live Auctions</Dropdown.Item>
                 <Dropdown.Item href="/upcoming">
                   Upcoming Auctions
                 </Dropdown.Item>
+                <Dropdown.Item href="/live">Live Auctions</Dropdown.Item>
+
                 <Dropdown.Item href="/past">Past Auctions</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -66,7 +67,18 @@ const Header = () => {
           </Nav>
           <Nav className="ms-auto me-auto">
             <Nav.Link href="#contact">CONTACT</Nav.Link>
-            <Nav.Link href="#policies">POLICIES</Nav.Link>
+            <Dropdown>
+              <Dropdown.Toggle as={Nav.Link} id="dropdown-auction">
+                POLICIES
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="/">Privacy Policy</Dropdown.Item>
+                <Dropdown.Item href="/">Terms & Conditions</Dropdown.Item>
+                <Dropdown.Item href="/delivery">
+                  Delivery instructions
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
             <Nav.Link href="#notifications" className="">
               <Bell size={24} />
             </Nav.Link>

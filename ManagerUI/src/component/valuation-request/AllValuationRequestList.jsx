@@ -153,7 +153,7 @@ const AllValuationRequestList = () => {
                             <td>
                               {request.valuationStatus === "REQUESTED" && (
                                 <ValuationRequested
-                                  valuationRequestId={request.id}
+                                  valuationRequest={request}
                                 />
                               )}
                               {request.valuationStatus ===
