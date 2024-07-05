@@ -6,6 +6,10 @@ import { FaBackward } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import { getAllCategory, getValuationRequestById, postAddProduct } from "../../services/apiService";
+import moment from "moment/moment";
+import { Carousel, Col, Row } from "react-bootstrap";
+import FullScreenImage from "../../view/image/FullScreenImage";
 
 const SetupProductInfo = () => {
   const { id } = useParams();
@@ -17,6 +21,9 @@ const SetupProductInfo = () => {
     estimatePriceMin: "",
     valuationStatus: "",
     description: "",
+    timeRequest: "",
+    memberEstimatePrice: "",
+    valuationImagesUrls: [],
   });
 
   const [product, setProduct] = useState({
@@ -59,10 +66,8 @@ const SetupProductInfo = () => {
   useEffect(() => {
     const fetchRequest = async () => {
       try {
-        const requestData = await axios.get(
-          `http://localhost:8080/valuation/request/status/product-received/${id}`
-        );
-        setValuationRequest(requestData.data);
+        const requestData = await getValuationRequestById(id);
+        setValuationRequest(requestData);
       } catch (error) {
         console.log("Error ai fetchRequest: ", error);
       }
@@ -73,10 +78,8 @@ const SetupProductInfo = () => {
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const categoryData = await axios.get(
-          `http://localhost:8080/category/all`
-        );
-        setCategories(categoryData.data);
+        const categoryData = await getAllCategory();
+        setCategories(categoryData);
       } catch (error) {
         console.log("Error fetchCategory: ", error);
       }
@@ -121,41 +124,15 @@ const SetupProductInfo = () => {
       toast.warning("Need to fill all fields");
     } else {
       try {
-        //http://localhost:8080/product/add-product
-        const formData = new FormData();
-        formData.append("valuationRequestId", product.valuationRequestId);
-        formData.append("categoryId", product.categoryId);
-        formData.append("name", product.name);
-        formData.append("description", product.description);
-        formData.append("estimatePriceMax", product.estimatePriceMax);
-        formData.append("estimatePriceMin", product.estimatePriceMin);
-        formData.append("buyNowPrice", product.buyNowPrice);
-        formData.append("maxStep", product.maxStep);
-        formData.append("pricePerStep", product.pricePerStep);
-        formData.append("startPrice", product.startPrice);
-        product.photos.forEach((photo, index) => {
-          formData.append("photos", photo);
-        });
         setIsWaiting(true);
-        const addProduct = await axios
-          .post("http://localhost:8080/product/add-product", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
-          .then((response) => {
-            console.log("Form submitted:", response.data);
-            toast.success("Product submitted successfully!");
-            setIsWaiting(false);
-            setTimeout(() => {
-              navigate("/valuation-request/received");
-            }, 5000);
-          })
-          .catch((error) => {
-            console.error("Error submitting form:", error);
-            toast.error("Error submitting form");
-            setIsWaiting(false);
-          });
+        const addProduct = await postAddProduct(product);
+        if (addProduct) {
+          toast.success("Product submitted successfully!");
+          setIsWaiting(false);
+          setTimeout(() => {
+            navigate("/valuation-request/received");
+          }, 3000);
+        }
       } catch (error) {
         console.log(error.message);
       }
@@ -163,219 +140,254 @@ const SetupProductInfo = () => {
   };
 
   return (
-    <div className="home">
-      <div className="homeContainer">
-        <div className="ms-5 me-5">
-          <div className="mt-3">
-            <Link to={"/valuation-request/received"}>
-              <FaBackward />
-            </Link>
-          </div>
-          <h3 className="text-center mt-5">Valuation Request Detail</h3>
-          <div className="card">
-            <div className="card-body">
-              <p>
-                Member ID: <strong>{valuationRequest.memberId}</strong>
-              </p>
-              <p>
-                Description: <strong>{valuationRequest.description}</strong>
-              </p>
-              <p>
-                Min Price: $<strong>{valuationRequest.estimatePriceMin}</strong>
-              </p>
-              <p>
-                Max Price: $<strong>{valuationRequest.estimatePriceMax}</strong>
-              </p>
-            </div>
-          </div>
-          <div className="mt-3">
+
+    <div className="ms-5 me-5">
+      <h3 className="text-center mt-5">Set Up Product</h3>
+      <hr />
+      <div className="row">
+
+        <div className="col-lg-8">
+          <h6 className="text-center text-secondary">Setup Data</h6>
+          <div className="">
             <form action="" onSubmit={handleFormSubmit}>
-              <div className="row">
-                <div className="col-lg-6">
-                  {/* SELECT CATEGORY */}
-                  <Form.Label htmlFor="inputPassword5">
-                    Product category <span style={{ color: "red" }}>*</span>
-                  </Form.Label>
-                  <Form.Select
-                    size=""
-                    aria-label="Default select example"
-                    name="categoryId"
-                    value={product.categoryId}
-                    onChange={handleInputChange}
-                    onBlur={handleBlur}
-                  >
-                    <option value="" className="text-secondary">
-                      -- Select Category --
+              {/* SELECT CATEGORY */}
+
+
+              <Form.Group controlId="name">
+                <Form.Label>
+                  Product Name <span style={{ color: "red" }}>*</span>
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  aria-describedby="passwordHelpBlock"
+                  name="name"
+                  value={product.name}
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                />
+              </Form.Group>
+
+              <Form.Group controlId="description">
+                <Form.Label>
+                  Product Description <span style={{ color: "red" }}>*</span>
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  aria-describedby="passwordHelpBlock"
+                  name="description"
+                  value={product.description}
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                />
+              </Form.Group>
+
+              <Form.Group controlId="categoryId">
+                <Form.Label>
+                  Product category <span style={{ color: "red" }}>*</span>
+                </Form.Label>
+                <Form.Select
+                  size=""
+                  aria-label="Default select example"
+                  name="categoryId"
+                  value={product.categoryId}
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                  style={{ width: "50%", maxWidth: "470px", marginBottom: "1rem" }}
+                >
+                  <option value="" className="text-secondary">
+                    -- Select Category --
+                  </option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
                     </option>
-                    {categories.map((category) => (
-                      <option key={category.id} value={category.id}>
-                        {category.name}
-                      </option>
-                    ))}
-                  </Form.Select>
-                  {/* INPUT PRODUCT NAME */}
-                  <Form.Label htmlFor="name">
-                    Product Name <span style={{ color: "red" }}>*</span>
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    id="name"
-                    aria-describedby="passwordHelpBlock"
-                    name="name"
-                    value={product.name}
-                    onChange={handleInputChange}
-                    onBlur={handleBlur}
-                  />
-                  {/* INPUT PRODUCT DESCRIPTION */}
-                  <Form.Label htmlFor="description">
-                    Product Description <span style={{ color: "red" }}>*</span>
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    id="description"
-                    aria-describedby="passwordHelpBlock"
-                    name="description"
-                    value={product.description}
-                    onChange={handleInputChange}
-                    onBlur={handleBlur}
-                  />
+                  ))}
+                </Form.Select>
+              </Form.Group>
 
-                  {/* INPUT Lot START PRICE */}
-                  <Form.Label htmlFor="startPrice">
-                    Start Price <span style={{ color: "red" }}>*</span>
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    id="startPrice"
-                    aria-describedby="passwordHelpBlock"
-                    name="startPrice"
-                    value={product.startPrice}
-                    onChange={handleInputChange}
-                    onBlur={handleBlur}
-                  />
-
-                  {/* INPUT Lot BUY NOW PRICE */}
-                  <Form.Label htmlFor="buyNowPrice">
-                    Buy Now Price <span style={{ color: "red" }}>*</span>
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    id="buyNowPrice"
-                    aria-describedby="passwordHelpBlock"
-                    name="buyNowPrice"
-                    value={product.buyNowPrice}
-                    onChange={handleInputChange}
-                    onBlur={handleBlur}
-                  />
-
-                  {/* INPUT Lot MAX STEP */}
-                  <Form.Label htmlFor="maxStep">
-                    Max Step <span style={{ color: "red" }}>*</span>
-                  </Form.Label>
-                  <Form.Control
-                    type="number"
-                    id="maxStep"
-                    aria-describedby="passwordHelpBlock"
-                    name="maxStep"
-                    value={product.maxStep}
-                    onChange={handleInputChange}
-                    onBlur={handleBlur}
-                    className="col-sm-2"
-                  />
-
-                  {/* INPUT Lot PRICE PER STEP */}
-                  <Form.Label htmlFor="pricePerStep">
-                    Price/Step <span style={{ color: "red" }}>*</span>
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    id="pricePerStep"
-                    aria-describedby="passwordHelpBlock"
-                    name="pricePerStep"
-                    value={product.pricePerStep}
-                    onChange={handleInputChange}
-                    onBlur={handleBlur}
-                  />
-
-                  <div className="mt-4">
-                    {!isWaiting ? (
-                      <Button variant="primary" type="submit" size="lg">
-                        Submit
-                      </Button>
-                    ) : (
-                      <>
-                        <CircularProgress />
-                      </>
-                    )}
-                  </div>
-                </div>
-                {/* INPUT PRODUCT ESTIMATE MIN PRICE */}
-                <div className="col-lg-6">
-                  <Form.Label htmlFor="estimatePriceMin">
-                    Estimate Min Price <span style={{ color: "red" }}>*</span>
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    id="estimatePriceMin"
-                    aria-describedby="passwordHelpBlock"
-                    name="estimatePriceMin"
-                    value={product.estimatePriceMin}
-                    onChange={handleInputChange}
-                    onBlur={handleBlur}
-                  />
-                  {/* INPUT PRODUCT ESTIMATE MAX PRICE */}
-                  <Form.Label htmlFor="estimatePriceMax">
-                    Estimate Max Price <span style={{ color: "red" }}>*</span>
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    id="estimatePriceMax"
-                    aria-describedby="passwordHelpBlock"
-                    name="estimatePriceMax"
-                    value={product.estimatePriceMax}
-                    onChange={handleInputChange}
-                    onBlur={handleBlur}
-                  />
-                  {/* INPUT PRODUCT PHOTO */}
-                  <Form.Group controlId="formFileMultiple" className="mb-3">
+              <Row>
+                <Col>
+                  <Form.Group controlId="startPrice">
                     <Form.Label>
-                      Photos <span style={{ color: "red" }}>*</span>
+                      Start Price <span style={{ color: "red" }}>*</span>
                     </Form.Label>
                     <Form.Control
-                      type="file"
-                      multiple
-                      id="photos"
-                      name="photos"
+                      type="text"
+                      aria-describedby="passwordHelpBlock"
+                      name="startPrice"
+                      value={product.startPrice}
                       onChange={handleInputChange}
                       onBlur={handleBlur}
+
                     />
                   </Form.Group>
-                  {/* SEE PHOTO WHEN INPUT FILE */}
-                  <label htmlFor="" className="text-secondary">
-                    Photo preview
-                  </label>
-                  <div className="">
-                    {product.photoPreview.map((preview, index) => (
-                      <img
-                        key={index}
-                        src={preview}
-                        alt={`Preview ${index}`}
-                        style={{
-                          width: "200px",
-                          height: "200px",
-                          objectFit: "cover",
-                          margin: "20px",
-                        }}
-                      />
-                    ))}
-                  </div>
+                </Col>
+                <Col>
+                  <Form.Group controlId="buyNowPrice">
+                    <Form.Label>
+                      Buy Now Price <span style={{ color: "red" }}>*</span>
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      aria-describedby="passwordHelpBlock"
+                      name="buyNowPrice"
+                      value={product.buyNowPrice}
+                      onChange={handleInputChange}
+                      onBlur={handleBlur}
+
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+
+
+              <Row>
+                <Col>
+                  <Form.Group controlId="maxStep">
+                    <Form.Label>
+                      Max Step <span style={{ color: "red" }}>*</span>
+                    </Form.Label>
+                    <Form.Control
+                      type="number"
+                      aria-describedby="passwordHelpBlock"
+                      name="maxStep"
+                      value={product.maxStep}
+                      onChange={handleInputChange}
+                      onBlur={handleBlur}
+                      className="col-sm-2"
+
+                    />
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group controlId="pricePerStep">
+                    <Form.Label>
+                      Price/Step <span style={{ color: "red" }}>*</span>
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      aria-describedby="passwordHelpBlock"
+                      name="pricePerStep"
+                      value={product.pricePerStep}
+                      onChange={handleInputChange}
+                      onBlur={handleBlur}
+
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col>
+                  <Form.Group controlId="estimatePriceMin">
+                    <Form.Label>
+                      Estimate Min Price <span style={{ color: "red" }}>*</span>
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      aria-describedby="passwordHelpBlock"
+                      name="estimatePriceMin"
+                      value={product.estimatePriceMin}
+                      onChange={handleInputChange}
+                      onBlur={handleBlur}
+
+                    />
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group controlId="estimatePriceMax">
+                    <Form.Label>
+                      Estimate Max Price <span style={{ color: "red" }}>*</span>
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      aria-describedby="passwordHelpBlock"
+                      name="estimatePriceMax"
+                      value={product.estimatePriceMax}
+                      onChange={handleInputChange}
+                      onBlur={handleBlur}
+
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Form.Group controlId="photos" className="mb-3">
+                <Form.Label>
+                  Photos <span style={{ color: "red" }}>*</span>
+                </Form.Label>
+                <Form.Control
+                  type="file"
+                  multiple
+                  name="photos"
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                />
+
+                <div className="mt-4 text-center"> {/* Modified */}
+                  {!isWaiting ? (
+                    <Button variant="primary" type="submit" size="lg">
+                      Submit
+                    </Button>
+                  ) : (
+                    <CircularProgress />
+                  )}
                 </div>
+              </Form.Group>
+
+              {/* SEE PHOTO WHEN INPUT FILE */}
+              {product.photoPreview.length > 0 && (
+                <label className="text-secondary">Photo preview</label>
+              )}
+              <div>
+                {product.photoPreview.map((preview, index) => (
+                  <img
+                    key={index}
+                    src={preview}
+                    alt={`Preview ${index}`}
+                    style={{
+                      width: "200px",
+                      height: "200px",
+                      objectFit: "cover",
+                      margin: "20px"
+                    }}
+                  />
+                ))}
               </div>
+
               <ToastContainer />
             </form>
           </div>
         </div>
-      </div>
+
+        <div className="col-lg-4">
+          <h6 className="text-center text-secondary">Request Data</h6>
+          <p>
+            Member ID: <strong>{valuationRequest.memberId}</strong>
+          </p>
+          <p>
+            Description: <strong>{valuationRequest.description}</strong>
+          </p>
+          <p>
+            Min Price: $<strong>{valuationRequest.estimatePriceMin}</strong>
+          </p>
+          <p>
+            Max Price: $<strong>{valuationRequest.estimatePriceMax}</strong>
+          </p>
+          <p>
+            Time Request: <strong>{moment(valuationRequest.timeRequest).format("DD/MM/yyyy HH:mm:ss")}</strong>
+          </p>
+          {valuationRequest.memberEstimatePrice && (
+            <p>
+              Member Expected Price: $<strong>{valuationRequest.memberEstimatePrice}</strong>
+            </p>
+          )}
+          <div className="">
+            <FullScreenImage imageUrls={valuationRequest.valuationImagesUrls} />
+          </div>
+
+        </div>
+      </div >
     </div>
   );
 };

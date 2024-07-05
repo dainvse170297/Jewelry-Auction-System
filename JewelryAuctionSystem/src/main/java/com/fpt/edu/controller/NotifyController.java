@@ -18,4 +18,9 @@ public class NotifyController {
     public List<NotifyDTO> getNotifyByMemberId(@PathVariable("id") Integer id) {
         return iNotifyService.getNotifyByMemberId(id);
     }
+
+    @GetMapping("/read/{id}")
+    public NotifyDTO readNotify(@PathVariable Integer id) {
+        return iNotifyService.readNotify(id);
+    }
 }

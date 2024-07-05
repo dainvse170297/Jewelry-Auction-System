@@ -29,9 +29,9 @@ const FullScreenImage = ({ imageUrls }) => {
       <div className="image-preview-container">
         <div className="row d-flex">
           {imageUrls.slice(0, 3).map((url, index) => (
-            <div className="col-4">
+            <div className="col-4" key={index}>
               <div
-                key={index}
+
                 className={`image-preview ${index === 2 ? "blur" : ""}`}
                 onClick={() => openModal(index)}
               >

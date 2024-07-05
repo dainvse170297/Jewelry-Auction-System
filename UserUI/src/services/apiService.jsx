@@ -26,6 +26,8 @@ export {
   postAddCreditCard,
   putEditCreditCard,
   deleteCreditCard,
+  postNotifications,
+  getReadNotify,
 };
 
 const postCreateValuation = async (valuation) => {
@@ -202,4 +204,11 @@ const deleteCreditCard = async (memberId) => {
   } catch (error) {
     throw error; // Let the calling function handle the error
   }
+};
+const postNotifications = async (memberId) => {
+  return axios.post(`notify/member/${memberId}`);
+};
+
+const getReadNotify = async (notifyId) => {
+  return axios.get(`notify/read/${notifyId}`);
 };
