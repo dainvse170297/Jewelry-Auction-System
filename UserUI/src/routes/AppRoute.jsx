@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Selling from "../component/selling/Selling";
 import UpcomingSessionDetail from "../component/auction-session/upcoming-session/UpcomingSessionDetail";
 import LiveSessionList from "../component/auction-session/live-session/LiveSessionList";
-import PastSessionList from "../component/auction-session/past-session/PastSessionList";
 import PastSessionDetail from "../component/auction-session/past-session/PastSessionDetail";
 import Header from "../component/layout/header/Header";
 import privateRoutes from "./PrivateRoute";

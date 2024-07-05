@@ -21,14 +21,11 @@ import Footer from "./component/layout/footer/Footer.jsx";
 import ValuationResponseList from "./component/profile/valuation-response/ValuationResponseList.jsx";
 import Layout from "./component/layout/Layout.jsx";
 import CreateFinancialProofRequest from "./component/FinancialProof/CreateFinancialProofRequest.jsx";
-import PastSessionList from "./component/auction-session/past-session/PastSessionList.jsx";
-import PastSessionDetail from "./component/auction-session/past-session/PastSessionDetail.jsx";
+// import PastSessionList from "./component/auction-session/past-session/PastSessionList.jsx";
+// import PastSessionDetail from "./component/auction-session/past-session/PastSessionDetail.jsx";
 import AppRoute from "./routes/AppRoute.jsx";
-<<<<<<< Updated upstream
-import Delivery from "./component/delivery/Delivery.jsx";
+// import Delivery from "./component/delivery/Delivery.jsx";
 import ContactInfo from "./component/contact/ContactInfo.jsx";
-=======
->>>>>>> Stashed changes
 function App() {
   return (
     <>
@@ -55,7 +52,6 @@ function App() {
               element={<UpcomingSessionDetail />}
             />
             <Route path="/live-lot-detail/:id" element={<LiveLotDetail />} />
-<<<<<<< Updated upstream
         <Layout>
           <Header />
           <div style={{ paddingTop: "70px" }}>
@@ -78,9 +74,7 @@ function App() {
                 element={<UpcomingSessionDetail />}
               />
               <Route path="/live-lot-detail/:id" element={<LiveLotDetail />} />
-=======
 
->>>>>>> Stashed changes
               <Route path="/live" element={<LiveSessionList />} />
               <Route
                 path="/live-session-detail/:id"

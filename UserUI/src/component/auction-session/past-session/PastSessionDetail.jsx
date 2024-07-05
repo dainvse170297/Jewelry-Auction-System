@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { LinearProgress } from "@mui/material";
 import LotPreview from "../../lot/LotPreview";
 import AuctionSession from "../AuctionSession";
-import "./PastSessionDetail.scss";
+// import "./PastSessionDetail.scss";
 
 const PastSessionDetail = () => {
   const { id } = useParams();
