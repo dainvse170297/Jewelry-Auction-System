@@ -58,6 +58,10 @@ const managerNavigation = [
     icon: ValuationRequestIcon,
     children: [
       { name: "All request", href: "/valuation-request" },
+      {
+        name: "Set up product",
+        href: "/valuation-request/received",
+      },
       { name: "Pending approval", href: "/valuation-request/pending-approval" },
     ],
   },

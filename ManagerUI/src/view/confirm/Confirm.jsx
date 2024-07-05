@@ -30,7 +30,10 @@ const Confirm = ({
       <Button variant={className} onClick={hadleShow}>
         {mainLabel}
       </Button>
-      <Modal show={showConfirm}>
+      <Modal
+        show={showConfirm}
+        style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", backdropFilter: "5px" }}
+      >
         <Modal.Header>
           <Modal.Title>Confirm action</Modal.Title>
         </Modal.Header>

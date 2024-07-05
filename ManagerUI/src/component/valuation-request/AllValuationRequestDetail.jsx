@@ -4,19 +4,20 @@ import Form from "react-bootstrap/Form";
 import { ToastContainer, toast } from "react-toastify";
 import "./valuationRequest.scss";
 import moment from "moment";
+import FullScreenImage from "../../view/image/FullScreenImage.jsx";
+import Confirm from "../../view/confirm/Confirm.jsx";
+import { Link } from "react-router-dom";
 
 import {
   postPreliminaryConfirm,
   postProductReceive,
   postAproveFinalValuation,
-  getFinalValuationDetail,
   postSendFinalValuationToMember,
   getValuationRequestById,
   getRejectValuationRequest,
+  getProductDetailByRequestId,
+  postCancelFinalValuation,
 } from "../../services/apiService.jsx";
-import FullScreenImage from "../../view/image/FullScreenImage.jsx";
-import Confirm from "../../view/confirm/Confirm.jsx";
-import { Link } from "react-router-dom";
 
 export {
   ValuationRequested,
@@ -463,13 +464,23 @@ function ProductReceived({ valuationRequestId }) {
 
   return (
     <>
-      <button
-        onClick={handleShow}
-        className="btn btn-primary mx-3"
-        type="button"
-      >
-        Detail
-      </button>
+      <div className="d-flex justify-content-center">
+        <Link
+          to={`/valuation-request/product-received/confirm/${valuationRequestId}`}
+        >
+          <Button variant="success" className="mx-3">
+            Setup
+          </Button>
+        </Link>
+        <button
+          onClick={handleShow}
+          className="btn btn-primary mx-3"
+          type="button"
+        >
+          Detail
+        </button>
+      </div>
+
       <Modal size="lg" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Valuation request detail</Modal.Title>
@@ -548,6 +559,7 @@ function PendingApproval({ valuationRequestId, onUpdate }) {
   const [show, setShow] = useState(false);
   const [selectedImageUrl, setSelectedImageUrl] = useState(null);
   const [urlList, setUrlList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -561,35 +573,54 @@ function PendingApproval({ valuationRequestId, onUpdate }) {
   useEffect(() => {
     const fetchValuationRequest = async () => {
       try {
-        setIsLoading(true);
-        const data = await getValuationRequest(valuationRequestId);
-        setValuationRequest(data);
-        setIsLoading(false);
+        const data = await getProductDetailByRequestId(valuationRequestId);
+        setProductInfo(data);
+        data.productImages &&
+          setUrlList(data.productImages.map((i) => i.imageUrl));
       } catch (error) {
         console.log("Error: ", error);
-        setIsLoading(false);
       }
     };
     fetchValuationRequest();
   }, [valuationRequestId]);
 
-  const handleApprove = async () => {
+  const handleApprove = async (confirmValue) => {
+    console.log("confirmValue", valuationRequestId);
+    if (!confirmValue) return;
+    setIsLoading(true);
     try {
       const id = valuationRequestId;
-
       const data = await postAproveFinalValuation(id);
-
       if (data !== null) {
         toast.success("Approved successfully");
         handleClose();
         onUpdate(true);
-        // navigate("/final-valuation-request-list");
       } else {
         toast.error("Failed to approve");
       }
     } catch (error) {
       console.log("Error: ", error);
     }
+    setIsLoading(false);
+  };
+
+  const handleReject = async (confirmValue) => {
+    console.log("confirmValue", valuationRequestId);
+    if (!confirmValue) return;
+    setIsLoading(true);
+    try {
+      const data = await postCancelFinalValuation(valuationRequestId);
+      if (data !== null) {
+        toast.success("Rejected successfully");
+        handleClose();
+        onUpdate(true);
+      } else {
+        toast.error("Failed to reject");
+      }
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -635,6 +666,11 @@ function PendingApproval({ valuationRequestId, onUpdate }) {
                 <strong>{productInfo.pricePerStep}</strong>$
               </div>
               <hr className="p-0 mb-1 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">Current status:</p>
+                <strong>{productInfo.status}</strong>
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
               <div className="productImages">
                 <div className="productImages">
                   {productInfo.productImages &&
@@ -647,12 +683,28 @@ function PendingApproval({ valuationRequestId, onUpdate }) {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="success" onClick={handleApprove}>
-            Approve
-          </Button>
-          <Button variant="danger" onClick={handleClose}>
-            Reject
-          </Button>
+          {isLoading ? (
+            <Spinner animation="border" role="status" />
+          ) : (
+            <>
+              <Confirm
+                message="Are you sure you want to approve this valuation request?"
+                mainLabel="Approve"
+                className="success"
+                labelYes="Yes"
+                labelNo="No"
+                onConfirm={handleApprove}
+              />
+              <Confirm
+                message="Are you sure you want to reject this valuation request?"
+                mainLabel="Reject"
+                className="danger"
+                labelYes="Yes"
+                labelNo="No"
+                onConfirm={handleReject}
+              />
+            </>
+          )}
         </Modal.Footer>
       </Modal>
 
@@ -672,83 +724,144 @@ function PendingApproval({ valuationRequestId, onUpdate }) {
   );
 }
 
-function ManagerApproved({ valuationRequest, staffId, onHide }) {
-  const handleSend = async (e) => {
+function ManagerApproved({ valuationRequestId, onUpdate }) {
+  const [productInfo, setProductInfo] = useState({});
+  const [show, setShow] = useState(false);
+  const [selectedImageUrl, setSelectedImageUrl] = useState(null);
+  const [urlList, setUrlList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const handleImageClick = (imageUrl) => {
+    setSelectedImageUrl(imageUrl);
+  };
+  const handleImageClose = () => {
+    setSelectedImageUrl(null);
+  };
+
+  useEffect(() => {
+    const fetchValuationRequest = async () => {
+      try {
+        const data = await getProductDetailByRequestId(valuationRequestId);
+        setProductInfo(data);
+        data.productImages &&
+          setUrlList(data.productImages.map((i) => i.imageUrl));
+      } catch (error) {
+        console.log("Error: ", error);
+      }
+    };
+    fetchValuationRequest();
+  }, [valuationRequestId]);
+
+  const handleSendToMember = async (confirmValue) => {
+    if (!confirmValue) return;
+    setIsLoading(true);
     try {
-      const data = await postSendFinalValuationToMember(
-        valuationRequest.id,
-        staffId
-      );
+      const id = valuationRequestId;
+      const data = await postSendFinalValuationToMember(id);
       if (data !== null) {
-        toast.success("Send to member successfully");
-        onHide(true);
+        toast.success("Sent successfully");
+        handleClose();
+        onUpdate(true);
+      } else {
+        toast.error("Failed to send");
       }
     } catch (error) {
-      console.log("Error:", error.message);
-      toast.error("Error when confirm product received");
+      console.log("Error: ", error);
     }
+    setIsLoading(false);
   };
 
   return (
     <>
-      <div className="col card">
-        <div className="row">
-          <h3 className="text-center">Valuation request detail</h3>
-        </div>
-        <div className="row px-5">
-          {valuationRequest && (
-            <>
-              <div className="card card-body">
-                <p>
-                  Member Id: <strong>{valuationRequest.memberId}</strong>
-                </p>
-                <p>
-                  Description: <strong>{valuationRequest.description}</strong>
-                </p>
-                <p>
-                  Time request: <strong>{valuationRequest.timeRequest}</strong>
-                </p>
-                <p>
-                  Valuation status:{" "}
-                  <strong>{valuationRequest.valuationStatus}</strong>
-                </p>
-                <p>
-                  Member estimate price:{" "}
-                  {valuationRequest.memberEstimatePrice === null ? (
-                    <strong>No</strong>
-                  ) : (
-                    <strong>{valuationRequest.memberEstimatePrice}$</strong>
-                  )}
-                </p>
-                <p>
-                  Preliminary price min:{" "}
-                  <strong>{valuationRequest.estimatePriceMin}$</strong>
-                </p>
-                <p>
-                  Preliminary price max:{" "}
-                  <strong>{valuationRequest.estimatePriceMax}$</strong>
-                </p>
-                <div className="col">
-                  <div className="row-sm-9 d-flex justify-content-center">
-                    <Button className="btn-success" onClick={handleSend}>
-                      Send to Member
-                    </Button>
-                  </div>
+      <ToastContainer />
+      <button onClick={handleShow} className="btn btn-primary" type="button">
+        Detail
+      </button>
+      <Modal size="lg" show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Valuation request detail</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {productInfo && (
+            <div className="productInfo">
+              <h3>{productInfo.productName}</h3>
+              <p>{productInfo.description}</p>
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">Estimated Price:</p>
+                <strong>
+                  ${productInfo.estimatePriceMin} - $
+                  {productInfo.estimatePriceMax}
+                </strong>
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">Start price:</p>
+                <strong>${productInfo.startPrice}</strong>
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">Buy now price:</p>
+                <strong>${productInfo.buyNowPrice}</strong>
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">Maximum bid step:</p>
+                <strong>{productInfo.maxStep}</strong>
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">Amount for each bid step:</p>
+                <strong>{productInfo.pricePerStep}</strong>$
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">Current status:</p>
+                <strong>{productInfo.status}</strong>
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="productImages">
+                <div className="productImages">
+                  {productInfo.productImages &&
+                    Array.isArray(productInfo.productImages) && (
+                      <FullScreenImage imageUrls={urlList} />
+                    )}
                 </div>
               </div>
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          {isLoading ? (
+            <Spinner animation="border" role="status" />
+          ) : (
+            <>
+              <Confirm
+                message="Are you sure you want to send this valuation request to member?"
+                mainLabel="Send to member"
+                className="success"
+                labelYes="Yes"
+                labelNo="No"
+                onConfirm={handleSendToMember}
+              />
             </>
           )}
-        </div>
-        <div className="row">
-          <div className="col p-4">
-            {valuationRequest && valuationRequest.valuationImagesUrls && (
-              <FullScreenImage
-                imageUrls={valuationRequest.valuationImagesUrls}
-              />
-            )}
-          </div>
-        </div>
-      </div>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={!!selectedImageUrl} onHide={handleImageClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Product Image</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <img
+            src={selectedImageUrl}
+            alt="Selected Product"
+            style={{ width: "100%" }}
+          />
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

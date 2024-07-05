@@ -5,7 +5,6 @@ export {
   getRevenueByYear,
   postPreliminaryConfirm,
   getFinalValuationRequests,
-  getFinalValuationDetail,
   postAproveFinalValuation,
   postSendFinalValuationToMember,
   postProductReceive,
@@ -17,9 +16,11 @@ export {
   getAllWinnerPurchasedAuctionRegister,
   getMemberByProductId,
   confirmTransfered,
-  getValuationRequestById, //Get a valuation request by id
+  getValuationRequestById, //Get a valuation request by id (image of request)
   getRejectValuationRequest,
   getAllProductReceivedRequest,
+  getProductDetailByRequestId, //Get product detail by request id (image of product)
+  postCancelFinalValuation, //Cancel final valuation that has product information
 };
 
 const getAllValuationRequests = async () => {
@@ -84,18 +85,14 @@ const getFinalValuationRequests = async () => {
   return axios.get(`valuation/get-all-final-valuations`);
 };
 
-const getFinalValuationDetail = async (id) => {
-  return axios.get(`valuation/view-final-request-details/${id}`);
-};
-
 const postAproveFinalValuation = async (id) => {
   return axios.post(`valuation/approve-final-valuation/${id}`);
 };
 
-const postSendFinalValuationToMember = async (id, staffId) => {
+const postSendFinalValuationToMember = async (id) => {
   const param = new URLSearchParams();
   param.append("id", id);
-  param.append("staffId", staffId);
+  param.append("staffId", 1); //bo
   return axios.post(`valuation/send-final-valuation-to-member`, param);
 };
 
@@ -145,4 +142,12 @@ const getRejectValuationRequest = async (id) => {
 
 const getAllProductReceivedRequest = async () => {
   return axios.get(`valuation/request/status/product-received`);
+};
+
+const getProductDetailByRequestId = async (id) => {
+  return axios.get(`valuation/view-final-request-details/${id}`);
+};
+
+const postCancelFinalValuation = async (id) => {
+  return axios.post(`valuation/cancel-final-valuation/${id}`);
 };

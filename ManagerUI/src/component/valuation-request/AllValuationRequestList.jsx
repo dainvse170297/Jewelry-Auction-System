@@ -10,6 +10,7 @@ import {
   PreliminaryValuated,
   PendingApproval,
   ProductReceived,
+  ManagerApproved,
 } from "./AllValuationRequestDetail.jsx";
 
 import {
@@ -94,6 +95,11 @@ const AllValuationRequestList = () => {
   useEffect(() => {
     setSortedRequests(sortValuationRequests(filteredValuationRequests));
   }, [filteredValuationRequests, sortOrder]);
+  const handleUpdate = (e) => {
+    console.log("Update");
+    window.location.reload();
+  };
+
   return (
     <div className="home">
       <ToastContainer />
@@ -180,6 +186,13 @@ const AllValuationRequestList = () => {
                                 "PRODUCT_RECEIVED" && (
                                 <ProductReceived
                                   valuationRequestId={request.id}
+                                />
+                              )}
+                              {request.valuationStatus ===
+                                "MANAGER_APPROVED" && (
+                                <ManagerApproved
+                                  valuationRequestId={request.id}
+                                  onUpdate={() => handleUpdate()}
                                 />
                               )}
                             </td>
@@ -367,16 +380,7 @@ const ProductReceivedList = () => {
                       </td>
                       <td>{request.valuationStatus}</td>
                       <td>
-                        <div className="d-flex justify-content-center">
-                          <Link
-                            to={`/valuation-request/product-received/confirm/${request.id}`}
-                          >
-                            <Button variant="success" className="mx-3">
-                              Setup
-                            </Button>
-                          </Link>
-                          <ProductReceived valuationRequestId={request.id} />
-                        </div>
+                        <ProductReceived valuationRequestId={request.id} />
                       </td>
                     </tr>
                   </>
