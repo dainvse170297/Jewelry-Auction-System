@@ -93,7 +93,9 @@ const ViewFinancialProof = ({ id }) => {
             <h6 className="card-title">Financial Proof Request Information</h6>
             <p className="card-text text-muted">
               <strong>Time Request:</strong>{" "}
-              {moment(financialProof.financialProofRequest.timeRequest).format("DD/MM/YYYY HH:mm:ss")}
+              {moment(financialProof.financialProofRequest.timeRequest).format(
+                "DD/MM/YYYY HH:mm:ss"
+              )}
             </p>
             <p className="card-text text-muted">
               <strong>Status:</strong>{" "}

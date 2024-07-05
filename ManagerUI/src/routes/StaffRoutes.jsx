@@ -1,10 +1,15 @@
 import React from "react";
-import { AllValuationRequestList } from "../component/valuation-request/AllValuationRequestList";
+import {
+  AllValuationRequestList,
+  ProductReceivedList,
+} from "../component/valuation-request/AllValuationRequestList";
 import AuctionAssigned from "../component/staff/AuctionAssigned";
 import { FinancialProofRequestList } from "../component/financial-proof-request/FinancialProofRequestList";
 import { ViewPurchasedLot } from "../component/staff/ViewPurchasedLot";
-import ValuationRequestList from "../component/staff/ValuationRequestProductReceivedList";
-import ValuationRequestDetail from "../component/staff/ValuationRequestDetail";
+import SetupProductInfo from "../component/staff/SetupProductInfo";
+import ValuationRequestDetail from "../component/staff/SetupProductInfo";
+import ValuationRequestProductReceivedList from "../component/staff/ValuationRequestProductReceivedList";
+
 const StaffRoutes = [
   {
     path: "/valuation-request",
@@ -12,7 +17,7 @@ const StaffRoutes = [
   },
   {
     path: "/valuation-request/received",
-    element: <ValuationRequestList />,
+    element: <ProductReceivedList />,
   },
   {
     path: "/financial-request",
@@ -29,7 +34,7 @@ const StaffRoutes = [
   },
   {
     path: "/valuation-request/product-received/confirm/:id",
-    element: <ValuationRequestDetail />,
+    element: <SetupProductInfo />,
   },
   {
     path: "/product/pending-send",

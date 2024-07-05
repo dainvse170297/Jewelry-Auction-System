@@ -17,8 +17,9 @@ export {
   getAllWinnerPurchasedAuctionRegister,
   getMemberByProductId,
   confirmTransfered,
-  getValuationRequestById,
+  getValuationRequestById, //Get a valuation request by id
   getRejectValuationRequest,
+  getAllProductReceivedRequest,
 };
 
 const getAllValuationRequests = async () => {
@@ -140,4 +141,8 @@ const confirmTransfered = async (
 
 const getRejectValuationRequest = async (id) => {
   return axios.get(`valuation/staff-cancel/${id}`);
+};
+
+const getAllProductReceivedRequest = async () => {
+  return axios.get(`valuation/request/status/product-received`);
 };

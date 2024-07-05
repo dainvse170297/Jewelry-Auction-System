@@ -1,13 +1,13 @@
 import { CircularProgress } from "@mui/material";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { FaBackward } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
 
-const ValuationRequestDetail = () => {
+const SetupProductInfo = () => {
   const { id } = useParams();
   const [isWaiting, setIsWaiting] = useState(false);
 
@@ -380,4 +380,4 @@ const ValuationRequestDetail = () => {
   );
 };
 
-export default ValuationRequestDetail;
+export default SetupProductInfo;
