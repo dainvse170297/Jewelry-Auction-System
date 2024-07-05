@@ -14,7 +14,7 @@ import java.util.List;
 public class NotifyController {
     private final INotifyService iNotifyService;
     //get all notify by member id
-    @PostMapping("/member/{id}")
+    @GetMapping("/member/{id}")
     public List<NotifyDTO> getNotifyByMemberId(@PathVariable("id") Integer id) {
         return iNotifyService.getNotifyByMemberId(id);
     }
