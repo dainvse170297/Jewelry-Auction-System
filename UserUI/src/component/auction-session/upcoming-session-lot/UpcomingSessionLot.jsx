@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
-import "./upcoming-session-lot.scss";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Button, Carousel, Form, InputGroup, Modal } from "react-bootstrap";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Carousel, Form, InputGroup, Modal } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import LotPreview from "../../lot/LotPreview";
+import {
+  getCheckLotRegister,
+  getUpcomingLotDetail,
+  postPrePlaceBid,
+} from "../../../services/apiService";
+import "./upcoming-session-lot.scss";
 
 const UpcomingSessionLot = () => {
-  const [lot, setLot] = useState({});
-
   const { lotId } = useParams();
 
+  const [lot, setLot] = useState({});
   const currentUser = JSON.parse(localStorage.getItem("account"));
   const [showModal, setShowModal] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
@@ -21,28 +23,13 @@ const UpcomingSessionLot = () => {
   const [price, setPrice] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
 
-  let memberId = null;
-  if (currentUser) {
-    memberId = currentUser.memberId;
-  } else {
-    memberId = 0;
-  }
-
-  // console.log(currentUser.memberId);
-  // const handleChangeRegister = (data) => {
-  //   if (data.status === "REGISTERED") {
-  //     setWasBid(data.previousPrice);
-  //     setIsRegister(true);
-  //   }
-  // };
+  let memberId = currentUser ? currentUser.memberId : 0;
 
   useEffect(() => {
     const getProductFromLot = async () => {
       try {
-        const data = await axios.get(
-          `http://localhost:8080/lot/view-upcoming-lot-detail/${lotId}`
-        );
-        setLot(data.data);
+        const data = await getUpcomingLotDetail(lotId);
+        setLot(data);
       } catch (error) {
         console.log(error);
       }
@@ -54,12 +41,9 @@ const UpcomingSessionLot = () => {
   useEffect(() => {
     const checkRegister = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/auction-register/check-member-register/${memberId}/${lotId}`
-        );
-        // handleChangeRegister(response.data);
-        if (response.data?.status === "REGISTERED") {
-          setWasBid(response.data.previousPrice);
+        const data = await getCheckLotRegister(memberId, lotId);
+        if (data?.status === "REGISTERED") {
+          setWasBid(data.previousPrice);
           setIsRegister(true);
         } else {
           setIsRegister(false);
@@ -98,17 +82,18 @@ const UpcomingSessionLot = () => {
       // formData.append('memberId', currentUser.memberId)
       // formData.append('lotId', lotId)
       // formData.append('price', price)
-      const response = await axios.post(
-        "http://localhost:8080/auction-register/place-to-bid",
-        null,
-        {
-          params: {
-            memberId: currentUser.memberId,
-            lotId: lotId,
-            price: price || 0,
-          },
-        }
-      );
+      // const response = await axios.post(
+      //   "http://localhost:8080/auction-register/place-to-bid",
+      //   null,
+      //   {
+      //     params: {
+      //       memberId: currentUser.memberId,
+      //       lotId: lotId,
+      //       price: price || 0,
+      //     },
+      //   }
+      // );
+      const response = await postPrePlaceBid(currentUser.memberId, lotId, price);
       toast.success("Register to bid successfully");
       setTimeout(() => {
         window.location.reload();
@@ -162,12 +147,12 @@ const UpcomingSessionLot = () => {
             {lot.product?.estimatePriceMax}
           </p>
           <p className="secondary">
-            Current Reserve Price: ${lot.currentPrice}
+            Current Start Price: ${lot.currentPrice}
           </p>
           <p className="secondary">
             Category: {lot.product?.category?.name.toUpperCase()}
           </p>
-          <h5>{lot.status}</h5>
+          {/* <h5>{lot.status}</h5> */}
 
           {!isRegister ? (
             <div className="mt-3">

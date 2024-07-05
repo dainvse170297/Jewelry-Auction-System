@@ -1,5 +1,6 @@
 package com.fpt.edu.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fpt.edu.status.AuctionSessionStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -47,6 +48,7 @@ public class AuctionSession {
     @Enumerated(EnumType.STRING)
     private AuctionSessionStatus status;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "auctionSession")
     private Set<Lot> lots = new LinkedHashSet<>();
 

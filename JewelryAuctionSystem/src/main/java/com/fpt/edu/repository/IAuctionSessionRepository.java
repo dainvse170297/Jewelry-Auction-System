@@ -20,6 +20,5 @@ public interface IAuctionSessionRepository extends JpaRepository<AuctionSession,
                                                   @Param("startDate") LocalDateTime startDate,
                                                   @Param("endDate") LocalDateTime endDate);
 
-    AuctionSession findAuctionSessionByIdAndStatus(int id, AuctionSessionStatus status);
 
 }

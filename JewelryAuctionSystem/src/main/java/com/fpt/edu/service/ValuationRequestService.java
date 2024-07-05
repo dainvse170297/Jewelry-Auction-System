@@ -12,15 +12,12 @@ import com.fpt.edu.status.ResponseValuationRequestStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +38,6 @@ public class ValuationRequestService implements IValuationRequestService {
     private final NotifyMapper NotifyMapper;
     private final INotifyService iNotifyService;
     private final IResponseRequestValuationService iResponseRequestValuationService;
-    private final ProductService productService;
 
     private final ResponseValuationRequestService responseValuationRequestService;
     private final LotMapper lotMapper;
@@ -91,7 +87,7 @@ public class ValuationRequestService implements IValuationRequestService {
     public List<ValuationRequestDetailDTO> getAll(Integer page) {
         List<ValuationRequest> valuationRequests = iValuationRequestRepository.findAll(PageRequest.of(page, PAGE_SIZE)).getContent();
         for (ValuationRequest valuationRequest : valuationRequests) {
-            Set<ValuationImage> valuationImages = new HashSet<>(iValuationImageRepository.findByRequest(valuationRequest));
+            Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
             valuationRequest.setValuationImages(valuationImages);
         }
         return valuationRequestMapper.mapToValuationRequestDetailDTOList(valuationRequests);
@@ -169,7 +165,6 @@ public class ValuationRequestService implements IValuationRequestService {
         return valuationRequestMapper.mapToFinalValuationRequestDTOList(
                 iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PENDING_MANAGER_APPROVAL,PageRequest.of(page, PAGE_SIZE)).getContent());
     }
-
 
     @Override
     public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId, Integer page) {
@@ -355,6 +350,12 @@ public class ValuationRequestService implements IValuationRequestService {
                 return cancelValuationRequest(id);
             }
             return false;
+    }
+
+    @Override
+    public ValuationRequestDetailDTO getValuationRequestDetail(Integer id) {
+        ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
+        return valuationRequestMapper.mapToValuationRequestDetailDTO(valuationRequest);
     }
 
     @Scheduled (fixedRate = 1000*60*60*24) // 1 day

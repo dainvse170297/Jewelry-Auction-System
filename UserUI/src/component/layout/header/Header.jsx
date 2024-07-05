@@ -3,7 +3,7 @@ import React from "react";
 import { Container, Dropdown, Nav, Navbar } from "react-bootstrap";
 import { Bell, House, Person } from "react-bootstrap-icons";
 import "./header.scss";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import Valuation from "@mui/icons-material/Diamond";
@@ -15,10 +15,6 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const Header = () => {
   const navigate = useNavigate();
-
-  const navigateToValuationRequest = () => {
-    navigate("/valuation-request/1");
-  };
 
   const currentUser = JSON.parse(localStorage.getItem("account")) || null;
 
@@ -43,10 +39,11 @@ const Header = () => {
                 AUCTION
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item href="/live">Live Auctions</Dropdown.Item>
                 <Dropdown.Item href="/upcoming">
                   Upcoming Auctions
                 </Dropdown.Item>
+                <Dropdown.Item href="/live">Live Auctions</Dropdown.Item>
+
                 <Dropdown.Item href="/past">Past Auctions</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -70,7 +67,18 @@ const Header = () => {
           </Nav>
           <Nav className="ms-auto me-auto">
             <Nav.Link href="#contact">CONTACT</Nav.Link>
-            <Nav.Link href="#policies">POLICIES</Nav.Link>
+            <Dropdown>
+              <Dropdown.Toggle as={Nav.Link} id="dropdown-auction">
+                POLICIES
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="/">Privacy Policy</Dropdown.Item>
+                <Dropdown.Item href="/">Terms & Conditions</Dropdown.Item>
+                <Dropdown.Item href="/delivery">
+                  Delivery instructions
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
             <Nav.Link href="#notifications" className="">
               <Bell size={24} />
             </Nav.Link>
@@ -85,14 +93,14 @@ const Header = () => {
                       {" "}
                       <PersonIcon /> Profile
                     </Dropdown.Item>
-                    <Dropdown.Item href="#">
+                    {/* <Dropdown.Item href="#">
                       {" "}
                       <AuctionIcon /> My Auction
                     </Dropdown.Item>
                     <Dropdown.Item href="#">
                       {" "}
                       <Valuation /> My Valuation
-                    </Dropdown.Item>
+                    </Dropdown.Item> */}
                     <Dropdown.Item href="/checkout">
                       {" "}
                       <ShoppingCartIcon /> My Winner Auction

@@ -1,30 +1,22 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "./LiveAuctionSessionDetail.scss";
 import LotPreview from "../../lot/LotPreview";
 import AuctionSession from "../AuctionSession";
-//import Paginator from "../../common/Paginator";
 import { useParams } from "react-router-dom";
 import { LinearProgress } from "@mui/material";
+import { postLiveAuctionSessionDetail } from "../../../services/apiService";
 
 const LiveAuctionSessionDetail = () => {
   const { id } = useParams();
   const [sessionData, setSessionData] = useState(null);
 
+  const currentUser = JSON.parse(localStorage.getItem("account"));
   useEffect(() => {
-    // Fetch data from API
     const fetchSessionData = async () => {
       try {
-        const formData = new FormData();
-        formData.append("sessionId", id);
-        formData.append("memberId", 4);
-
-        const response = await axios.post(
-          `http://localhost:8080/auction/session/view-live-auction-session-detail`,
-          formData
-        );
-        if (response.status === 200) {
-          setSessionData(response.data);
+        const data = await postLiveAuctionSessionDetail(id, currentUser?.id);
+        if (data !== null) {
+          setSessionData(data);
         } else {
           console.log("Error");
         }
@@ -32,7 +24,6 @@ const LiveAuctionSessionDetail = () => {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchSessionData();
   }, [id]);
 
@@ -61,16 +52,11 @@ const LiveAuctionSessionDetail = () => {
           </div>
         </div>
         <div className="row d-flex justify-content-center ">
-          <div className="col-xxl-10 col-lg-10 col-11 ">
-            <div className="row">
+          <div className="col-xxl-8 col-lg-10 col-11">
+            <div className="row border">
               {sessionData.lots.map((lot, index) => (
-                <div
-                  key={index}
-                  className="col-xxl-3 col-lg-4 col-6 my-3 d-flex justify-content-center"
-                >
-                  <div className="">
-                    <LotPreview lot={lot} sessionStatus="LIVE" />
-                  </div>
+                <div className="col-xxl-3 col-lg-4 col-6 my-3 d-flex justify-content-center">
+                  <LotPreview lot={lot} sessionStatus="LIVE" />
                 </div>
               ))}
             </div>

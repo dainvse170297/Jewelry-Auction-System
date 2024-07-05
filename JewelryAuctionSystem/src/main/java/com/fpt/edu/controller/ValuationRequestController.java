@@ -54,6 +54,11 @@ public class ValuationRequestController {
         return ResponseEntity.ok(valuationRequestService.productReceived(id));
     }
 
+    @GetMapping("/valuation-request-detail/{id}")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<ValuationRequestDetailDTO> getValuationRequestDetail(@PathVariable Integer id){ //valuation request id
+        return ResponseEntity.ok(valuationRequestService.getValuationRequestDetail(id));
+    }
 
     @PostMapping("/preliminary-valuation")
     @CrossOrigin(origins = "*")
@@ -80,7 +85,7 @@ public class ValuationRequestController {
         return ResponseEntity.ok(valuationRequestService.getRequestByIdAndStatusProductReceived(id));
     }
 
-
+   
     @GetMapping("/get-all-final-valuations")
     public ResponseEntity<List<FinalValuationRequestDTO>> getListFinalValuationRequest(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
         return ResponseEntity.ok(valuationRequestService.getListFinalValuationRequest(page));

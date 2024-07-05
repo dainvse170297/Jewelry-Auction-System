@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LotDTO {
+        
         private  Integer id;
         private Integer auctionRegistersId;
         private  Integer productId;

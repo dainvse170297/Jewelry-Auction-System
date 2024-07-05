@@ -44,5 +44,4 @@ public class LotController {
     public ResponseEntity<List<LotDTO>> getLotsByDeliveredAuctionRegister() {
         return ResponseEntity.ok(lotService.getLotsByDeliveredAuctionRegister());
     }
-
 }

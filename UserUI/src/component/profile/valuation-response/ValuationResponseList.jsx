@@ -5,6 +5,7 @@ import "./valuationResponseList.scss";
 import DownIcon from "@mui/icons-material/FileDownload";
 import { ToastContainer, toast } from "react-toastify";
 import { Toast } from "react-bootstrap";
+import { getValuationRepsonse } from "../../../services/apiService";
 // import "bootstrap/dist/css/bootstrap.min.css";
 
 const ValuationResponseList = ({ id }) => {
@@ -33,10 +34,11 @@ const ValuationResponseList = ({ id }) => {
   useEffect(() => {
     const fetchRequest = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/response/view-valuation-response/${id}`
-        );
-        setData(response.data);
+        // const response = await axios.get(
+        //   `http://localhost:8080/response/view-valuation-response/${id}`
+        // );
+        const response = await getValuationRepsonse(id);
+        setData(response);
       } catch (error) {
         console.log("Error at fetchRequest: ", error);
       }
@@ -82,7 +84,7 @@ const ValuationResponseList = ({ id }) => {
           </div> */}
           <div className="row">
             {/* Response list */}
-            <div className="card card-body">
+            <div className="">
               <div className="row d-flex justify-content-center">
                 <h4 className="text-center">Valuation Request</h4>
               </div>
@@ -245,8 +247,8 @@ const ValuationResponseList = ({ id }) => {
                                 as packing instructions below.
                               </div>
                               <div className="row">
-                                <a href="/home" className="my-3">
-                                  Insurance information
+                                <a href="/delivery" className="my-3">
+                                  Packing and insurance instructions
                                 </a>
                               </div>
 

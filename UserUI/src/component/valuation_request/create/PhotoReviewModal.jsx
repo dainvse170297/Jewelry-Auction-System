@@ -46,7 +46,7 @@ function PhotoReviewModal({ onOk }) {
           <Row>
             {preview.map((image, index) => (
               <Col xs={6} md={3} key={index}>
-                <Image src={image} fluid />
+                <Image src={image} fluid key={index} />
               </Col>
             ))}
           </Row>

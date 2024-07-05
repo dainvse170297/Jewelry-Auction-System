@@ -12,13 +12,15 @@ const PaidList = () => {
 
     const [productId, setProductId] = useState('')
     const [transferAmount, setTransferAmount] = useState(0)
+    const [auctionRegisterId, setAuctionRegisterId] = useState('')
 
 
     const handleClose = () => setShow(false);
 
-    const handleShow = (productId, transferAmount) => {
+    const handleShow = (productId, transferAmount, auctionRegisterId) => {
         setTransferAmount(transferAmount)
         setProductId(productId)
+        setAuctionRegisterId(auctionRegisterId)
         setShow(true);
     }
 
@@ -58,7 +60,7 @@ const PaidList = () => {
                                 <td>${item.currentPrice}</td>
                                 <td>{item.member?.fullname}</td>
                                 <td>
-                                    <button className='btn btn-warning' onClick={() => handleShow(item.lot?.product?.id, item.currentPrice)}><FaCashRegister /></button>
+                                    <button className='btn btn-warning' onClick={() => handleShow(item.lot?.product?.id, item.currentPrice, item.id)}><FaCashRegister /></button>
                                 </td>
                             </tr>
                         ))}
@@ -72,15 +74,12 @@ const PaidList = () => {
                     <Modal.Title>Transfer to Customer</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <CustomerDetail productId={productId} transferAmount={transferAmount} />
+                    <CustomerDetail productId={productId} transferAmount={transferAmount} auctionRegisterId={auctionRegisterId} />
 
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Close
-                    </Button>
-                    <Button variant="primary" onClick={handleClose}>
-                        Confirm Transfered
                     </Button>
                 </Modal.Footer>
             </Modal>

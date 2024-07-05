@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { LinearProgress } from "@mui/material";
 import LotPreview from "../../lot/LotPreview";
 import AuctionSession from "../AuctionSession";
-import "./PastSessionDetail.scss";
+import { postPastSessionDetail } from "../../../services/apiService";
 
 const PastSessionDetail = () => {
   const { id } = useParams();
@@ -13,15 +13,9 @@ const PastSessionDetail = () => {
   useEffect(() => {
     const fetchSessionData = async () => {
       try {
-        const formData = new FormData();
-        formData.append("sessionId", id);
-
-        const response = await axios.post(
-          `http://localhost:8080/auction/session/past/details`,
-          formData
-        );
-        if (response.status === 200) {
-          setSessionData(response.data);
+        const data = await postPastSessionDetail(id);
+        if (data !== null) {
+          setSessionData(data);
         } else {
           console.log("Error");
         }
@@ -45,7 +39,7 @@ const PastSessionDetail = () => {
     <div className="container-fluid">
       <div className="row">
         <h1 className="text-center py-3 red-title mb-4">
-          Live Auction Session
+          Past Auction Session
         </h1>
 
         <div className="mb-3">

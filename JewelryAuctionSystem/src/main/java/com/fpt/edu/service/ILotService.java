@@ -17,7 +17,4 @@ public interface ILotService {
     List<LotDTO> getLotsByWinnerPurchaseAuctionRegister();
 
     List<LotDTO> getLotsByDeliveredAuctionRegister();
-
-
-
 }

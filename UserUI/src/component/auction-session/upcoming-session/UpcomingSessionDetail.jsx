@@ -1,12 +1,11 @@
 import { useParams, Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
-import axios from "axios";
 import LotPreview from "../../lot/LotPreview";
 import Paginator from "../../common/Paginator";
 import AuctionSession from "../AuctionSession";
 import { LinearProgress } from "@mui/material";
-
+import { postUpcomingSessionDetail } from "../../../services/apiService";
 const UpcomingSessionDetail = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
@@ -21,7 +20,6 @@ const UpcomingSessionDetail = () => {
     console.log("New Page:", pageNumber);
   };
 
-
   const [lotRegisters, setLotRegisters] = useState([
     {
       lot: "",
@@ -30,42 +28,25 @@ const UpcomingSessionDetail = () => {
   ]);
 
   const currentUser = JSON.parse(localStorage.getItem("account"));
+  const memberId = currentUser ? currentUser.id : 0;
 
   useEffect(() => {
     try {
-      const params = new URLSearchParams();
-      params.append("memberId", 0);
-      params.append("sessionId", id);
-
       const getAll = async () => {
-        await axios
-          .post(
-            `http://localhost:8080/auction/session/upcoming/details`,
-            params
-          )
-          .then((response) => {
-            if (response.status === 200) {
-              setSessionDetail(response.data);
-              setLoading(false);
-
-              const lotRegisters = response.data.Lots.map((lot) => {
-                const register = response.data.Registers.find(
-                  (reg) => reg.lotId === lot.id
-                );
-                return {
-                  lot,
-                  registeredPrice: register ? register.previousPrice : null,
-                };
-              });
-              setLotRegisters(lotRegisters);
-              console.log(lotRegisters);
-            } else {
-              console.log("Error");
-            }
-          })
-          .catch((error) => {
-            console.log(error);
+        const data = await postUpcomingSessionDetail(memberId, id);
+        if (data) {
+          setSessionDetail(data);
+          setLoading(false);
+          const lotRegisters = data.Lots.map((lot) => {
+            const register = data.Registers.find((reg) => reg.lotId === lot.id);
+            return {
+              lot,
+              registeredPrice: register ? register.previousPrice : null,
+            };
           });
+          setLotRegisters(lotRegisters);
+          console.log(lotRegisters);
+        }
       };
       getAll();
     } catch (error) {

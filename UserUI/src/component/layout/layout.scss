@@ -1,24 +1,26 @@
-/* Layout.css */
+/* Reset some basic styles for full height layout */
 html,
 body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 #wrapper {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 main {
-    padding: 20px;
-    /* Adjust as needed */
+  flex: 1;
+  padding: 20px; /* Adjust as needed */
 }
 
 .footer {
-    background: #EFEBE8;
-    padding: 20px 0;
-    text-align: center;
+  background: #efebe8;
+  padding: 20px 0;
+  text-align: center;
+  height: 200px; /* Fixed height */
+  /* Ensure footer stays at the bottom */
 }

@@ -3,21 +3,22 @@ import React, { useEffect, useState } from "react";
 import "./upcoming-session.scss";
 import { Spinner } from "react-bootstrap";
 import AuctionSession from "../AuctionSession";
+import { getUpcomingSessionList } from "../../../services/apiService";
 
 const UpcomingSessionList = () => {
   const [upcomingSessions, setUpcomingSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const getAll = async () => {
-      await axios
-        .get("http://localhost:8080/auction/session/upcoming")
-        .then((response) => {
-          setUpcomingSessions(response.data);
+      try {
+        const data = await getUpcomingSessionList();
+        if (data) {
+          setUpcomingSessions(data);
           setLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        }
+      } catch (error) {
+        console.log(error);
+      }
     };
     getAll();
   }, []);

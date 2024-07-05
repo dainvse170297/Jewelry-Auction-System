@@ -49,6 +49,7 @@ public class AuctionRegisterController {
         return ResponseEntity.ok(auctionRegisterService.confirmProductDelivery(auctionRegisterId));
     }
 
+    //get all auction register by member id (view history)
     @GetMapping("/get-auction-register-by-memberId/{memberId}")
     public ResponseEntity<List<AuctionRegister>> getAuctionRegisterByMemberId(@PathVariable("memberId") Integer memberId) {
         return ResponseEntity.ok(auctionRegisterService.getAuctionRegisterByMemberId(memberId));

@@ -90,7 +90,7 @@ public class AccountService implements IAccountService {
 
     }
 
-    // dung de xac thuc token co hop le hay khong. neu co tra ve true neu khong tra ve false
+
     @Override
     public IntrospectResponse introspect(IntrospectRequest introspectRequest) throws JOSEException, ParseException {
 
@@ -172,8 +172,8 @@ public class AccountService implements IAccountService {
 
     public AuthenticationResponse refreshToken(RefreshRequest request) throws ParseException, JOSEException {
 
-        SignedJWT signedJWT = SignedJWT.parse(request.getToken()); // lay ra thong tin tu token
-        // dua token vao danh sach token bi huy
+        SignedJWT signedJWT = SignedJWT.parse(request.getToken());
+
 
         logout(new LogoutRequest(request.getToken()));
 

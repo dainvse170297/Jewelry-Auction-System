@@ -4,6 +4,8 @@ import axios from "axios";
 import "./ViewFinancialProof.scss";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import moment from "moment/moment";
+import { getFinancialProof } from "../../../services/apiService";
 
 const ViewFinancialProof = ({ id }) => {
   const [financialProof, setFinancialProof] = useState(null);
@@ -11,10 +13,12 @@ const ViewFinancialProof = ({ id }) => {
   useEffect(() => {
     const fetchFinancialProof = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/member/financial-proof/${id}`
-        );
-        setFinancialProof(response.data);
+        // const response = await axios.get(
+        //   `http://localhost:8080/member/financial-proof/${id}`
+        // );
+
+        const response = await getFinancialProof(id);
+        setFinancialProof(response);
       } catch (error) {
         console.error("Error fetching financial proof data:", error);
       }
@@ -24,14 +28,18 @@ const ViewFinancialProof = ({ id }) => {
   }, [id]);
 
   if (!financialProof) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        You Don't Have Credit Card ! Please Add Credit Card in Your Profile
+      </div>
+    );
   }
 
   return (
     <div className="row view-financial-proof">
       <div className="col-md-6">
-        <div className="card mb-3">
-          <div className="card-body">
+        <div className="mb-3">
+          <div className="">
             <h6 className="card-title">Credit Card</h6>
             <p className="card-text text-muted">
               <strong>Card Number:</strong>{" "}
@@ -56,8 +64,8 @@ const ViewFinancialProof = ({ id }) => {
         </div>
       </div>
       <div className="col-md-6">
-        <div className="card mb-3">
-          <div className="card-body">
+        <div className=" mb-3">
+          <div className="">
             <h6 className="card-title">Member Information</h6>
             <p className="card-text text-muted">
               <strong>Full Name:</strong> {financialProof.fullname}
@@ -80,12 +88,12 @@ const ViewFinancialProof = ({ id }) => {
       </div>
 
       <div className="col-md-12">
-        <div className="card mb-3">
-          <div className="card-body">
+        <div className=" mb-3">
+          <div className="">
             <h6 className="card-title">Financial Proof Request Information</h6>
             <p className="card-text text-muted">
               <strong>Time Request:</strong>{" "}
-              {financialProof.financialProofRequest.timeRequest}
+              {moment(financialProof.financialProofRequest.timeRequest).format("DD/MM/YYYY HH:mm:ss")}
             </p>
             <p className="card-text text-muted">
               <strong>Status:</strong>{" "}
