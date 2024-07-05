@@ -15,29 +15,29 @@ public interface IValuationRequestService {
 
     public List<ValuationRequestDetailDTO> getAll(Integer page);
 
-    public List<ValuationRequestDetailDTO> getRequestedValuationRequest();
+    public List<ValuationRequestDetailDTO> getRequestedValuationRequest(Integer page);
 
-    public List<ValuationRequestDetailDTO> getPreliminaryValuationRequest();
+    public List<ValuationRequestDetailDTO> getPreliminaryValuationRequest(Integer page);
 
     public ValuationRequestDetailDTO productReceived(Integer id);
 
-    public List<ValuationRequestDTO> getRequestStatusProductReceived();
+    public List<ValuationRequestDTO> getRequestStatusProductReceived(Integer page);
 
     public ValuationRequestDTO getRequestByIdAndStatusProductReceived(int id);
 
-    public List<FinalValuationRequestDTO> getListFinalValuationRequest();
+    public List<FinalValuationRequestDTO> getListFinalValuationRequest(Integer page);
 
     public Map<String,String> ApproveFinalValuationRequest(Integer id);
 
     public Map<String,String> CancelFinalValuationRequest(Integer id);
 
-    public List<FinalValuationRequestDTO> getListManagerApproveValuationRequest();
+    public List<FinalValuationRequestDTO> getListManagerApproveValuationRequest(Integer page);
 
     public List<Map<String,String>> sendFinalValuationToMember(Integer id, Integer staffId);
 
     public Map<String,String> sendNotifyToMember(ValuationRequest valuationRequest, Product product);
 
-    public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId);
+    public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId,Integer page);
 
     public ValuationRequestDetailDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax, Integer staffId);
 

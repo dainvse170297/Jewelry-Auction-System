@@ -98,8 +98,8 @@ public class ValuationRequestService implements IValuationRequestService {
     }
 
     @Override
-    public List<ValuationRequestDetailDTO> getRequestedValuationRequest() {
-        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.REQUESTED);
+    public List<ValuationRequestDetailDTO> getRequestedValuationRequest(Integer page) {
+        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.REQUESTED, PageRequest.of(page, PAGE_SIZE)).getContent();
         for (ValuationRequest valuationRequest : valuationRequests) {
             Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
             valuationRequest.setValuationImages(valuationImages);
@@ -108,8 +108,8 @@ public class ValuationRequestService implements IValuationRequestService {
     }
 
     @Override
-    public List<ValuationRequestDetailDTO> getPreliminaryValuationRequest() {
-        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PRELIMINARY_VALUATED);
+    public List<ValuationRequestDetailDTO> getPreliminaryValuationRequest(Integer page) {
+        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PRELIMINARY_VALUATED, PageRequest.of(page, PAGE_SIZE)).getContent();
         for (ValuationRequest valuationRequest : valuationRequests) {
             Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
             valuationRequest.setValuationImages(valuationImages);
@@ -131,8 +131,8 @@ public class ValuationRequestService implements IValuationRequestService {
     }
 
     @Override
-    public List<ValuationRequestDTO> getRequestStatusProductReceived() {
-        List<ValuationRequestDTO> result = valuationRequestMapper.mapToValuationRequestDTOList(iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED));
+    public List<ValuationRequestDTO> getRequestStatusProductReceived(Integer page) {
+        List<ValuationRequestDTO> result = valuationRequestMapper.mapToValuationRequestDTOList(iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED, PageRequest.of(page, PAGE_SIZE)).getContent());
         System.out.println("Result: ");
         for (ValuationRequestDTO dto : result) {
             System.out.println(dto);
@@ -164,16 +164,16 @@ public class ValuationRequestService implements IValuationRequestService {
     }
 
     @Override
-    public List<FinalValuationRequestDTO> getListFinalValuationRequest() {
+    public List<FinalValuationRequestDTO> getListFinalValuationRequest(Integer page) {
 
         return valuationRequestMapper.mapToFinalValuationRequestDTOList(
-                iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PENDING_MANAGER_APPROVAL));
+                iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PENDING_MANAGER_APPROVAL,PageRequest.of(page, PAGE_SIZE)).getContent());
     }
 
 
     @Override
-    public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId) {
-        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByMemberId(memberId);
+    public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId, Integer page) {
+        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByMemberId(memberId, PageRequest.of(page, PAGE_SIZE)).getContent();
         Map<ValuationRequest, Set<ValuationImage>> valuationRequestImagesMap = new HashMap<>();
         for (ValuationRequest valuationRequest : valuationRequests) {
             Set<ValuationImage> valuationImage = iValuationImageRepository.findByRequest(valuationRequest);
@@ -239,11 +239,11 @@ public class ValuationRequestService implements IValuationRequestService {
     }
 
     @Override
-    public List<FinalValuationRequestDTO> getListManagerApproveValuationRequest() {
+    public List<FinalValuationRequestDTO> getListManagerApproveValuationRequest(Integer page) {
 
 
         return valuationRequestMapper.mapToFinalValuationRequestDTOList(
-                iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.MANAGER_APPROVED));
+                iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.MANAGER_APPROVED,PageRequest.of(page, PAGE_SIZE)).getContent());
     }
 
     @Override
