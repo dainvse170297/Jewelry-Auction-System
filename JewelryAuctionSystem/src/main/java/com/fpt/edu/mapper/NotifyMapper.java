@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class NotifyMapper {
@@ -17,6 +18,7 @@ public class NotifyMapper {
         notifyDTO.setMemberId(notify.getMember().getId());
         notifyDTO.setTitle(notify.getTitle());
         notifyDTO.setDescription(notify.getDescription());
+        notifyDTO.setIsRead(notify.getIsRead());
         return notifyDTO;
     }
 
@@ -39,4 +41,7 @@ public class NotifyMapper {
         );
     }
 
+    public List<NotifyDTO> toNotifyDTOs(List<Notify> notifyList) {
+        return notifyList.stream().map(this::toNotifyDTO).toList();
+    }
 }

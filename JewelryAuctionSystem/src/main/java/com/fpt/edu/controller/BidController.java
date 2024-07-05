@@ -7,6 +7,7 @@ import com.fpt.edu.service.IBidService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class BidController {
                         messagingTemplate.convertAndSend("/topic/bids/" + lotId +"/history", "update bid history");
                 }
                 return response;
-        }
+    }
 
         @GetMapping("/list-bid")
         public ResponseEntity<List<BidDTO>> listBid(@RequestParam("lotId") Integer lotId) {

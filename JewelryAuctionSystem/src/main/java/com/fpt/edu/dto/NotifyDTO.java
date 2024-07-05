@@ -14,4 +14,5 @@ public class NotifyDTO {
     private Integer memberId;
     private String title;
     private String description;
+    private Boolean isRead;
 }
