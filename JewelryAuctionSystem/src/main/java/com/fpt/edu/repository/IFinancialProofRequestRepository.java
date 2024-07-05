@@ -5,6 +5,7 @@ import com.fpt.edu.dto.FinancialProofRequestDTO;
 import com.fpt.edu.entity.FinancialProofRequest;
 import com.fpt.edu.entity.Member;
 import com.fpt.edu.status.FinancialProofRequestStatus;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -33,7 +34,7 @@ public interface IFinancialProofRequestRepository extends JpaRepository<Financia
 
 //    @Query("SELECT f FROM FinancialProofRequest f WHERE f.member = :member ORDER BY f.timeRequest DESC")
 //    List<FinancialProofRequest> findLatestByMember(@Param("member") Member member, Pageable pageable);
-
+Page<FinancialProofRequest> findByStatus(FinancialProofRequestStatus status, Pageable pageable);
 }
 
 

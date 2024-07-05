@@ -1,0 +1,78 @@
+.contact-info {
+    .text-center {
+      h1 {
+        color: #b23842; /* Red color for header */
+      }
+    }
+  
+    .card-title {
+      color: #020000; /* Red color for card titles */
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+  
+    .info-section {
+      margin-bottom: 1rem;
+  
+      p {
+        margin: 0;
+  
+        strong {
+          font-weight: bold;
+        }
+  
+        em {
+          font-style: italic;
+        }
+  
+        a {
+          color: #007bff;
+          text-decoration: none;
+  
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  
+    .img-fluid {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+  
+    .img-caption {
+      font-size: 1rem;
+      color: #666;
+      text-align: center;
+      margin-top: 1rem;
+    }
+  
+    p {
+      font-size: 1.125rem;
+      line-height: 1.6;
+      color: #333;
+    }
+  
+    .btn-red {
+      background-color: #b23842; /* Red background color */
+      border-color: #dc3545; /* Red border color */
+      color: white; /* White text color */
+      margin: 10px 0; /* Top and bottom margin */
+    padding: 20px 30px; /* Padding for button */
+      &:hover,
+      &:focus {
+        background-color: #c82333; /* Darker red on hover */
+        border-color: #bd2130; /* Darker red border on hover */
+      }
+    }
+  
+    .content-section-button {
+      margin-top: 20px; /* Top margin for each section */
+      text-align: center; /* Center align content */
+    }
+  }
+  

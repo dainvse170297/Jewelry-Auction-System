@@ -21,12 +21,11 @@ import Footer from "./component/layout/footer/Footer.jsx";
 import ValuationResponseList from "./component/profile/valuation-response/ValuationResponseList.jsx";
 import Layout from "./component/layout/Layout.jsx";
 import CreateFinancialProofRequest from "./component/FinancialProof/CreateFinancialProofRequest.jsx";
-<<<<<<< Updated upstream
-=======
 import PastSessionList from "./component/auction-session/past-session/PastSessionList.jsx";
 import PastSessionDetail from "./component/auction-session/past-session/PastSessionDetail.jsx";
 import AppRoute from "./routes/AppRoute.jsx";
->>>>>>> Stashed changes
+import Delivery from "./component/delivery/Delivery.jsx";
+import ContactInfo from "./component/contact/ContactInfo.jsx";
 function App() {
   return (
     <>
@@ -53,8 +52,28 @@ function App() {
               element={<UpcomingSessionDetail />}
             />
             <Route path="/live-lot-detail/:id" element={<LiveLotDetail />} />
-
-<<<<<<< Updated upstream
+        <Layout>
+          <Header />
+          <div style={{ paddingTop: "70px" }}>
+            <Routes>
+              <Route path="/" element={<Navigate to="/home" />} />
+              <Route path="/home/*" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/profile" element={<Profile />}></Route>
+              <Route path="/create-valuation" element={<CreateValuation />} />
+              <Route
+                path="/create-financial-proof"
+                element={<CreateFinancialProofRequest />}
+              />
+              <Route path="/delivery" element={<Delivery />} />
+              <Route path="/selling" element={<Selling />} />
+              <Route path="/contact" element={<ContactInfo />} />
+              <Route path="/upcoming" element={<UpcomingSessionList />} />
+              <Route
+                path="/upcoming-session-detail/:id"
+                element={<UpcomingSessionDetail />}
+              />
+              <Route path="/live-lot-detail/:id" element={<LiveLotDetail />} />
               <Route path="/live" element={<LiveSessionList />} />
               <Route
                 path="/live-session-detail/:id"
@@ -67,7 +86,6 @@ function App() {
               />
               <Route path="/checkout" element={<CheckOut />} />
               <Route path="/checkout-detail" element={<CheckOutDetail />} />
-=======
             <Route
               path="/past-session-detail/:id"
               element={<PastSessionDetail />}
@@ -86,7 +104,6 @@ function App() {
             />
             <Route path="/checkout" element={<CheckOut />} />
             <Route path="/checkout-detail" element={<CheckOutDetail />} />
->>>>>>> Stashed changes
 
             <Route path="/payment-callback" element={<PaymentCallback />} />
             <Route path="/payment-success" element={<PaymentSuccess />} />

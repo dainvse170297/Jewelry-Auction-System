@@ -105,17 +105,15 @@ public class AuctionSessionService implements IAuctionSessionService {
 
     @Override
     public ResponseEntity<?> viewLiveAuctionSessionDetail(Integer sessionId, Integer memberId) {
-        AuctionRegisterStatus statusRegister = AuctionRegisterStatus.BID;
+        AuctionRegisterStatus statusRegister = AuctionRegisterStatus.REGISTERED;
         LotStatus statusLot = LotStatus.AUCTIONING;
-        // lay dah sach dang ky cua member
+
         List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, statusRegister);
-        auctionRegisters.addAll(auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, AuctionRegisterStatus.REGISTERED));
-        // tim ra lot cua member
+      //  auctionRegisters.addAll(auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, AuctionRegisterStatus.REGISTERED));
+
         List<Lot> lots = auctionRegisters.stream()
                 .map(AuctionRegister::getLot)
                 .collect(Collectors.toList());
-        // lấy
-        // ds lots cua session
 
 
         List<Lot> lotOfSession = lotRepository.findByAuctionSession_IdAndStatus(sessionId, statusLot);
@@ -232,7 +230,7 @@ public class AuctionSessionService implements IAuctionSessionService {
         }
     }
 
-    @Scheduled(fixedRate = 1000 * 60 * 5)  // chay moi 5 minutes
+    @Scheduled(fixedRate = 1000 * 60 * 5)
     public void deleteTokenInvalidated() {
         List<InvalidatedToken> invalidatedTokens = invalidatedTokenRepository.findAll();
         LocalDateTime now = LocalDateTime.now();
