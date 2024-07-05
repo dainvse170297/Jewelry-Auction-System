@@ -125,13 +125,6 @@ export default function LiveLotDetail() {
                 ? prevInfo.buyNowPrice
                 : calculatedAmount,
           }));
-
-          if (calculatedAmount == parseFloat(productInfo.buyNowPrice)) {
-            handleWinningMessage("Congratulations! You have won the auction")
-            setTimeout(() => {
-              window.location.reload();
-            }, 2500);
-          }
           // setBidHistory((prevHistory) => [
           //   { price: calculatedAmount, bidTime: new Date() },
           //   ...prevHistory,
@@ -337,7 +330,7 @@ export default function LiveLotDetail() {
           <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
-          <Button variant="danger" onClick={handleBuyNow}>
+          <Button variant="primary" onClick={handleBuyNow}>
             Buy Now
           </Button>
         </Modal.Footer>

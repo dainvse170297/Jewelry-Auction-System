@@ -10,6 +10,7 @@ import MyValuationRequest from "./valuation-request/MyValuationRequest";
 
 const Profile = () => {
   const currentUser = JSON.parse(localStorage.getItem("account"));
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,6 +22,7 @@ const Profile = () => {
     }
 
   }, [currentUser]);
+
 
   return (
     <div className="container">

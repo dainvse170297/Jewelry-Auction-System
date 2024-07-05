@@ -1,5 +1,6 @@
 package com.fpt.edu.controller;
 
+import com.fpt.edu.dto.CreditCardRequestDTO;
 import com.fpt.edu.dto.MemberDTO;
 import com.fpt.edu.entity.Member;
 import com.fpt.edu.service.MemberService;
@@ -35,5 +36,25 @@ public class MemberController {
     public ResponseEntity<MemberDTO> getMyInfoFinancialProof(@PathVariable("memberId") Integer memberId){
         MemberDTO memberDTO = memberService.getMyInfoFinancialProof(memberId);
         return ResponseEntity.ok().body(memberDTO);
+    }
+
+    @PostMapping("/profile/{memberId}/add-credit-card")
+    public ResponseEntity<Member> addCreditCard(@PathVariable("memberId") Integer memberId,
+                                              @RequestBody CreditCardRequestDTO creditCardDto){
+        return ResponseEntity.ok().body(memberService.addCreditCard(memberId, creditCardDto));
+    }
+    @PutMapping("/profile/{memberId}/edit-credit-card")
+    public ResponseEntity<Member> editCreditCard(@PathVariable("memberId") Integer memberId,
+                                               @RequestBody CreditCardRequestDTO creditCardDto) {
+       return ResponseEntity.ok().body(memberService.editCreditCard(memberId, creditCardDto));
+    }
+    @DeleteMapping("/profile/{memberId}/delete-credit-card")
+    public ResponseEntity<String> deleteCreditCard(@PathVariable Integer memberId) {
+        boolean isDeleted = memberService.deleteCreditCard(memberId);
+        if (isDeleted) {
+            return ResponseEntity.ok("Credit Card Deleted Successfully");
+        } else {
+            return ResponseEntity.badRequest().body("Credit Card Not Found");
+        }
     }
 }

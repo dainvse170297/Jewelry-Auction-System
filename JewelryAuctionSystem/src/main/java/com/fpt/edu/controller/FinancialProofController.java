@@ -3,7 +3,11 @@ package com.fpt.edu.controller;
 import com.fpt.edu.dto.FinancialProofRequestDTO;
 import com.fpt.edu.entity.FinancialProofRequest;
 import com.fpt.edu.service.FinancialProofService;
+import com.fpt.edu.status.FinancialProofRequestStatus;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,8 +50,9 @@ public class FinancialProofController {
     @PostMapping("/set-amount")
     public ResponseEntity<FinancialProofRequestDTO> updateFinancialProofRequest(@RequestParam("id") Integer idRq,
                                                                               @RequestParam("staffId") Integer staffId,
-                                                                              @RequestParam("financialProofAmount") BigDecimal financialProofAmount){
-        return ResponseEntity.ok(financialProofService.updateFinancialProofRequest(idRq, staffId, financialProofAmount));
+                                                                              @RequestParam("financialProofAmount") BigDecimal financialProofAmount,
+                                                                                @RequestParam("role") String role ){
+        return ResponseEntity.ok(financialProofService.updateFinancialProofRequest(idRq, staffId, financialProofAmount,role));
     }
     @PostMapping("/reject")
     public ResponseEntity<FinancialProofRequestDTO> rejectFinancialProofRequest(@RequestParam("id") Integer idRq,
@@ -67,5 +72,19 @@ public class FinancialProofController {
                                                               @RequestParam("managerId") Integer managerId,
                                                                @RequestParam("confirm") Boolean confirm){
         return ResponseEntity.ok(financialProofService.confirmVip(idRq, managerId, confirm));
+    }
+
+
+
+    @PostMapping("/financial-proof-requests")
+    public ResponseEntity<Page<FinancialProofRequestDTO>> getAllFinancialProofRequests(
+            @RequestParam(required = false, defaultValue = "REQUESTED") FinancialProofRequestStatus status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<FinancialProofRequestDTO> financialProofRequestsPage = financialProofService.getAllFinancialProofRequests(status, pageable);
+
+        return ResponseEntity.ok(financialProofRequestsPage);
     }
 }

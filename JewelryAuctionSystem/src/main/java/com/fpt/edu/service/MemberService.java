@@ -1,13 +1,11 @@
 package com.fpt.edu.service;
 
 import com.fpt.edu.dto.CreditCardDTO;
+import com.fpt.edu.dto.CreditCardRequestDTO;
 import com.fpt.edu.dto.FinancialProofRequestDTO;
 import com.fpt.edu.dto.MemberDTO;
 import com.fpt.edu.entity.*;
-import com.fpt.edu.repository.IAccountRepository;
-import com.fpt.edu.repository.IFinancialProofRequestRepository;
-import com.fpt.edu.repository.IMemberRepository;
-import com.fpt.edu.repository.IValuationRequestRepository;
+import com.fpt.edu.repository.*;
 import com.fpt.edu.status.FinancialProofRequestStatus;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -21,6 +19,7 @@ import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.fpt.edu.mapper.MemberMapper.mapToMemberDTO;
@@ -33,6 +32,7 @@ public class MemberService implements IMemberService{
     private final IAccountRepository iAccountRepository;
     private final IValuationRequestRepository iValuationRequestRepository;
     private final IFinancialProofRequestRepository iFinancialProofRequestRepository;
+    private final ICreditCardRepository iCreditCardRepository;
     public MemberDTO getMyInfo(){
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         log.info("Username: {}", name);
@@ -72,6 +72,68 @@ public class MemberService implements IMemberService{
         memberdto.setCreditCard(creditCardDTO);
         return memberdto;
 
+    }
+
+    @Override
+    public Member addCreditCard(Integer memberId, CreditCardRequestDTO creditCardDto){
+        log.info("MemberId: {}", memberId);
+        Member member = iMemberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("Member not found"));
+        if(member.getCreditCard()!= null){
+            throw new RuntimeException("Credit card already  ADD");
+        }
+
+        CreditCard creditCard = new CreditCard();
+        creditCard.setAccountHolder(creditCardDto.getAccountHolder());
+        creditCard.setBankName(creditCardDto.getBankName());
+        creditCard.setBankNumber(creditCardDto.getBankNumber());
+
+        member.setCreditCard(creditCard);
+        List<CreditCard> creditCardList = iCreditCardRepository.findAll();
+        for (CreditCard creditCards : creditCardList) {
+            if (creditCards.getBankNumber().equals(creditCardDto.getBankNumber())) {
+                throw new RuntimeException("Bank number already exists");
+            }
+        }
+        iMemberRepository.save(member);
+        return member;
+    }
+
+    @Override
+    public Member editCreditCard(Integer memberId, CreditCardRequestDTO creditCardDto) {
+        log.info("MemberId: {}", memberId);
+        Member member = iMemberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("Member not found"));
+
+        CreditCard creditCard = member.getCreditCard();
+        if (creditCard == null) {
+            throw new RuntimeException("Credit card not found");
+        }
+
+        creditCard.setAccountHolder(creditCardDto.getAccountHolder());
+        creditCard.setBankName(creditCardDto.getBankName());
+        creditCard.setBankNumber(creditCardDto.getBankNumber());
+
+        member.setCreditCard(creditCard);
+        iMemberRepository.save(member);
+        return member;
+    }
+    @Override
+    public boolean deleteCreditCard(Integer memberId) {
+        Optional<Member> member = iMemberRepository.findById(memberId);
+        if (member.isPresent()) {
+            Member memberProfile = member.get();
+            CreditCard creditCard = memberProfile.getCreditCard();
+            if (creditCard != null) {
+                log.info("CreditCard: {}", creditCard.getId());
+                memberProfile.setCreditCard(null);
+                iMemberRepository.save(memberProfile);
+                iCreditCardRepository.delete(creditCard);
+                log.info("delete: {}", creditCard.getId());
+                return true;
+            }
+        }
+        return false;
     }
     @Override
     public MemberDTO getMyInfoFinancialProof(Integer memberId){

@@ -3,7 +3,7 @@ import React from "react";
 import { Container, Dropdown, Nav, Navbar } from "react-bootstrap";
 import { Bell, House, Person } from "react-bootstrap-icons";
 import "./header.scss";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import Valuation from "@mui/icons-material/Diamond";

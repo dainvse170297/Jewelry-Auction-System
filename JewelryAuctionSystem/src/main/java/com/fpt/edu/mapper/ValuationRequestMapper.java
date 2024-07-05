@@ -79,27 +79,10 @@ public class ValuationRequestMapper {
     public List<ValuationRequestDetailDTO> mapToValuationRequestDetailDTOList(List<ValuationRequest> valuationRequests){
         return valuationRequests.stream().map(this::mapToValuationRequestDetailDTO).toList();
     }
-//    // ham nay khong thay dung nay be Dai oi
-//    public ValuationRequest mapToValuationRequest(ValuationRequestDTO valuationRequestDTO){
-//        return new ValuationRequest(
-//                valuationRequestDTO.getId(),
-//                iMemberRepository.getReferenceById(valuationRequestDTO.getMemberId()),
-//                valuationRequestDTO.getTimeRequest(),
-//                valuationRequestDTO.getValuationStatus(),
-//                valuationRequestDTO.getEstimatePriceMax(),
-//                valuationRequestDTO.getEstimatePriceMin(),
-//                valuationRequestDTO.getDescription(),
-//                iProductRepository.getReferenceById(valuationRequestDTO.getProductId()),
-////                iResponseRequestValuationRepository.getReferenceById(valuationRequestDTO.getResponseRequestValuationsId()),
-//                valuationImageMapper.mapIdToValuationImageList(valuationRequestDTO.getValuationImages())
-//        );
-//    }
-
 
     public List<ValuationRequestDTO> mapToValuationRequestDTOList(List<ValuationRequest> valuationRequests){
         return valuationRequests.stream().map(this::mapToValuationRequestDTO).toList();
     }
-
 
     public List<ViewValuationRequestDTO> mapToViewValuationRequestDTOList
             (Map<ValuationRequest, Set<ValuationImage>> valuationRequestImagesMap){
@@ -119,7 +102,6 @@ public class ValuationRequestMapper {
             );
         }).collect(Collectors.toList());
     }
-
 
     public FinalValuationRequestDTO mapToFinalValuationRequestDTO(ValuationRequest valuationRequest){
         return new FinalValuationRequestDTO(
@@ -152,6 +134,19 @@ public class ValuationRequestMapper {
         );
 
     }
-
+    public ViewValuationRequestDTO mapToViewValuationRequestDTO(ValuationRequest valuationRequest){
+        Integer productId = valuationRequest.getProduct() == null ? null : valuationRequest.getProduct().getId();
+        return new ViewValuationRequestDTO(
+                valuationRequest.getId(),
+                valuationRequest.getMember().getId(),
+                valuationRequest.getTimeRequest(),
+                valuationRequest.getValuationStatus(),
+                valuationRequest.getEstimatePriceMax(),
+                valuationRequest.getEstimatePriceMin(),
+                valuationRequest.getDescription(),
+                productId,
+                valuationRequest.getValuationImages()
+        );
+    }
 
 }

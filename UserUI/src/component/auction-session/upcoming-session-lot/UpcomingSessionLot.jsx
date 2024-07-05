@@ -5,13 +5,15 @@ import { Button, Carousel, Form, InputGroup, Modal } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import LotPreview from "../../lot/LotPreview";
+import {
+  getUpcomingLotDetail,
+  getCheckLotRegister,
+} from "../../../services/apiService";
 
 const UpcomingSessionLot = () => {
-  const [lot, setLot] = useState({});
-
   const { lotId } = useParams();
 
+  const [lot, setLot] = useState({});
   const currentUser = JSON.parse(localStorage.getItem("account"));
   const [showModal, setShowModal] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
@@ -21,28 +23,13 @@ const UpcomingSessionLot = () => {
   const [price, setPrice] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
 
-  let memberId = null;
-  if (currentUser) {
-    memberId = currentUser.memberId;
-  } else {
-    memberId = 0;
-  }
-
-  // console.log(currentUser.memberId);
-  // const handleChangeRegister = (data) => {
-  //   if (data.status === "REGISTERED") {
-  //     setWasBid(data.previousPrice);
-  //     setIsRegister(true);
-  //   }
-  // };
+  let memberId = currentUser ? currentUser.memberId : 0;
 
   useEffect(() => {
     const getProductFromLot = async () => {
       try {
-        const data = await axios.get(
-          `http://localhost:8080/lot/view-upcoming-lot-detail/${lotId}`
-        );
-        setLot(data.data);
+        const data = await getUpcomingLotDetail(lotId);
+        setLot(data);
       } catch (error) {
         console.log(error);
       }
@@ -54,12 +41,9 @@ const UpcomingSessionLot = () => {
   useEffect(() => {
     const checkRegister = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/auction-register/check-member-register/${memberId}/${lotId}`
-        );
-        // handleChangeRegister(response.data);
-        if (response.data?.status === "REGISTERED") {
-          setWasBid(response.data.previousPrice);
+        const data = await getCheckLotRegister(memberId, lotId);
+        if (data?.status === "REGISTERED") {
+          setWasBid(data.previousPrice);
           setIsRegister(true);
         } else {
           setIsRegister(false);

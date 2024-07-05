@@ -3,10 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./createValuation.scss";
 import { Form, Spinner } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
 import { ToastContainer, toast } from "react-toastify";
 import ValuationInfo from "../../../info/valuation-request/ValuationInfo";
-import PhotoUploadIcon from "@mui/icons-material/Backup";
+import { postCreateValuation } from "../../../services/apiService";
 
 import PhotoReviewModal from "./PhotoReviewModal";
 
@@ -60,27 +59,15 @@ export default function CreateValuation() {
   async function Create(e) {
     e.preventDefault();
     setIsSending(true);
+    if (valuation.description.trim() === "" || valuation.photos.length === 0) {
+      setIsSending(false);
+      toast.error("Please fill the description and upload at least one photo!");
+      return;
+    }
     try {
-      const formData = new FormData();
-      formData.append("memberId", valuation.memberId);
-      formData.append("description", valuation.description);
-      formData.append("memberEstimatePrice", valuation.memberEstimate);
+      const data = await postCreateValuation(valuation);
 
-      valuation.photos.forEach((photo, index) => {
-        formData.append("image", photo);
-      });
-
-      const createValuation = await axios.post(
-        `http://localhost:8080/valuation/create`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      if (createValuation.status === 200) {
+      if (data !== null) {
         toast.success("Successfully");
         setValuation({
           memberId: currentUser.memberId,
@@ -88,14 +75,14 @@ export default function CreateValuation() {
           memberEstimate: "",
           photos: [],
         });
-        setIsSending(false);
       } else {
-        toast.error("Error set request!");
+        toast.error("Error sent request!");
       }
     } catch (error) {
       console.log(error);
-      toast.error("Error set request!");
+      toast.error("Error sent request!");
     }
+    setIsSending(false);
   }
 
   return (

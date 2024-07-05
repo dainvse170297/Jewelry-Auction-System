@@ -1,84 +1,83 @@
 .container-fluid {
-    padding: 20px;
-    background-color: #f9f9f9;
-  
-    .red-title {
-      color: #c00;
-      font-size: 2.5rem;
-      font-weight: bold;
-    }
-  
-    .mb-3 {
-      margin-bottom: 1.5rem;
-  
-      .row {
-        .col-xxl-3,
-        .col-lg-4,
-        .col-6 {
-          display: flex;
-          justify-content: center;
-          margin-bottom: 1.5rem;
-  
-          .lot-preview-card {
-            width: 100%;
-            max-width: 20rem;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-  
-            &:hover {
-              transform: translateY(-10px);
+  padding: 20px;
+  background-color: #f9f9f9;
+
+  .red-title {
+    color: #c00;
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+
+  .mb-3 {
+    margin-bottom: 1.5rem;
+
+    .row {
+      .col-xxl-3,
+      .col-lg-4,
+      .col-6 {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+
+        .lot-preview-card {
+          width: 100%;
+          max-width: 20rem;
+          background-color: #fff;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          overflow: hidden;
+          transition: transform 0.3s ease;
+
+          &:hover {
+            transform: translateY(-10px);
+          }
+
+          .card-img-top {
+            border-bottom: 1px solid #ddd;
+          }
+
+          .card-body {
+            padding: 15px;
+            text-align: center;
+
+            .card-title {
+              font-size: 1.2rem;
+              font-weight: bold;
+              color: #333;
             }
-  
-            .card-img-top {
-              border-bottom: 1px solid #ddd;
-            }
-  
-            .card-body {
-              padding: 15px;
-              text-align: center;
-  
-              .card-title {
-                font-size: 1.2rem;
-                font-weight: bold;
-                color: #333;
-              }
-  
-              .card-text {
+
+            .card-text {
+              font-size: 1rem;
+              color: #666;
+              margin-top: 10px;
+
+              .est {
                 font-size: 1rem;
-                color: #666;
+                color: #888;
+                margin-bottom: 10px;
+              }
+
+              .primary-btn,
+              .placebid {
+                display: inline-block;
+                padding: 10px 20px;
+                font-size: 1rem;
+                font-weight: bold;
+                color: #fff;
+                background-color: #c00;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                  background-color: #a00;
+                }
+              }
+
+              .placebid {
                 margin-top: 10px;
-  
-                .est {
-                  font-size: 1rem;
-                  color: #888;
-                  margin-bottom: 10px;
-                }
-  
-                .primary-btn,
-                .placebid {
-                  display: inline-block;
-                  padding: 10px 20px;
-                  font-size: 1rem;
-                  font-weight: bold;
-                  color: #fff;
-                  background-color: #c00;
-                  border: none;
-                  border-radius: 5px;
-                  cursor: pointer;
-                  transition: background-color 0.3s ease;
-  
-                  &:hover {
-                    background-color: #a00;
-                  }
-                }
-  
-                .placebid {
-                  margin-top: 10px;
-                }
               }
             }
           }
@@ -86,4 +85,4 @@
       }
     }
   }
-  
+}

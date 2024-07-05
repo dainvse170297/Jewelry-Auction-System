@@ -80,38 +80,4 @@ public class DashboardService implements IDashboardService {
     }
 
 
-//
-//    @Override
-//    public  Map<Integer,Long[]> getRevenueEachMonth(int year) {
-////        Map<Integer,Long[]> revenue = new HashMap<>();
-////        revenue.put(year, getRevenueEachMonthOfYear(year));
-////        return revenue;
-//        return null;
-//    }
-//
-////    @Override
-////    public Long[] getRevenueEachMonthOfBeforeYear() {
-////        return getRevenueEachMonthOfYear(LocalDate.now().getYear() - 1);
-////    }
-//
-//    @Override
-//    public int getTotalAuctionSession(int year){
-//        return getListAuctionSession(year).size();
-//    }
-//
-////    public int getTotalAuctionSessionBefore(){
-////        return getListAuctionSession(LocalDate.now().getYear() -1 ).size();
-////    }
-//
-//    @Override
-//    public int getTotalAuctionLots(int year) {
-//        getRevenueEachMonthOfYear(year);
-//        return totalLotJoinAuctionSession.getOrDefault(year, 0);
-//    }
-//
-//    @Override
-//    public int getTotalAuctionLotsSold(int year) {
-//        getRevenueEachMonthOfYear(year);
-//        return totalLotSoldAuctionSession.getOrDefault(year, 0);
-//    }
 }
