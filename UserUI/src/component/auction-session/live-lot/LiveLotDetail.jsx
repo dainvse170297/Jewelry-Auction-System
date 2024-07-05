@@ -6,7 +6,11 @@ import React, { useEffect, useState } from "react";
 import { Button, Carousel, Modal } from "react-bootstrap";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import { getBidHistory, getLiveLotDetail, postPlaceBidding } from "../../../services/apiService";
+import {
+  getBidHistory,
+  getLiveLotDetail,
+  postPlaceBidding,
+} from "../../../services/apiService";
 import Countdown from "../../countdown/Countdown";
 import WebSocketHandler from "../../web-socket-handler/WebSocketHandler";
 import "./LiveLotDetail.scss";
@@ -39,11 +43,6 @@ export default function LiveLotDetail() {
     const getInfo = async () => {
       setIsLoading(true);
       try {
-        // await axios
-        //   .get(`http://localhost:8080/lot/view-live-lot-detail/${id}`)
-        //   .then((result) => {
-        //     setProductInfo(result.data);
-        //   });
         const response = await getLiveLotDetail(id);
         setProductInfo(response);
         setIsLoading(false);
@@ -59,12 +58,6 @@ export default function LiveLotDetail() {
   useEffect(() => {
     const bidHistory = async () => {
       try {
-        // await axios
-        //   .get(`http://localhost:8080/bid/list-bid?lotId=${id}`)
-        //   .then((result) => {
-        //     setBidHistory(result.data);
-        //     // console.log(result.data);
-        //   });
         const response = await getBidHistory(id);
         setBidHistory(response);
       } catch (error) {
@@ -90,7 +83,7 @@ export default function LiveLotDetail() {
 
   const handleWinningMessage = (winningMessage) => {
     setWinningMessage(winningMessage);
-  }
+  };
 
   const placeBid = async (calculatedAmount) => {
     // let price = parseFloat(productInfo.currentPrice);
@@ -100,22 +93,12 @@ export default function LiveLotDetail() {
     if (currentUser === null) {
       navigate("/login", { state: { from: `/live-lot-detail/${id}` } });
     } else {
-      // const formData = new FormData();
-      // formData.append("price", calculatedAmount);
-      // formData.append("lotId", productInfo.id);
-      // formData.append("memberId", currentUser.memberId);
-      // console.log(
-      //   "formData",
-      //   calculatedAmount,
-      //   productInfo.id,
-      //   currentUser.memberId
-      // );
       try {
-        // const placeBid = await axios.post(
-        //   "http://localhost:8080/bid/place-bid",
-        //   formData
-        // );
-        const placeBid = await postPlaceBidding(calculatedAmount, productInfo.id, currentUser.memberId);
+        const placeBid = await postPlaceBidding(
+          calculatedAmount,
+          productInfo.id,
+          currentUser.memberId
+        );
         if (placeBid) {
           toast.success(`Successfully placed bid at $${calculatedAmount}`, {
             autoClose: 2500,
@@ -130,12 +113,11 @@ export default function LiveLotDetail() {
           }));
 
           if (calculatedAmount == parseFloat(productInfo.buyNowPrice)) {
-            handleWinningMessage("Congratulations! You have won the auction")
+            handleWinningMessage("Congratulations! You have won the auction");
             setTimeout(() => {
               window.location.reload();
             }, 2500);
           }
-
         } else {
           toast.error("Failed to place bid1");
         }
@@ -256,9 +238,7 @@ export default function LiveLotDetail() {
 
                 <div className="d-flex justify-content-center mt-5">
                   <div className="d-flex align-items-center">
-                    <h4 className="me-3 text-success">
-                      {winningMessage}
-                    </h4>
+                    <h4 className="me-3 text-success">{winningMessage}</h4>
                   </div>
                 </div>
 

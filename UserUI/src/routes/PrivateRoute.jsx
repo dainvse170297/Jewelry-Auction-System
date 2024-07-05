@@ -3,6 +3,7 @@ import CreateValuation from "../component/valuation_request/create/CreateValuati
 import CreateFinancialProofRequest from "../component/FinancialProof/CreateFinancialProofRequest";
 import Profile from "../component/profile/Profile";
 import LiveAuctionSessionDetail from "../component/auction-session/live-session/LiveAuctionSessionDetail";
+import LiveLotDetail from "../component/auction-session/live-lot/LiveLotDetail";
 import CheckOut from "../component/checkout/CheckOut";
 import CheckOutDetail from "../component/checkout/CheckOutDetail";
 import PaymentCallback from "../component/checkout/PaymentCallback";
@@ -25,6 +26,10 @@ const privateRoutes = [
   {
     path: "live-session-detail/:id",
     element: <LiveAuctionSessionDetail />,
+  },
+  {
+    path: "/live-lot-detail/:id",
+    element: <LiveLotDetail />,
   },
 ];
 

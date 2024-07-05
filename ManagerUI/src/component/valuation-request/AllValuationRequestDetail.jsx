@@ -87,7 +87,7 @@ function ValuationRequested({ valuationRequest }) {
     } else {
       try {
         const data = await postPreliminaryConfirm(
-          valuationRequestId,
+          valuationRequest.id,
           preliminaryValuation.estimateMin,
           preliminaryValuation.estimateMax,
           1
