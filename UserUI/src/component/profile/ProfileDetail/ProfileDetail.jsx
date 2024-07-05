@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Import ReactToastify CSS
 import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
+import { getProfileDetail } from "../../../services/apiService";
 
 const ProfileDetail = ({ memberId }) => {
   const [profile, setProfile] = useState({});
@@ -19,10 +20,11 @@ const ProfileDetail = ({ memberId }) => {
   useEffect(() => {
     const getMemberInfo = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/member/profile/${memberId}`
-        );
-        setProfile(response.data);
+        // const response = await axios.get(
+        //   `http://localhost:8080/member/profile/${memberId}`
+        // );
+        const response = await getProfileDetail(memberId);
+        setProfile(response);
       } catch (error) {
         console.error(error);
       }
@@ -203,7 +205,7 @@ const ProfileDetail = ({ memberId }) => {
             </div>
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn btn-primary mt-3 me-3"
               onClick={() => {
                 setIsEditing(true);
                 setNewCreditCard({
@@ -218,7 +220,7 @@ const ProfileDetail = ({ memberId }) => {
             </button>
             <button
               type="button"
-              className="btn btn-danger"
+              className="btn btn-danger mt-3 me-3"
               onClick={() => setShowDeleteConfirmation(true)}
             >
               Delete Credit Card

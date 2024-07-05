@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import "./upcoming-session-lot.scss";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Button, Carousel, Form, InputGroup, Modal } from "react-bootstrap";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Carousel, Form, InputGroup, Modal } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import {
-  getUpcomingLotDetail,
   getCheckLotRegister,
+  getUpcomingLotDetail,
+  postPrePlaceBid,
 } from "../../../services/apiService";
+import "./upcoming-session-lot.scss";
 
 const UpcomingSessionLot = () => {
   const { lotId } = useParams();
@@ -82,17 +82,18 @@ const UpcomingSessionLot = () => {
       // formData.append('memberId', currentUser.memberId)
       // formData.append('lotId', lotId)
       // formData.append('price', price)
-      const response = await axios.post(
-        "http://localhost:8080/auction-register/place-to-bid",
-        null,
-        {
-          params: {
-            memberId: currentUser.memberId,
-            lotId: lotId,
-            price: price || 0,
-          },
-        }
-      );
+      // const response = await axios.post(
+      //   "http://localhost:8080/auction-register/place-to-bid",
+      //   null,
+      //   {
+      //     params: {
+      //       memberId: currentUser.memberId,
+      //       lotId: lotId,
+      //       price: price || 0,
+      //     },
+      //   }
+      // );
+      const response = await postPrePlaceBid(currentUser.memberId, lotId, price);
       toast.success("Register to bid successfully");
       setTimeout(() => {
         window.location.reload();
@@ -146,12 +147,12 @@ const UpcomingSessionLot = () => {
             {lot.product?.estimatePriceMax}
           </p>
           <p className="secondary">
-            Current Reserve Price: ${lot.currentPrice}
+            Current Start Price: ${lot.currentPrice}
           </p>
           <p className="secondary">
             Category: {lot.product?.category?.name.toUpperCase()}
           </p>
-          <h5>{lot.status}</h5>
+          {/* <h5>{lot.status}</h5> */}
 
           {!isRegister ? (
             <div className="mt-3">
