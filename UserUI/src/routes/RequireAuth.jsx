@@ -5,12 +5,11 @@ const isLoggedIn = () => {
   return Boolean(localStorage.getItem("account"));
 };
 
-const RequireAuth = ({ children }) => {
+const RequireAuth = () => {
   if (!isLoggedIn()) {
     return <Navigate to="/login" replace />;
   }
-
-  return children;
+  return <Outlet />;
 };
 
 export default RequireAuth;

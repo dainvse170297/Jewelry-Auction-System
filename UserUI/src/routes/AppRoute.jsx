@@ -1,6 +1,5 @@
 import React, { lazy, useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-
 import privateRoutes from "./PrivateRoute";
 import RequireAuth from "./RequireAuth";
 
@@ -29,16 +28,13 @@ const Login = lazy(() => import("../component/auth/login/Login"));
 const Register = lazy(() => import("../component/auth/register/Register"));
 const Selling = lazy(() => import("../component/selling/Selling"));
 
-const AppRoute = (props) => {
+const AppRoute = () => {
   const [user, setUser] = useState({});
 
-  console.log("User:", user);
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("account"));
-    if (user !== null) {
+    if (user) {
       setUser(user);
-    } else {
-      console.log("User is null");
     }
   }, []);
 
@@ -49,11 +45,12 @@ const AppRoute = (props) => {
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/home" element={<Home />} />
+
+          {/* Private Routes */}
           <Route element={<RequireAuth />}>
-            {user !== null &&
-              privateRoutes.map((route, key) => (
-                <Route path={`${route.path}`} element={route.element} />
-              ))}
+            {privateRoutes.map((route, key) => (
+              <Route key={key} path={route.path} element={route.element} />
+            ))}
           </Route>
 
           {/* Public Routes */}
@@ -81,4 +78,5 @@ const AppRoute = (props) => {
     </>
   );
 };
+
 export default AppRoute;

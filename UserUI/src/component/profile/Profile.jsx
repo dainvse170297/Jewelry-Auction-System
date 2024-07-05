@@ -416,7 +416,7 @@ const Profile = () => {
                   </div>
                 </form>
               </div>
-
+              {/* 
               <div className="tab-pane" id="billing">
                 <h6>FINANCIAL PROOF</h6>
                 <hr />
@@ -425,7 +425,7 @@ const Profile = () => {
 
               <div className="tab-pane" id="valuationRequest">
                 <MyValuationRequest id={currentUser.memberId} />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

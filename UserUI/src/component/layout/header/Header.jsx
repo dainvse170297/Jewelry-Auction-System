@@ -16,10 +16,6 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 const Header = () => {
   const navigate = useNavigate();
 
-  const navigateToValuationRequest = () => {
-    navigate("/valuation-request/1");
-  };
-
   const currentUser = JSON.parse(localStorage.getItem("account")) || null;
 
   const handleLogout = () => {
@@ -33,7 +29,7 @@ const Header = () => {
     <div className="header">
       <Navbar bg="white" expand="lg" className="border-bottom" fixed="top">
         <Container>
-          <Navbar.Brand href="/home">
+          <Navbar.Brand as={Link} to="/home">
             <House size={24} />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -44,14 +40,14 @@ const Header = () => {
                   AUCTION
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item>
-                    <Link to="/upcoming">Upcoming Auctions</Link>
+                  <Dropdown.Item as={Link} to="/upcoming">
+                    Upcoming Auctions
                   </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Link to="/live">Live Auctions</Link>
+                  <Dropdown.Item as={Link} to="/live">
+                    Live Auctions
                   </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Link to="/past">Past Auctions</Link>
+                  <Dropdown.Item as={Link} to="/past">
+                    Past Auctions
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
@@ -60,27 +56,27 @@ const Header = () => {
                   SELLING
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item>
-                    <Link to="/selling">About Selling</Link>
+                  <Dropdown.Item as={Link} to="/selling">
+                    About Selling
                   </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Link to="/create-valuation">Create Valuation Request</Link>
+                  <Dropdown.Item as={Link} to="/create-valuation">
+                    Create Valuation Request
                   </Dropdown.Item>
-                  <Dropdown.Item>
-                    <Link to="/create-financial-proof">
-                      Create Financial Proof
-                    </Link>
+                  <Dropdown.Item as={Link} to="/create-financial-proof">
+                    Create Financial Proof
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </Nav>
             <Nav className="mx-auto">
-              <Navbar.Brand href="/home">FU-AUCTION</Navbar.Brand>
+              <Navbar.Brand as={Link} to="/home">
+                FU-AUCTION
+              </Navbar.Brand>
             </Nav>
             <Nav className="ms-auto me-auto">
               <Nav.Link href="#contact">CONTACT</Nav.Link>
               <Nav.Link href="#policies">POLICIES</Nav.Link>
-              <Nav.Link href="#notifications" className="">
+              <Nav.Link href="#notifications">
                 <Bell size={24} />
               </Nav.Link>
               <Dropdown>
@@ -90,34 +86,28 @@ const Header = () => {
                 <Dropdown.Menu>
                   {currentUser ? (
                     <>
-                      <Dropdown.Item href="/profile">
-                        {" "}
+                      <Dropdown.Item as={Link} to="/profile">
                         <PersonIcon /> Profile
                       </Dropdown.Item>
                       <Dropdown.Item href="#">
-                        {" "}
                         <AuctionIcon /> My Auction
                       </Dropdown.Item>
                       <Dropdown.Item href="#">
-                        {" "}
                         <Valuation /> My Valuation
                       </Dropdown.Item>
-                      <Dropdown.Item href="/checkout">
-                        {" "}
+                      <Dropdown.Item as={Link} to="/checkout">
                         <ShoppingCartIcon /> My Winner Auction
                       </Dropdown.Item>
-                      <Dropdown.Item href="" onClick={handleLogout}>
-                        {" "}
+                      <Dropdown.Item onClick={handleLogout}>
                         <LogoutIcon /> Log Out
                       </Dropdown.Item>
                     </>
                   ) : (
                     <>
-                      <Dropdown.Item href="/login">
-                        {" "}
+                      <Dropdown.Item as={Link} to="/login">
                         <LoginIcon /> Sign In
                       </Dropdown.Item>
-                      <Dropdown.Item href="/sign-up">
+                      <Dropdown.Item as={Link} to="/sign-up">
                         <PersonAddAltIcon /> Sign Up
                       </Dropdown.Item>
                     </>
