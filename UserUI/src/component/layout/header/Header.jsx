@@ -79,7 +79,7 @@ const Header = () => {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-            <Nav.Link href="#notifications" className="">
+            <Nav.Link href="/notify" className="">
               <Bell size={24} />
             </Nav.Link>
             <Dropdown>
@@ -93,14 +93,7 @@ const Header = () => {
                       {" "}
                       <PersonIcon /> Profile
                     </Dropdown.Item>
-                    {/* <Dropdown.Item href="#">
-                      {" "}
-                      <AuctionIcon /> My Auction
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#">
-                      {" "}
-                      <Valuation /> My Valuation
-                    </Dropdown.Item> */}
+
                     <Dropdown.Item href="/checkout">
                       {" "}
                       <ShoppingCartIcon /> My Winner Auction

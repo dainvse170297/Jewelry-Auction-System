@@ -23,6 +23,8 @@ export {
   getValuationRepsonse,
   getAuctionRegisterHistory,
   getFinancialProof,
+  postNotifications,
+  getReadNotify,
 };
 
 const postCreateValuation = async (valuation) => {
@@ -167,3 +169,11 @@ const getAuctionRegisterHistory = async (id) => {
 const getFinancialProof = async (id) => {
   return axios.get(`member/financial-proof/${id}`);
 };
+
+const postNotifications = async (memberId) => {
+  return axios.post(`notify/member/${memberId}`);
+}
+
+const getReadNotify = async (notifyId) => {
+  return axios.get(`notify/read/${notifyId}`);
+}
