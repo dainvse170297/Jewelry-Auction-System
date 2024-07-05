@@ -75,29 +75,6 @@ const Profile = () => {
                   </svg>
                   <span>Change Password</span>
                 </a>
-                {/* <a
-                  href="#notification"
-                  data-toggle="tab"
-                  className="nav-item nav-link has-icon nav-link-faded"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    className="main-grid-item-icon me-3"
-                    fill="none"
-                    stroke="#B23842"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                  >
-                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                    <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                  </svg>
-
-                  <span>Notification</span>
-                </a> */}
                 <a
                   href="#billing"
                   data-toggle="tab"
@@ -316,11 +293,6 @@ const Profile = () => {
               <div className="tab-pane" id="security">
                 <ChangePassword />
               </div>
-              {/* <div className="tab-pane" id="notification">
-                <h6>NOTIFICATION HERE</h6>
-                <hr />
-
-              </div> */}
 
               <div className="tab-pane" id="billing">
                 <h6>FINANCIAL PROOF</h6>

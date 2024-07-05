@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import privateRoutes from "./PrivateRoute";
 import RequireAuth from "./RequireAuth";
+import Footer from "../component/layout/footer/Footer";
 
 const UpcomingSessionList = lazy(() =>
   import("../component/auction-session/upcoming-session/UpcomingSessionList")
@@ -31,8 +32,6 @@ const Selling = lazy(() => import("../component/selling/Selling"));
 
 const AppRoute = (props) => {
   const [user, setUser] = useState({});
-
-  console.log("User:", user);
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("account"));
     if (user !== null) {
@@ -51,8 +50,8 @@ const AppRoute = (props) => {
           <Route path="/home" element={<Home />} />
           <Route element={<RequireAuth />}>
             {user !== null &&
-              privateRoutes.map((route, key) => (
-                <Route path={`${route.path}`} element={route.element} />
+              privateRoutes.map((route, index) => (
+                <Route key={index} path={`${route.path}`} element={route.element} />
               ))}
           </Route>
 
@@ -76,7 +75,9 @@ const AppRoute = (props) => {
             element={<PastSessionDetail />}
           />
           <Route path="*" element={<NotFound />} />
+
         </Routes>
+        <Footer />
       </div>
     </>
   );
