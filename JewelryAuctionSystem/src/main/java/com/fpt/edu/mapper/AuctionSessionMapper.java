@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class AuctionSessionMapper {
-    String defaultImageURL = "https://res.cloudinary.com/dhkmu458i/image/upload/v1717743567/gjapqhd4lz9kluhhc2rw.png";
+    String defaultImageURL = "https://res.cloudinary.com/dhkmu458i/image/upload/v1719595203/qmnyicl2trdxqjsqnuu7.jpg";
     public AuctionSessionDTO toAuctionSessionDTO(AuctionSession auctionSession) {
         AuctionSessionDTO auctionSessionDTO = new AuctionSessionDTO();
         auctionSessionDTO.setId(auctionSession.getId());

@@ -66,7 +66,7 @@ const Header = () => {
             <Navbar.Brand href="/home">FU-AUCTION</Navbar.Brand>
           </Nav>
           <Nav className="ms-auto me-auto">
-            <Nav.Link href="#contact">CONTACT</Nav.Link>
+            <Nav.Link href="/contact">CONTACT</Nav.Link>
             <Dropdown>
               <Dropdown.Toggle as={Nav.Link} id="dropdown-auction">
                 POLICIES

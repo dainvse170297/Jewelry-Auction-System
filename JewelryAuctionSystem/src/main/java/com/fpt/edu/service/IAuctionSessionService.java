@@ -30,7 +30,7 @@ public interface  IAuctionSessionService {
     ResponseEntity<?> viewLiveAuctionSessionDetail(Integer sessionId, Integer memberId);
 
     Map<String, Object> getAuctionSessionDetails(Integer sessionId, Integer memberId);
-
+    ViewLiveAuctionSessionDetailDTO getPastAuctionSessionDetail(Integer sessionId);
 
     AuctionSessionDTO publicAuctionSession(Integer sessionId);
 }
