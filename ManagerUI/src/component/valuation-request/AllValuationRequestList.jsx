@@ -176,6 +176,12 @@ const AllValuationRequestList = () => {
                                   valuationRequestId={request.id}
                                 />
                               )}
+                              {request.valuationStatus ===
+                                "PRODUCT_RECEIVED" && (
+                                <ProductReceived
+                                  valuationRequestId={request.id}
+                                />
+                              )}
                             </td>
                           </tr>
                         </>
