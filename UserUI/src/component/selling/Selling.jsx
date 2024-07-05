@@ -19,6 +19,9 @@ const Selling = () => {
     <>
       <div className="container-fluid">
         <div className="col-md-10 offset-md-1 my-5">
+          <div className="text-center mb-5">
+            <h1 className="titile"> About Selling</h1>
+          </div>
           <div className="row">
             <div className="col-md-6">
               <h1 className="text-center h1">Selling with FU AUCTION</h1>

@@ -4,6 +4,8 @@ import privateRoutes from "./PrivateRoute";
 import RequireAuth from "./RequireAuth";
 import Footer from "../component/layout/footer/Footer";
 import Layout from "../component/layout/Layout";
+import Privacypolicy from "../component/privacypolicy/Privacypolicy";
+import TermsAndConditions from "../component/terms_conditions/temsConditions";
 
 const UpcomingSessionList = lazy(() =>
   import("../component/auction-session/upcoming-session/UpcomingSessionList")
@@ -72,6 +74,9 @@ const AppRoute = () => {
               path="/upcoming-session-detail/:id"
               element={<UpcomingSessionDetail />}
             />
+            <Route path="/privacy-policy" element={<Privacypolicy />} />
+            <Route path="/terms-conditions" element={<TermsAndConditions />} />
+
             <Route
               path="/upcoming-session-lot/:lotId"
               element={<UpcomingSessionLot />}

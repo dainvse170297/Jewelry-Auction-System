@@ -3,8 +3,6 @@ import "./contactInfo.scss";
 import Button from "react-bootstrap/Button";
 
 const ContactInfo = () => {
-  const imgbackground =
-    "https://res.cloudinary.com/dhkmu458i/image/upload/v1720186756/360_F_186563284_s2h0ap6Atxrsjdt55IOWcbrtNvHoxAXg_iuzgvp.jpg";
   return (
     <div className="contact-info container py-5">
       <div className="text-center mb-4 ">
@@ -87,11 +85,11 @@ const ContactInfo = () => {
               <p>
                 <strong>Address:</strong>
                 <br />
-                608 5th Avenue
+                Lot E2a-7, Street D1, D. D1
                 <br />
-                Suite 507
+                Long Thanh My, Thu Duc City
                 <br />
-                New York, NY 10020
+                Ho Chi Minh 700000
               </p>
             </div>
             <div className="info-section">
@@ -107,22 +105,22 @@ const ContactInfo = () => {
               <p>
                 <strong>Phone:</strong>
                 <br />
-                (212) 389-9040
+                0348012834
               </p>
             </div>
             <div className="info-section">
               <p>
-                <strong>WhatsApp:</strong>
+                <strong>Youtube:</strong>
                 <br />
-                +1 212-389-9040
+                FU AUCTION
               </p>
             </div>
             <div className="info-section">
               <p>
                 <strong>Email:</strong>
                 <br />
-                <a href="mailto:info@FU AUCTIONAuction.com">
-                  info@FU AUCTIONAuction.com
+                <a href="mailto:jewelryauctionsystem06@gmail.com">
+                  jewelryauctionsystem06@gmail.com
                 </a>
               </p>
             </div>
@@ -132,7 +130,9 @@ const ContactInfo = () => {
                 <br />
                 English
                 <br />
-                French
+                Japanese
+                <br />
+                Vietnamese
               </p>
             </div>
           </div>

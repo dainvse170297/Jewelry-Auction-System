@@ -1,14 +1,10 @@
 import React from "react";
-import CreateValuation from "../component/valuation_request/create/CreateValuation";
-import CreateFinancialProofRequest from "../component/FinancialProof/CreateFinancialProofRequest";
-import Profile from "../component/profile/Profile";
-import LiveAuctionSessionDetail from "../component/auction-session/live-session/LiveAuctionSessionDetail";
 import LiveLotDetail from "../component/auction-session/live-lot/LiveLotDetail";
-import CheckOut from "../component/checkout/CheckOut";
-import CheckOutDetail from "../component/checkout/CheckOutDetail";
-import PaymentCallback from "../component/checkout/PaymentCallback";
-import PaymentSuccess from "../component/checkout/PaymentSuccess";
-import PaymentFailure from "../component/checkout/PaymentFailure";
+import LiveAuctionSessionDetail from "../component/auction-session/live-session/LiveAuctionSessionDetail";
+import CreateFinancialProofRequest from "../component/FinancialProof/CreateFinancialProofRequest";
+import NotificationList from "../component/notification/NotificationList";
+import Profile from "../component/profile/Profile";
+import CreateValuation from "../component/valuation_request/create/CreateValuation";
 
 const privateRoutes = [
   {
@@ -31,6 +27,10 @@ const privateRoutes = [
     path: "/live-lot-detail/:id",
     element: <LiveLotDetail />,
   },
+  {
+    path: "/notify",
+    element: <NotificationList />,
+  }
 ];
 
 export default privateRoutes;

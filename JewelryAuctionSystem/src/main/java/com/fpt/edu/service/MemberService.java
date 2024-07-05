@@ -138,8 +138,13 @@ public class MemberService implements IMemberService{
     @Override
     public MemberDTO getMyInfoFinancialProof(Integer memberId){
         Optional<Member> member = iMemberRepository.findById(memberId);
+
         CreditCard creditCard = member.get().getCreditCard();
+
         CreditCardDTO creditCardDTO = new CreditCardDTO();
+        log.info("MemberId: {}", memberId);
+        log.info("MemberId: {}", creditCard);
+
         if(creditCard != null){
             creditCardDTO.setId(creditCard.getId());
             creditCardDTO.setAccountHolder(creditCard.getAccountHolder());

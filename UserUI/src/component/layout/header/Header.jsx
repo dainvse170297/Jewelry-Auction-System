@@ -79,18 +79,18 @@ const Header = () => {
                 POLICIES
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item as={Link} to="/">
+                <Dropdown.Item href="/privacy-policy">
                   Privacy Policy
                 </Dropdown.Item>
-                <Dropdown.Item as={Link} to="/">
+                <Dropdown.Item href="/terms-conditions">
                   Terms & Conditions
                 </Dropdown.Item>
-                <Dropdown.Item as={Link} to="/delivery">
+                <Dropdown.Item href="/delivery">
                   Delivery instructions
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-            <Nav.Link href="#notifications" className="">
+            <Nav.Link href="/notify" className="">
               <Bell size={24} />
             </Nav.Link>
             <Dropdown>
@@ -104,14 +104,7 @@ const Header = () => {
                       {" "}
                       <PersonIcon /> Profile
                     </Dropdown.Item>
-                    {/* <Dropdown.Item href="#">
-                      {" "}
-                      <AuctionIcon /> My Auction
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#">
-                      {" "}
-                      <Valuation /> My Valuation
-                    </Dropdown.Item> */}
+
                     <Dropdown.Item href="/checkout">
                       {" "}
                       <ShoppingCartIcon /> My Winner Auction

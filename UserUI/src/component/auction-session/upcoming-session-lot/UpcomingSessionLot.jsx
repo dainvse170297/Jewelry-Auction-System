@@ -78,22 +78,11 @@ const UpcomingSessionLot = () => {
     e.preventDefault();
 
     try {
-      // const formData = new FormData()
-      // formData.append('memberId', currentUser.memberId)
-      // formData.append('lotId', lotId)
-      // formData.append('price', price)
-      // const response = await axios.post(
-      //   "http://localhost:8080/auction-register/place-to-bid",
-      //   null,
-      //   {
-      //     params: {
-      //       memberId: currentUser.memberId,
-      //       lotId: lotId,
-      //       price: price || 0,
-      //     },
-      //   }
-      // );
-      const response = await postPrePlaceBid(currentUser.memberId, lotId, price);
+      const response = await postPrePlaceBid(
+        currentUser.memberId,
+        lotId,
+        price
+      );
       toast.success("Register to bid successfully");
       setTimeout(() => {
         window.location.reload();
@@ -112,12 +101,16 @@ const UpcomingSessionLot = () => {
     console.log(errorMsg);
   };
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="container">
       <div className="">
-        <a href="#" className="a">
+        <button onClick={goBack} className="btn">
           <ArrowBackIcon /> BACK TO AUCTION
-        </a>
+        </button>
       </div>
       <hr />
       <div className="row">
@@ -128,7 +121,7 @@ const UpcomingSessionLot = () => {
                 (image, index) => (
                   <Carousel.Item key={index}>
                     <img
-                      className="d-block w-100"
+                      className="d-block w-100 h-50"
                       src={image.imageUrl}
                       alt={image.defaultImage}
                     />
@@ -146,9 +139,7 @@ const UpcomingSessionLot = () => {
             Estimate Price: ${lot.product?.estimatePriceMin} - $
             {lot.product?.estimatePriceMax}
           </p>
-          <p className="secondary">
-            Current Start Price: ${lot.currentPrice}
-          </p>
+          <p className="secondary">Current Start Price: ${lot.currentPrice}</p>
           <p className="secondary">
             Category: {lot.product?.category?.name.toUpperCase()}
           </p>

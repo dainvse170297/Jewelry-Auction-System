@@ -5,7 +5,6 @@ export {
   getRevenueByYear,
   postPreliminaryConfirm,
   getFinalValuationRequests,
-  getFinalValuationDetail,
   postAproveFinalValuation,
   postSendFinalValuationToMember,
   postProductReceive,
@@ -17,8 +16,13 @@ export {
   getAllWinnerPurchasedAuctionRegister,
   getMemberByProductId,
   confirmTransfered,
-  getValuationRequestById,
+  getValuationRequestById, //Get a valuation request by id (image of request)
   getRejectValuationRequest,
+  getAllProductReceivedRequest,
+  getProductDetailByRequestId, //Get product detail by request id (image of product)
+  postCancelFinalValuation, //Cancel final valuation that has product information
+  getAllCategory,
+  postAddProduct,
 };
 
 const getAllValuationRequests = async () => {
@@ -83,18 +87,14 @@ const getFinalValuationRequests = async () => {
   return axios.get(`valuation/get-all-final-valuations`);
 };
 
-const getFinalValuationDetail = async (id) => {
-  return axios.get(`valuation/view-final-request-details/${id}`);
-};
-
 const postAproveFinalValuation = async (id) => {
   return axios.post(`valuation/approve-final-valuation/${id}`);
 };
 
-const postSendFinalValuationToMember = async (id, staffId) => {
+const postSendFinalValuationToMember = async (id) => {
   const param = new URLSearchParams();
   param.append("id", id);
-  param.append("staffId", staffId);
+  param.append("staffId", 1); //bo
   return axios.post(`valuation/send-final-valuation-to-member`, param);
 };
 
@@ -140,4 +140,42 @@ const confirmTransfered = async (
 
 const getRejectValuationRequest = async (id) => {
   return axios.get(`valuation/staff-cancel/${id}`);
+};
+
+const getAllProductReceivedRequest = async () => {
+  return axios.get(`valuation/request/status/product-received`);
+};
+
+const getProductDetailByRequestId = async (id) => {
+  return axios.get(`valuation/view-final-request-details/${id}`);
+};
+
+const postCancelFinalValuation = async (id) => {
+  return axios.post(`valuation/cancel-final-valuation/${id}`);
+};
+const getAllCategory = async () => {
+  return axios.get(`category/all`);
+};
+
+const postAddProduct = async (product) => {
+  const formData = new FormData();
+  formData.append("valuationRequestId", product.valuationRequestId);
+  formData.append("categoryId", product.categoryId);
+  formData.append("name", product.name);
+  formData.append("description", product.description);
+  formData.append("estimatePriceMax", product.estimatePriceMax);
+  formData.append("estimatePriceMin", product.estimatePriceMin);
+  formData.append("buyNowPrice", product.buyNowPrice);
+  formData.append("maxStep", product.maxStep);
+  formData.append("pricePerStep", product.pricePerStep);
+  formData.append("startPrice", product.startPrice);
+  product.photos.forEach((photo, index) => {
+    formData.append("photos", photo);
+  });
+
+  return axios.post("product/add-product", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 };
