@@ -92,4 +92,10 @@ public class AuctionSessionController {
     public ResponseEntity<?> publicAuctionSession(@PathVariable Integer sessionId) {
         return ResponseEntity.ok(auctionSessionService.publicAuctionSession(sessionId));
     }
+
+    @PostMapping("/session/past/details")
+    public ResponseEntity<ViewLiveAuctionSessionDetailDTO> getPastAuctionSessionDetail(@RequestParam("sessionId") Integer sessionId) {
+        return ResponseEntity.ok(auctionSessionService.getPastAuctionSessionDetail(sessionId));
+    }
+
 }
