@@ -10,6 +10,7 @@ import com.fpt.edu.mapper.ValuationRequestMapper;
 import com.fpt.edu.dto.ValuationRequestDTO;
 import com.fpt.edu.status.ResponseValuationRequestStatus;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,8 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class ValuationRequestService implements IValuationRequestService {
+
+    private final int PAGE_SIZE = 10;
 
     private final IValuationRequestRepository iValuationRequestRepository;
     private final IMemberRepository iMemberRepository;
@@ -81,8 +84,8 @@ public class ValuationRequestService implements IValuationRequestService {
     }
 
     @Override
-    public List<ValuationRequestDetailDTO> getAll() {
-        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findAll();
+    public List<ValuationRequestDetailDTO> getAll(Integer page) {
+        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findAll(PageRequest.of(page, PAGE_SIZE)).getContent();
         for (ValuationRequest valuationRequest : valuationRequests) {
             Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
             valuationRequest.setValuationImages(valuationImages);

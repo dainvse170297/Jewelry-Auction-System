@@ -5,6 +5,7 @@ import "./valuationResponseList.scss";
 import DownIcon from "@mui/icons-material/FileDownload";
 import { ToastContainer, toast } from "react-toastify";
 import { Toast } from "react-bootstrap";
+import { getValuationRepsonse } from "../../../services/apiService";
 // import "bootstrap/dist/css/bootstrap.min.css";
 
 const ValuationResponseList = ({ id }) => {
@@ -33,10 +34,11 @@ const ValuationResponseList = ({ id }) => {
   useEffect(() => {
     const fetchRequest = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/response/view-valuation-response/${id}`
-        );
-        setData(response.data);
+        // const response = await axios.get(
+        //   `http://localhost:8080/response/view-valuation-response/${id}`
+        // );
+        const response = await getValuationRepsonse(id);
+        setData(response);
       } catch (error) {
         console.log("Error at fetchRequest: ", error);
       }

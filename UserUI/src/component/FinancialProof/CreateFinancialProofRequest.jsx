@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import PhotoReviewModal from "../valuation_request/create/PhotoReviewModal";
 import "./CreateFinancialProofRequest.scss";
 import FullScreenImage from "../../image/FullScreenImage.jsx";
+import { postCreateFinancialProofAmount } from "../../services/apiService.jsx";
 
 const customImage =
   "https://res.cloudinary.com/dhkmu458i/image/upload/v1719989868/Untitled-2560-_C3_97-1703-px-1-1-400x267_susf5n.jpg";
@@ -57,27 +58,26 @@ export default function CreateFinancialProofRequest() {
     setLoading(true);
 
     try {
-      const formData = new FormData();
-      formData.append("memberId", valuation.memberId);
+      // const formData = new FormData();
+      // formData.append("memberId", valuation.memberId);
+      // valuation.
+      //   photos.forEach((photo) => {
+      //     formData.append("image", photo);
+      //   });
 
+      // const createValuation = await axios.post(
+      //   `http://localhost:8080/financial-proof/create`,
+      //   formData,
+      //   {
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //     },
+      //   }
+      // );
 
-      valuation.
-        photos.forEach((photo) => {
-          formData.append("image", photo);
-        });
+      const createValuation = await postCreateFinancialProofAmount(valuation)
 
-
-      const createValuation = await axios.post(
-        `http://localhost:8080/financial-proof/create`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      if (createValuation.status === 200) {
+      if (createValuation) {
         toast.success("Financial proof request successfully submitted!");
         setValuation({
           memberId: currentUser.memberId,
@@ -87,11 +87,11 @@ export default function CreateFinancialProofRequest() {
         });
         setSelectedImages([]);
       } else {
-        toast.error("Error submitting financial proof request.");
+        toast.error("Error submitting financial proof request..");
       }
     } catch (error) {
       console.error("Error:", error);
-      toast.error("Error submitting financial proof request.");
+      toast.error("Error submitting financial proof request....");
     } finally {
       setLoading(false);
     }

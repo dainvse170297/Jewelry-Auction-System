@@ -2,6 +2,7 @@ package com.fpt.edu.controller;
 
 import com.fpt.edu.dto.*;
 import com.fpt.edu.entity.ValuationRequest;
+import com.fpt.edu.service.IValuationRequestService;
 import com.fpt.edu.service.ResponseValuationRequestService;
 import com.fpt.edu.service.ValuationRequestService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ import java.util.Set;
 @CrossOrigin(origins = "*")
 public class ValuationRequestController {
 
-    private final ValuationRequestService valuationRequestService;
+    private final IValuationRequestService valuationRequestService;
     private final ResponseValuationRequestService responseValuationRequestService;
 
     //Member create valuation request by description and estimate price
@@ -37,8 +38,8 @@ public class ValuationRequestController {
 
     @GetMapping("/all")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<List<ValuationRequestDetailDTO>> getAll() {
-        return ResponseEntity.ok(valuationRequestService.getAll());
+    public ResponseEntity<List<ValuationRequestDetailDTO>> getAll(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page){
+        return ResponseEntity.ok(valuationRequestService.getAll(page));
     }
 
     @GetMapping("/requested")

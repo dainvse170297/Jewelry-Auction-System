@@ -9,12 +9,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class NotifyService implements INotifyService{
 
     private final INotifyRepository iNotifyRepository;
+    private final IMemberRepository iMemberRepository;
     private final NotifyMapper NotifyMapper;
     @Override
     public NotifyDTO insertNotify(Member member, String title, String description) {
@@ -30,5 +32,10 @@ public class NotifyService implements INotifyService{
     @Override
     public void deleteNotify(Integer notifyId) {
         iNotifyRepository.deleteById(notifyId);
+    }
+
+    @Override
+    public List<NotifyDTO> getNotifyByMemberId(Integer id) {
+        return NotifyMapper.toNotifyDTOs(iNotifyRepository.findByMember(iMemberRepository.getReferenceById(id)));
     }
 }

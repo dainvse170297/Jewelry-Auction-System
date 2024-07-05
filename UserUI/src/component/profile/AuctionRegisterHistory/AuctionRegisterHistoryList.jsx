@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import './AuctionRegisterHistoryList.scss'
 import { useNavigate } from 'react-router-dom'
 import Paginator from '../../common/Paginator'
+import { getAuctionRegisterHistory } from '../../../services/apiService'
 
 const AuctionRegisterHistoryList = ({ id }) => {
 
@@ -30,8 +31,9 @@ const AuctionRegisterHistoryList = ({ id }) => {
     useEffect(() => {
         const getAuctionRegisterHistoryList = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/auction-register/get-auction-register-by-memberId/${id}`)
-                setAuctionRegisterHistoryList(response.data)
+                // const response = await axios.get(`http://localhost:8080/auction-register/get-auction-register-by-memberId/${id}`)
+                const response = await getAuctionRegisterHistory(id)
+                setAuctionRegisterHistoryList(response)
             } catch (error) {
                 console.error(error)
             }

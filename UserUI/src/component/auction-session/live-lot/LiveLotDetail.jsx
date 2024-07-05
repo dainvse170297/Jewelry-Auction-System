@@ -1,15 +1,15 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import { LinearProgress } from "@mui/material";
-import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Button, Carousel, Modal } from "react-bootstrap";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { getBidHistory, getLiveLotDetail, postPlaceBidding } from "../../../services/apiService";
 import Countdown from "../../countdown/Countdown";
-import "./LiveLotDetail.scss";
-import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import WebSocketHandler from "../../web-socket-handler/WebSocketHandler";
+import "./LiveLotDetail.scss";
 
 export default function LiveLotDetail() {
   const { id } = useParams();
@@ -39,11 +39,13 @@ export default function LiveLotDetail() {
     const getInfo = async () => {
       setIsLoading(true);
       try {
-        await axios
-          .get(`http://localhost:8080/lot/view-live-lot-detail/${id}`)
-          .then((result) => {
-            setProductInfo(result.data);
-          });
+        // await axios
+        //   .get(`http://localhost:8080/lot/view-live-lot-detail/${id}`)
+        //   .then((result) => {
+        //     setProductInfo(result.data);
+        //   });
+        const response = await getLiveLotDetail(id);
+        setProductInfo(response);
         setIsLoading(false);
       } catch (error) {
         console.log("Error:", error.message);
@@ -55,20 +57,22 @@ export default function LiveLotDetail() {
   }, [id]);
 
   useEffect(() => {
-    const getBidHistory = async () => {
+    const bidHistory = async () => {
       try {
-        await axios
-          .get(`http://localhost:8080/bid/list-bid?lotId=${id}`)
-          .then((result) => {
-            setBidHistory(result.data);
-            // console.log(result.data);
-          });
+        // await axios
+        //   .get(`http://localhost:8080/bid/list-bid?lotId=${id}`)
+        //   .then((result) => {
+        //     setBidHistory(result.data);
+        //     // console.log(result.data);
+        //   });
+        const response = await getBidHistory(id);
+        setBidHistory(response);
       } catch (error) {
         console.log("Error:", error.message);
         setErrorMsg("Error fetching data from server");
       }
     };
-    getBidHistory();
+    bidHistory();
   }, [id]);
 
   const handleMultiplierChange = (e) => {
@@ -85,7 +89,6 @@ export default function LiveLotDetail() {
   }, [message]);
 
   const handleWinningMessage = (winningMessage) => {
-    // toast(winningMessage, { autoClose: 2500 })
     setWinningMessage(winningMessage);
   }
 
@@ -97,22 +100,23 @@ export default function LiveLotDetail() {
     if (currentUser === null) {
       navigate("/login", { state: { from: `/live-lot-detail/${id}` } });
     } else {
-      const formData = new FormData();
-      formData.append("price", calculatedAmount);
-      formData.append("lotId", productInfo.id);
-      formData.append("memberId", currentUser.memberId);
-      console.log(
-        "formData",
-        calculatedAmount,
-        productInfo.id,
-        currentUser.memberId
-      );
+      // const formData = new FormData();
+      // formData.append("price", calculatedAmount);
+      // formData.append("lotId", productInfo.id);
+      // formData.append("memberId", currentUser.memberId);
+      // console.log(
+      //   "formData",
+      //   calculatedAmount,
+      //   productInfo.id,
+      //   currentUser.memberId
+      // );
       try {
-        const placeBid = await axios.post(
-          "http://localhost:8080/bid/place-bid",
-          formData
-        );
-        if (placeBid.status === 200) {
+        // const placeBid = await axios.post(
+        //   "http://localhost:8080/bid/place-bid",
+        //   formData
+        // );
+        const placeBid = await postPlaceBidding(calculatedAmount, productInfo.id, currentUser.memberId);
+        if (placeBid) {
           toast.success(`Successfully placed bid at $${calculatedAmount}`, {
             autoClose: 2500,
           });
@@ -124,15 +128,19 @@ export default function LiveLotDetail() {
                 ? prevInfo.buyNowPrice
                 : calculatedAmount,
           }));
-          // setBidHistory((prevHistory) => [
-          //   { price: calculatedAmount, bidTime: new Date() },
-          //   ...prevHistory,
-          // ]);
+
+          if (calculatedAmount == parseFloat(productInfo.buyNowPrice)) {
+            handleWinningMessage("Congratulations! You have won the auction")
+            setTimeout(() => {
+              window.location.reload();
+            }, 2500);
+          }
+
         } else {
-          toast.error("Failed to place bid");
+          toast.error("Failed to place bid1");
         }
       } catch (error) {
-        toast.error("Failed to place bid");
+        toast.error("Failed to place bid2");
       }
     }
   };

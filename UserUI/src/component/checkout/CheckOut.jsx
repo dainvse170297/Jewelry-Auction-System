@@ -1,8 +1,8 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import './checkout.scss';
-import { useNavigate } from 'react-router-dom';
 import { LinearProgress } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getAllCheckOutProducts } from '../../services/apiService';
+import './checkout.scss';
 
 const CheckOut = () => {
     const [isLoading, setIsLoading] = useState(false)
@@ -30,9 +30,9 @@ const CheckOut = () => {
                 memberId = currentUser.memberId;
                 setIsLoading(true)
                 try {
-                    const data = await axios.get(`http://localhost:8080/auction-register/view-win-auction-list/${memberId}`);
-
-                    setProducts(data.data);
+                    // const data = await axios.get(`http://localhost:8080/auction-register/view-win-auction-list/${memberId}`);
+                    const data = await getAllCheckOutProducts(memberId);
+                    setProducts(data);
                     setIsLoading(false)
                 } catch (error) {
                     console.log(error);
