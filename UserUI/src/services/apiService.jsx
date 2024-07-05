@@ -185,7 +185,7 @@ const postAddCreditCard = async (memberId, newCreditCard) => {
 ///asdsad
 const putEditCreditCard = async (memberId, updatedCreditCard) => {
   try {
-    const response = await instance.put(
+    const response = await axios.put(
       `/member/profile/${memberId}/edit-credit-card`,
       updatedCreditCard
     );
@@ -196,7 +196,7 @@ const putEditCreditCard = async (memberId, updatedCreditCard) => {
 };
 const deleteCreditCard = async (memberId) => {
   try {
-    const response = await instance.delete(
+    const response = await axios.delete(
       `/member/profile/${memberId}/delete-credit-card`
     );
     return response.data;
