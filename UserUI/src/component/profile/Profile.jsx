@@ -277,8 +277,6 @@ const Profile = () => {
                     </svg>
                   </a>
                 </li>
-
-
               </ul>
             </div>
 
@@ -302,6 +300,7 @@ const Profile = () => {
 
               <div className="tab-pane" id="valuationRequest">
                 <MyValuationRequest id={currentUser.memberId} />
+
               </div>
 
               <div className="tab-pane" id="auctionsRegistered">
