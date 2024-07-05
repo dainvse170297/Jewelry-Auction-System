@@ -224,7 +224,7 @@ public class ValuationRequestService implements IValuationRequestService {
             ValuationRequest valuationRequest = valuationRequestOpt.get();
 
             if (valuationRequest.getValuationStatus().equals(ValuationRequestStatus.PENDING_MANAGER_APPROVAL)) {
-                valuationRequest.setValuationStatus(ValuationRequestStatus.CANCELED);
+                valuationRequest.setValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED);
                 iValuationRequestRepository.save(valuationRequest);
                 response.put("message", "ValuationRequest with id: " + id + " has been rejected by manager");
                 return response;
@@ -264,7 +264,7 @@ public class ValuationRequestService implements IValuationRequestService {
     }
 
     @Override
-    public List<Map<String, String>> sendFinalValuationToMember(Integer id, Integer staffId) {
+    public List<Map<String, String>> sendFinalValuationToMember(Integer id) {
         // Find the ValuationRequest with the given id
         Optional<ValuationRequest> valuationRequestOpt = iValuationRequestRepository.findById(id);
         List<Map<String, String>> responseList = new ArrayList<>();
@@ -291,7 +291,7 @@ public class ValuationRequestService implements IValuationRequestService {
                         ResponseValuationRequestStatus.FINAL,
                         valuationRequest.getEstimatePriceMin(),
                         valuationRequest.getEstimatePriceMax(),
-                        iStaffRepository.getReferenceById(staffId),
+                        iStaffRepository.getReferenceById(1),
                         valuationRequest
                 );
 

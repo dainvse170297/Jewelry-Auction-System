@@ -102,9 +102,8 @@ public class ValuationRequestController {
 
 
     @PostMapping("/send-final-valuation-to-member")
-    public ResponseEntity<List<Map<String, String>>> sendFinalValuationToMember(@RequestParam Integer id, //valauation request id
-                                                                                @RequestParam Integer staffId) {
-        return ResponseEntity.ok(valuationRequestService.sendFinalValuationToMember(id, staffId));
+    public ResponseEntity<List<Map<String, String>>> sendFinalValuationToMember(@RequestParam Integer id) {
+        return ResponseEntity.ok(valuationRequestService.sendFinalValuationToMember(id));
     }
 
     @GetMapping("/get-all-valuation-manager-approved")
