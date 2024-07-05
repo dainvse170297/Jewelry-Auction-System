@@ -81,6 +81,8 @@ public class AuctionSessionController {
     public ResponseEntity<List<AuctionSessionDTO>> getLiveAuctionSession() {
         return ResponseEntity.ok(auctionSessionService.getAuctionSession(AuctionSessionStatus.LIVE));
     }
+
+    //deo co chuc nang nay
     @GetMapping("/session/past")
     public ResponseEntity<List<AuctionSessionDTO>> getPastAuctionSession() {
         return ResponseEntity.ok(auctionSessionService.getAuctionSession(AuctionSessionStatus.PAST));
