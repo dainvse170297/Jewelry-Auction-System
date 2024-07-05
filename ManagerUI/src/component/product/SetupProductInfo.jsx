@@ -336,7 +336,9 @@ const SetupProductInfo = () => {
               </Form.Group>
 
               {/* SEE PHOTO WHEN INPUT FILE */}
-              <label className="text-secondary">Photo preview</label>
+              {product.photoPreview.length > 0 && (
+                <label className="text-secondary">Photo preview</label>
+              )}
               <div>
                 {product.photoPreview.map((preview, index) => (
                   <img
