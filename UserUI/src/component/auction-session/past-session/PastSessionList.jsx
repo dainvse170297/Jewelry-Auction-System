@@ -1,22 +1,24 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import AuctionSession from "../AuctionSession";
+import { getPastSessionList } from "../../../services/apiService";
 
 const PastSessionList = () => {
   const [liveSessions, setLiveSessions] = useState([]);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const getAll = async () => {
-      await axios
-        .get("http://localhost:8080/auction/session/past")
-        .then((response) => {
-          setLiveSessions(response.data);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      try {
+        const data = await getPastSessionList();
+        if (Array.isArray(data)) {
+          setLiveSessions(data);
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
     };
     getAll();
   }, []);
@@ -34,19 +36,25 @@ const PastSessionList = () => {
       <div className="row d-flex justify-content-center">
         <div className="col-10">
           {loading ? (
-            <Spinner animation="border" role="status">
-              {/* <span className="sr-only">Loading...</span> */}
-            </Spinner>
+            <Spinner animation="border" role="status"></Spinner>
           ) : (
-            liveSessions.map((session, index) => (
-              <div className="row session-cart" key={index}>
-                <AuctionSession
-                  session={session}
-                  showImage={true}
-                  showDetailBtn={true}
-                />
-              </div>
-            ))
+            <>
+              {liveSessions.length === 0 && (
+                <div className="text-center">
+                  <h3>No past session available</h3>
+                </div>
+              )}
+
+              {liveSessions.map((session, index) => (
+                <div className="row session-cart" key={index}>
+                  <AuctionSession
+                    session={session}
+                    showImage={true}
+                    showDetailBtn={true}
+                  />
+                </div>
+              ))}
+            </>
           )}
         </div>
       </div>
