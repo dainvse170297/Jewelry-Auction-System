@@ -76,12 +76,12 @@ public class ValuationRequestController {
     }
 
     @GetMapping("/request/status/product-received")
-    public ResponseEntity<List<ValuationRequestDTO>> getRequestStatusProductReceived() {
+    public ResponseEntity<List<ValuationRequestDetailDTO>> getRequestStatusProductReceived() {
         return ResponseEntity.ok(valuationRequestService.getRequestStatusProductReceived());
     }
 
     @GetMapping("/request/status/product-received/{id}")
-    public ResponseEntity<ValuationRequestDTO> getRequestStatusProductReceivedById(@PathVariable Integer id) {
+    public ResponseEntity<ValuationRequestDetailDTO> getRequestStatusProductReceivedById(@PathVariable Integer id) {
         return ResponseEntity.ok(valuationRequestService.getRequestByIdAndStatusProductReceived(id));
     }
 

@@ -21,9 +21,9 @@ public interface IValuationRequestService {
 
     public ValuationRequestDetailDTO productReceived(Integer id);
 
-    public List<ValuationRequestDTO> getRequestStatusProductReceived();
+    public List<ValuationRequestDetailDTO> getRequestStatusProductReceived();
 
-    public ValuationRequestDTO getRequestByIdAndStatusProductReceived(int id);
+    public ValuationRequestDetailDTO getRequestByIdAndStatusProductReceived(int id);
 
     public List<FinalValuationRequestDTO> getListFinalValuationRequest();
 

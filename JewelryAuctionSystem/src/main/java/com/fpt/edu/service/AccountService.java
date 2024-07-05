@@ -3,9 +3,8 @@ package com.fpt.edu.service;
 import com.fpt.edu.dto.AccountDTO;
 import com.fpt.edu.dto.MemberDTO;
 import com.fpt.edu.dto.StaffDTO;
-import com.fpt.edu.entity.Account;
+import com.fpt.edu.entity.*;
 
-import com.fpt.edu.entity.InvalidatedToken;
 import com.fpt.edu.mapper.AccountMapper;
 
 
@@ -14,19 +13,14 @@ import com.fpt.edu.exception.UsernameNotFoundException;
 import com.fpt.edu.mapper.AuthenticationMapper;
 import com.fpt.edu.mapper.MemberMapper;
 import com.fpt.edu.mapper.StaffMapper;
-import com.fpt.edu.repository.IAccountRepository;
-import com.fpt.edu.repository.InvalidatedTokenRepository;
+import com.fpt.edu.repository.*;
 import com.fpt.edu.security.request.IntrospectRequest;
 import com.fpt.edu.security.request.LogoutRequest;
 import com.fpt.edu.security.request.RefreshRequest;
 import com.fpt.edu.security.response.AuthenticationResponse;
 import com.fpt.edu.security.response.IntrospectResponse;
-import com.fpt.edu.entity.Member;
-import com.fpt.edu.entity.Role;
 import com.fpt.edu.exception.EmailExistedException;
 import com.fpt.edu.exception.UsernameExistedException;
-import com.fpt.edu.repository.IMemberRepository;
-import com.fpt.edu.repository.IRoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +53,7 @@ public class AccountService implements IAccountService {
     private final InvalidatedTokenRepository invalidatedTokenRepository;
     private final MemberMapper memberMapper;
     private final StaffMapper staffMapper;
+    private final IStaffRepository staffRepository;
 
 
     @NonFinal
@@ -279,6 +274,26 @@ public class AccountService implements IAccountService {
         memberRepository.save(member);
         Map<String, Object> map = getInformationById(id);
         return map;
+    }
+
+    @Override
+    public Account createStaffAccount(String username, String password, String fullName) {
+        Account account = new Account();
+        if (accountRepository.findByUsername(username).isPresent()) {
+            throw new UsernameExistedException("Username is existed");
+        } else {
+            Staff staff = new Staff();
+            staff.setFullname(fullName);
+            staffRepository.save(staff);
+            account.setUsername(username);
+            account.setPassword(password);
+            account.setCreateDate(LocalDateTime.now());
+            Role role = roleRepository.findByName("STAFF");
+            account.setRole(role);
+            account.setStaff(staff);
+            accountRepository.save(account);
+        }
+        return account;
     }
 }
 

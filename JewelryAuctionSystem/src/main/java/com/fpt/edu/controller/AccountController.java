@@ -55,4 +55,12 @@ public class AccountController {
                                                   @RequestParam("address") String address){
         return ResponseEntity.ok().body(accountService.changeInformation(id,fullname,phone,address));
     }
+
+    @PostMapping("/staff/register")
+    public ResponseEntity<Account> createStaffAccount(@RequestParam("username") String username,
+                                                      @RequestParam("password")String password,
+                                                      @RequestParam("fullName")String fullName){
+
+        return ResponseEntity.ok().body(accountService.createStaffAccount(username,password,fullName));
+    }
 }

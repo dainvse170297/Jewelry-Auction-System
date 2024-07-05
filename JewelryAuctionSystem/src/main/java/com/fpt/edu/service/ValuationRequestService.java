@@ -128,18 +128,26 @@ public class ValuationRequestService implements IValuationRequestService {
     }
 
     @Override
-    public List<ValuationRequestDTO> getRequestStatusProductReceived() {
-        List<ValuationRequestDTO> result = valuationRequestMapper.mapToValuationRequestDTOList(iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED));
+    public List<ValuationRequestDetailDTO> getRequestStatusProductReceived() {
+        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED);
+        for (ValuationRequest valuationRequest : valuationRequests) {
+            Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
+            valuationRequest.setValuationImages(valuationImages);
+        }
+        List<ValuationRequestDetailDTO> result = valuationRequestMapper.mapToValuationRequestDetailDTOList(valuationRequests);
         System.out.println("Result: ");
-        for (ValuationRequestDTO dto : result) {
+        for (ValuationRequestDetailDTO dto : result) {
             System.out.println(dto);
         }
         return result;
     }
 
     @Override
-    public ValuationRequestDTO getRequestByIdAndStatusProductReceived(int id) {
-        return valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.findByIdAndValuationStatus(id, ValuationRequestStatus.PRODUCT_RECEIVED));
+    public ValuationRequestDetailDTO getRequestByIdAndStatusProductReceived(int id) {
+        ValuationRequest valuationRequest = iValuationRequestRepository.findByIdAndValuationStatus(id, ValuationRequestStatus.PRODUCT_RECEIVED);
+        Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
+        valuationRequest.setValuationImages(valuationImages);
+        return valuationRequestMapper.mapToValuationRequestDetailDTO(valuationRequest);
     }
 
     @Override
