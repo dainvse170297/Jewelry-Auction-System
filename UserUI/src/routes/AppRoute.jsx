@@ -1,13 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Selling from "../component/selling/Selling";
-import UpcomingSessionDetail from "../component/auction-session/upcoming-session/UpcomingSessionDetail";
-import LiveSessionList from "../component/auction-session/live-session/LiveSessionList";
-import PastSessionDetail from "../component/auction-session/past-session/PastSessionDetail";
-import Header from "../component/layout/header/Header";
+
 import privateRoutes from "./PrivateRoute";
-import Home from "../component/home/Home";
-import NotFound from "../views/NotFound";
+import RequireAuth from "./RequireAuth";
+
+const UpcomingSessionList = lazy(() =>
+  import("../component/auction-session/upcoming-session/UpcomingSessionList")
+);
+const UpcomingSessionDetail = lazy(() =>
+  import("../component/auction-session/upcoming-session/UpcomingSessionDetail")
+);
+const UpcomingSessionLot = lazy(() =>
+  import("../component/auction-session/upcoming-session-lot/UpcomingSessionLot")
+);
+const LiveSessionList = lazy(() =>
+  import("../component/auction-session/live-session/LiveSessionList")
+);
+const PastSessionDetail = lazy(() =>
+  import("../component/auction-session/past-session/PastSessionDetail")
+);
+const PastSessionList = lazy(() =>
+  import("../component/auction-session/past-session/PastSessionList")
+);
+const Header = lazy(() => import("../component/layout/header/Header"));
+const Home = lazy(() => import("../component/home/Home"));
+const NotFound = lazy(() => import("../views/NotFound"));
+const Login = lazy(() => import("../component/auth/login/Login"));
+const Register = lazy(() => import("../component/auth/register/Register"));
+const Selling = lazy(() => import("../component/selling/Selling"));
 
 const AppRoute = (props) => {
   const [user, setUser] = useState({});
@@ -15,7 +35,11 @@ const AppRoute = (props) => {
   console.log("User:", user);
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("account"));
-    setUser(user);
+    if (user !== null) {
+      setUser(user);
+    } else {
+      console.log("User is null");
+    }
   }, []);
 
   return (
@@ -25,15 +49,26 @@ const AppRoute = (props) => {
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/home" element={<Home />} />
-          {user &&
-            privateRoutes.map((route) => (
-              <Route path={`${route.path}`} element={route.element} />
-            ))}
+          <Route element={<RequireAuth />}>
+            {user !== null &&
+              privateRoutes.map((route, key) => (
+                <Route path={`${route.path}`} element={route.element} />
+              ))}
+          </Route>
+
+          {/* Public Routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/sign-up" element={<Register />} />
           <Route path="/selling" element={<Selling />} />
+          <Route path="/upcoming" element={<UpcomingSessionList />} />
           <Route path="/live" element={<LiveSessionList />} />
           <Route
             path="/upcoming-session-detail/:id"
             element={<UpcomingSessionDetail />}
+          />
+          <Route
+            path="/upcoming-session-lot/:lotId"
+            element={<UpcomingSessionLot />}
           />
           <Route path="/past" element={<PastSessionList />} />
           <Route

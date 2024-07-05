@@ -3,13 +3,12 @@ import { Link } from "react-router-dom";
 import "./LotPreview.scss";
 
 const LotPreview = ({ lot, registeredValue, sessionStatus }) => {
-
   const truncate = (text, maxLength) => {
     if (text.length <= maxLength) {
       return text;
     }
     return text.substr(0, maxLength) + "...";
-  }
+  };
 
   return (
     <Card style={{ width: "20rem" }}>
@@ -19,7 +18,7 @@ const LotPreview = ({ lot, registeredValue, sessionStatus }) => {
           lot.productImages.map((image, index) => (
             <Carousel.Item key={index}>
               <img
-                className="d-block w-100"
+                className="d-block w-100 h-50"
                 src={image.imageUrl}
                 alt={`Slide ${index}`}
               />
@@ -27,10 +26,8 @@ const LotPreview = ({ lot, registeredValue, sessionStatus }) => {
           ))}
       </Carousel>
       <Card.Body className=" text-center ">
-        <Card.Title>
-          <strong>
-            {truncate(lot.productName, 20)}
-          </strong>
+        <Card.Title style={{ height: "50px" }}>
+          <strong>{truncate(lot.productName, 20)}</strong>
         </Card.Title>
 
         <Card.Text>
@@ -55,11 +52,6 @@ const LotPreview = ({ lot, registeredValue, sessionStatus }) => {
               </Link>
             </>
           )}
-
-          {/* {registeredValue && <p>Registered Value: {registeredValue}</p>}
-          <Link to={`/upcoming-session-lot/${lot.id}`}>
-            <button className="detail-button">View details</button>
-          </Link> */}
         </Card.Text>
       </Card.Body>
     </Card>

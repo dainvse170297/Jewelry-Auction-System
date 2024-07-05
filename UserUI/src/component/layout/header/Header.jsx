@@ -30,7 +30,7 @@ const Header = () => {
   };
 
   return (
-    <div>
+    <div className="header">
       <Navbar bg="white" expand="lg" className="border-bottom" fixed="top">
         <Container>
           <Navbar.Brand href="/home">
@@ -44,11 +44,15 @@ const Header = () => {
                   AUCTION
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item href="/live">Live Auctions</Dropdown.Item>
-                  <Dropdown.Item href="/upcoming">
-                    Upcoming Auctions
+                  <Dropdown.Item>
+                    <Link to="/upcoming">Upcoming Auctions</Link>
                   </Dropdown.Item>
-                  <Dropdown.Item href="/past">Past Auctions</Dropdown.Item>
+                  <Dropdown.Item>
+                    <Link to="/live">Live Auctions</Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <Link to="/past">Past Auctions</Link>
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
               <Dropdown>

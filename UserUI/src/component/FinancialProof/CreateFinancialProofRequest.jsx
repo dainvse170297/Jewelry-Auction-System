@@ -23,7 +23,7 @@ export default function CreateFinancialProofRequest() {
   const currentUser = JSON.parse(localStorage.getItem("account"));
 
   const [valuation, setValuation] = useState({
-    memberId: currentUser.memberId,
+    memberId: currentUser.id,
     photos: [],
   });
 
