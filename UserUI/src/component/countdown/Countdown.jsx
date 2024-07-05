@@ -60,7 +60,7 @@ const Countdown = ({ targetDate }) => {
           <div className="row">HOURS</div>
         </div>
         <div className="col-sm-3 d-flex justify-content-center">
-          <div className="row">MINUTES</div>
+          <div className="row"> MINUTES </div>
         </div>
         <div className="col-sm-3 d-flex justify-content-center">
           <div className="row">SECONDS</div>

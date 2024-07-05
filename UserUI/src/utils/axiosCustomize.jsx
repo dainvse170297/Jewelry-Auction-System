@@ -2,6 +2,7 @@ import axios from "axios";
 
 const instance = axios.create({
   //baseURL: "https://jewelry-auction-system.azurewebsites.net/",
+
   baseURL: "http://localhost:8080/",
 });
 

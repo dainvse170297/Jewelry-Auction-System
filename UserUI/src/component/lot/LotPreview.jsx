@@ -27,7 +27,7 @@ const LotPreview = ({ lot, registeredValue, sessionStatus }) => {
       </Carousel>
       <Card.Body className=" text-center ">
         <Card.Title style={{ height: "50px" }}>
-          <strong>{truncate(lot.productName, 20)}</strong>
+          <strong>{truncate(lot.productName, 35)}</strong>
         </Card.Title>
 
         <Card.Text>
@@ -50,6 +50,28 @@ const LotPreview = ({ lot, registeredValue, sessionStatus }) => {
               <Link to={`/live-lot-detail/${lot.id}`} className="btn ">
                 <button className="placebid ">Place Bid</button>
               </Link>
+            </>
+          )}
+          {sessionStatus === "PAST" && (
+            <>
+              {lot.status === "SOLD" ? (
+                <>
+                  <p>
+                    Sold Price: {lot.currentPrice} <strong>$</strong>
+                  </p>
+                  <p>
+                    {" "}
+                    <strong className="sold">SOLD</strong>
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p>Sold Price: No</p>
+                  <p>
+                    <strong className="ready">READY</strong>
+                  </p>
+                </>
+              )}
             </>
           )}
         </Card.Text>

@@ -19,7 +19,6 @@ export {
   confirmTransfered,
   getValuationRequestById,
   getRejectValuationRequest,
-
 };
 
 const getAllValuationRequests = async () => {
@@ -36,10 +35,7 @@ const getAllFinancialProof = async (status, page, size) => {
   formData.append("status", status);
   formData.append("page", page);
   formData.append("size", size);
-
   console.log("formData", status, page, size);
-
-  // Switch to POST method
   return axios.post(`/financial-proof/financial-proof-requests`, formData);
 };
 
@@ -124,21 +120,24 @@ const getAllWinnerPurchasedAuctionRegister = async () => {
 
 const getMemberByProductId = async (productId) => {
   return axios.get(`member/product/${productId}`);
+};
 
-}
-
-const confirmTransfered = async (memberId, auctionRegisterId, transferAmount, photos) => {
-  const formData = new FormData()
-  formData.append('memberId', memberId)
-  formData.append('auctionRegisterID', auctionRegisterId)
-  formData.append('transferAmount', transferAmount)
-  photos.forEach(photo => {
-    formData.append('image', photo)
-  })
-  return axios.post(`seller-payment/save`, formData)
-}
+const confirmTransfered = async (
+  memberId,
+  auctionRegisterId,
+  transferAmount,
+  photos
+) => {
+  const formData = new FormData();
+  formData.append("memberId", memberId);
+  formData.append("auctionRegisterID", auctionRegisterId);
+  formData.append("transferAmount", transferAmount);
+  photos.forEach((photo) => {
+    formData.append("image", photo);
+  });
+  return axios.post(`seller-payment/save`, formData);
+};
 
 const getRejectValuationRequest = async (id) => {
   return axios.get(`valuation/staff-cancel/${id}`);
 };
-

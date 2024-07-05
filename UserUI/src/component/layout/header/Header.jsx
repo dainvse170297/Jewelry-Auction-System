@@ -39,12 +39,15 @@ const Header = () => {
                 AUCTION
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item href="/upcoming">
+                <Dropdown.Item as={Link} to="/upcoming">
                   Upcoming Auctions
                 </Dropdown.Item>
-                <Dropdown.Item href="/live">Live Auctions</Dropdown.Item>
-
-                <Dropdown.Item href="/past">Past Auctions</Dropdown.Item>
+                <Dropdown.Item as={Link} to="/live">
+                  Live Auctions
+                </Dropdown.Item>
+                <Dropdown.Item as={Link} to="/past">
+                  Past Auctions
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
             <Dropdown>
@@ -52,29 +55,37 @@ const Header = () => {
                 SELLING
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item href="/selling">About Selling</Dropdown.Item>
-                <Dropdown.Item href="/create-valuation">
+                <Dropdown.Item as={Link} to="/selling">
+                  About Selling
+                </Dropdown.Item>
+                <Dropdown.Item as={Link} to="/create-valuation">
                   Send Valuation Request
                 </Dropdown.Item>
-                <Dropdown.Item href="/create-financial-proof">
+                <Dropdown.Item as={Link} to="/create-financial-proof">
                   Create My Financial Proof
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Nav>
           <Nav className="mx-auto">
-            <Navbar.Brand href="/home">FU-AUCTION</Navbar.Brand>
+            <Navbar.Brand as={Link} to="/home">
+              FU-AUCTION
+            </Navbar.Brand>
           </Nav>
           <Nav className="ms-auto me-auto">
-            <Nav.Link href="#contact">CONTACT</Nav.Link>
+            <Nav.Link href="/contact">CONTACT</Nav.Link>
             <Dropdown>
               <Dropdown.Toggle as={Nav.Link} id="dropdown-auction">
                 POLICIES
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item href="/">Privacy Policy</Dropdown.Item>
-                <Dropdown.Item href="/">Terms & Conditions</Dropdown.Item>
-                <Dropdown.Item href="/delivery">
+                <Dropdown.Item as={Link} to="/">
+                  Privacy Policy
+                </Dropdown.Item>
+                <Dropdown.Item as={Link} to="/">
+                  Terms & Conditions
+                </Dropdown.Item>
+                <Dropdown.Item as={Link} to="/delivery">
                   Delivery instructions
                 </Dropdown.Item>
               </Dropdown.Menu>
@@ -89,7 +100,7 @@ const Header = () => {
               <Dropdown.Menu>
                 {currentUser ? (
                   <>
-                    <Dropdown.Item href="/profile">
+                    <Dropdown.Item as={Link} to="/profile">
                       {" "}
                       <PersonIcon /> Profile
                     </Dropdown.Item>
@@ -98,7 +109,7 @@ const Header = () => {
                       {" "}
                       <ShoppingCartIcon /> My Winner Auction
                     </Dropdown.Item>
-                    <Dropdown.Item href="" onClick={handleLogout}>
+                    <Dropdown.Item onClick={handleLogout}>
                       {" "}
                       <LogoutIcon /> Log Out
                     </Dropdown.Item>
