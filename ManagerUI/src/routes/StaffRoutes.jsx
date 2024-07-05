@@ -6,9 +6,9 @@ import {
 import AuctionAssigned from "../component/staff/AuctionAssigned";
 import { FinancialProofRequestList } from "../component/financial-proof-request/FinancialProofRequestList";
 import { ViewPurchasedLot } from "../component/staff/ViewPurchasedLot";
-import SetupProductInfo from "../component/staff/SetupProductInfo";
-import ValuationRequestDetail from "../component/staff/SetupProductInfo";
-import ValuationRequestProductReceivedList from "../component/staff/ValuationRequestProductReceivedList";
+import SetupProductInfo from "../component/product/SetupProductInfo";
+// import ValuationRequestDetail from "../component/product/SetupProductInfo";
+// import ValuationRequestProductReceivedList from "../component/staff/ValuationRequestProductReceivedList";
 
 const StaffRoutes = [
   {
@@ -36,10 +36,10 @@ const StaffRoutes = [
     path: "/valuation-request/product-received/confirm/:id",
     element: <SetupProductInfo />,
   },
-  {
-    path: "/product/pending-send",
-    element: <ValuationRequestDetail />,
-  },
+  // {
+  //   path: "/product/pending-send",
+  //   element: <ValuationRequestDetail />,
+  // },
 ];
 
 export default StaffRoutes;
