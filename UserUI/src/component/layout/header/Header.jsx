@@ -72,8 +72,12 @@ const Header = () => {
                 POLICIES
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item href="/">Privacy Policy</Dropdown.Item>
-                <Dropdown.Item href="/">Terms & Conditions</Dropdown.Item>
+                <Dropdown.Item href="/privacy-policy">
+                  Privacy Policy
+                </Dropdown.Item>
+                <Dropdown.Item href="/terms-conditions">
+                  Terms & Conditions
+                </Dropdown.Item>
                 <Dropdown.Item href="/delivery">
                   Delivery instructions
                 </Dropdown.Item>
