@@ -18,7 +18,6 @@ import "./LiveLotDetail.scss";
 export default function LiveLotDetail() {
   const { id } = useParams();
 
-  const location = useLocation();
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
@@ -163,10 +162,14 @@ export default function LiveLotDetail() {
     );
   }
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="container">
       <div className="">
-        <a href="#" className="a">
+        <a onClick={goBack} className="a">
           <ArrowBackIcon /> BACK TO AUCTION
         </a>
       </div>

@@ -38,8 +38,8 @@ public class ValuationRequestController {
 
     @GetMapping("/all")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<List<ValuationRequestDetailDTO>> getAll(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page){
-        return ResponseEntity.ok(valuationRequestService.getAll(page));
+    public ResponseEntity<List<ValuationRequestDetailDTO>> getAll(){
+        return ResponseEntity.ok(valuationRequestService.getAll());
     }
 
     @GetMapping("/requested")

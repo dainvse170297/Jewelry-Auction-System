@@ -32,7 +32,10 @@ const staffNavigation = [
     icon: ValuationRequestIcon,
     children: [
       { name: "All request", href: "/valuation-request" },
-      { name: "Set up product", href: "/valuation-request/received" },
+      {
+        name: "Set up product",
+        href: "/valuation-request/received",
+      },
     ],
   },
   {
