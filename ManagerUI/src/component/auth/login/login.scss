@@ -4,6 +4,7 @@
   border: none;
   padding: 10px 20px;
   letter-spacing: 1px;
+
 }
 
 .register {
@@ -20,4 +21,22 @@ input {
   &::placeholder {
     color: #aaaaaa;
   }
+}
+
+.login-form {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #e4e4e4;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  height: 400px;
+}
+
+.login-img {
+  width: 100%;
+  max-width: 100px;
+  margin: 0 auto;
+  display: block;
 }

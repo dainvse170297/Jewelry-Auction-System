@@ -4,6 +4,7 @@ import axios from "axios";
 import "./ViewFinancialProof.scss";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import moment from "moment/moment";
 
 const ViewFinancialProof = ({ id }) => {
   const [financialProof, setFinancialProof] = useState(null);
@@ -34,8 +35,8 @@ const ViewFinancialProof = ({ id }) => {
   return (
     <div className="row view-financial-proof">
       <div className="col-md-6">
-        <div className="card mb-3">
-          <div className="card-body">
+        <div className="mb-3">
+          <div className="">
             <h6 className="card-title">Credit Card</h6>
             <p className="card-text text-muted">
               <strong>Card Number:</strong>{" "}
@@ -60,8 +61,8 @@ const ViewFinancialProof = ({ id }) => {
         </div>
       </div>
       <div className="col-md-6">
-        <div className="card mb-3">
-          <div className="card-body">
+        <div className=" mb-3">
+          <div className="">
             <h6 className="card-title">Member Information</h6>
             <p className="card-text text-muted">
               <strong>Full Name:</strong> {financialProof.fullname}
@@ -84,12 +85,12 @@ const ViewFinancialProof = ({ id }) => {
       </div>
 
       <div className="col-md-12">
-        <div className="card mb-3">
-          <div className="card-body">
+        <div className=" mb-3">
+          <div className="">
             <h6 className="card-title">Financial Proof Request Information</h6>
             <p className="card-text text-muted">
               <strong>Time Request:</strong>{" "}
-              {financialProof.financialProofRequest.timeRequest}
+              {moment(financialProof.financialProofRequest.timeRequest).format("DD/MM/YYYY HH:mm:ss")}
             </p>
             <p className="card-text text-muted">
               <strong>Status:</strong>{" "}

@@ -1,5 +1,6 @@
 package com.fpt.edu.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +25,7 @@ public class Staff {
 //    @JoinColumn(name = "account_id", nullable = false)
 //    private Account account;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "staff")
     private Set<AuctionSession> auctionSessions = new LinkedHashSet<>();
 

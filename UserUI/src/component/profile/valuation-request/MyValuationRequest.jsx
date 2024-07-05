@@ -85,6 +85,8 @@ export default function MyValuationRequest({ id }) {
 
   return (
     <div className="container">
+      <h6>VALUATION REQUEST LIST</h6>
+      <hr />
       <div className="row mb-3">
         <div className="col-4">
           <FormControl fullWidth variant="standard">

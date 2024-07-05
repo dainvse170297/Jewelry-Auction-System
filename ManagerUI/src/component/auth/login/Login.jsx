@@ -5,6 +5,11 @@ import { ToastContainer, toast } from "react-toastify";
 import { Spinner } from "react-bootstrap";
 import { postLogin } from "../../../services/userService";
 import { UserContext } from "../../../context/UserContext";
+import logo from '../../../assets/logos/newLogo.jpg'
+import { Alert, Button, TextField } from "@mui/material";
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Avatar from '@mui/material/Avatar';
+
 const Login = () => {
   const navigate = useNavigate();
   const { user, login } = useContext(UserContext);
@@ -73,54 +78,66 @@ const Login = () => {
   return (
     <div className="container">
       <div className="row mt-5">
-        <div className="col-lg-3"></div>
-        <div className="col-lg-6">
-          <h4 className="text-center mb-5">SIGN IN</h4>
+        <div className="col-lg-4"></div>
+        <div className="col-lg-4 login-form">
+
+          <div className="">
+            <img
+              src={logo}
+              alt="logo"
+              className="login-img"
+            />
+          </div>
+          <h4 className="text-center">LOG IN</h4>
           <form action="" method="" onSubmit={handleLogin}>
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <input
-                ref={inputRef}
-                type="text"
-                className=""
-                id="username"
-                name="username"
-                value={auth.username}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-group mt-3">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                className=""
-                id="password"
-                name="password"
-                autoComplete="off"
-                value={auth.password}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-group form-check mt-3">
-              <label className="form-check-label">
-                <input className="form-check-input" type="checkbox" /> Remember
-                me
-              </label>
-            </div>
+
+            <TextField
+              id="username"
+              name="username"
+              label="Username"
+              variant="standard"
+              autoComplete="off"
+              value={auth.username}
+              onChange={handleInputChange}
+              fullWidth
+              required
+              ref={inputRef} />
+
+            <TextField
+              id="password"
+              name="password"
+              label="Password"
+              type="password"
+              autoComplete="off"
+              variant="standard"
+              value={auth.password}
+              onChange={handleInputChange}
+              fullWidth
+              required
+              className="mt-3"
+            />
+
             {errorMsg && (
-              <div className="alert alert-danger mt-3">{errorMsg}</div>
+              <Alert severity="error" className="mt-3">{errorMsg}</Alert>
             )}
             {loading ? (
-              <Spinner animation="border" role="status"></Spinner>
+              <Spinner animation="border" role="status" className="mt-3"></Spinner>
             ) : (
-              <button type="submit" className="login-btn mt-3">
-                LOG IN
-              </button>
+              <>
+                <Button type="submit" variant="contained" className="mt-5" fullWidth>
+                  <LockOutlinedIcon />
+                  LOG IN
+                </Button>
+              </>
             )}
           </form>
           <ToastContainer />
+          <div className="text-center fixed-bottom text-secondary">
+            <h6>FU-Auction</h6>
+          </div>
         </div>
-        <div className="col-lg-3"></div>
+
+        <div className="col-lg-4"></div>
       </div>
     </div>
   );

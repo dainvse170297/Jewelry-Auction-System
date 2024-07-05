@@ -82,7 +82,7 @@ const ValuationResponseList = ({ id }) => {
           </div> */}
           <div className="row">
             {/* Response list */}
-            <div className="card card-body">
+            <div className="">
               <div className="row d-flex justify-content-center">
                 <h4 className="text-center">Valuation Request</h4>
               </div>
@@ -94,92 +94,92 @@ const ValuationResponseList = ({ id }) => {
                       {(response.status === "FINAL" ||
                         response.status === "REJECTED" ||
                         response.status === "ACCEPTED") && (
-                        <div className="finalValuate row my-3">
-                          <p className="d-inline-flex justify-content-center">
-                            <button
-                              type="button"
-                              className="row btn btn-light"
-                              data-bs-toggle="collapse"
-                              data-bs-target="#final"
-                              aria-expanded="false"
-                              aria-controls="final"
-                            >
-                              <div className="px-5">
-                                Final valuation of your product
-                                <DownIcon />
-                              </div>
-                            </button>
-                          </p>
-                          <div className="" id="final">
-                            <div className="card card-body">
-                              <p>This is your final valuation</p>
-                              <p>{data.valuationRequestDTO.description}</p>
-                              <p>
-                                Min Estimate:{" "}
-                                <strong>{response.valuationPriceMin}$</strong>{" "}
-                              </p>
-                              <p>
-                                Max Estimate:{" "}
-                                <strong>{response.valuationPriceMax}$</strong>{" "}
-                              </p>
-                              <p>
-                                Do you want to start your own Jewelry Auction?{" "}
-                              </p>
-                              <div className="d-inline-flex justify-content-center">
-                                {response.status === "FINAL" && (
-                                  <div>
-                                    {!confirm && (
-                                      <div>
-                                        <button
-                                          type="button"
-                                          value={currentStatus}
-                                          onClick={() =>
-                                            handleConfirm(response.id, true)
-                                          }
-                                          className="btn btn-success mx-3 px-5"
-                                        >
-                                          Accept
-                                        </button>
-                                        <button
-                                          type="button"
-                                          value={currentStatus}
-                                          onClick={() =>
-                                            handleConfirm(response.id, false)
-                                          }
-                                          className="btn btn-danger mx-3 px-5"
-                                        >
-                                          Reject
-                                        </button>
-                                      </div>
-                                    )}
-                                    {confirm && (
-                                      <div>
-                                        <p>{message}</p>
-                                      </div>
-                                    )}
-                                  </div>
-                                )}
-
-                                {response.status === "REJECTED" && (
-                                  <>
-                                    <div className="row">
-                                      You have rejected this valuation
+                          <div className="finalValuate row my-3">
+                            <p className="d-inline-flex justify-content-center">
+                              <button
+                                type="button"
+                                className="row btn btn-light"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#final"
+                                aria-expanded="false"
+                                aria-controls="final"
+                              >
+                                <div className="px-5">
+                                  Final valuation of your product
+                                  <DownIcon />
+                                </div>
+                              </button>
+                            </p>
+                            <div className="" id="final">
+                              <div className="card card-body">
+                                <p>This is your final valuation</p>
+                                <p>{data.valuationRequestDTO.description}</p>
+                                <p>
+                                  Min Estimate:{" "}
+                                  <strong>{response.valuationPriceMin}$</strong>{" "}
+                                </p>
+                                <p>
+                                  Max Estimate:{" "}
+                                  <strong>{response.valuationPriceMax}$</strong>{" "}
+                                </p>
+                                <p>
+                                  Do you want to start your own Jewelry Auction?{" "}
+                                </p>
+                                <div className="d-inline-flex justify-content-center">
+                                  {response.status === "FINAL" && (
+                                    <div>
+                                      {!confirm && (
+                                        <div>
+                                          <button
+                                            type="button"
+                                            value={currentStatus}
+                                            onClick={() =>
+                                              handleConfirm(response.id, true)
+                                            }
+                                            className="btn btn-success mx-3 px-5"
+                                          >
+                                            Accept
+                                          </button>
+                                          <button
+                                            type="button"
+                                            value={currentStatus}
+                                            onClick={() =>
+                                              handleConfirm(response.id, false)
+                                            }
+                                            className="btn btn-danger mx-3 px-5"
+                                          >
+                                            Reject
+                                          </button>
+                                        </div>
+                                      )}
+                                      {confirm && (
+                                        <div>
+                                          <p>{message}</p>
+                                        </div>
+                                      )}
                                     </div>
-                                  </>
-                                )}
+                                  )}
 
-                                {response.status === "ACCEPTED" && (
-                                  <>
-                                    <div className="row">
-                                      You have accepted this valuation
-                                    </div>
-                                  </>
-                                )}
+                                  {response.status === "REJECTED" && (
+                                    <>
+                                      <div className="row">
+                                        You have rejected this valuation
+                                      </div>
+                                    </>
+                                  )}
+
+                                  {response.status === "ACCEPTED" && (
+                                    <>
+                                      <div className="row">
+                                        You have accepted this valuation
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
                       {response.status === "PRELIMINARY" && (
                         <div className="Preliminary row  my-3">

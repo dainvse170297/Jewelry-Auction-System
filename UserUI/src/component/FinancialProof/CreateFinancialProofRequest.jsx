@@ -60,9 +60,12 @@ export default function CreateFinancialProofRequest() {
       const formData = new FormData();
       formData.append("memberId", valuation.memberId);
 
-      valuation.photos.forEach((photo) => {
-        formData.append("image", photo);
-      });
+
+      valuation.
+        photos.forEach((photo) => {
+          formData.append("image", photo);
+        });
+
 
       const createValuation = await axios.post(
         `http://localhost:8080/financial-proof/create`,

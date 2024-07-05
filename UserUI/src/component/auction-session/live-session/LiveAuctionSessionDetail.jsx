@@ -9,6 +9,7 @@ import { postLiveAuctionSessionDetail } from "../../../services/apiService";
 const LiveAuctionSessionDetail = () => {
   const { id } = useParams();
   const [sessionData, setSessionData] = useState(null);
+
   const currentUser = JSON.parse(localStorage.getItem("account"));
   useEffect(() => {
     const fetchSessionData = async () => {

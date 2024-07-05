@@ -31,6 +31,10 @@ export default function LiveLotDetail() {
   const [multiplier, setMultiplier] = useState(1);
   const [message, setMessage] = useState(null);
 
+  const [isSold, setIsSold] = useState(false);
+
+  const [winningMessage, setWinningMessage] = useState("");
+
   useEffect(() => {
     const getInfo = async () => {
       setIsLoading(true);
@@ -79,6 +83,11 @@ export default function LiveLotDetail() {
       }));
     }
   }, [message]);
+
+  const handleWinningMessage = (winningMessage) => {
+    // toast(winningMessage, { autoClose: 2500 })
+    setWinningMessage(winningMessage);
+  }
 
   const placeBid = async (calculatedAmount) => {
     // let price = parseFloat(productInfo.currentPrice);
@@ -237,6 +246,14 @@ export default function LiveLotDetail() {
                   </div>
                 </div>
 
+                <div className="d-flex justify-content-center mt-5">
+                  <div className="d-flex align-items-center">
+                    <h4 className="me-3 text-success">
+                      {winningMessage}
+                    </h4>
+                  </div>
+                </div>
+
                 <div className="mt-5 mb-5">
                   <div className="">
                     <div className="bid-panel">
@@ -305,13 +322,13 @@ export default function LiveLotDetail() {
         </Modal.Header>
         <Modal.Body>
           Would you like to buy this jewelry with price $
-          {productInfo.buyNowPrice}
+          <strong> {productInfo.buyNowPrice}</strong>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleBuyNow}>
+          <Button variant="danger" onClick={handleBuyNow}>
             Buy Now
           </Button>
         </Modal.Footer>

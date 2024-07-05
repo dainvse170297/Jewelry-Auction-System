@@ -2,6 +2,7 @@ import React, { lazy, useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import privateRoutes from "./PrivateRoute";
 import RequireAuth from "./RequireAuth";
+import Footer from "../component/layout/footer/Footer";
 
 const UpcomingSessionList = lazy(() =>
   import("../component/auction-session/upcoming-session/UpcomingSessionList")
@@ -48,9 +49,10 @@ const AppRoute = () => {
 
           {/* Private Routes */}
           <Route element={<RequireAuth />}>
-            {privateRoutes.map((route, key) => (
-              <Route key={key} path={route.path} element={route.element} />
-            ))}
+            {user !== null &&
+              privateRoutes.map((route, index) => (
+                <Route key={index} path={`${route.path}`} element={route.element} />
+              ))}
           </Route>
 
           {/* Public Routes */}
@@ -73,8 +75,11 @@ const AppRoute = () => {
             element={<PastSessionDetail />}
           />
           <Route path="*" element={<NotFound />} />
+
         </Routes>
+
       </div>
+      <Footer />
     </>
   );
 };
