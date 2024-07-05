@@ -85,8 +85,8 @@ public class ValuationRequestService implements IValuationRequestService {
     }
 
     @Override
-    public List<ValuationRequestDetailDTO> getAll(Integer page) {
-        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findAll(PageRequest.of(page, PAGE_SIZE)).getContent();
+    public List<ValuationRequestDetailDTO> getAll() {
+        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findAll();
         for (ValuationRequest valuationRequest : valuationRequests) {
             Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
             valuationRequest.setValuationImages(valuationImages);
