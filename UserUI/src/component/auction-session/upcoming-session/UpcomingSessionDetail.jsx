@@ -85,16 +85,16 @@ const UpcomingSessionDetail = () => {
           <div className="row d-flex justify-content-center">
             <div className="col-xxl-8 col-lg-10 col-11">
               <div className="row border">
-                {currentItems.map((item) => (
-                  <>
-                    <div className="col-xxl-3 col-lg-4 col-6 my-3 d-flex justify-content-center">
-                      <LotPreview
-                        lot={item.lot}
-                        registeredValue={item.registeredPrice}
-                        sessionStatus="UPCOMING"
-                      />
-                    </div>
-                  </>
+                {currentItems.map((item, index) => (
+
+                  <div key={index} className="col-xxl-3 col-lg-4 col-6 my-3 d-flex justify-content-center">
+                    <LotPreview
+                      lot={item.lot}
+                      registeredValue={item.registeredPrice}
+                      sessionStatus="UPCOMING"
+                    />
+                  </div>
+
                 ))}
               </div>
               <div className="flex align-items-center justify-content-center my-3">

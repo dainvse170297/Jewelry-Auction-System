@@ -23,6 +23,14 @@ export {
   postCancelFinalValuation, //Cancel final valuation that has product information
   getAllCategory,
   postAddProduct,
+  getReadyLots,
+  getReadyLotById,
+  postAddLotToSession,
+  getAuctionSessionDetail,
+  getAllStaffAccount,
+  postCreateSession,
+  getFinalValuationRequestsDetail,
+  getDeliveredLots,
 };
 
 const getAllValuationRequests = async () => {
@@ -40,7 +48,7 @@ const getAllFinancialProof = async (status, page, size) => {
   formData.append("page", page);
   formData.append("size", size);
   console.log("formData", status, page, size);
-  return axios.post(`/financial-proof/financial-proof-requests`, formData);
+  return axios.post(`financial-proof/financial-proof-requests`, formData);
 };
 
 const postPreliminaryConfirm = async (
@@ -74,7 +82,7 @@ const postSetAmountFinancialProof = async (
   formData.append("role", role);
   console.log("formData", id, staffId, financialProofAmount, role);
 
-  return axios.post(`/financial-proof/set-amount`, formData);
+  return axios.post(`financial-proof/set-amount`, formData);
 };
 
 const postProductReceive = async (id) => {
@@ -179,3 +187,52 @@ const postAddProduct = async (product) => {
     },
   });
 };
+
+const getReadyLots = async () => {
+  return axios.get("lot/ready-lot")
+}
+
+const getReadyLotById = async (id) => {
+  return axios.get(`lot/ready-lot/${id}`)
+}
+
+const postAddLotToSession = async (data) => {
+  const formData = new FormData()
+  formData.append("lotId", data.lotId)
+  formData.append("sessionId", data.sessionId)
+  return axios.post('auction/add-lot-to-session', formData)
+}
+
+const getAuctionSessionDetail = async (sessionId) => {
+  return axios.get(`auction/session/${sessionId}`)
+}
+
+const getAllStaffAccount = async () => {
+  return axios.get("staff/accounts");
+}
+
+const postCreateSession = async (auctionSession) => {
+  const formData = new FormData();
+  formData.append("staffId", auctionSession.staffId);
+  formData.append("name", auctionSession.name);
+  formData.append("description", auctionSession.description);
+  formData.append("startTime", auctionSession.startTime);
+  formData.append("endTime", auctionSession.endTime);
+  formData.append("startingBid", auctionSession.startingBid);
+  formData.append("image", auctionSession.image);
+
+  return axios
+    .post("auction/create-session", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+}
+
+const getFinalValuationRequestsDetail = async (id) => {
+  return axios.get(`valuation/view-final-request-details/${id}`)
+}
+
+const getDeliveredLots = async () => {
+  return axios.get("lot/view-list-delivered-lot")
+}

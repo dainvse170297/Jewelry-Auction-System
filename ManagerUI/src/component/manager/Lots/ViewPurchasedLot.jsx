@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import ViewPurchasedLotDetail from "../Lots/ViewPurchasedLotDetail";
 
 import moment from "moment";
+import { getDeliveredLots } from "../../../services/apiService";
 
 const ViewPurchasedLot = () => {
   const user = {
@@ -34,11 +35,8 @@ const ViewPurchasedLot = () => {
   useEffect(() => {
     const getAll = async () => {
       try {
-        axios
-          .get("http://localhost:8080/lot/view-list-delivered-lot")
-          .then((result) => {
-            setValuationRequests(result.data);
-          });
+        const response = await getDeliveredLots();
+        setValuationRequests(response);
       } catch (error) {
         toast.error("Error fetching data from server");
       }

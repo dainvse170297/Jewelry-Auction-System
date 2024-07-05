@@ -5,6 +5,7 @@ import { FaBackward } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { Button, Carousel } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { getFinalValuationRequestsDetail, postAproveFinalValuation } from "../../services/apiService";
 
 export default function FinalValuationRequestDetail() {
   const { id } = useParams();
@@ -16,13 +17,8 @@ export default function FinalValuationRequestDetail() {
     // setIsLoading(true)
     const getInfoDetails = async () => {
       try {
-        await axios
-          .get(
-            `http://localhost:8080/valuation/view-final-request-details/${id}`
-          )
-          .then((result) => {
-            setProductInfo(result.data);
-          });
+        const respose = await getFinalValuationRequestsDetail(id);
+        setProductInfo(respose);
       } catch (error) {
         console.log("Error:", error.message);
         setErrorMsg("Error fetching data from server");
@@ -37,11 +33,9 @@ export default function FinalValuationRequestDetail() {
     try {
       const id = ProductInfo.valuationRequestId;
 
-      const response = await axios.post(
-        `http://localhost:8080/valuation/approve-final-valuation/${id}`
-      );
+      const response = await postAproveFinalValuation(id);
 
-      if (response.status === 200) {
+      if (response) {
         // console.log("Success")
         toast.success("Approved successfully");
         navigate("/final-valuation-request-list");
