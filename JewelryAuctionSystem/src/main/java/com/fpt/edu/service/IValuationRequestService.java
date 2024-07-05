@@ -13,7 +13,7 @@ import java.util.Set;
 public interface IValuationRequestService {
     public ValuationRequestDetailDTO create(Integer memberId, String description, BigDecimal memberEstimatePrice, Set<MultipartFile> files);
 
-    public List<ValuationRequestDetailDTO> getAll(Integer page);
+    public List<ValuationRequestDetailDTO> getAll();
 
     public List<ValuationRequestDetailDTO> getRequestedValuationRequest();
 
