@@ -73,7 +73,7 @@ const Profile = () => {
                   </svg>
                   <span>Change Password</span>
                 </a>
-                <a
+                {/* <a
                   href="#notification"
                   data-toggle="tab"
                   className="nav-item nav-link has-icon nav-link-faded"
@@ -95,7 +95,7 @@ const Profile = () => {
                   </svg>
 
                   <span>Notification</span>
-                </a>
+                </a> */}
                 <a
                   href="#billing"
                   data-toggle="tab"
@@ -314,11 +314,11 @@ const Profile = () => {
               <div className="tab-pane" id="security">
                 <ChangePassword />
               </div>
-              <div className="tab-pane" id="notification">
+              {/* <div className="tab-pane" id="notification">
                 <h6>NOTIFICATION HERE</h6>
                 <hr />
 
-              </div>
+              </div> */}
 
               <div className="tab-pane" id="billing">
                 <h6>FINANCIAL PROOF</h6>
