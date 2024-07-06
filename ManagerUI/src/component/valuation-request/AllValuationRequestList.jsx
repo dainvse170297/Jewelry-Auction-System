@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import moment from "moment";
 import Form from "react-bootstrap/Form";
 import Loading from "../../view/loading/Loading.jsx";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   ValuationRequested,
@@ -11,6 +12,8 @@ import {
   PendingApproval,
   ProductReceived,
   ManagerApproved,
+  OneValuationRequestDetail,
+  OneProductDetail,
 } from "./AllValuationRequestDetail.jsx";
 
 import {
@@ -18,8 +21,6 @@ import {
   getFinalValuationRequests,
   getAllProductReceivedRequest,
 } from "../../services/apiService.jsx";
-import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
 
 export { AllValuationRequestList, PendingApprovalList, ProductReceivedList };
 
@@ -29,6 +30,8 @@ const AllValuationRequestList = () => {
     name: sessionStorage.getItem("name"),
     role: sessionStorage.getItem("role"),
   };
+
+  const navigator = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -74,9 +77,7 @@ const AllValuationRequestList = () => {
         const data = await getAllValuationRequests();
         setValuationRequests(data);
         setIsLoading(false);
-        // isLoading(false);
       } catch (error) {
-        // setErrorMsg("Error fetching data from server");
         console.log("Error:", error.message);
       }
     };
@@ -132,7 +133,7 @@ const AllValuationRequestList = () => {
                 </div>
               </div>
 
-              <div className="row  text-center">
+              <div className="row text-center">
                 {isLoading ? (
                   <>
                     <div className="col-5"></div>
@@ -142,7 +143,7 @@ const AllValuationRequestList = () => {
                     <div className="col-5"></div>
                   </>
                 ) : (
-                  <table className="table">
+                  <table className="table ">
                     <thead>
                       <tr>
                         <th scope="col">#</th>
@@ -162,7 +163,9 @@ const AllValuationRequestList = () => {
                       {sortedRequests.map((request, key) => (
                         <>
                           <tr>
-                            <th scope="row">{key + 1}</th>
+                            <td scope="row">
+                              <strong>{key + 1}</strong>
+                            </td>
                             <td>Member {request.memberId}</td>
                             <td>
                               {moment(request.timeRequest).format(
@@ -170,7 +173,7 @@ const AllValuationRequestList = () => {
                               )}
                             </td>
                             <td>{request.valuationStatus}</td>
-                            <td>
+                            <td className="d-flex justify-content-center">
                               {request.valuationStatus === "REQUESTED" && (
                                 <ValuationRequested
                                   valuationRequestId={request.id}
@@ -194,6 +197,63 @@ const AllValuationRequestList = () => {
                                   valuationRequestId={request.id}
                                   onUpdate={() => handleUpdate()}
                                 />
+                              )}
+                              {request.valuationStatus ===
+                                "PENDING_MANAGER_APPROVAL" &&
+                                user?.role === "MANAGER" && (
+                                  <>
+                                    <PendingApproval
+                                      valuationRequestId={request.id}
+                                      onUpdate={() => handleUpdate()}
+                                    />
+                                    <OneValuationRequestDetail
+                                      valuationRequestId={request.id}
+                                    />
+                                  </>
+                                )}
+                              {request.valuationStatus ===
+                                "PENDING_MANAGER_APPROVAL" &&
+                                user?.role == "STAFF" && (
+                                  <>
+                                    <OneProductDetail
+                                      valuationRequestId={request.id}
+                                    />
+                                    <OneValuationRequestDetail
+                                      valuationRequestId={request.id}
+                                    />
+                                  </>
+                                )}
+                              {request.valuationStatus ===
+                                "PENDING_MEMBER_ACCEPTANCE" && (
+                                <>
+                                  <OneProductDetail
+                                    valuationRequestId={request.id}
+                                  />
+                                  <OneValuationRequestDetail
+                                    valuationRequestId={request.id}
+                                  />
+                                </>
+                              )}
+                              {request.valuationStatus ===
+                                "MEMBER_ACCEPTED" && (
+                                <>
+                                  <OneProductDetail
+                                    valuationRequestId={request.id}
+                                  />
+                                  <OneValuationRequestDetail
+                                    valuationRequestId={request.id}
+                                  />
+                                </>
+                              )}
+                              {request.valuationStatus === "CANCELED" && (
+                                <>
+                                  <OneProductDetail
+                                    valuationRequestId={request.id}
+                                  />
+                                  <OneValuationRequestDetail
+                                    valuationRequestId={request.id}
+                                  />
+                                </>
                               )}
                             </td>
                           </tr>

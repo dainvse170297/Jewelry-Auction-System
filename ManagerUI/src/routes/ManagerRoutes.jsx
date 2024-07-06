@@ -5,7 +5,6 @@ import UserManage from "../component/manager/UserManage";
 import AuctionSessionList from "../component/auction-session/AuctionSessionList";
 import CreateAuction from "../component/manager/CreateAuction";
 import { ReadyLots } from "../component/lots/LotList";
-import { VIPFinancialProofRequestList } from "../component/financial-proof-request/FinancialProofRequestList";
 import { FinancialProofRequestList } from "../component/financial-proof-request/FinancialProofRequestList";
 import AddLotToSession from "../component/manager/Session/AddLotToSession";
 import {

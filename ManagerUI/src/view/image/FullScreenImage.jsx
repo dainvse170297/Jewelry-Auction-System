@@ -31,7 +31,6 @@ const FullScreenImage = ({ imageUrls }) => {
           {imageUrls.slice(0, 3).map((url, index) => (
             <div className="col-4" key={index}>
               <div
-
                 className={`image-preview ${index === 2 ? "blur" : ""}`}
                 onClick={() => openModal(index)}
               >
