@@ -40,7 +40,7 @@ const WebSocketHandler = ({ lotId, setMessage, setBidHistory }) => {
       });
       client.subscribe(
         `/topic/financial/member/${currentUser.memberId}`,
-        (message) => {}
+        () => {}
       );
     });
 

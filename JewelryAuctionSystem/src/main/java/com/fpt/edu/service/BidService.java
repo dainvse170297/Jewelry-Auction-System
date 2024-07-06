@@ -86,13 +86,13 @@ public class BidService implements IBidService {
 
             //update auction register
             if (auctionRegister != null) {
-                newFinancialProofAmount = member.getFinancialProofAmount().subtract(bid.getPrice().subtract(auctionRegister.getCurrentPrice()));
+                if (auctionRegister.getCurrentPrice() != null)
+                    newFinancialProofAmount = member.getFinancialProofAmount().subtract(bid.getPrice().subtract(auctionRegister.getCurrentPrice()));
+                else newFinancialProofAmount = member.getFinancialProofAmount().subtract(bid.getPrice());
                 auctionRegister.setCurrentPrice(byNowPrice);
                 auctionRegister.setFinalPrice(byNowPrice);
                 auctionRegister.setStatus(AuctionRegisterStatus.PENDING_PAYMENT);
                 iAuctionRegisterRepository.save(auctionRegister);
-            } else {
-                newFinancialProofAmount = member.getFinancialProofAmount().subtract(bid.getPrice());
             }
             member.setFinancialProofAmount(newFinancialProofAmount);
             iMemberRepository.save(member);
@@ -109,7 +109,9 @@ public class BidService implements IBidService {
             Bid bid = createAndSaveBid(memberId, lotId, price);
 
             if (auctionRegister != null) {
-                newFinancialProofAmount = member.getFinancialProofAmount().subtract(bid.getPrice().subtract(auctionRegister.getCurrentPrice()));
+                if (auctionRegister.getCurrentPrice() != null)
+                    newFinancialProofAmount = member.getFinancialProofAmount().subtract(bid.getPrice().subtract(auctionRegister.getCurrentPrice()));
+                else newFinancialProofAmount = member.getFinancialProofAmount().subtract(bid.getPrice());
                 auctionRegister.setCurrentPrice(price);
                 auctionRegister.setFinalPrice(price);
                 iAuctionRegisterRepository.save(auctionRegister);
