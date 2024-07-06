@@ -99,23 +99,28 @@ const UpcomingSessionLot = () => {
     e.preventDefault();
 
     try {
-      const response = await postPrePlaceBid(
-        currentUser.memberId,
-        lotId,
-        price
-      );
-
-      if (!response.message) {
-        setIsRegister(true);
-        toast.success("Register to bid successfully");
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-        console.log(response);
+      if (price.trim() === "") {
+        setErrorMsg("Please choose a price to bid");
+        return;
       } else {
-        toast.error("Failed to register to bid");
-        setErrorMsg(response.message);
+        const response = await postPrePlaceBid(
+          currentUser.memberId,
+          lotId,
+          price
+        );
+        if (!response.message) {
+          setIsRegister(true);
+          toast.success("Register to bid successfully");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+          console.log(response);
+        } else {
+          toast.error("Failed to register to bid");
+          setErrorMsg(response.message);
+        }
       }
+
     } catch (error) {
       console.log(error.response);
     }
@@ -229,6 +234,7 @@ const UpcomingSessionLot = () => {
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                   >
+                    <option value="">--</option>
                     {preBidPrices.map((preBidPrice, index) => (
                       <option key={index} value={preBidPrice}>{preBidPrice}</option>
                     ))}

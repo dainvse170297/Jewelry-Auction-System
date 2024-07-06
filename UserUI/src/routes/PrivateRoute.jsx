@@ -5,6 +5,11 @@ import CreateFinancialProofRequest from "../component/FinancialProof/CreateFinan
 import NotificationList from "../component/notification/NotificationList";
 import Profile from "../component/profile/Profile";
 import CreateValuation from "../component/valuation_request/create/CreateValuation";
+import CheckOut from "../component/checkout/CheckOut";
+import CheckOutDetail from "../component/checkout/CheckOutDetail";
+import PaymentCallback from "../component/checkout/PaymentCallback";
+import PaymentSuccess from "../component/checkout/PaymentSuccess";
+import PaymentFailure from "../component/checkout/PaymentFailure";
 
 const privateRoutes = [
   {
@@ -30,6 +35,26 @@ const privateRoutes = [
   {
     path: "/notify",
     element: <NotificationList />,
+  },
+  {
+    path: "/CheckOut",
+    element: <CheckOut />,
+  },
+  {
+    path: "/checkout-detail",
+    element: <CheckOutDetail />,
+  },
+  {
+    path: "/payment-callback",
+    element: <PaymentCallback />,
+  },
+  {
+    path: "/payment-success",
+    element: <PaymentSuccess />,
+  },
+  {
+    path: "/payment-failure",
+    element: <PaymentFailure />,
   }
 ];
 

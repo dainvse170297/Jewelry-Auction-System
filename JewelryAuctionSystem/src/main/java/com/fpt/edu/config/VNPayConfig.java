@@ -19,7 +19,8 @@ public class VNPayConfig {
     @Getter
     private String secretKey = "LZECX3PRZ6SZIVO34ZZEF0ZXYWUKPXUJ";
     private String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
-    private String vnp_ReturnUrl = "http://localhost:5173/payment-callback";
+//    private String vnp_ReturnUrl = "http://localhost:5173/payment-callback";
+    private String vnp_ReturnUrl = "*";
     private String version = "2.1.0";
     private String command = "pay";
     private String vnp_OrderType = "other";
@@ -37,6 +38,9 @@ public class VNPayConfig {
         vnpParamsMap.put("vnp_Locale", "vn");
         vnpParamsMap.put("vnp_ReturnUrl", vnp_ReturnUrl);
 
+//        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Tokyo"));
+//        TimeZone.setDefault(TimeZone.getTimeZone("Etc/GMT+7"));
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         String vnp_CreateDate = formatter.format(calendar.getTime());

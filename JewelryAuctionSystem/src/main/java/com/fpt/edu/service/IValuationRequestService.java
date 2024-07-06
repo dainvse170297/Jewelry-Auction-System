@@ -42,7 +42,7 @@ public interface IValuationRequestService {
     public ValuationRequestDetailDTO preliminaryValuation(Integer id, BigDecimal estimateMin, BigDecimal estimateMax, Integer staffId);
 
     public LotDTO getProductDetail(Integer id);
-    
+
     public ViewDetailValuationRequestFinalApprovedDTO ViewDetailValuationRequestFinalApproved(Integer id);
 
     public Boolean cancelValuationRequest(Integer id);

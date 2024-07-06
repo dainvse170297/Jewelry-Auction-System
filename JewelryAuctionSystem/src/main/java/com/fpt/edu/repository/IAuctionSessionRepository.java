@@ -20,5 +20,5 @@ public interface IAuctionSessionRepository extends JpaRepository<AuctionSession,
                                                   @Param("startDate") LocalDateTime startDate,
                                                   @Param("endDate") LocalDateTime endDate);
 
-
+    List<AuctionSession> findByStaffId(Integer staffId);
 }
