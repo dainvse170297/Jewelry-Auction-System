@@ -1,7 +1,11 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-export { EditManageAccount };
+export { EditManageAccount, AddManageAccount };
+
+const AddManageAccount = () => {
+  return <Button variant="success">Create new account</Button>;
+};
 
 const EditManageAccount = (accountId) => {
   const [accountInfo, setAccountInfo] = useState({
