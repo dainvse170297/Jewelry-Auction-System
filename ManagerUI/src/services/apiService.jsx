@@ -1,6 +1,7 @@
 import axios from "../utils/axiosCustomize";
 
 export {
+  //Valuation Request
   getAllValuationRequests,
   getRevenueByYear,
   postPreliminaryConfirm,
@@ -8,28 +9,36 @@ export {
   postAproveFinalValuation,
   postSendFinalValuationToMember,
   postProductReceive,
-  publicCreatedSession,
-  getAllCreatedSession,
-  getAllAuctionSession,
-  postSetAmountFinancialProof,
-  getAllFinancialProof,
-  getAllWinnerPurchasedAuctionRegister,
-  getMemberByProductId,
-  confirmTransfered,
   getValuationRequestById, //Get a valuation request by id (image of request)
   getRejectValuationRequest,
   getAllProductReceivedRequest,
   getProductDetailByRequestId, //Get product detail by request id (image of product)
   postCancelFinalValuation, //Cancel final valuation that has product information
+  getFinalValuationRequestsDetail,
+
+  //Financial Proof Request
+  postSetAmountFinancialProof,
+  getAllFinancialProof,
+  postSentFinancialProof,
+  publicCreatedSession,
+  getAllCreatedSession,
+  getAllAuctionSession,
+  getAuctionSessionDetail,
+  postConfirmVIPFinancialProof,
+
+  //Auction session
+  getAllWinnerPurchasedAuctionRegister,
+  getMemberByProductId,
+  confirmTransfered,
   getAllCategory,
+
+  //Lot and product
   postAddProduct,
   getReadyLots,
   getReadyLotById,
   postAddLotToSession,
-  getAuctionSessionDetail,
   getAllStaffAccount,
   postCreateSession,
-  getFinalValuationRequestsDetail,
   getDeliveredLots,
 };
 
@@ -189,27 +198,27 @@ const postAddProduct = async (product) => {
 };
 
 const getReadyLots = async () => {
-  return axios.get("lot/ready-lot")
-}
+  return axios.get("lot/ready-lot");
+};
 
 const getReadyLotById = async (id) => {
-  return axios.get(`lot/ready-lot/${id}`)
-}
+  return axios.get(`lot/ready-lot/${id}`);
+};
 
 const postAddLotToSession = async (data) => {
-  const formData = new FormData()
-  formData.append("lotId", data.lotId)
-  formData.append("sessionId", data.sessionId)
-  return axios.post('auction/add-lot-to-session', formData)
-}
+  const formData = new FormData();
+  formData.append("lotId", data.lotId);
+  formData.append("sessionId", data.sessionId);
+  return axios.post("auction/add-lot-to-session", formData);
+};
 
 const getAuctionSessionDetail = async (sessionId) => {
-  return axios.get(`auction/session/${sessionId}`)
-}
+  return axios.get(`auction/session/${sessionId}`);
+};
 
 const getAllStaffAccount = async () => {
   return axios.get("staff/accounts");
-}
+};
 
 const postCreateSession = async (auctionSession) => {
   const formData = new FormData();
@@ -221,18 +230,43 @@ const postCreateSession = async (auctionSession) => {
   formData.append("startingBid", auctionSession.startingBid);
   formData.append("image", auctionSession.image);
 
-  return axios
-    .post("auction/create-session", formData, {
+  return axios.post("auction/create-session", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+const getFinalValuationRequestsDetail = async (id) => {
+  return axios.get(`valuation/view-final-request-details/${id}`);
+};
+
+const getDeliveredLots = async () => {
+  return axios.get("lot/view-list-delivered-lot");
+};
+
+const postSentFinancialProof = async (status, page, size) => {
+  const formData = new FormData();
+  formData.append("status", status);
+  formData.append("page", page);
+  formData.append("size", size);
+
+  return await axios.post(
+    "financial-proof/financial-proof-requests",
+    formData,
+    {
       headers: {
         "Content-Type": "multipart/form-data",
       },
-    })
-}
+    }
+  );
+};
 
-const getFinalValuationRequestsDetail = async (id) => {
-  return axios.get(`valuation/view-final-request-details/${id}`)
-}
+const postConfirmVIPFinancialProof = async (id, staffId, confirmValue) => {
+  const formData = new FormData();
+  formData.append("id", id);
+  formData.append("managerId", staffId);
+  formData.append("confirm", confirmValue);
 
-const getDeliveredLots = async () => {
-  return axios.get("lot/view-list-delivered-lot")
-}
+  return axios.post(`financial-proof/confirm-vip`, formData);
+};

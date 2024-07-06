@@ -25,7 +25,240 @@ export {
   PendingApproval,
   ManagerApproved,
   ProductReceived,
+  OneValuationRequestDetail,
+  OneProductDetail,
 };
+
+function OneValuationRequestDetail({ valuationRequestId }) {
+  const [valuationRequest, setValuationRequest] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [show, setShow] = useState(false);
+  const [selectedImageUrl, setSelectedImageUrl] = useState(null);
+  const [urlList, setUrlList] = useState([]);
+  const handleClose = () => setShow(false);
+
+  const handleImageClick = (imageUrl) => {
+    setSelectedImageUrl(imageUrl);
+  };
+
+  const handleImageClose = () => {
+    setSelectedImageUrl(null);
+  };
+
+  const handleShow = () => {
+    try {
+      const getData = async () => {
+        const data = await getValuationRequestById(valuationRequestId);
+        setValuationRequest(data);
+        data.valuationImagesUrls && setUrlList(data.valuationImagesUrls);
+      };
+      getData();
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+    setShow(true);
+  };
+
+  return (
+    <>
+      <Button
+        onClick={handleShow}
+        className="btn btn-primary mx-3"
+        type="button"
+      >
+        Request Details
+      </Button>
+      <Modal size="lg" show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Valuation request detail</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {!valuationRequest && (
+            <div className="productInfo">
+              <h3>Valuation request not found</h3>
+            </div>
+          )}
+          {valuationRequest && (
+            <div className="productInfo">
+              <p>{valuationRequest.description}</p>
+
+              <div className="d-flex justify-content-between">
+                <p className="m-0">Time request: </p>
+                <strong>
+                  {moment(valuationRequest.timeRequest).format(
+                    "DD/MM/YYYY HH:mm:ss"
+                  )}
+                </strong>
+              </div>
+              <hr className="p-0 mb-2 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="m-0">Valuation status: </p>
+                <strong>{valuationRequest.valuationStatus}</strong>
+              </div>
+              <hr className="p-0 mb-2 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">Member estimated price:</p>
+                {valuationRequest.memberEstimatePrice === -1 ||
+                valuationRequest.memberEstimatePrice === null ? (
+                  <strong>No</strong>
+                ) : (
+                  <strong>${valuationRequest.memberEstimatePrice}</strong>
+                )}
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">Estimated Price:</p>
+                <strong>
+                  ${valuationRequest.estimatePriceMin} - $
+                  {valuationRequest.estimatePriceMax}
+                </strong>
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="productImages">
+                <div className="productImages">
+                  {valuationRequest.valuationImagesUrls &&
+                    Array.isArray(valuationRequest.valuationImagesUrls) && (
+                      <FullScreenImage imageUrls={urlList} />
+                    )}
+                </div>
+              </div>
+            </div>
+          )}
+        </Modal.Body>
+      </Modal>
+      <Modal show={!!selectedImageUrl} onHide={handleImageClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Product Image</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <img
+            src={selectedImageUrl}
+            alt="Selected Product"
+            style={{ width: "100%" }}
+          />
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+}
+
+function OneProductDetail({ valuationRequestId }) {
+  const [productInfo, setProductInfo] = useState({});
+  const [show, setShow] = useState(false);
+  const [selectedImageUrl, setSelectedImageUrl] = useState(null);
+  const [urlList, setUrlList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleClose = () => setShow(false);
+
+  const handleImageClick = (imageUrl) => {
+    setSelectedImageUrl(imageUrl);
+  };
+  const handleImageClose = () => {
+    setSelectedImageUrl(null);
+  };
+
+  const handleShow = () => {
+    const fetchValuationRequest = async () => {
+      try {
+        const data = await getProductDetailByRequestId(valuationRequestId);
+        if (data !== null) {
+          setProductInfo(data);
+          data.productImages &&
+            setUrlList(data.productImages.map((i) => i.imageUrl));
+        }
+      } catch (error) {
+        console.log("Error: ", error);
+      }
+    };
+    fetchValuationRequest();
+    setShow(true);
+  };
+  return (
+    <>
+      <ToastContainer />
+      <Button
+        onClick={handleShow}
+        className="btn btn-primary mx-3"
+        type="button"
+      >
+        Jewelry Details
+      </Button>
+      <Modal size="lg" show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Valuation request detail</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {!productInfo && (
+            <div className="productInfo">
+              <h3>Product not found</h3>
+            </div>
+          )}
+          {productInfo && (
+            <div className="productInfo">
+              <h3>{productInfo.productName}</h3>
+              <p>{productInfo.description}</p>
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">Estimated Price:</p>
+                <strong>
+                  ${productInfo.estimatePriceMin} - $
+                  {productInfo.estimatePriceMax}
+                </strong>
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">Start price:</p>
+                <strong>${productInfo.startPrice}</strong>
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">Buy now price:</p>
+                <strong>${productInfo.buyNowPrice}</strong>
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">Maximum bid step:</p>
+                <strong>{productInfo.maxStep}</strong>
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">Amount for each bid step:</p>
+                <strong>${productInfo.pricePerStep}</strong>
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="d-flex justify-content-between">
+                <p className="mb-1">Current status:</p>
+                <strong>{productInfo.status}</strong>
+              </div>
+              <hr className="p-0 mb-1 mt-0" />
+              <div className="productImages">
+                <div className="productImages">
+                  {productInfo.productImages &&
+                    Array.isArray(productInfo.productImages) && (
+                      <FullScreenImage imageUrls={urlList} />
+                    )}
+                </div>
+              </div>
+            </div>
+          )}
+        </Modal.Body>
+      </Modal>
+
+      <Modal show={!!selectedImageUrl} onHide={handleImageClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Product Image</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <img
+            src={selectedImageUrl}
+            alt="Selected Product"
+            style={{ width: "100%" }}
+          />
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+}
 
 function ValuationRequested({ valuationRequestId }) {
   const [valuationRequest, setValuationRequest] = useState({});
@@ -39,7 +272,7 @@ function ValuationRequested({ valuationRequestId }) {
   const [selectedImageUrl, setSelectedImageUrl] = useState(null);
   const [urlList, setUrlList] = useState([]);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+
   const handleImageClick = (imageUrl) => {
     setSelectedImageUrl(imageUrl);
   };
@@ -66,7 +299,8 @@ function ValuationRequested({ valuationRequestId }) {
     }
   };
 
-  useEffect(() => {
+  //Get data of valuation request
+  const handleShow = () => {
     try {
       const getData = async () => {
         const data = await getValuationRequestById(valuationRequestId);
@@ -77,7 +311,8 @@ function ValuationRequested({ valuationRequestId }) {
     } catch (error) {
       console.log("Error: ", error);
     }
-  }, [valuationRequestId]);
+    setShow(true);
+  };
 
   const handleReject = async (confirmValue) => {
     if (confirmValue) {
@@ -111,8 +346,13 @@ function ValuationRequested({ valuationRequestId }) {
       toast.error("Price must be greater than 0");
       return;
     } else if (
-      preliminaryValuation.estimateMin >= preliminaryValuation.estimateMax
+      parseInt(preliminaryValuation.estimateMin) >=
+      parseInt(preliminaryValuation.estimateMax)
     ) {
+      console.log(
+        "value: " + preliminaryValuation.estimateMin,
+        "max: " + preliminaryValuation.estimateMax
+      );
       toast.error("Minimum price must be less than maximum price");
       return;
     } else {
@@ -265,18 +505,11 @@ function ValuationRequested({ valuationRequestId }) {
 
 function PreliminaryValuated({ valuationRequestId, staffId, onHide }) {
   const [valuationRequest, setValuationRequest] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [preliminaryValuation, setPreliminaryValuation] = useState({
-    id: "",
-    estimateMin: "",
-    estimateMax: "",
-  });
-
   const [show, setShow] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedImageUrl, setSelectedImageUrl] = useState(null);
   const [urlList, setUrlList] = useState([]);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const handleImageClick = (imageUrl) => {
     setSelectedImageUrl(imageUrl);
   };
@@ -304,7 +537,7 @@ function PreliminaryValuated({ valuationRequestId, staffId, onHide }) {
     setIsLoading(false);
   };
 
-  useEffect(() => {
+  const handleShow = () => {
     try {
       const getData = async () => {
         const data = await getValuationRequestById(valuationRequestId);
@@ -315,7 +548,8 @@ function PreliminaryValuated({ valuationRequestId, staffId, onHide }) {
     } catch (error) {
       console.log("Error: ", error);
     }
-  }, [valuationRequestId]);
+    setShow(true);
+  };
 
   const handleReject = async (confirmValue) => {
     if (confirmValue) {
@@ -435,12 +669,10 @@ function PreliminaryValuated({ valuationRequestId, staffId, onHide }) {
 
 function ProductReceived({ valuationRequestId }) {
   const [valuationRequest, setValuationRequest] = useState({});
-
   const [show, setShow] = useState(false);
   const [selectedImageUrl, setSelectedImageUrl] = useState(null);
   const [urlList, setUrlList] = useState([]);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const handleImageClick = (imageUrl) => {
     setSelectedImageUrl(imageUrl);
   };
@@ -449,7 +681,7 @@ function ProductReceived({ valuationRequestId }) {
     setSelectedImageUrl(null);
   };
 
-  useEffect(() => {
+  const handleShow = () => {
     try {
       const getData = async () => {
         const data = await getValuationRequestById(valuationRequestId);
@@ -460,7 +692,8 @@ function ProductReceived({ valuationRequestId }) {
     } catch (error) {
       console.log("Error: ", error);
     }
-  }, [valuationRequestId]);
+    setShow(true);
+  };
 
   return (
     <>
@@ -562,27 +795,12 @@ function PendingApproval({ valuationRequestId, onUpdate }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const handleImageClick = (imageUrl) => {
     setSelectedImageUrl(imageUrl);
   };
   const handleImageClose = () => {
     setSelectedImageUrl(null);
   };
-
-  useEffect(() => {
-    const fetchValuationRequest = async () => {
-      try {
-        const data = await getProductDetailByRequestId(valuationRequestId);
-        setProductInfo(data);
-        data.productImages &&
-          setUrlList(data.productImages.map((i) => i.imageUrl));
-      } catch (error) {
-        console.log("Error: ", error);
-      }
-    };
-    fetchValuationRequest();
-  }, [valuationRequestId]);
 
   const handleApprove = async (confirmValue) => {
     console.log("confirmValue", valuationRequestId);
@@ -621,6 +839,21 @@ function PendingApproval({ valuationRequestId, onUpdate }) {
       console.log("Error: ", error);
     }
     setIsLoading(false);
+  };
+
+  const handleShow = () => {
+    const fetchValuationRequest = async () => {
+      try {
+        const data = await getProductDetailByRequestId(valuationRequestId);
+        setProductInfo(data);
+        data.productImages &&
+          setUrlList(data.productImages.map((i) => i.imageUrl));
+      } catch (error) {
+        console.log("Error: ", error);
+      }
+    };
+    fetchValuationRequest();
+    setShow(true);
   };
 
   return (
@@ -663,7 +896,7 @@ function PendingApproval({ valuationRequestId, onUpdate }) {
               <hr className="p-0 mb-1 mt-0" />
               <div className="d-flex justify-content-between">
                 <p className="mb-1">Amount for each bid step:</p>
-                <strong>{productInfo.pricePerStep}</strong>$
+                <strong>${productInfo.pricePerStep}</strong>
               </div>
               <hr className="p-0 mb-1 mt-0" />
               <div className="d-flex justify-content-between">
@@ -732,7 +965,6 @@ function ManagerApproved({ valuationRequestId, onUpdate }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const handleImageClick = (imageUrl) => {
     setSelectedImageUrl(imageUrl);
   };
@@ -740,7 +972,7 @@ function ManagerApproved({ valuationRequestId, onUpdate }) {
     setSelectedImageUrl(null);
   };
 
-  useEffect(() => {
+  const handleShow = () => {
     const fetchValuationRequest = async () => {
       try {
         const data = await getProductDetailByRequestId(valuationRequestId);
@@ -752,7 +984,8 @@ function ManagerApproved({ valuationRequestId, onUpdate }) {
       }
     };
     fetchValuationRequest();
-  }, [valuationRequestId]);
+    setShow(true);
+  };
 
   const handleSendToMember = async (confirmValue) => {
     if (!confirmValue) return;
@@ -813,7 +1046,7 @@ function ManagerApproved({ valuationRequestId, onUpdate }) {
               <hr className="p-0 mb-1 mt-0" />
               <div className="d-flex justify-content-between">
                 <p className="mb-1">Amount for each bid step:</p>
-                <strong>{productInfo.pricePerStep}</strong>$
+                <strong>${productInfo.pricePerStep}</strong>
               </div>
               <hr className="p-0 mb-1 mt-0" />
               <div className="d-flex justify-content-between">

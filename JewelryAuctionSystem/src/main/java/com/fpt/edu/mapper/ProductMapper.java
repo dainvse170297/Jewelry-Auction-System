@@ -32,20 +32,8 @@ public class ProductMapper {
         productDTO.setEstimatePriceMin(product.getEstimatePriceMin());
         productDTO.setEstimatePriceMax(product.getEstimatePriceMax());
         productDTO.setLots(product.getLots().stream().map(Lot::getId).collect(Collectors.toSet()));
-        productDTO.setProductImages(product.getProductImages().stream().map(ProductImage::getId).collect(Collectors.toList()));
+        productDTO.setProductImages(product.getProductImages().stream().map(ProductImage::getImageUrl).collect(Collectors.toList()));
         return productDTO;
-    }
-    public Product toProduct(ProductDTO productDTO) {
-        Product product = new Product();
-        product.setId(productDTO.getId());
-        product.setCategory(null);
-        product.setName(productDTO.getName());
-        product.setDescription(productDTO.getDescription());
-        product.setEstimatePriceMin(productDTO.getEstimatePriceMin());
-        product.setEstimatePriceMax(productDTO.getEstimatePriceMax());
-        product.setLots((Set<Lot>) iLotRepository.findAllById(productDTO.getLots()));
-        product.setProductImages(iProductImageRepository.findAllById(productDTO.getProductImages()));
-        return product;
     }
 
     public ProductDetailDTO mapToProductDetailDTO(Product product, List<ProductImage> productImages, ValuationRequest valuationRequest) {

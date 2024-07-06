@@ -1,18 +1,24 @@
-import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { getSentValuationRequest } from "../../../services/apiService";
 import Paginator from "../../common/Paginator";
 import ValuationResponseList from "../valuation-response/ValuationResponseList";
-import './style.scss';
+import "./style.scss";
 
 export default function MyValuationRequest({ id }) {
   const [valuationRequests, setValuationRequests] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [sortOrder, setSortOrder] = useState('');
-  const [valuationStatus, setValuationStatus] = useState('');
+  const [sortOrder, setSortOrder] = useState("");
+  const [valuationStatus, setValuationStatus] = useState("");
 
   const [showModal, setShowModal] = useState(false);
   const [selectedRequestId, setSelectedRequestId] = useState(null);
@@ -20,7 +26,6 @@ export default function MyValuationRequest({ id }) {
   useEffect(() => {
     const getInfo = async () => {
       try {
-        // const result = await axios.get(`http://localhost:8080/valuation/view-sent-request/${id}`);
         const result = await getSentValuationRequest(id);
         setValuationRequests(result);
       } catch (error) {
@@ -48,14 +53,20 @@ export default function MyValuationRequest({ id }) {
 
     // Apply filtering
     if (valuationStatus) {
-      filteredItems = filteredItems.filter(item => item.valuationStatus === valuationStatus);
+      filteredItems = filteredItems.filter(
+        (item) => item.valuationStatus === valuationStatus
+      );
     }
 
     // Apply sorting
-    if (sortOrder === 'asc') {
-      filteredItems.sort((a, b) => new Date(a.timeRequest) - new Date(b.timeRequest));
-    } else if (sortOrder === 'desc') {
-      filteredItems.sort((a, b) => new Date(b.timeRequest) - new Date(a.timeRequest));
+    if (sortOrder === "asc") {
+      filteredItems.sort(
+        (a, b) => new Date(a.timeRequest) - new Date(b.timeRequest)
+      );
+    } else if (sortOrder === "desc") {
+      filteredItems.sort(
+        (a, b) => new Date(b.timeRequest) - new Date(a.timeRequest)
+      );
     }
 
     return filteredItems;
@@ -65,7 +76,10 @@ export default function MyValuationRequest({ id }) {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   const filteredAndSortedItems = applySortingAndFiltering(valuationRequests);
-  const currentItems = filteredAndSortedItems.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredAndSortedItems.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const calculateTotalPage = (itemsPerPage, items) => {
     const totalItem = items.length;
@@ -75,13 +89,12 @@ export default function MyValuationRequest({ id }) {
   const handleShowResponse = (requestId) => {
     setSelectedRequestId(requestId);
     setShowModal(true);
-    // console.log(requestId);
-  }
+  };
 
   const handleCloseModal = () => {
     setShowModal(false);
     selectedRequestId(null);
-  }
+  };
 
   return (
     <div className="container">
@@ -124,25 +137,40 @@ export default function MyValuationRequest({ id }) {
       </div>
       <div className="row">
         <div className="shpping__cart__table">
-          <table>
+          <table style={{ width: "100%" }}>
             <thead></thead>
             <tbody>
               {currentItems.map((request, index) => (
                 <tr key={index}>
-                  <td className='product__cart__item spad'>
+                  <td className="product__cart__item spad">
                     <div className="product__cart__item__pic">
-                      <img src={request.valuationImages[0]?.imageUrl} alt="Photo" width={'100px'} height={'100px'} />
+                      <img
+                        src={request.valuationImages[0]?.imageUrl}
+                        alt="Photo"
+                        width={"100px"}
+                        height={"100px"}
+                      />
                     </div>
                   </td>
                   <td>
                     <div className="product__cart__item__text ms-3">
-                      <h6>Time Request: {new Date(request.timeRequest).toLocaleString()}</h6>
+                      <h6>
+                        Time Request:{" "}
+                        {new Date(request.timeRequest).toLocaleString()}
+                      </h6>
                       <p>{request.description}</p>
-                      <p>Status: {request.valuationStatus === 'MEMBER_ACCEPTED' ? 'ACCEPTED' : request.valuationStatus}</p>
+                      <p>
+                        Status:{" "}
+                        {request.valuationStatus === "MEMBER_ACCEPTED"
+                          ? "ACCEPTED"
+                          : request.valuationStatus}
+                      </p>
                     </div>
                   </td>
                   <td className="ms-3">
-                    <Button onClick={() => handleShowResponse(request.id)}>Show Response</Button>
+                    <Button onClick={() => handleShowResponse(request.id)}>
+                      Show Response
+                    </Button>
                   </td>
                 </tr>
               ))}
@@ -151,7 +179,10 @@ export default function MyValuationRequest({ id }) {
           <div className="flex align-items-center justify-content-center">
             <Paginator
               currentPage={currentPage}
-              totalPages={calculateTotalPage(itemsPerPage, filteredAndSortedItems)}
+              totalPages={calculateTotalPage(
+                itemsPerPage,
+                filteredAndSortedItems
+              )}
               onPageChange={handlePageChange}
             />
           </div>
@@ -162,7 +193,9 @@ export default function MyValuationRequest({ id }) {
           <Modal.Title>Valuation Response</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {selectedRequestId && <ValuationResponseList id={selectedRequestId} />}
+          {selectedRequestId && (
+            <ValuationResponseList id={selectedRequestId} />
+          )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="standard" onClick={handleCloseModal}>
