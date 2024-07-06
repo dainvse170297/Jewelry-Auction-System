@@ -30,4 +30,6 @@ public interface IAccountService {
     public Map<String,Object> changeInformation(Integer id, String fullname, String phone, String address);
 
     Account createStaffAccount(String username, String password, String fullName);
+
+    Map<String, Object> getAccountInfo(Integer id);
 }

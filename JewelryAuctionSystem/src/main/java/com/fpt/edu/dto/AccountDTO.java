@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AccountDTO {
     private int id;
+    private String username;
     private Integer role;
     private String roleName;
     private String fullname;
@@ -22,5 +23,4 @@ public class AccountDTO {
     private Integer memberId;
     private Integer staffId;
     private Integer managerId;
-
 }

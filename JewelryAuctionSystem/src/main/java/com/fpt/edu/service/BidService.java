@@ -87,15 +87,14 @@ public class BidService implements IBidService {
             //update auction register
             if (auctionRegister != null) {
                 newFinancialProofAmount = member.getFinancialProofAmount().subtract(bid.getPrice().subtract(auctionRegister.getCurrentPrice()));
-                log.info("newFinancialProofAmount: {}", newFinancialProofAmount);
                 auctionRegister.setCurrentPrice(byNowPrice);
                 auctionRegister.setFinalPrice(byNowPrice);
                 auctionRegister.setStatus(AuctionRegisterStatus.PENDING_PAYMENT);
                 iAuctionRegisterRepository.save(auctionRegister);
             } else {
                 newFinancialProofAmount = member.getFinancialProofAmount().subtract(bid.getPrice());
-                log.info("newFinancialProofAmount: {}", newFinancialProofAmount);
             }
+            member.setFinancialProofAmount(newFinancialProofAmount);
             iMemberRepository.save(member);
             return ResponseEntity.ok(bidMapper.mapToBidDTO(bid, memberName));
         }
@@ -111,7 +110,6 @@ public class BidService implements IBidService {
 
             if (auctionRegister != null) {
                 newFinancialProofAmount = member.getFinancialProofAmount().subtract(bid.getPrice().subtract(auctionRegister.getCurrentPrice()));
-                log.info("newFinancialProofAmount: {}", newFinancialProofAmount);
                 auctionRegister.setCurrentPrice(price);
                 auctionRegister.setFinalPrice(price);
                 iAuctionRegisterRepository.save(auctionRegister);
@@ -119,7 +117,6 @@ public class BidService implements IBidService {
                 iMemberRepository.save(member);
             } else {
                 newFinancialProofAmount = member.getFinancialProofAmount().subtract(bid.getPrice());
-                log.info("newFinancialProofAmount: {}", newFinancialProofAmount);
             }
             member.setFinancialProofAmount(newFinancialProofAmount);
             iMemberRepository.save(member);
