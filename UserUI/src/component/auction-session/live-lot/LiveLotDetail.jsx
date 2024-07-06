@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import {
   getBidHistory,
   getLiveLotDetail,
+  getProfileDetail,
   postPlaceBidding,
 } from "../../../services/apiService";
 import Countdown from "../../countdown/Countdown";
@@ -38,6 +39,8 @@ export default function LiveLotDetail() {
 
   const [winningMessage, setWinningMessage] = useState("");
 
+  const [financialProofAmount, setFinancialProofAmount] = useState(0);
+
   useEffect(() => {
     const getInfo = async () => {
       setIsLoading(true);
@@ -53,6 +56,19 @@ export default function LiveLotDetail() {
     getInfo();
     //console.log("location", location);
   }, [id]);
+
+  useEffect(() => {
+    const getMember = async () => {
+      try {
+        const response = await getProfileDetail(currentUser.memberId);
+        // console.log(response);
+        setFinancialProofAmount(response.financialProofAmount)
+      } catch (error) {
+        console.log("Error:", error.message);
+      }
+    }
+    getMember();
+  }, [])
 
   useEffect(() => {
     const bidHistory = async () => {
@@ -85,44 +101,48 @@ export default function LiveLotDetail() {
   };
 
   const placeBid = async (calculatedAmount) => {
-    // let price = parseFloat(productInfo.currentPrice);
-    // let calculatedAmount = price + parseFloat(productInfo.pricePerStep) * multiplier;
 
     setAmountBid(calculatedAmount);
     if (currentUser === null) {
       navigate("/login", { state: { from: `/live-lot-detail/${id}` } });
     } else {
-      try {
-        const placeBid = await postPlaceBidding(
-          calculatedAmount,
-          productInfo.id,
-          currentUser.memberId
-        );
-        if (placeBid) {
-          toast.success(`Successfully placed bid at $${calculatedAmount}`, {
-            autoClose: 2500,
-          });
-          // Manually update the current price and bid history
-          setProductInfo((prevInfo) => ({
-            ...prevInfo,
-            currentPrice:
-              calculatedAmount > prevInfo.buyNowPrice
-                ? prevInfo.buyNowPrice
-                : calculatedAmount,
-          }));
+      if (calculatedAmount > financialProofAmount) {
+        toast.error("You do not have enough money to place this bid");
+        return;
+      } else {
+        try {
+          const placeBid = await postPlaceBidding(
+            calculatedAmount,
+            productInfo.id,
+            currentUser.memberId
+          );
+          if (placeBid) {
+            toast.success(`Successfully placed bid at $${calculatedAmount}`, {
+              autoClose: 2500,
+            });
+            // Manually update the current price and bid history
+            setProductInfo((prevInfo) => ({
+              ...prevInfo,
+              currentPrice:
+                calculatedAmount > prevInfo.buyNowPrice
+                  ? prevInfo.buyNowPrice
+                  : calculatedAmount,
+            }));
 
-          if (calculatedAmount == parseFloat(productInfo.buyNowPrice)) {
-            handleWinningMessage("Congratulations! You have won the auction");
-            setTimeout(() => {
-              window.location.reload();
-            }, 2500);
+            if (calculatedAmount == parseFloat(productInfo.buyNowPrice)) {
+              handleWinningMessage("Congratulations! You have won the auction");
+              setTimeout(() => {
+                window.location.reload();
+              }, 2500);
+            }
+          } else {
+            toast.error("Failed to place bid.");
           }
-        } else {
-          toast.error("Failed to place bid.");
+        } catch (error) {
+          toast.error("Failed to place bid...");
         }
-      } catch (error) {
-        toast.error("Failed to place bid...");
       }
+
     }
   };
 
@@ -224,6 +244,7 @@ export default function LiveLotDetail() {
                       lotId={id}
                       setMessage={setMessage}
                       setBidHistory={setBidHistory}
+                      setFinancialProofAmount={setFinancialProofAmount}
                     />
                   </div>
                 </div>
