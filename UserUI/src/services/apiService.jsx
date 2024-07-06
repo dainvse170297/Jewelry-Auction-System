@@ -206,5 +206,5 @@ const postConfirmFinalValuation = async (id, confirmValue) => {
 };
 
 const getAllUpcomingSession = async () => {
-  return axios.get("http://localhost:8080/auction/session/upcoming")
+  return axios.get("auction/session/upcoming")
 }
