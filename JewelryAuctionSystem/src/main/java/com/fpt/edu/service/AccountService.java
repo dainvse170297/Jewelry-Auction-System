@@ -295,5 +295,26 @@ public class AccountService implements IAccountService {
         }
         return account;
     }
+
+    @Override
+    public Map<String, Object> getAccountInfo(Integer id) {
+        Map map = new HashMap();
+        Account account = accountRepository.getReferenceById(id);
+        AccountDTO accountDTO = AccountMapper.toAccountDTO(account);
+        map.put("account", accountDTO);
+        if (account.getMembers() != null) {
+            Member member = account.getMembers();
+            MemberDTO memberDTO = memberMapper.toMemberDTO(member);
+            map.put("member", memberDTO);
+        } else if (account.getStaff() != null) {
+            Staff staff = account.getStaff();
+            StaffDTO staffDTO = staffMapper.toStaffDTO(staff);
+            map.put("staff", staffDTO);
+        } else if (account.getManager() != null) {
+            Manager manager = account.getManager();
+            map.put("manager", manager);
+        }
+        return map;
+    }
 }
 
