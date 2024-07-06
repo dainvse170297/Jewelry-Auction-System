@@ -35,33 +35,28 @@ const ReadyLots = () => {
           <div className="row">
             {readyLots.map((lot, index) => (
               <Col md={3} key={index}>
-                <div className="" key={index}>
-                  <div className="card mt-3">
-                    <div className="card-body">
-                      {/* <productImages readyLots={lot} /> */}
-                      <img
-                        src={lot.productImages[0].imageUrl}
-                        alt={lot.productName + " photo"}
-                      />
-                      <h5 className="card-title">
-                        <strong>{lot.productName}</strong>
-                      </h5>
 
-                      <p className="card-subtitle mb-2 text-muted">
-                        <em>{truncateText(lot.description, 30)}</em>
-                      </p>
-                      {/* <p className="card-text">
-                        Category: <strong>{lot.product.category.name}</strong>
-                      </p> */}
-                      <p className="card-text">
-                        Estimate Max Price:{" "}
-                        <strong>{lot.estimatePriceMax}</strong>
-                      </p>
-                      <p className="card-text">
-                        Estimate Min Price:{" "}
-                        <strong>{lot.estimatePriceMin}</strong>
-                      </p>
-                      {/* <p className="card-text">Current Price: <strong>{lot.currentPrice}</strong></p> */}
+                <div className="card mt-3" key={index}>
+                  <div className="card-body">
+                    <img
+                      src={lot.productImages[0].imageUrl}
+                      alt={lot.productName + " photo"}
+                    />
+                    <h6 className="card-title">
+                      <strong>{truncateText(lot.productName, 35)}</strong>
+                    </h6>
+                    <p className="card-subtitle mb-2 text-muted">
+                      <em>{truncateText(lot.description, 35)}</em>
+                    </p>
+                    <p className="card-text">
+                      Estimate Max Price:{" "}
+                      <strong>{lot.estimatePriceMax}</strong>
+                    </p>
+                    <p className="card-text">
+                      Estimate Min Price:{" "}
+                      <strong>{lot.estimatePriceMin}</strong>
+                    </p>
+                    <div className="text-center">
                       <button className="link-btn">
                         <Link to={`/add-session/${lot.id}`}>
                           Add to Session
@@ -70,6 +65,7 @@ const ReadyLots = () => {
                     </div>
                   </div>
                 </div>
+
               </Col>
             ))}
           </div>
