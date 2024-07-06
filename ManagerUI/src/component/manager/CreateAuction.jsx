@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { getAllStaffAccount, postCreateSession } from "../../services/apiService";
 
 const CreateAuction = () => {
   const [staffs, setStaffs] = useState([]);
@@ -25,10 +26,12 @@ const CreateAuction = () => {
   useEffect(() => {
     const getStaffAccounts = async () => {
       try {
-        const staffAccountsData = await axios.get(
-          "http://localhost:8080/staff/accounts"
-        );
-        setStaffs(staffAccountsData.data);
+        // const staffAccountsData = await axios.get(
+        //   "http://localhost:8080/staff/accounts"
+        // );
+        // setStaffs(staffAccountsData.data);
+        const staffData = await getAllStaffAccount();
+        setStaffs(staffData);
       } catch (error) {
         console.log("Error fetching staff accounts", error);
       }
@@ -73,36 +76,18 @@ const CreateAuction = () => {
       toast.error("Start Date must be before End Date");
     } else {
       try {
-        const formData = new FormData();
-        formData.append("staffId", auctionSession.staffId);
-        formData.append("name", auctionSession.name);
-        formData.append("description", auctionSession.description);
-        formData.append("startTime", auctionSession.startTime);
-        formData.append("endTime", auctionSession.endTime);
-        formData.append("startingBid", auctionSession.startingBid);
-        formData.append("image", auctionSession.image);
         setIsWaiting(true);
-        const createSession = await axios
-          .post("http://localhost:8080/auction/create-session", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
-          .then((response) => {
-            console.log("Auction session created");
-            toast.success("Auction Session created successfully!");
-            setIsWaiting(false);
-            setTimeout(() => {
-              navigate("/auction");
-            }, 2000);
-          })
-          .catch((error) => {
-
-            toast.error(
-              "Error occurred when create Session, please try again!"
-            );
-            setIsWaiting(false);
-          });
+        const response = await postCreateSession(auctionSession);
+        if (response) {
+          toast.success("Auction Session created successfully!");
+          setIsWaiting(false);
+          setTimeout(() => {
+            navigate("/auction");
+          }, 2000);
+        } else {
+          toast.error("Error creating auction session");
+          setIsWaiting(false);
+        }
       } catch (error) {
         console.log(error.message);
       }

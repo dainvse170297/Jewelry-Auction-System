@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./style.scss";
+import { getReadyLots } from "../../services/apiService";
 
 const ReadyLots = () => {
   const [readyLots, setReadyLots] = useState([]);
@@ -10,9 +11,8 @@ const ReadyLots = () => {
   useEffect(() => {
     const fetchReadyLots = async () => {
       try {
-        await axios.get("http://localhost:8080/lot/ready-lot").then((res) => {
-          setReadyLots(res.data);
-        });
+        const response = await getReadyLots();
+        setReadyLots(response);
       } catch (error) {
         console.log(error);
       }
