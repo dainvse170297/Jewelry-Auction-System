@@ -26,10 +26,6 @@ const CreateAuction = () => {
   useEffect(() => {
     const getStaffAccounts = async () => {
       try {
-        // const staffAccountsData = await axios.get(
-        //   "http://localhost:8080/staff/accounts"
-        // );
-        // setStaffs(staffAccountsData.data);
         const staffData = await getAllStaffAccount();
         setStaffs(staffData);
       } catch (error) {
@@ -78,7 +74,8 @@ const CreateAuction = () => {
       try {
         setIsWaiting(true);
         const response = await postCreateSession(auctionSession);
-        if (response) {
+        // console.log(response.status === 'CREATED');
+        if (response.status === 'CREATED') {
           toast.success("Auction Session created successfully!");
           setIsWaiting(false);
           setTimeout(() => {
@@ -204,13 +201,14 @@ const CreateAuction = () => {
                   id="image"
                   name="image"
                   onChange={handleImageChange}
+                  className="mb-3"
                 />
 
                 {imagePreview && (
                   <img
                     src={imagePreview}
                     alt="Preview Auction Banner"
-                    style={{ width: "200px", maxHeight: "200px" }}
+                    style={{ width: "300px", maxHeight: "200px" }}
                   />
                 )}
                 <br />
