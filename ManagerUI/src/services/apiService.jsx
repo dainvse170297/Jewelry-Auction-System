@@ -31,6 +31,8 @@ export {
   getMemberByProductId,
   confirmTransfered,
   getAllCategory,
+  getListPurchasedLot,
+  postConfirmDelivery,
 
   //Lot and product
   postAddProduct,
@@ -243,6 +245,17 @@ const getFinalValuationRequestsDetail = async (id) => {
 
 const getDeliveredLots = async () => {
   return axios.get("lot/view-list-delivered-lot");
+};
+
+const getListPurchasedLot = async () => {
+  return await axios.get("lot/view-list-purchased-lot");
+};
+
+const postConfirmDelivery = async (purchased, confirm) => {
+  const response = await axios.post(
+    `/auction-register/confirm-product-delivery/${purchased.auctionRegistersId}?confirm=${confirm}`
+  );
+  return response;
 };
 
 const postSentFinancialProof = async (status, page, size) => {

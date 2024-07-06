@@ -29,9 +29,9 @@ public class ValuationRequestController {
     @PostMapping("/create")
     @CrossOrigin(origins = "*")
     public ResponseEntity<ValuationRequestDetailDTO> addValuationRequest(@RequestParam("memberId") Integer memberId,
-                                                                   @RequestParam("description") String description,
-                                                                   @RequestParam(value = "memberEstimatePrice",required = false) BigDecimal memberEstimatePrice,
-                                                                   @RequestParam("image") Set<MultipartFile> files
+                                                                         @RequestParam("description") String description,
+                                                                         @RequestParam(value = "memberEstimatePrice",required = false) BigDecimal memberEstimatePrice,
+                                                                         @RequestParam("image") Set<MultipartFile> files
     ) throws IOException {
         return ResponseEntity.ok(valuationRequestService.create(memberId, description,memberEstimatePrice, files));
     }
@@ -63,9 +63,9 @@ public class ValuationRequestController {
     @PostMapping("/preliminary-valuation")
     @CrossOrigin(origins = "*")
     public ResponseEntity<ValuationRequestDetailDTO> preliminaryValuation(@RequestParam("id") Integer id,
-                                                                    @RequestParam("estimateMin") BigDecimal estimatePrice,
-                                                                    @RequestParam("estimateMax") BigDecimal estimateMax,
-                                                                    @RequestParam("staffId") Integer staffId) {
+                                                                          @RequestParam("estimateMin") BigDecimal estimatePrice,
+                                                                          @RequestParam("estimateMax") BigDecimal estimateMax,
+                                                                          @RequestParam("staffId") Integer staffId) {
         return ResponseEntity.ok(valuationRequestService.preliminaryValuation(id, estimatePrice, estimateMax, staffId));
     }
 

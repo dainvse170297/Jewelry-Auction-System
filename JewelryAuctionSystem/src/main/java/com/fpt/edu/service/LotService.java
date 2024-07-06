@@ -96,6 +96,7 @@ public class LotService implements ILotService{
             if(lot.getStatus().equals(LotStatus.SOLD)){
                 LotDTO lotDTO = lotMapper.toLotDTO(lot);
                 lotDTO.setCurrentWinnerName(iMemberRepository.findById(lot.getCurrentWinnerId()).get().getFullname());
+                lotDTO.setAuctionRegistersId(auctionRegisterRepository.findByLotIdAndStatus(lot.getId(),status).getId());
                 lotDTO.setPaymentInfoDTO(toPaymentInfoDTO(paymentInfoRepository.
                         findByAuctionRegisterId(auctionRegisterRepository.
                                 findByLotIdAndStatus(lot.getId(),status).getId())));

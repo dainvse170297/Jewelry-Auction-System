@@ -5,8 +5,9 @@ import {
 } from "../component/valuation-request/AllValuationRequestList";
 import AuctionAssigned from "../component/staff/AuctionAssigned";
 import { FinancialProofRequestList } from "../component/financial-proof-request/FinancialProofRequestList";
-import { ViewPurchasedLot } from "../component/staff/ViewPurchasedLot";
+import { ViewPurchasedLot } from "../component/lots/ViewPurchasedLot";
 import SetupProductInfo from "../component/product/SetupProductInfo";
+import { ViewDeliveredLot } from "../component/lots/ViewDeliveredLot";
 // import ValuationRequestDetail from "../component/product/SetupProductInfo";
 // import ValuationRequestProductReceivedList from "../component/staff/ValuationRequestProductReceivedList";
 
@@ -27,10 +28,13 @@ const StaffRoutes = [
     path: "/auction",
     element: <AuctionAssigned />,
   },
-
   {
-    path: "/auction/deliver",
+    path: "/auction/purchased-lot",
     element: <ViewPurchasedLot />,
+  },
+  {
+    path: "/auction/delivered-lot",
+    element: <ViewDeliveredLot />,
   },
   {
     path: "/valuation-request/product-received/confirm/:id",

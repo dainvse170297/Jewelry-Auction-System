@@ -12,11 +12,13 @@ import java.util.List;
 public interface IValuationRequestRepository extends JpaRepository<ValuationRequest, Integer> {
     public List<ValuationRequest> findByValuationStatus(ValuationRequestStatus status);
 
+    Page<ValuationRequest> findByValuationStatus(ValuationRequestStatus status, Pageable pageable);
     ValuationRequest findByIdAndValuationStatus(int id, ValuationRequestStatus status);
 
     ValuationRequest findByProductId(Integer productId);
 
     List<ValuationRequest> findByMemberId(Integer memberId);
 
+    Page<ValuationRequest> findByMemberId(Integer memberId, Pageable pageable);
     Page<ValuationRequest> findAll(Pageable pageable);
 }

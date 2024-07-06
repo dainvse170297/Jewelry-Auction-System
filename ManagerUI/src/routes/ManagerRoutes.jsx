@@ -1,7 +1,7 @@
 import React from "react";
 import Dashboard from "../component/dashboard/Dashboard";
 import Setting from "../component/manager/SystemSetting";
-import UserManage from "../component/manager/UserManage";
+import UserManage from "../component/account/UserManage";
 import AuctionSessionList from "../component/auction-session/AuctionSessionList";
 import CreateAuction from "../component/manager/CreateAuction";
 import { ReadyLots } from "../component/lots/LotList";
@@ -13,7 +13,8 @@ import {
   ProductReceivedList,
 } from "../component/valuation-request/AllValuationRequestList";
 import PublicCreatedSession from "../component/manager/Session/PublicCreatedSession";
-import { ViewPurchasedLot } from "../component/manager/Lots/ViewPurchasedLot";
+import { ViewDeliveredLot } from "../component/lots/ViewDeliveredLot";
+import { ViewPurchasedLot } from "../component/lots/ViewPurchasedLot";
 import PaidList from "../component/manager/AuctionRegister/PaidList";
 import SetupProductInfo from "../component/product/SetupProductInfo";
 
@@ -63,9 +64,14 @@ const ManagerRoutes = [
     element: <PublicCreatedSession />,
   },
   {
-    path: "/auction/delivered-lots",
+    path: "/auction/purchased-lot",
     element: <ViewPurchasedLot />,
   },
+  {
+    path: "/auction/delivered-lot",
+    element: <ViewDeliveredLot />,
+  },
+
   {
     path: "/paid-list",
     element: <PaidList />,

@@ -25,42 +25,47 @@ public class AccountController {
 
     @PostMapping("/member/register")
     public ResponseEntity<Account> createAccount(@RequestParam("username") String username,
-                                                 @RequestParam("password")String password,
-                                                 @RequestParam("fullName")String fullName,
-                                                 @RequestParam("email")String email,
-                                                 @RequestParam("phone")String phone,
-                                                 @RequestParam("address")String address){
+                                                 @RequestParam("password") String password,
+                                                 @RequestParam("fullName") String fullName,
+                                                 @RequestParam("email") String email,
+                                                 @RequestParam("phone") String phone,
+                                                 @RequestParam("address") String address) {
 
-        return ResponseEntity.ok().body(accountService.createAccount(username,password,fullName,email,phone,address));
+        return ResponseEntity.ok().body(accountService.createAccount(username, password, fullName, email, phone, address));
     }
 
     @GetMapping("id/{id}")
-    public ResponseEntity<Map<String,Object>> getInformationById(@PathVariable("id") Integer id){
+    public ResponseEntity<Map<String, Object>> getInformationById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok().body(accountService.getInformationById(id));
     }
 
     //change password
     @PostMapping("id/{id}/change-password")
-    public ResponseEntity<Map<String,Object>> changePassword(@PathVariable("id") Integer id,
-                                                  @RequestParam("oldPassword") String oldPassword,
-                                                  @RequestParam("newPassword") String newPassword){
-        return ResponseEntity.ok().body(accountService.changePassword(id,oldPassword,newPassword));
+    public ResponseEntity<Map<String, Object>> changePassword(@PathVariable("id") Integer id,
+                                                              @RequestParam("oldPassword") String oldPassword,
+                                                              @RequestParam("newPassword") String newPassword) {
+        return ResponseEntity.ok().body(accountService.changePassword(id, oldPassword, newPassword));
     }
 
     //change information
     @PostMapping("id/{id}/change-information")
-    public ResponseEntity<Map<String,Object>> changeInformation(@PathVariable("id") Integer id,
-                                                  @RequestParam("fullname") String fullname,
-                                                  @RequestParam("phone") String phone,
-                                                  @RequestParam("address") String address){
-        return ResponseEntity.ok().body(accountService.changeInformation(id,fullname,phone,address));
+    public ResponseEntity<Map<String, Object>> changeInformation(@PathVariable("id") Integer id,
+                                                                 @RequestParam("fullname") String fullname,
+                                                                 @RequestParam("phone") String phone,
+                                                                 @RequestParam("address") String address) {
+        return ResponseEntity.ok().body(accountService.changeInformation(id, fullname, phone, address));
     }
 
     @PostMapping("/staff/register")
     public ResponseEntity<Account> createStaffAccount(@RequestParam("username") String username,
-                                                      @RequestParam("password")String password,
-                                                      @RequestParam("fullName")String fullName){
+                                                      @RequestParam("password") String password,
+                                                      @RequestParam("fullName") String fullName) {
 
-        return ResponseEntity.ok().body(accountService.createStaffAccount(username,password,fullName));
+        return ResponseEntity.ok().body(accountService.createStaffAccount(username, password, fullName));
+    }
+
+    @GetMapping("/info/{id}")
+        public ResponseEntity<Map<String, Object>> getAccountInfo(@PathVariable("id") Integer id){
+            return ResponseEntity.ok().body(accountService.getAccountInfo(id));
     }
 }
