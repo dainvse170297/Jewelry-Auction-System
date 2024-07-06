@@ -16,6 +16,7 @@ import java.util.List;
 public class LotDTO {
         
         private  Integer id;
+        private Integer auctionSessionId;
         private Integer auctionRegistersId;
         private  Integer productId;
         private  String productName;

@@ -34,6 +34,7 @@ public class ResponseValuationRequestService implements IResponseRequestValuatio
     private final IValuationRequestRepository iValuationRequestRepository;
     private final ILotRepository iLotRepository;
     private final IValuationImageRepository iValuationRequestImageRepository;
+    private final IProductImageRepository iProductImageRepository;
 
     private final ResponseValuationRequestMapper responseValuationRequestMapper;
     private final ValuationRequestMapper valuationRequestMapper;
@@ -73,6 +74,7 @@ public class ResponseValuationRequestService implements IResponseRequestValuatio
             return map;
         } else {
             ProductDTO productDTO = productMapper.toProductDTO(valuationRequest.getProduct());
+            iProductImageRepository.findByProduct(valuationRequest.getProduct()).forEach(productImage -> productDTO.getProductImages().add(productImage.getImageUrl()));
             map.put("productDTO", productDTO);
             map.put("valuationRequestDTO", valuationRequestMapper.mapToValuationRequestDetailDTO(valuationRequest));
             map.put("responseRequestValuationDTOS", responseRequestValuationDTOS);
@@ -95,21 +97,27 @@ public class ResponseValuationRequestService implements IResponseRequestValuatio
             responseValuation.setResponseValuationRequestStatus(ResponseValuationRequestStatus.ACCEPTED);
             iResponseRequestValuationRepository.save(responseValuation);
             Product product = valuationRequest.getProduct();
+            List<String> images = iProductImageRepository.findByProduct(product).stream().map(ProductImage::getImageUrl).toList();
             List<Lot> lot = iLotRepository.findLotByProduct_Id(product.getId());
             for (Lot l : lot) {
                 l.setStatus(LotStatus.READY);
                 iLotRepository.save(l);
             }
-            return responseValuationRequestMapper.toResponseValuationRequestDTO(responseValuation);
+            ResponseRequestValuationDTO dto = responseValuationRequestMapper.toResponseValuationRequestDTO(responseValuation);
+            dto.setImages(images);
+            return dto;
 
 
         } else {
             responseValuation.setResponseValuationRequestStatus(ResponseValuationRequestStatus.REJECTED);
             iResponseRequestValuationRepository.save(responseValuation);
             valuationRequest.setValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED);
+            Product product = valuationRequest.getProduct();
             iValuationRequestRepository.save(valuationRequest);
-
-            return responseValuationRequestMapper.toResponseValuationRequestDTO(responseValuation);
+            List<String> images = iProductImageRepository.findByProduct(product).stream().map(ProductImage::getImageUrl).toList();
+            ResponseRequestValuationDTO dto = responseValuationRequestMapper.toResponseValuationRequestDTO(responseValuation);
+            dto.setImages(images);
+            return dto;
 
         }
 

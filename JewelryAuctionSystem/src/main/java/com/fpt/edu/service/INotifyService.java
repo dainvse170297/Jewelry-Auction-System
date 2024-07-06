@@ -10,4 +10,6 @@ public interface INotifyService {
     public void deleteNotify(Integer notifyId);
 
     List<NotifyDTO> getNotifyByMemberId(Integer id);
+
+    NotifyDTO readNotify(Integer id);
 }

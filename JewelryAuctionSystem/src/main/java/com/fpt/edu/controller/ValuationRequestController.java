@@ -38,8 +38,8 @@ public class ValuationRequestController {
 
     @GetMapping("/all")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<List<ValuationRequestDetailDTO>> getAll(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page){
-        return ResponseEntity.ok(valuationRequestService.getAll(page));
+    public ResponseEntity<List<ValuationRequestDetailDTO>> getAll(){
+        return ResponseEntity.ok(valuationRequestService.getAll());
     }
 
     @GetMapping("/requested")
@@ -76,12 +76,12 @@ public class ValuationRequestController {
     }
 
     @GetMapping("/request/status/product-received")
-    public ResponseEntity<List<ValuationRequestDTO>> getRequestStatusProductReceived() {
+    public ResponseEntity<List<ValuationRequestDetailDTO>> getRequestStatusProductReceived() {
         return ResponseEntity.ok(valuationRequestService.getRequestStatusProductReceived());
     }
 
     @GetMapping("/request/status/product-received/{id}")
-    public ResponseEntity<ValuationRequestDTO> getRequestStatusProductReceivedById(@PathVariable Integer id) {
+    public ResponseEntity<ValuationRequestDetailDTO> getRequestStatusProductReceivedById(@PathVariable Integer id) {
         return ResponseEntity.ok(valuationRequestService.getRequestByIdAndStatusProductReceived(id));
     }
 
@@ -102,9 +102,8 @@ public class ValuationRequestController {
 
 
     @PostMapping("/send-final-valuation-to-member")
-    public ResponseEntity<List<Map<String, String>>> sendFinalValuationToMember(@RequestParam Integer id, //valauation request id
-                                                                                @RequestParam Integer staffId) {
-        return ResponseEntity.ok(valuationRequestService.sendFinalValuationToMember(id, staffId));
+    public ResponseEntity<List<Map<String, String>>> sendFinalValuationToMember(@RequestParam Integer id) {
+        return ResponseEntity.ok(valuationRequestService.sendFinalValuationToMember(id));
     }
 
     @GetMapping("/get-all-valuation-manager-approved")

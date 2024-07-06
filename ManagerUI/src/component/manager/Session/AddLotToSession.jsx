@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify'
 // import Sidebar from '../../layout/sidebar/Sidebar'
 import ShowAuctionSessionDetail from './ShowAuctionSessionDetail'
 import './style.scss'
+import { getReadyLotById, postAddLotToSession } from '../../../services/apiService'
 
 const AddLotToSession = () => {
 
@@ -25,9 +26,8 @@ const AddLotToSession = () => {
     useEffect(() => {
         const getLotById = async () => {
             try {
-                await axios.get(`http://localhost:8080/lot/ready-lot/${id}`).then((res) => {
-                    setLot(res.data)
-                })
+                const response = await getReadyLotById(id)
+                setLot(response)
             } catch (error) {
                 console.log("Error get lot detail by id: ", error)
             }
@@ -38,9 +38,8 @@ const AddLotToSession = () => {
     useEffect(() => {
         const getAllCreatedSession = async () => {
             try {
-                await axios.get('http://localhost:8080/auction/all-created-session').then((res) => {
-                    setCreatedSessions(res.data)
-                })
+                const response = await getAllCreatedSession()
+                setCreatedSessions(response)
             } catch (error) {
                 console.log("Error get all created session: ", error)
             }
@@ -63,27 +62,18 @@ const AddLotToSession = () => {
 
     const navigate = useNavigate()
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault()
         if (data.sessionId === '') {
             toast.warning("Please select a session")
         } else {
-            const formData = new FormData()
-            formData.append("lotId", data.lotId)
-            formData.append("sessionId", data.sessionId)
-            axios.post('http://localhost:8080/auction/add-lot-to-session', formData)
-                .then((response) => {
-                    console.log("Lot added to session")
-                    toast.success("Lot added to session successfully!")
-                    setTimeout(() => {
-                        navigate("/auction/ready-lots")
-                    }, 4000)
-                })
-                .catch((error) => {
-                    console.log("Error adding lot to session: ", error)
-                    toast.error("Error adding lot to session")
-                })
-            // console.log(formData)
+            const response = await postAddLotToSession(data)
+            if (response) {
+                toast.success("Lot added to session successfully!")
+                setTimeout(() => {
+                    navigate("/auction/ready-lots")
+                }, 4000)
+            }
         }
 
     }

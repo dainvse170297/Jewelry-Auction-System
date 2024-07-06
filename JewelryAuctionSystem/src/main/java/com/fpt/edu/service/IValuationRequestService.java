@@ -13,7 +13,7 @@ import java.util.Set;
 public interface IValuationRequestService {
     public ValuationRequestDetailDTO create(Integer memberId, String description, BigDecimal memberEstimatePrice, Set<MultipartFile> files);
 
-    public List<ValuationRequestDetailDTO> getAll(Integer page);
+    public List<ValuationRequestDetailDTO> getAll();
 
     public List<ValuationRequestDetailDTO> getRequestedValuationRequest();
 
@@ -21,9 +21,9 @@ public interface IValuationRequestService {
 
     public ValuationRequestDetailDTO productReceived(Integer id);
 
-    public List<ValuationRequestDTO> getRequestStatusProductReceived();
+    public List<ValuationRequestDetailDTO> getRequestStatusProductReceived();
 
-    public ValuationRequestDTO getRequestByIdAndStatusProductReceived(int id);
+    public ValuationRequestDetailDTO getRequestByIdAndStatusProductReceived(int id);
 
     public List<FinalValuationRequestDTO> getListFinalValuationRequest();
 
@@ -33,7 +33,7 @@ public interface IValuationRequestService {
 
     public List<FinalValuationRequestDTO> getListManagerApproveValuationRequest();
 
-    public List<Map<String,String>> sendFinalValuationToMember(Integer id, Integer staffId);
+    public List<Map<String,String>> sendFinalValuationToMember(Integer id);
 
     public Map<String,String> sendNotifyToMember(ValuationRequest valuationRequest, Product product);
 

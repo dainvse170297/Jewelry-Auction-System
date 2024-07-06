@@ -23,6 +23,8 @@ const UpcomingSessionLot = () => {
   const [price, setPrice] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
 
+  const [showPreBidModal, setShowPreBidModal] = useState(false);
+
   let memberId = currentUser ? currentUser.memberId : 0;
 
   useEffect(() => {
@@ -42,13 +44,15 @@ const UpcomingSessionLot = () => {
     const checkRegister = async () => {
       try {
         const data = await getCheckLotRegister(memberId, lotId);
-        if (data?.status === "REGISTERED") {
+        //console.log(data);
+        if (data.status === "REGISTERED") {
           setWasBid(data.previousPrice);
           setIsRegister(true);
         } else {
           setIsRegister(false);
         }
-        console.log(wasBid);
+        // console.log(wasBid);
+
       } catch (error) {
         console.log(error);
       }
@@ -56,10 +60,20 @@ const UpcomingSessionLot = () => {
     checkRegister();
   }, [memberId, lotId]);
 
-  const handleClose = () => {
+  const handleCloseModal = () => {
     setShowModal(false);
     setIsPreBid(false);
   };
+
+  const handleClosePreBidModal = () => {
+    setShowPreBidModal(false);
+    setIsPreBid(false);
+  };
+
+  const handleGoBack = () => {
+    setShowPreBidModal(false);
+    setShowModal(true);
+  }
 
   const handleShow = () => {
     if (currentUser === null) {
@@ -72,52 +86,46 @@ const UpcomingSessionLot = () => {
 
   const handlePreBid = () => {
     setIsPreBid(true);
+    setShowPreBidModal(true);
+    setShowModal(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // const formData = new FormData()
-      // formData.append('memberId', currentUser.memberId)
-      // formData.append('lotId', lotId)
-      // formData.append('price', price)
-      // const response = await axios.post(
-      //   "http://localhost:8080/auction-register/place-to-bid",
-      //   null,
-      //   {
-      //     params: {
-      //       memberId: currentUser.memberId,
-      //       lotId: lotId,
-      //       price: price || 0,
-      //     },
-      //   }
-      // );
-      const response = await postPrePlaceBid(currentUser.memberId, lotId, price);
-      toast.success("Register to bid successfully");
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      const response = await postPrePlaceBid(
+        currentUser.memberId,
+        lotId,
+        price
+      );
 
-      setIsRegister(true);
-    } catch (error) {
-      if (error.response) {
-        setErrorMsg(error.response.data.message);
-      } else if (error.request) {
-        setErrorMsg("");
+      if (!response.message) {
+        setIsRegister(true);
+        toast.success("Register to bid successfully");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+        console.log(response);
       } else {
-        setErrorMsg("Something went wrong");
+        toast.error("Failed to register to bid");
+        setErrorMsg(response.message);
       }
+    } catch (error) {
+      console.log(error.response);
     }
-    console.log(errorMsg);
+  };
+
+  const goBack = () => {
+    navigate(-1);
   };
 
   return (
     <div className="container">
       <div className="">
-        <a href="#" className="a">
+        <button onClick={goBack} className="btn">
           <ArrowBackIcon /> BACK TO AUCTION
-        </a>
+        </button>
       </div>
       <hr />
       <div className="row">
@@ -128,7 +136,7 @@ const UpcomingSessionLot = () => {
                 (image, index) => (
                   <Carousel.Item key={index}>
                     <img
-                      className="d-block w-100"
+                      className="d-block w-100 h-50"
                       src={image.imageUrl}
                       alt={image.defaultImage}
                     />
@@ -146,9 +154,7 @@ const UpcomingSessionLot = () => {
             Estimate Price: ${lot.product?.estimatePriceMin} - $
             {lot.product?.estimatePriceMax}
           </p>
-          <p className="secondary">
-            Current Start Price: ${lot.currentPrice}
-          </p>
+          <p className="secondary">Current Start Price: ${lot.currentPrice}</p>
           <p className="secondary">
             Category: {lot.product?.category?.name.toUpperCase()}
           </p>
@@ -172,7 +178,28 @@ const UpcomingSessionLot = () => {
             </div>
           )}
 
-          <Modal show={showModal} onHide={handleClose} centered>
+          <Modal show={showModal} onHide={handleCloseModal} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Register to Bid</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <h5>Would you like to set a price in advance?</h5>
+            </Modal.Body>
+            <Modal.Footer>
+              <button className="register-to-bid-no-btn" onClick={handleSubmit}>
+                Register without place bid
+              </button>
+              <button
+                className="register-to-bid-yes-btn"
+                onClick={handlePreBid}
+              >
+                Place a bid
+              </button>
+            </Modal.Footer>
+          </Modal>
+
+
+          <Modal show={showPreBidModal} onHide={handleClosePreBidModal} centered>
             <Modal.Header closeButton>
               <Modal.Title>Register to Bid</Modal.Title>
             </Modal.Header>
@@ -191,7 +218,13 @@ const UpcomingSessionLot = () => {
                     value={price}
                     name="price"
                     onChange={(e) => setPrice(e.target.value)}
+                    min={0}
                   />
+                  {/* <Form.Select>
+                    <option value="0">500</option>
+                    <option value="0">700</option>
+                    <option value="0">800</option>
+                  </Form.Select> */}
                   <button className="custom-btn" onClick={handleSubmit}>
                     Submit
                   </button>
@@ -208,17 +241,18 @@ const UpcomingSessionLot = () => {
               </>
             )}
             <Modal.Footer>
-              <button className="register-to-bid-no-btn" onClick={handleSubmit}>
-                Register without place bid
+              <button className="register-to-bid-no-btn" onClick={handleGoBack}>
+                Back
               </button>
-              <button
+              {/* <button
                 className="register-to-bid-yes-btn"
                 onClick={handlePreBid}
               >
                 Place a bid
-              </button>
+              </button> */}
             </Modal.Footer>
           </Modal>
+
         </div>
         <ToastContainer />
       </div>

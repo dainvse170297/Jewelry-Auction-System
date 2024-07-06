@@ -9,6 +9,7 @@ import com.fpt.edu.status.ValuationRequestStatus;
 import com.fpt.edu.mapper.ValuationRequestMapper;
 import com.fpt.edu.dto.ValuationRequestDTO;
 import com.fpt.edu.status.ResponseValuationRequestStatus;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -84,8 +85,8 @@ public class ValuationRequestService implements IValuationRequestService {
     }
 
     @Override
-    public List<ValuationRequestDetailDTO> getAll(Integer page) {
-        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findAll(PageRequest.of(page, PAGE_SIZE)).getContent();
+    public List<ValuationRequestDetailDTO> getAll() {
+        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findAll();
         for (ValuationRequest valuationRequest : valuationRequests) {
             Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
             valuationRequest.setValuationImages(valuationImages);
@@ -127,18 +128,26 @@ public class ValuationRequestService implements IValuationRequestService {
     }
 
     @Override
-    public List<ValuationRequestDTO> getRequestStatusProductReceived() {
-        List<ValuationRequestDTO> result = valuationRequestMapper.mapToValuationRequestDTOList(iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED));
+    public List<ValuationRequestDetailDTO> getRequestStatusProductReceived() {
+        List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED);
+        for (ValuationRequest valuationRequest : valuationRequests) {
+            Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
+            valuationRequest.setValuationImages(valuationImages);
+        }
+        List<ValuationRequestDetailDTO> result = valuationRequestMapper.mapToValuationRequestDetailDTOList(valuationRequests);
         System.out.println("Result: ");
-        for (ValuationRequestDTO dto : result) {
+        for (ValuationRequestDetailDTO dto : result) {
             System.out.println(dto);
         }
         return result;
     }
 
     @Override
-    public ValuationRequestDTO getRequestByIdAndStatusProductReceived(int id) {
-        return valuationRequestMapper.mapToValuationRequestDTO(iValuationRequestRepository.findByIdAndValuationStatus(id, ValuationRequestStatus.PRODUCT_RECEIVED));
+    public ValuationRequestDetailDTO getRequestByIdAndStatusProductReceived(int id) {
+        ValuationRequest valuationRequest = iValuationRequestRepository.findByIdAndValuationStatus(id, ValuationRequestStatus.PRODUCT_RECEIVED);
+        Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
+        valuationRequest.setValuationImages(valuationImages);
+        return valuationRequestMapper.mapToValuationRequestDetailDTO(valuationRequest);
     }
 
     @Override
@@ -215,7 +224,7 @@ public class ValuationRequestService implements IValuationRequestService {
             ValuationRequest valuationRequest = valuationRequestOpt.get();
 
             if (valuationRequest.getValuationStatus().equals(ValuationRequestStatus.PENDING_MANAGER_APPROVAL)) {
-                valuationRequest.setValuationStatus(ValuationRequestStatus.CANCELED);
+                valuationRequest.setValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED);
                 iValuationRequestRepository.save(valuationRequest);
                 response.put("message", "ValuationRequest with id: " + id + " has been rejected by manager");
                 return response;
@@ -246,7 +255,7 @@ public class ValuationRequestService implements IValuationRequestService {
         Integer productId = iValuationRequestRepository.getReferenceById(id).getProduct().getId();
         LotDTO result = null;
         List<Lot> lots = iLotRepository.findLotByProduct_Id(productId);
-        if (!lots.isEmpty()){
+        if (!lots.isEmpty()) {
             Lot lot = lots.get(0);
             result = lotMapper.toLotDTO(lot);
         }
@@ -255,7 +264,7 @@ public class ValuationRequestService implements IValuationRequestService {
     }
 
     @Override
-    public List<Map<String, String>> sendFinalValuationToMember(Integer id, Integer staffId) {
+    public List<Map<String, String>> sendFinalValuationToMember(Integer id) {
         // Find the ValuationRequest with the given id
         Optional<ValuationRequest> valuationRequestOpt = iValuationRequestRepository.findById(id);
         List<Map<String, String>> responseList = new ArrayList<>();
@@ -282,7 +291,7 @@ public class ValuationRequestService implements IValuationRequestService {
                         ResponseValuationRequestStatus.FINAL,
                         valuationRequest.getEstimatePriceMin(),
                         valuationRequest.getEstimatePriceMax(),
-                        iStaffRepository.getReferenceById(staffId),
+                        iStaffRepository.getReferenceById(1),
                         valuationRequest
                 );
 
@@ -344,31 +353,34 @@ public class ValuationRequestService implements IValuationRequestService {
     }
 
     @Override
-    public Boolean cancelValuationRequestByStaff(Integer id){
-            ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
-            if (valuationRequest.getValuationStatus().equals(ValuationRequestStatus.REQUESTED)){
-                return cancelValuationRequest(id);
-            }
-            return false;
+    public Boolean cancelValuationRequestByStaff(Integer id) {
+        ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
+        if (valuationRequest.getValuationStatus().equals(ValuationRequestStatus.REQUESTED)) {
+            return cancelValuationRequest(id);
+        }
+        return false;
     }
 
     @Override
     public ValuationRequestDetailDTO getValuationRequestDetail(Integer id) {
         ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
+        Set<ValuationImage> valuationImage = iValuationImageRepository.findByRequest(valuationRequest);
+        valuationRequest.setValuationImages(valuationImage);
         return valuationRequestMapper.mapToValuationRequestDetailDTO(valuationRequest);
     }
 
-    @Scheduled (fixedRate = 1000*60*60*24) // 1 day
-    public void autoCancelValuationRequest(){
+    @Scheduled(fixedRate = 1000 * 60 * 60 * 24) // 1 day
+    public void autoCancelValuationRequest() {
         List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PRELIMINARY_VALUATED);
-        for (ValuationRequest valuationRequest : valuationRequests){
-            if (LocalDateTime.now().isAfter(valuationRequest.getTimeRequest().plusDays(30))){
+        for (ValuationRequest valuationRequest : valuationRequests) {
+            if (LocalDateTime.now().isAfter(valuationRequest.getTimeRequest().plusDays(30))) {
                 valuationRequest.setValuationStatus(ValuationRequestStatus.CANCELED);
                 iValuationRequestRepository.save(valuationRequest);
                 iNotifyService.insertNotify(valuationRequest.getMember(), cancelValuationRequestTitle(valuationRequest), cancelValuationRequestMessage(valuationRequest));
             }
         }
     }
+
     //Create Notify by specific format message
     private String createRequestTitle(ValuationRequest valuationRequest) {
         return "#" + valuationRequest.getId() + ": Your Valuation Request has been sent";

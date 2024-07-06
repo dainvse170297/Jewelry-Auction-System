@@ -19,5 +19,5 @@ public class ProductDTO {
     private BigDecimal estimatePriceMin;
     private BigDecimal estimatePriceMax;
     private Set<Integer> lots = new LinkedHashSet<>();
-    private List<Integer> productImages = new ArrayList<>();
+    private List<String> productImages = new ArrayList<>();
 }

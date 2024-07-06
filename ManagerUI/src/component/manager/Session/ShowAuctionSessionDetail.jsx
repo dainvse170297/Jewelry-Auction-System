@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { getAuctionSessionDetail } from '../../../services/apiService';
 
 const ShowAuctionSessionDetail = ({ sessionId }) => {
 
@@ -14,16 +15,15 @@ const ShowAuctionSessionDetail = ({ sessionId }) => {
     const [sessionDetail, setSessionDetail] = useState({})
 
     useEffect(() => {
-        const getAuctionSessionDetail = async () => {
+        const fetchAuctionSessionDetail = async () => {
             try {
-                await axios.get(`http://localhost:8080/auction/session/${sessionId}`).then((res) => {
-                    setSessionDetail(res.data)
-                })
+                const response = await getAuctionSessionDetail(sessionId)
+                setSessionDetail(response)
             } catch (error) {
                 console.log("Error get auction session detail by id: ", error)
             }
         }
-        getAuctionSessionDetail()
+        fetchAuctionSessionDetail()
     }, [sessionId])
 
     return (

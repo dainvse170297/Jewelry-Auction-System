@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import { FaBackward } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Paginator from "../common/Paginator";
+import { getFinalValuationRequests } from "../../services/apiService";
 
 export default function FinalValuationRequestList() {
   const [Finalvaluation, setFinalValuation] = useState([]);
@@ -19,11 +20,8 @@ export default function FinalValuationRequestList() {
     // setIsLoading(true)
     const getList = async () => {
       try {
-        axios
-          .get("http://localhost:8080/valuation/get-all-final-valuations")
-          .then((result) => {
-            setFinalValuation(result.data);
-          });
+        const response = await getFinalValuationRequests();
+        setFinalValuation(response);
       } catch (error) {
         console.log("Error nek:", error.message);
         setErrorMsg("Error fetching data from server");

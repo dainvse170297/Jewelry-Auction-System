@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../utils/axiosCustomize";
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Import ReactToastify CSS
@@ -25,9 +25,6 @@ const ProfileDetail = ({ memberId }) => {
   useEffect(() => {
     const getMemberInfo = async () => {
       try {
-        // const response = await axios.get(
-        //   `http://localhost:8080/member/profile/${memberId}`
-        // );
         const response = await getProfileDetail(memberId);
         setProfile(response);
       } catch (error) {
@@ -47,19 +44,13 @@ const ProfileDetail = ({ memberId }) => {
 
   const handleAddCreditCard = async () => {
     try {
-      const response = await axios.post(
-        `http://localhost:8080/member/profile/${memberId}/add-credit-card`,
-        newCreditCard
-      );
-      //  const response = await postAddCreditCard(memberId, newCreditCard);
-      // Handle success response
-      if (response.status === 200) {
-        setProfile(response.data); // Assuming the updated profile is returned
+      const data = await postAddCreditCard(memberId, newCreditCard);
+      if (data !== null) {
+        setProfile(data); // Assuming the updated profile is returned
         setShowCreditCardForm(false);
         toast.success("Credit Card Added Successfully");
       }
     } catch (error) {
-      // Handle error response
       if (
         error.response &&
         error.response.data &&
@@ -79,18 +70,12 @@ const ProfileDetail = ({ memberId }) => {
 
   const handleEditCreditCard = async () => {
     try {
-      const response = await axios.put(
-        `http://localhost:8080/member/profile/${memberId}/edit-credit-card`,
-        newCreditCard
-      );
-      //  const response = await putEditCreditCard(memberId, newCreditCard);
-      setProfile(response.data); // Assuming the updated profile is returned
+      const data = await putEditCreditCard(memberId, newCreditCard);
+      setProfile(data); // Assuming the updated profile is returned
       setShowCreditCardForm(false);
       setIsEditing(false);
-
-      if (response.status === 200) {
-        toast.success("Credit Card Updated Successfully");
-      }
+      window.location.reload();
+      toast.success("Credit Card Updated Successfully");
     } catch (error) {
       console.error(error);
     }
@@ -99,13 +84,8 @@ const ProfileDetail = ({ memberId }) => {
   const handleDeleteCreditCard = async () => {
     setShowDeleteConfirmation(false);
     try {
-      const response = await axios.delete(
-        `http://localhost:8080/member/profile/${memberId}/delete-credit-card`
-      );
-
-      // const response = await deleteCreditCard(memberId);
-
-      if (response.status === 200) {
+      const data = await deleteCreditCard(memberId);
+      if (data !== null) {
         toast.success("Credit Card Deleted Successfully");
         setProfile((prev) => ({ ...prev, creditCard: null }));
       }
