@@ -29,23 +29,23 @@ public class ValuationRequestController {
     @PostMapping("/create")
     @CrossOrigin(origins = "*")
     public ResponseEntity<ValuationRequestDetailDTO> addValuationRequest(@RequestParam("memberId") Integer memberId,
-                                                                   @RequestParam("description") String description,
-                                                                   @RequestParam(value = "memberEstimatePrice",required = false) BigDecimal memberEstimatePrice,
-                                                                   @RequestParam("image") Set<MultipartFile> files
+                                                                         @RequestParam("description") String description,
+                                                                         @RequestParam(value = "memberEstimatePrice",required = false) BigDecimal memberEstimatePrice,
+                                                                         @RequestParam("image") Set<MultipartFile> files
     ) throws IOException {
         return ResponseEntity.ok(valuationRequestService.create(memberId, description,memberEstimatePrice, files));
     }
 
     @GetMapping("/all")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<List<ValuationRequestDetailDTO>> getAll(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page){
-        return ResponseEntity.ok(valuationRequestService.getAll(page));
+    public ResponseEntity<List<ValuationRequestDetailDTO>> getAll(){
+        return ResponseEntity.ok(valuationRequestService.getAll());
     }
 
     @GetMapping("/requested")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<List<ValuationRequestDetailDTO>> getRequestedValuationRequest(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
-        return ResponseEntity.ok(valuationRequestService.getRequestedValuationRequest(page));
+    public ResponseEntity<List<ValuationRequestDetailDTO>> getRequestedValuationRequest() {
+        return ResponseEntity.ok(valuationRequestService.getRequestedValuationRequest());
     }
 
     @PostMapping("/product-received")
@@ -63,32 +63,31 @@ public class ValuationRequestController {
     @PostMapping("/preliminary-valuation")
     @CrossOrigin(origins = "*")
     public ResponseEntity<ValuationRequestDetailDTO> preliminaryValuation(@RequestParam("id") Integer id,
-                                                                    @RequestParam("estimateMin") BigDecimal estimatePrice,
-                                                                    @RequestParam("estimateMax") BigDecimal estimateMax,
-                                                                    @RequestParam("staffId") Integer staffId) {
+                                                                          @RequestParam("estimateMin") BigDecimal estimatePrice,
+                                                                          @RequestParam("estimateMax") BigDecimal estimateMax,
+                                                                          @RequestParam("staffId") Integer staffId) {
         return ResponseEntity.ok(valuationRequestService.preliminaryValuation(id, estimatePrice, estimateMax, staffId));
     }
 
     @GetMapping("/get-preliminary-valuation")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<List<ValuationRequestDetailDTO>> getPreliminaryValuationRequest(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
-        return ResponseEntity.ok(valuationRequestService.getPreliminaryValuationRequest(page));
+    public ResponseEntity<List<ValuationRequestDetailDTO>> getPreliminaryValuationRequest() {
+        return ResponseEntity.ok(valuationRequestService.getPreliminaryValuationRequest());
     }
 
     @GetMapping("/request/status/product-received")
-    public ResponseEntity<List<ValuationRequestDTO>> getRequestStatusProductReceived(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
-        return ResponseEntity.ok(valuationRequestService.getRequestStatusProductReceived(page));
+    public ResponseEntity<List<ValuationRequestDetailDTO>> getRequestStatusProductReceived() {
+        return ResponseEntity.ok(valuationRequestService.getRequestStatusProductReceived());
     }
 
     @GetMapping("/request/status/product-received/{id}")
-    public ResponseEntity<ValuationRequestDTO> getRequestStatusProductReceivedById(@PathVariable Integer id) {
+    public ResponseEntity<ValuationRequestDetailDTO> getRequestStatusProductReceivedById(@PathVariable Integer id) {
         return ResponseEntity.ok(valuationRequestService.getRequestByIdAndStatusProductReceived(id));
     }
 
-   
     @GetMapping("/get-all-final-valuations")
-    public ResponseEntity<List<FinalValuationRequestDTO>> getListFinalValuationRequest(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
-        return ResponseEntity.ok(valuationRequestService.getListFinalValuationRequest(page));
+    public ResponseEntity<List<FinalValuationRequestDTO>> getListFinalValuationRequest() {
+        return ResponseEntity.ok(valuationRequestService.getListFinalValuationRequest());
     }
 
     @PostMapping("/approve-final-valuation/{id}")
@@ -101,22 +100,20 @@ public class ValuationRequestController {
         return ResponseEntity.ok(valuationRequestService.CancelFinalValuationRequest(id));
     }
 
-    //bao gom sendNotifyToMember service
+
     @PostMapping("/send-final-valuation-to-member")
-    public ResponseEntity<List<Map<String, String>>> sendFinalValuationToMember(@RequestParam Integer id, //valauation request id
-                                                                                @RequestParam Integer staffId) {
-        return ResponseEntity.ok(valuationRequestService.sendFinalValuationToMember(id, staffId));
+    public ResponseEntity<List<Map<String, String>>> sendFinalValuationToMember(@RequestParam Integer id) {
+        return ResponseEntity.ok(valuationRequestService.sendFinalValuationToMember(id));
     }
 
     @GetMapping("/get-all-valuation-manager-approved")
-    public ResponseEntity<List<FinalValuationRequestDTO>> getListManagerApproveValuationRequest(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
-        return ResponseEntity.ok(valuationRequestService.getListManagerApproveValuationRequest(page));
+    public ResponseEntity<List<FinalValuationRequestDTO>> getListManagerApproveValuationRequest() {
+        return ResponseEntity.ok(valuationRequestService.getListManagerApproveValuationRequest());
     }
 
     @GetMapping("/view-sent-request/{id}")
-    public ResponseEntity<List<ViewValuationRequestDTO>> viewSentRequest(@PathVariable Integer id,
-                                                                         @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
-        return ResponseEntity.ok(valuationRequestService.viewSentRequest(id,page));
+    public ResponseEntity<List<ViewValuationRequestDTO>> viewSentRequest(@PathVariable Integer id) {
+        return ResponseEntity.ok(valuationRequestService.viewSentRequest(id));
     }
 
     @GetMapping("/view-my-response-request/{id}") // response id

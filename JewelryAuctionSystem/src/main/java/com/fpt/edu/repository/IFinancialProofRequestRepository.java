@@ -35,6 +35,8 @@ public interface IFinancialProofRequestRepository extends JpaRepository<Financia
 //    @Query("SELECT f FROM FinancialProofRequest f WHERE f.member = :member ORDER BY f.timeRequest DESC")
 //    List<FinancialProofRequest> findLatestByMember(@Param("member") Member member, Pageable pageable);
 Page<FinancialProofRequest> findByStatus(FinancialProofRequestStatus status, Pageable pageable);
+
+    FinancialProofRequest getReferenceByMemberId(Integer memberId);
 }
 
 
