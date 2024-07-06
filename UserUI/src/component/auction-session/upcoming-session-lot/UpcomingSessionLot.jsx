@@ -25,6 +25,8 @@ const UpcomingSessionLot = () => {
 
   const [showPreBidModal, setShowPreBidModal] = useState(false);
 
+  const preBidPrices = []
+
   let memberId = currentUser ? currentUser.memberId : 0;
 
   useEffect(() => {
@@ -36,9 +38,12 @@ const UpcomingSessionLot = () => {
         console.log(error);
       }
     };
-
     getProductFromLot();
   }, [lotId]);
+
+  for (let i = 0; i <= lot.maxStep; i++) {
+    preBidPrices.push(lot.startPrice + lot.pricePerStep * i)
+  }
 
   useEffect(() => {
     const checkRegister = async () => {
@@ -205,12 +210,11 @@ const UpcomingSessionLot = () => {
             </Modal.Header>
             <Modal.Body>
               <h5>Would you like to set a price in advance?</h5>
-              <p className="secondary">More than information</p>
             </Modal.Body>
             {isPreBid ? (
               <>
                 <InputGroup className="mb-3 custom-input-group" size="sm">
-                  <Form.Control
+                  {/* <Form.Control
                     placeholder="Enter price...."
                     aria-label=""
                     aria-describedby="basic-addon2"
@@ -219,12 +223,16 @@ const UpcomingSessionLot = () => {
                     name="price"
                     onChange={(e) => setPrice(e.target.value)}
                     min={0}
-                  />
-                  {/* <Form.Select>
-                    <option value="0">500</option>
-                    <option value="0">700</option>
-                    <option value="0">800</option>
-                  </Form.Select> */}
+                  /> */}
+                  <Form.Select
+                    name="price"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                  >
+                    {preBidPrices.map((preBidPrice, index) => (
+                      <option key={index} value={preBidPrice}>{preBidPrice}</option>
+                    ))}
+                  </Form.Select>
                   <button className="custom-btn" onClick={handleSubmit}>
                     Submit
                   </button>
