@@ -204,6 +204,11 @@ public class AuctionSessionService implements IAuctionSessionService {
         return auctionSessionMapper.toAuctionSessionDTO(auctionSession);
     }
 
+    @Override
+    public List<AuctionSessionDTO> getAuctionSessionByStaffId(Integer staffId) {
+        return auctionSessionMapper.toAuctionSessionDTOList(auctionSessionRepository.findByStaffId(staffId));
+    }
+
     public List<AuctionSession> getAuctionSessions(AuctionSessionStatus status) {
         return auctionSessionRepository.findByStatus(status);
     }

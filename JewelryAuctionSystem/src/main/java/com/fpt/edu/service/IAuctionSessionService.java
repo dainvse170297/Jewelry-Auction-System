@@ -33,4 +33,6 @@ public interface  IAuctionSessionService {
     ViewLiveAuctionSessionDetailDTO getPastAuctionSessionDetail(Integer sessionId);
 
     AuctionSessionDTO publicAuctionSession(Integer sessionId);
+
+    List<AuctionSessionDTO> getAuctionSessionByStaffId(Integer staffId);
 }
