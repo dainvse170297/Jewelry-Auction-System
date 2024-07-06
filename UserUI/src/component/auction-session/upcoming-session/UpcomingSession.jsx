@@ -4,21 +4,15 @@ import { useNavigate } from "react-router-dom";
 import Countdown from "../../countdown/Countdown";
 import "./upcoming-session.scss";
 import { LinearProgress } from "@mui/material";
+import { getAllUpcomingSession } from "../../../services/apiService";
 
 const UpcomingSession = () => {
   const [upcomingSessions, setUpcomingSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const getAll = async () => {
-      await axios
-        .get("http://localhost:8080/auction/session/upcoming")
-        .then((response) => {
-          setUpcomingSessions(response.data);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      const respopnse = await getAllUpcomingSession();
+      setUpcomingSessions(respopnse);
     };
     getAll();
   }, []);

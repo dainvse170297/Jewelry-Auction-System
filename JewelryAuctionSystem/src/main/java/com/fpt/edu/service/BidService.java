@@ -91,6 +91,7 @@ public class BidService implements IBidService {
                 auctionRegister.setFinalPrice(byNowPrice);
                 auctionRegister.setStatus(AuctionRegisterStatus.PENDING_PAYMENT);
                 iAuctionRegisterRepository.save(auctionRegister);
+                System.out.println("Hello from placeForBid");
             } else {
                 newFinancialProofAmount = member.getFinancialProofAmount().subtract(bid.getPrice());
             }

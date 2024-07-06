@@ -51,7 +51,7 @@ export default function LiveLotDetail() {
       }
     };
     getInfo();
-    console.log("location", location);
+    //console.log("location", location);
   }, [id]);
 
   useEffect(() => {
@@ -118,10 +118,10 @@ export default function LiveLotDetail() {
             }, 2500);
           }
         } else {
-          toast.error("Failed to place bid1");
+          toast.error("Failed to place bid.");
         }
       } catch (error) {
-        toast.error("Failed to place bid2");
+        toast.error("Failed to place bid...");
       }
     }
   };
