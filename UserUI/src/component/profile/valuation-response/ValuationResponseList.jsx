@@ -6,13 +6,15 @@ import {
   getValuationRepsonse,
   postConfirmFinalValuation,
 } from "../../../services/apiService";
-import { Dropdown } from "react-bootstrap";
+import FullScreenImage from "../../../views/image/FullScreenImage";
 
 const ValuationResponseList = ({ id }) => {
   const [data, setData] = useState(null);
   const [confirm, setConfirm] = useState(false);
   const [currentStatus, setCurrentStatus] = useState(false);
   const [message, setMessage] = useState("");
+  const [onHide, setOnHide] = useState(true);
+  const [onHide2, setOnHide2] = useState(true);
 
   useEffect(() => {
     if (currentStatus === "Accept") {
@@ -70,28 +72,29 @@ const ValuationResponseList = ({ id }) => {
               <div className="row">
                 <div className="col px-5">
                   {/* Show response valuation request */}
-                  {data.responseRequestValuationDTOS.map((response, index) => (
+                  {data.responseRequestValuationDTOS?.map((response, index) => (
                     <div key={index}>
                       {(response.status === "FINAL" ||
                         response.status === "REJECTED" ||
                         response.status === "ACCEPTED") && (
-                        <div className="finalValuate row my-3">
+                        <div className="finalValuate row">
                           <p className="d-inline-flex justify-content-center">
                             <button
                               type="button"
                               className="row btn btn-light"
                               data-bs-toggle="collapse"
                               data-bs-target="#final"
-                              aria-expanded="false"
                               aria-controls="final"
+                              onClick={() => setOnHide2(!onHide2)}
+                              style={{ width: "100%" }}
                             >
-                              <div className="px-5">
-                                Final valuation of your product
+                              <div className="col d-flex justify-content-between">
+                                <strong>Final valuation of your jewelry</strong>
                                 <DownIcon />
                               </div>
                             </button>
                           </p>
-                          <div className="" id="final">
+                          <div hidden={onHide2} id="final">
                             <div className="card card-body">
                               <p>This is your final valuation</p>
                               <p>{data.valuationRequestDTO.description}</p>
@@ -103,6 +106,27 @@ const ValuationResponseList = ({ id }) => {
                                 Max Estimate:{" "}
                                 <strong>{response.valuationPriceMax}$</strong>{" "}
                               </p>
+                              <p>
+                                Details info:{" "}
+                                <strong>
+                                  {data.productDTO?.name} -{" "}
+                                  {data.productDTO?.description}{" "}
+                                </strong>{" "}
+                              </p>
+                              <p>
+                                Some beautiful images of your jewelry that we
+                                take:{" "}
+                              </p>
+                              <div>
+                                {data.productDTO &&
+                                  data.productDTO.productImages && (
+                                    <FullScreenImage
+                                      imageUrls={data.productDTO.productImages.map(
+                                        (image) => image
+                                      )}
+                                    />
+                                  )}
+                              </div>
                               <p>
                                 Do you want to start your own Jewelry Auction?{" "}
                               </p>
@@ -164,37 +188,29 @@ const ValuationResponseList = ({ id }) => {
 
                       {response.status === "PRELIMINARY" && (
                         <>
-                          <Dropdown>
-                            <Dropdown.Toggle
-                              variant="success"
-                              id="dropdown-basic"
+                          <div className="Preliminary row my-3 px-3 d-flex justify-content-center">
+                            <button
+                              type="button"
+                              className="row btn btn-light"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#collapse2"
+                              aria-controls="collapse2"
+                              onClick={() => setOnHide(!onHide)}
+                              style={{ width: "100%" }}
                             >
-                              Preliminary valuation of your jewelry
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                              <Dropdown.Item href="#/action-1">
-                                Min Estimate: {response.valuationPriceMin}$
-                              </Dropdown.Item>
-                            </Dropdown.Menu>
-                          </Dropdown>
-                          <div className="Preliminary row  my-3">
-                            <p className="d-inline-flex justify-content-center">
-                              <button
-                                type="button"
-                                className="row btn btn-light"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#collapse2"
-                                aria-expanded="false"
-                                aria-controls="collapse2"
-                              >
-                                <div className="px-5">
-                                  Preliminary valuation of your product
-                                  <DownIcon />
-                                </div>
-                              </button>
-                            </p>
-                            <div className="collapse2" id="collapse2">
-                              <div className="card card-body px-5">
+                              <div className="col d-flex justify-content-between">
+                                <strong>
+                                  Preliminary valuation of your jewelry
+                                </strong>
+                                <DownIcon />
+                              </div>
+                            </button>
+                            <div
+                              className="collapse2"
+                              id="collapse2"
+                              hidden={onHide}
+                            >
+                              <div className="card card-body px-5 mt-3">
                                 <div className="row">
                                   We have received information about your
                                   jewelry, from there, our team of experts has

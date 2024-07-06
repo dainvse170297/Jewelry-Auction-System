@@ -49,7 +49,15 @@ const FinancialProofRequestDetail = ({
         userRole === "MANAGER" &&
         financialProofRequest.status === "PENDING_MANAGER_APPROVAL"
       ) {
-        await confirmVIP(true); // Assuming this function exists for manager actions
+        const data = await confirmVIP(true); // Assuming this function exists for manager actions
+        if (data !== null) {
+          toast.success("Approve successfully");
+          setTimeout(() => {
+            window.location.reload(); // Reload page to remove modal
+          }, 1000);
+        } else {
+          toast.error("Failed to confirm VIP");
+        }
       } else {
         // Regular staff or manager action for setting financial proof amount
         const data = await postSetAmountFinancialProof(
@@ -61,7 +69,9 @@ const FinancialProofRequestDetail = ({
         if (data.status === "AVAILABLE") {
           toast.success("Financial Proof Successfully Set");
           onHide(true); // Hide modal
-          window.location.reload(); // Reload page to remove modal
+          setTimeout(() => {
+            window.location.reload(); // Reload page to remove modal
+          }, 1000);
         } else if (data.status === "PENDING_MANAGER_APPROVAL") {
           toast.success("Financial Proof Sent to Manager for Approval");
           onHide(true); // Hide modal

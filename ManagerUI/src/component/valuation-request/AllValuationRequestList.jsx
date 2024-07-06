@@ -193,10 +193,15 @@ const AllValuationRequestList = () => {
                               )}
                               {request.valuationStatus ===
                                 "MANAGER_APPROVED" && (
-                                <ManagerApproved
-                                  valuationRequestId={request.id}
-                                  onUpdate={() => handleUpdate()}
-                                />
+                                <>
+                                  <ManagerApproved
+                                    valuationRequestId={request.id}
+                                    onUpdate={() => handleUpdate()}
+                                  />
+                                  <OneValuationRequestDetail
+                                    valuationRequestId={request.id}
+                                  />
+                                </>
                               )}
                               {request.valuationStatus ===
                                 "PENDING_MANAGER_APPROVAL" &&
@@ -343,6 +348,9 @@ const PendingApprovalList = () => {
                         <PendingApproval
                           valuationRequestId={request.id}
                           onUpdate={() => handleUpdate()}
+                        />
+                        <OneValuationRequestDetail
+                          valuationRequestId={request.id}
                         />
                       </td>
                     </tr>

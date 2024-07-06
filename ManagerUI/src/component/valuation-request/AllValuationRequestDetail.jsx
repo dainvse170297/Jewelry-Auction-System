@@ -346,8 +346,13 @@ function ValuationRequested({ valuationRequestId }) {
       toast.error("Price must be greater than 0");
       return;
     } else if (
-      preliminaryValuation.estimateMin >= preliminaryValuation.estimateMax
+      parseInt(preliminaryValuation.estimateMin) >=
+      parseInt(preliminaryValuation.estimateMax)
     ) {
+      console.log(
+        "value: " + preliminaryValuation.estimateMin,
+        "max: " + preliminaryValuation.estimateMax
+      );
       toast.error("Minimum price must be less than maximum price");
       return;
     } else {
@@ -1041,7 +1046,7 @@ function ManagerApproved({ valuationRequestId, onUpdate }) {
               <hr className="p-0 mb-1 mt-0" />
               <div className="d-flex justify-content-between">
                 <p className="mb-1">Amount for each bid step:</p>
-                <strong>{productInfo.pricePerStep}</strong>$
+                <strong>${productInfo.pricePerStep}</strong>
               </div>
               <hr className="p-0 mb-1 mt-0" />
               <div className="d-flex justify-content-between">
