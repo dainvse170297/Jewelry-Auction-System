@@ -1,7 +1,7 @@
 import React from "react";
 import Dashboard from "../component/dashboard/Dashboard";
 import Setting from "../component/manager/SystemSetting";
-import UserManage from "../component/manager/UserManage";
+import UserManage from "../component/account/UserManage";
 import AuctionSessionList from "../component/auction-session/AuctionSessionList";
 import CreateAuction from "../component/manager/CreateAuction";
 import { ReadyLots } from "../component/lots/LotList";

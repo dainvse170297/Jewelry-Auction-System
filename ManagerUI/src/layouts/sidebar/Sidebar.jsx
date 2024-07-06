@@ -179,7 +179,7 @@ const Sidebar = () => {
                     <ul className="p-0 m-0">
                       {activeKey === index &&
                         item.children.map((child, childIndex) => (
-                          <li>
+                          <li key={childIndex}>
                             <Link
                               className="child-item"
                               to={child.href}
