@@ -75,7 +75,7 @@ export default function CreateFinancialProofRequest() {
       //   }
       // );
 
-      const createValuation = await postCreateFinancialProofAmount(valuation)
+      const createValuation = await postCreateFinancialProofAmount(valuation);
 
       if (createValuation) {
         toast.success("Financial proof request successfully submitted!");
