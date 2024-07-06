@@ -28,4 +28,6 @@ public interface IAccountService {
     public Map<String,Object> changePassword(Integer id, String oldPassword, String newPassword);
 
     public Map<String,Object> changeInformation(Integer id, String fullname, String phone, String address);
+
+    Account createStaffAccount(String username, String password, String fullName);
 }

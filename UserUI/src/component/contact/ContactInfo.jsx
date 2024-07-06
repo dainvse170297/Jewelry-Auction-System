@@ -11,10 +11,10 @@ const ContactInfo = () => {
       <div className="row">
         <div className="col-md-8">
           <div className="content-section">
-            <h5 className="card-title">About FORTUNA®</h5>
+            <h5 className="card-title">About FU AUCTION®</h5>
             <p>
-              Headquartered on Fifth Avenue in New York City, FORTUNA is the
-              leading boutique fine jewelry and watch auction house. FORTUNA
+              Headquartered on Fifth Avenue in New York City, FU AUCTION is the
+              leading boutique fine jewelry and watch auction house. FU AUCTION
               provides a secure, transparent, trusted, and regulated global
               auction marketplace to buy and sell fine jewelry, gemstones, and
               watches to clients in more than 100 countries.
@@ -23,12 +23,12 @@ const ContactInfo = () => {
               <div className="col-md-9 offset-md-1">
                 <img
                   src="https://res.cloudinary.com/dhkmu458i/image/upload/v1720114576/John-Final2_jegndq.jpg"
-                  alt="Fortuna Auction"
+                  alt="FU AUCTION Auction"
                   className="img-fluid"
                 />
                 <p className="img-caption">
-                  One of FORTUNA's recent auctions attended live and online by
-                  bidders from around the world.
+                  One of FU AUCTION's recent auctions attended live and online
+                  by bidders from around the world.
                 </p>
               </div>
             </div>
@@ -37,12 +37,12 @@ const ContactInfo = () => {
           <div className="content-section">
             <h5 className="card-title">For our consignors / sellers</h5>
             <p>
-              FORTUNA provides a means to maximize the value achieved for their
-              jewelry and watches by reaching and encouraging competition among
-              bidders in many countries, without the upfront risk (in the form
-              of enormous fixed fees) that they might otherwise have to shoulder
-              when working with one of the “big houses”, and with white glove
-              client service that is unparalleled in the industry and made
+              FU AUCTION provides a means to maximize the value achieved for
+              their jewelry and watches by reaching and encouraging competition
+              among bidders in many countries, without the upfront risk (in the
+              form of enormous fixed fees) that they might otherwise have to
+              shoulder when working with one of the “big houses”, and with white
+              glove client service that is unparalleled in the industry and made
               available to all of our clients—not just a select few.
             </p>
             <div className="row">
@@ -60,12 +60,12 @@ const ContactInfo = () => {
           <div className="content-section">
             <h5 className="card-title">For our bidders / buyers</h5>
             <p>
-              FORTUNA provides a means to maximize the value achieved for their
-              jewelry and watches by reaching and encouraging competition among
-              bidders in many countries, without the upfront risk (in the form
-              of enormous fixed fees) that they might otherwise have to shoulder
-              when working with one of the “big houses”, and with white glove
-              client service that is unparalleled in the industry and made
+              FU AUCTION provides a means to maximize the value achieved for
+              their jewelry and watches by reaching and encouraging competition
+              among bidders in many countries, without the upfront risk (in the
+              form of enormous fixed fees) that they might otherwise have to
+              shoulder when working with one of the “big houses”, and with white
+              glove client service that is unparalleled in the industry and made
               available to all of our clients—not just a select few.
             </p>
             <div className="row">
@@ -85,11 +85,11 @@ const ContactInfo = () => {
               <p>
                 <strong>Address:</strong>
                 <br />
-                608 5th Avenue
+                Lot E2a-7, Street D1, D. D1
                 <br />
-                Suite 507
+                Long Thanh My, Thu Duc City
                 <br />
-                New York, NY 10020
+                Ho Chi Minh 700000
               </p>
             </div>
             <div className="info-section">
@@ -105,22 +105,22 @@ const ContactInfo = () => {
               <p>
                 <strong>Phone:</strong>
                 <br />
-                (212) 389-9040
+                0348012834
               </p>
             </div>
             <div className="info-section">
               <p>
-                <strong>WhatsApp:</strong>
+                <strong>Youtube:</strong>
                 <br />
-                +1 212-389-9040
+                FU AUCTION
               </p>
             </div>
             <div className="info-section">
               <p>
                 <strong>Email:</strong>
                 <br />
-                <a href="mailto:info@FortunaAuction.com">
-                  info@FortunaAuction.com
+                <a href="mailto:jewelryauctionsystem06@gmail.com">
+                  jewelryauctionsystem06@gmail.com
                 </a>
               </p>
             </div>
@@ -130,7 +130,9 @@ const ContactInfo = () => {
                 <br />
                 English
                 <br />
-                French
+                Japanese
+                <br />
+                Vietnamese
               </p>
             </div>
           </div>

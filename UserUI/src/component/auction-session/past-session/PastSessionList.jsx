@@ -11,6 +11,7 @@ const PastSessionList = () => {
     const getAll = async () => {
       try {
         const data = await getPastSessionList();
+        console.log(data);
         if (Array.isArray(data)) {
           setLiveSessions(data);
         }

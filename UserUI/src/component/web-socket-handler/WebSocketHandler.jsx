@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Stomp, { client } from "stompjs";
 import SockJS from "sockjs-client/dist/sockjs";
+import { getBidHistory } from "../../services/apiService";
 import axios from "axios";
+
+const baseURL = "https://jewelry-auction-system.azurewebsites.net/ws";
 
 const WebSocketHandler = ({ lotId, setMessage, setBidHistory }) => {
   const [messages, setMessages] = useState([]);
@@ -9,7 +12,9 @@ const WebSocketHandler = ({ lotId, setMessage, setBidHistory }) => {
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    const socket = new SockJS("http:/localhost:8080/ws");
+    const socket = new SockJS(
+      "https://jewelry-auction-system.azurewebsites.net/ws"
+    );
     const client = Stomp.over(socket);
     client.connect({}, () => {
       setConnected(true);
@@ -25,7 +30,9 @@ const WebSocketHandler = ({ lotId, setMessage, setBidHistory }) => {
       client.subscribe(`/topic/bids/${lotId}/history`, async () => {
         try {
           await axios
-            .get(`http://localhost:8080/bid/list-bid?lotId=${lotId}`) // Ensure `lotId` is defined in your component
+            .get(
+              `https://jewelry-auction-system.azurewebsites.net/bid/list-bid?lotId=${lotId}`
+            )
             .then((result) => {
               setBidHistory(result.data); // Assuming setBidHistory is your state setter
             });

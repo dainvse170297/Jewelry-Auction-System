@@ -1,44 +1,29 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaBackward } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import ViewPurchasedLotDetail from "../Lots/ViewPurchasedLotDetail";
-
+import ViewDeliveredLotDetail from "./ViewDeliveredLotDetail";
+import { Modal } from "react-bootstrap";
 import moment from "moment";
+import { getDeliveredLots } from "../../services/apiService";
 
-const ViewPurchasedLot = () => {
+const ViewDeliveredLot = () => {
   const user = {
     id: sessionStorage.getItem("id"),
     name: sessionStorage.getItem("name"),
     role: sessionStorage.getItem("role"),
   };
 
-  const [valuationRequests, setValuationRequests] = useState([]);
+  const [delivered, setDelivered] = useState([]);
   const [currentItemsDetail, setCurrentItemsDetail] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("");
-  const [filteredValuationRequests, setFilteredValuationRequests] = useState(
-    []
-  );
-
-  const [sortOrder, setSortOrder] = useState(""); // Default sort order
-  const [sortedRequests, setSortedRequests] = useState([]);
-  const sortValuationRequests = (requests) => {
-    return requests.sort((a, b) => {
-      const dateA = new Date(a.endTime);
-      const dateB = new Date(b.endTime);
-      return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
-    });
-  };
+  const [filteredDelivered, setFilteredDelivered] = useState([]);
+  const [showModal, setShowModal] = useState(false); // Modal state
 
   useEffect(() => {
     const getAll = async () => {
       try {
-        axios
-          .get("http://localhost:8080/lot/view-list-delivered-lot")
-          .then((result) => {
-            setValuationRequests(result.data);
-          });
+        const response = await getDeliveredLots();
+        setDelivered(response);
       } catch (error) {
         toast.error("Error fetching data from server");
       }
@@ -47,36 +32,38 @@ const ViewPurchasedLot = () => {
   }, []);
 
   const handleDetail = (item) => {
+    console.log("Item Detail:", item); // Add this line to log item detail
     setCurrentItemsDetail(item);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setCurrentItemsDetail(null);
+    setShowModal(false);
   };
 
   useEffect(() => {
-    setFilteredValuationRequests(
-      valuationRequests.filter(
-        (request) => selectedStatus === "" || request.status === selectedStatus
-      )
-    );
-  }, [selectedStatus, valuationRequests]);
-
-  useEffect(() => {
-    setSortedRequests(sortValuationRequests(filteredValuationRequests));
-  }, [filteredValuationRequests, sortOrder]);
+    if (delivered && Array.isArray(delivered)) {
+      setFilteredDelivered(
+        delivered.filter(
+          (request) =>
+            selectedStatus === "" || request.status === selectedStatus
+        )
+      );
+    }
+  }, [selectedStatus, delivered]);
 
   return (
     <div className="home">
       <ToastContainer />
       <div className="homeContainer">
         <div className="ms-5">
-          <div className="">
-            <Link to={"/staff-function"}>
-              <FaBackward />
-            </Link>
-          </div>
-
           <div className="col">
             <div className="row">
-              <div className="col-sm-7 text-center">
-                <h2>List of Purchased Lot</h2>
+              <div className="col-sm-11 text-center">
+                <div className="my-5">
+                  <h2>Delivered Lot</h2>
+                </div>
 
                 <div className="row">
                   <table className="table">
@@ -85,16 +72,22 @@ const ViewPurchasedLot = () => {
                         <th scope="col">#</th>
                         <th scope="col">Current Winner Name</th>
                         <th scope="col">Product Name</th>
+                        <th scope="col">Time Payment</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {sortedRequests.map((request, key) => (
+                      {filteredDelivered.map((request, key) => (
                         <tr key={request.id}>
                           <th scope="row">{key + 1}</th>
                           <td>{request.currentWinnerName}</td>
                           <td>{request.productName}</td>
+                          <td>
+                            {moment(request.paymentInfoDTO.creationTime).format(
+                              "DD/MM/YYYY HH:mm:ss"
+                            )}
+                          </td>
                           <td>{request.status}</td>
                           <td>
                             <button
@@ -114,10 +107,17 @@ const ViewPurchasedLot = () => {
 
               <div className="col-sm-5">
                 {currentItemsDetail && (
-                  <ViewPurchasedLotDetail
-                    valuationRequest={currentItemsDetail}
-                    onHide={() => setCurrentItemsDetail(null)}
-                  />
+                  <Modal show={showModal} onHide={handleCloseModal} size="lg">
+                    <Modal.Header closeButton>
+                      <Modal.Title>Delivered Lot Detail</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <ViewDeliveredLotDetail
+                        delivered={currentItemsDetail}
+                        onHide={handleCloseModal}
+                      />
+                    </Modal.Body>
+                  </Modal>
                 )}
               </div>
             </div>
@@ -128,4 +128,4 @@ const ViewPurchasedLot = () => {
   );
 };
 
-export { ViewPurchasedLot, ViewPurchasedLotDetail };
+export { ViewDeliveredLot, ViewDeliveredLotDetail };

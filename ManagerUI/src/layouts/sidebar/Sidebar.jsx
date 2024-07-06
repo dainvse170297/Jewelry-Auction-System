@@ -24,15 +24,23 @@ const staffNavigation = [
     icon: AuctionIcon,
     children: [
       { name: "Auction", href: "/auction" },
-      { name: "Waiting To Deliver", href: "/auction/deliver" },
+      { name: "Waiting To Deliver", href: "/auction/purchased-lot" },
+      {
+        name: "View Delivered Lot",
+        href: "/auction/delivered-lot",
+      },
     ],
   },
   {
     name: "Valuation Request",
     icon: ValuationRequestIcon,
     children: [
-      { name: "All request", href: "/valuation-request" },
-      { name: "Set up product", href: "/valuation-request/received" },
+      { name: "All Request", href: "/valuation-request" },
+
+      {
+        name: "Set Up Product",
+        href: "/valuation-request/received",
+      },
     ],
   },
   {
@@ -55,6 +63,10 @@ const managerNavigation = [
     icon: ValuationRequestIcon,
     children: [
       { name: "All request", href: "/valuation-request" },
+      {
+        name: "Set up product",
+        href: "/valuation-request/received",
+      },
       { name: "Pending approval", href: "/valuation-request/pending-approval" },
     ],
   },
@@ -78,9 +90,11 @@ const managerNavigation = [
         name: "Public to UPCOMING Auctions",
         href: "/sessions/created",
       },
+
+      { name: "Waiting To Deliver", href: "/auction/purchased-lot" },
       {
-        name: "Delivered lots",
-        href: "/auction/delivered-lots",
+        name: "View Delivered Lot",
+        href: "/auction/delivered-lot",
       },
     ],
   },

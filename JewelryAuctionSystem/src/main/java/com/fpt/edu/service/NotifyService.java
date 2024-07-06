@@ -36,6 +36,14 @@ public class NotifyService implements INotifyService{
 
     @Override
     public List<NotifyDTO> getNotifyByMemberId(Integer id) {
-        return NotifyMapper.toNotifyDTOs(iNotifyRepository.findByMember(iMemberRepository.getReferenceById(id)));
+        return NotifyMapper.toNotifyDTOs(iNotifyRepository.findByMemberOrderByIdDesc(iMemberRepository.getReferenceById(id)));
+    }
+
+    @Override
+    public NotifyDTO readNotify(Integer id) {
+        Notify thisNotify = iNotifyRepository.findById(id).get();
+        thisNotify.setIsRead(true);
+        iNotifyRepository.save(thisNotify);
+        return NotifyMapper.toNotifyDTO(thisNotify);
     }
 }

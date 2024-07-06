@@ -23,6 +23,12 @@ export {
   getValuationRepsonse,
   getAuctionRegisterHistory,
   getFinancialProof,
+  postAddCreditCard,
+  putEditCreditCard,
+  deleteCreditCard,
+  postNotifications,
+  getReadNotify,
+  postConfirmFinalValuation,
 };
 
 const postCreateValuation = async (valuation) => {
@@ -166,4 +172,34 @@ const getAuctionRegisterHistory = async (id) => {
 
 const getFinancialProof = async (id) => {
   return axios.get(`member/financial-proof/${id}`);
+};
+
+const postAddCreditCard = async (memberId, newCreditCard) => {
+  return await axios.post(
+    `/member/profile/${memberId}/add-credit-card`,
+    newCreditCard
+  );
+};
+const putEditCreditCard = async (memberId, updatedCreditCard) => {
+  return await axios.put(
+    `/member/profile/${memberId}/edit-credit-card`,
+    updatedCreditCard
+  );
+};
+const deleteCreditCard = async (memberId) => {
+  return axios.delete(`/member/profile/${memberId}/delete-credit-card`);
+};
+const postNotifications = async (memberId) => {
+  return axios.post(`notify/member/${memberId}`);
+};
+
+const getReadNotify = async (notifyId) => {
+  return axios.get(`notify/read/${notifyId}`);
+};
+
+const postConfirmFinalValuation = async (id, confirmValue) => {
+  const params = new URLSearchParams();
+  params.append("id", id);
+  params.append("status", confirmValue);
+  return axios.post(`response/confirm-final-valuation-by-member`, params);
 };

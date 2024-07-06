@@ -152,10 +152,6 @@ public class FinancialProofService implements IFinancialProofService {
             financialProofRequest.setManager(manager);
         }
 
-
-
-
-
         financialProofRequest.setFinancialProofAmount(financialProofAmount);
         log.info("Financial proof amount: {}", financialProofAmount);
         log.info("FINANCIAL_VIP: {}", FINANCIAL_VIP);

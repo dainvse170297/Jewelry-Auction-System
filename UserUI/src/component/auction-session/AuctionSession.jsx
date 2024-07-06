@@ -39,6 +39,12 @@ const AuctionSession = ({ session, showImage, showDetailBtn }) => {
                       <Countdown targetDate={session.endTime} />
                     </div>
                   )}
+
+                  {session.status === "PAST" && (
+                    <div className="col-sm-9">
+                      <Countdown targetDate={session.endTime} />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -81,6 +87,14 @@ const AuctionSession = ({ session, showImage, showDetailBtn }) => {
 
               {session.status === "LIVE" && (
                 <Link to={`/live-session-detail/${session.id}`}>
+                  <button type="button" className="detail-button">
+                    View Detail
+                  </button>
+                </Link>
+              )}
+
+              {session.status === "PAST" && (
+                <Link to={`/past-session-detail/${session.id}`}>
                   <button type="button" className="detail-button">
                     View Detail
                   </button>

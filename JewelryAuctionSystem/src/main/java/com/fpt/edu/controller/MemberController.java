@@ -32,6 +32,7 @@ public class MemberController {
         MemberDTO memberDTO = memberService.getMemberByProductId(productId);
         return ResponseEntity.ok().body(memberDTO);
     }
+
     @GetMapping("/financial-proof/{memberId}")
     public ResponseEntity<MemberDTO> getMyInfoFinancialProof(@PathVariable("memberId") Integer memberId){
         MemberDTO memberDTO = memberService.getMyInfoFinancialProof(memberId);

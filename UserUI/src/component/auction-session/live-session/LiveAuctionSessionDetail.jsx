@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./LiveAuctionSessionDetail.scss";
 import LotPreview from "../../lot/LotPreview";
 import AuctionSession from "../AuctionSession";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { LinearProgress } from "@mui/material";
 import { postLiveAuctionSessionDetail } from "../../../services/apiService";
 
 const LiveAuctionSessionDetail = () => {
   const { id } = useParams();
   const [sessionData, setSessionData] = useState(null);
-
   const currentUser = JSON.parse(localStorage.getItem("account"));
   useEffect(() => {
     const fetchSessionData = async () => {

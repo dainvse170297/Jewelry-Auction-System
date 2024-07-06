@@ -4,20 +4,25 @@ import { ToastContainer, toast } from "react-toastify";
 import moment from "moment";
 import Form from "react-bootstrap/Form";
 import Loading from "../../view/loading/Loading.jsx";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   ValuationRequested,
   PreliminaryValuated,
   PendingApproval,
+  ProductReceived,
   ManagerApproved,
+  OneValuationRequestDetail,
+  OneProductDetail,
 } from "./AllValuationRequestDetail.jsx";
 
 import {
   getAllValuationRequests,
   getFinalValuationRequests,
+  getAllProductReceivedRequest,
 } from "../../services/apiService.jsx";
 
-export { AllValuationRequestList, PendingApprovalList };
+export { AllValuationRequestList, PendingApprovalList, ProductReceivedList };
 
 const AllValuationRequestList = () => {
   const user = {
@@ -25,6 +30,8 @@ const AllValuationRequestList = () => {
     name: sessionStorage.getItem("name"),
     role: sessionStorage.getItem("role"),
   };
+
+  const navigator = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -70,9 +77,8 @@ const AllValuationRequestList = () => {
         const data = await getAllValuationRequests();
         setValuationRequests(data);
         setIsLoading(false);
-        isLoading(false);
       } catch (error) {
-        setErrorMsg("Error fetching data from server");
+        console.log("Error:", error.message);
       }
     };
     getAll();
@@ -90,6 +96,11 @@ const AllValuationRequestList = () => {
   useEffect(() => {
     setSortedRequests(sortValuationRequests(filteredValuationRequests));
   }, [filteredValuationRequests, sortOrder]);
+  const handleUpdate = (e) => {
+    console.log("Update");
+    window.location.reload();
+  };
+
   return (
     <div className="home">
       <ToastContainer />
@@ -104,25 +115,35 @@ const AllValuationRequestList = () => {
                   <Form.Select
                     onChange={(e) => setSelectedStatus(e.target.value)}
                   >
-                    {statusOptions.map((option) => (
-                      <option value={option.value}>{option.label}</option>
+                    {statusOptions.map((option, index) => (
+                      <option key={index} value={option.value}>
+                        {option.label}
+                      </option>
                     ))}
                   </Form.Select>
                 </div>
                 <div className="col-3">
                   <Form.Select onChange={(e) => setSortOrder(e.target.value)}>
-                    {dateOptions.map((option) => (
-                      <option value={option.value}>{option.label}</option>
+                    {dateOptions.map((option, index) => (
+                      <option key={index} value={option.value}>
+                        {option.label}
+                      </option>
                     ))}
                   </Form.Select>
                 </div>
               </div>
 
-              <div className="row  text-center">
+              <div className="row text-center">
                 {isLoading ? (
-                  <Loading delaytime={0} />
+                  <>
+                    <div className="col-5"></div>
+                    <div className="col-2">
+                      <Loading delaytime={0} />
+                    </div>
+                    <div className="col-5"></div>
+                  </>
                 ) : (
-                  <table className="table">
+                  <table className="table ">
                     <thead>
                       <tr>
                         <th scope="col">#</th>
@@ -142,7 +163,9 @@ const AllValuationRequestList = () => {
                       {sortedRequests.map((request, key) => (
                         <>
                           <tr>
-                            <th scope="row">{key + 1}</th>
+                            <td scope="row">
+                              <strong>{key + 1}</strong>
+                            </td>
                             <td>Member {request.memberId}</td>
                             <td>
                               {moment(request.timeRequest).format(
@@ -150,10 +173,10 @@ const AllValuationRequestList = () => {
                               )}
                             </td>
                             <td>{request.valuationStatus}</td>
-                            <td>
+                            <td className="d-flex justify-content-center">
                               {request.valuationStatus === "REQUESTED" && (
                                 <ValuationRequested
-                                  valuationRequest={request}
+                                  valuationRequestId={request.id}
                                 />
                               )}
                               {request.valuationStatus ===
@@ -161,6 +184,81 @@ const AllValuationRequestList = () => {
                                 <PreliminaryValuated
                                   valuationRequestId={request.id}
                                 />
+                              )}
+                              {request.valuationStatus ===
+                                "PRODUCT_RECEIVED" && (
+                                <ProductReceived
+                                  valuationRequestId={request.id}
+                                />
+                              )}
+                              {request.valuationStatus ===
+                                "MANAGER_APPROVED" && (
+                                <>
+                                  <ManagerApproved
+                                    valuationRequestId={request.id}
+                                    onUpdate={() => handleUpdate()}
+                                  />
+                                  <OneValuationRequestDetail
+                                    valuationRequestId={request.id}
+                                  />
+                                </>
+                              )}
+                              {request.valuationStatus ===
+                                "PENDING_MANAGER_APPROVAL" &&
+                                user?.role === "MANAGER" && (
+                                  <>
+                                    <PendingApproval
+                                      valuationRequestId={request.id}
+                                      onUpdate={() => handleUpdate()}
+                                    />
+                                    <OneValuationRequestDetail
+                                      valuationRequestId={request.id}
+                                    />
+                                  </>
+                                )}
+                              {request.valuationStatus ===
+                                "PENDING_MANAGER_APPROVAL" &&
+                                user?.role == "STAFF" && (
+                                  <>
+                                    <OneProductDetail
+                                      valuationRequestId={request.id}
+                                    />
+                                    <OneValuationRequestDetail
+                                      valuationRequestId={request.id}
+                                    />
+                                  </>
+                                )}
+                              {request.valuationStatus ===
+                                "PENDING_MEMBER_ACCEPTANCE" && (
+                                <>
+                                  <OneProductDetail
+                                    valuationRequestId={request.id}
+                                  />
+                                  <OneValuationRequestDetail
+                                    valuationRequestId={request.id}
+                                  />
+                                </>
+                              )}
+                              {request.valuationStatus ===
+                                "MEMBER_ACCEPTED" && (
+                                <>
+                                  <OneProductDetail
+                                    valuationRequestId={request.id}
+                                  />
+                                  <OneValuationRequestDetail
+                                    valuationRequestId={request.id}
+                                  />
+                                </>
+                              )}
+                              {request.valuationStatus === "CANCELED" && (
+                                <>
+                                  <OneProductDetail
+                                    valuationRequestId={request.id}
+                                  />
+                                  <OneValuationRequestDetail
+                                    valuationRequestId={request.id}
+                                  />
+                                </>
                               )}
                             </td>
                           </tr>
@@ -199,7 +297,7 @@ const PendingApprovalList = () => {
         const data = await getFinalValuationRequests();
         setFinalValuation(data);
       } catch (error) {
-        console.log("Error nek:", error.message);
+        console.log("Error:", error.message);
         setErrorMsg("Error fetching data from server");
       }
     };
@@ -251,6 +349,9 @@ const PendingApprovalList = () => {
                           valuationRequestId={request.id}
                           onUpdate={() => handleUpdate()}
                         />
+                        <OneValuationRequestDetail
+                          valuationRequestId={request.id}
+                        />
                       </td>
                     </tr>
                   </>
@@ -264,6 +365,103 @@ const PendingApprovalList = () => {
               <Paginator
                 currentPage={currentPage}
                 totalPages={calculateTotalPage(itemPerPage, Finalvaluation)}
+                onPageChange={handlePageChange}
+              ></Paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ProductReceivedList = () => {
+  const [valuationRequests, setValuationRequests] = useState([]);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemPerPage, setItemPerPage] = useState(10);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    console.log("New Page:", pageNumber);
+  };
+
+  useEffect(() => {
+    const getAll = async () => {
+      try {
+        const data = await getAllProductReceivedRequest();
+        console.log("Data:", data);
+        setValuationRequests(data);
+      } catch (error) {
+        console.log("Error:", error.message);
+        setErrorMsg("Error fetching data from server");
+      }
+    };
+    getAll();
+  }, []);
+
+  const calculateTotalPage = (itemPerPage, valuationRequests) => {
+    const totalItem = valuationRequests.length;
+    return Math.ceil(totalItem / itemPerPage);
+  };
+
+  const indexOfLastItem = currentPage * itemPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemPerPage;
+  const currentItems = valuationRequests.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  return (
+    <div className="container">
+      <div className="row  d-flex justify-content-center">
+        <div className="col-lg-10">
+          <div className="row">
+            <h2 className="text-center">Pending Approval List</h2>
+          </div>
+          <div className="row text-center">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">From</th>
+                  <th scope="col">Time</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentItems.map((request, index) => (
+                  <>
+                    <tr key={index}>
+                      <td scope="row">
+                        <strong>{index + 1} </strong>
+                      </td>
+                      <td>Member {request.memberId}</td>
+                      <td>
+                        {/* {request.timeRequest} */}
+                        {moment(request.timeRequest).format(
+                          "DD/MM/YYYY HH:mm:ss"
+                        )}
+                      </td>
+                      <td>{request.valuationStatus}</td>
+                      <td>
+                        <ProductReceived valuationRequestId={request.id} />
+                      </td>
+                    </tr>
+                  </>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="row">
+            <div className="flex align-items-center justify-content-center">
+              <Paginator
+                currentPage={currentPage}
+                totalPages={calculateTotalPage(itemPerPage, valuationRequests)}
                 onPageChange={handlePageChange}
               ></Paginator>
             </div>

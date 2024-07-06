@@ -1,10 +1,16 @@
 import React from "react";
-import { AllValuationRequestList } from "../component/valuation-request/AllValuationRequestList";
+import {
+  AllValuationRequestList,
+  ProductReceivedList,
+} from "../component/valuation-request/AllValuationRequestList";
 import AuctionAssigned from "../component/staff/AuctionAssigned";
 import { FinancialProofRequestList } from "../component/financial-proof-request/FinancialProofRequestList";
-import { ViewPurchasedLot } from "../component/staff/ViewPurchasedLot";
-import ValuationRequestList from "../component/staff/ValuationRequestProductReceivedList";
-import ValuationRequestDetail from "../component/staff/ValuationRequestDetail";
+import { ViewPurchasedLot } from "../component/lots/ViewPurchasedLot";
+import SetupProductInfo from "../component/product/SetupProductInfo";
+import { ViewDeliveredLot } from "../component/lots/ViewDeliveredLot";
+// import ValuationRequestDetail from "../component/product/SetupProductInfo";
+// import ValuationRequestProductReceivedList from "../component/staff/ValuationRequestProductReceivedList";
+
 const StaffRoutes = [
   {
     path: "/valuation-request",
@@ -12,7 +18,7 @@ const StaffRoutes = [
   },
   {
     path: "/valuation-request/received",
-    element: <ValuationRequestList />,
+    element: <ProductReceivedList />,
   },
   {
     path: "/financial-request",
@@ -22,19 +28,22 @@ const StaffRoutes = [
     path: "/auction",
     element: <AuctionAssigned />,
   },
-
   {
-    path: "/auction/deliver",
+    path: "/auction/purchased-lot",
     element: <ViewPurchasedLot />,
   },
   {
-    path: "/valuation-request/product-received/confirm/:id",
-    element: <ValuationRequestDetail />,
+    path: "/auction/delivered-lot",
+    element: <ViewDeliveredLot />,
   },
   {
-    path: "/product/pending-send",
-    element: <ValuationRequestDetail />,
+    path: "/valuation-request/product-received/confirm/:id",
+    element: <SetupProductInfo />,
   },
+  // {
+  //   path: "/product/pending-send",
+  //   element: <ValuationRequestDetail />,
+  // },
 ];
 
 export default StaffRoutes;

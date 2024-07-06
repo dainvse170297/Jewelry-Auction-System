@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify'
 // import Sidebar from '../../layout/sidebar/Sidebar'
 import ShowAuctionSessionDetail from './ShowAuctionSessionDetail'
 import './style.scss'
+import { getAllAuctionSession, getReadyLotById, postAddLotToSession } from '../../../services/apiService'
 
 const AddLotToSession = () => {
 
@@ -25,9 +26,9 @@ const AddLotToSession = () => {
     useEffect(() => {
         const getLotById = async () => {
             try {
-                await axios.get(`http://localhost:8080/lot/ready-lot/${id}`).then((res) => {
-                    setLot(res.data)
-                })
+                const response = await getReadyLotById(id)
+                //console.log("Lot detail by id: ", response)
+                setLot(response)
             } catch (error) {
                 console.log("Error get lot detail by id: ", error)
             }
@@ -36,16 +37,15 @@ const AddLotToSession = () => {
     }, [id])
 
     useEffect(() => {
-        const getAllCreatedSession = async () => {
+        const getAllCreatedSessions = async () => {
             try {
-                await axios.get('http://localhost:8080/auction/all-created-session').then((res) => {
-                    setCreatedSessions(res.data)
-                })
+                const response = await getAllAuctionSession()
+                setCreatedSessions(response)
             } catch (error) {
                 console.log("Error get all created session: ", error)
             }
         }
-        getAllCreatedSession()
+        getAllCreatedSessions()
     }, [])
 
 
@@ -63,117 +63,105 @@ const AddLotToSession = () => {
 
     const navigate = useNavigate()
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault()
         if (data.sessionId === '') {
             toast.warning("Please select a session")
         } else {
-            const formData = new FormData()
-            formData.append("lotId", data.lotId)
-            formData.append("sessionId", data.sessionId)
-            axios.post('http://localhost:8080/auction/add-lot-to-session', formData)
-                .then((response) => {
-                    console.log("Lot added to session")
-                    toast.success("Lot added to session successfully!")
-                    setTimeout(() => {
-                        navigate("/auction/ready-lots")
-                    }, 4000)
-                })
-                .catch((error) => {
-                    console.log("Error adding lot to session: ", error)
-                    toast.error("Error adding lot to session")
-                })
-            // console.log(formData)
+            const response = await postAddLotToSession(data)
+            if (response) {
+                toast.success("Lot added to session successfully!")
+                setTimeout(() => {
+                    navigate("/auction/ready-lots")
+                }, 4000)
+            }
         }
 
     }
 
     return (
-        <div className='home'>
-            <div className="homeContainer">
-                <div className="ms-5 me-5">
-                    {/* <div className="mt-3">
-                        <Link to={"/ready-lots"}><FaBackward /></Link>
-                    </div> */}
-                    <h1 className='text-center mt-3 mb-5'>Add Lot to Session</h1>
-                    <form action="" onSubmit={handleFormSubmit}>
-                        <div className="container">
-                            <div className="ms-5">
-                                <div className="row">
 
-                                    <div className="col-lg-3">
-                                        <h3 className='text-center'>Lot Information</h3>
-                                        <Carousel>
-                                            {lot.productImages?.map((image, index) => (
+        <>
+            <div className="ms-5 me-5">
+                <h1 className='text-center mt-3 mb-5'>Add Lot to Session</h1>
+                <form action="" onSubmit={handleFormSubmit}>
+                    <div className="container">
+                        <div className="ms-5">
+                            <div className="row">
 
-                                                <Carousel.Item key={index}>
-                                                    <img
-                                                        className="d-block w-100"
-                                                        src={image.imageUrl}
-                                                        alt={lot.productName + ' photo'}
-                                                        style={{ height: '300px', width: '200px' }}
-                                                    />
-                                                </Carousel.Item>
+                                <div className="col-lg-3">
+                                    <h3 className='text-center'>Lot Information</h3>
+                                    <Carousel>
+                                        {lot?.productImages?.map((image, index) => (
 
+                                            <Carousel.Item key={index}>
+                                                <img
+                                                    className="d-block w-100"
+                                                    src={image.imageUrl}
+                                                    alt={lot.productName + ' photo'}
+                                                    style={{ height: '300px', width: '200px' }}
+                                                />
+                                            </Carousel.Item>
+
+                                        ))}
+                                    </Carousel>
+                                    <Card>
+                                        <Card.Body>
+                                            <Card.Title className='text-center'><strong>{lot.productName}</strong></Card.Title>
+                                            <Card.Text>
+                                                <em>{lot.description}</em>
+                                                {/* <p>Current Price: <strong>{lot.currentPrice}</strong></p> */}
+                                            </Card.Text>
+                                            <Card.Text>
+                                                Estimate Max Price: $<strong>{lot.estimatePriceMax}</strong>
+                                            </Card.Text>
+                                            <Card.Text>
+                                                Estimate Min Price: $<strong>{lot.estimatePriceMin}</strong>
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                </div>
+
+                                <div className="col-lg-6">
+                                    <label htmlFor="session">Select Auction Session <span style={{ color: 'red' }}>*</span></label>
+                                    <div className="">
+                                        <select name="sessionId" id="session" className='form-select'
+                                            value={data.sessionId}
+                                            onChange={handleInputChange}>
+                                            <option value="" className='text-secondary'>--Select Session--</option>
+                                            {createdSessions.map((session, index) => (
+                                                <option value={session.id} key={index}>
+                                                    {session.name}
+                                                </option>
                                             ))}
-                                        </Carousel>
-                                        <Card>
-                                            <Card.Body>
-                                                <Card.Title className='text-center'><strong>{lot.productName}</strong></Card.Title>
-                                                <Card.Text>
-                                                    <em>{lot.description}</em>
-                                                    {/* <p>Current Price: <strong>{lot.currentPrice}</strong></p> */}
-                                                </Card.Text>
-                                                <Card.Text>
-                                                    Estimate Max Price: $<strong>{lot.estimatePriceMax}</strong>
-                                                </Card.Text>
-                                                <Card.Text>
-                                                    Estimate Min Price: $<strong>{lot.estimatePriceMin}</strong>
-                                                </Card.Text>
-                                            </Card.Body>
-                                        </Card>
+                                        </select>
                                     </div>
-
-                                    <div className="col-lg-6">
-                                        <label htmlFor="session">Select Auction Session <span style={{ color: 'red' }}>*</span></label>
-                                        <div className="">
-                                            <select name="sessionId" id="session" className='form-select'
-                                                value={data.sessionId}
-                                                onChange={handleInputChange}>
-                                                <option value="" className='text-secondary'>--Select Session--</option>
-                                                {createdSessions.map((session, index) => (
-                                                    <option value={session.id} key={index}>
-                                                        {session.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                        <div className="mt-5 d-flex justify-content-center">
-                                            {showAuctionSessionDetail && (
-                                                <ShowAuctionSessionDetail sessionId={data.sessionId} />
-                                            )}
-                                        </div>
+                                    <div className="mt-5 d-flex justify-content-center">
                                         {showAuctionSessionDetail && (
-                                            <div className='btn-area'>
-                                                <button className='submit-btn' type='submit'>
-                                                    Submit
-                                                </button>
-
-                                                <button className='cancel-btn'>
-                                                    <Link to='/auction/ready-lots'>Cancel</Link>
-                                                </button>
-                                            </div>
+                                            <ShowAuctionSessionDetail sessionId={data.sessionId} />
                                         )}
                                     </div>
-                                    <div className="col-lg-3"></div>
+                                    {showAuctionSessionDetail && (
+                                        <div className='btn-area'>
+                                            <button className='submit-btn' type='submit'>
+                                                Submit
+                                            </button>
+
+                                            <button className='cancel-btn'>
+                                                <Link to='/auction/ready-lots'>Cancel</Link>
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
+                                <div className="col-lg-3"></div>
                             </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
+
             <ToastContainer />
-        </div>
+        </>
     )
 }
 

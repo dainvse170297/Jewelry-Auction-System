@@ -1,8 +1,10 @@
 package com.fpt.edu.repository;
 
 import com.fpt.edu.entity.AuctionRegister;
+import com.fpt.edu.entity.AuctionSession;
 import com.fpt.edu.entity.Lot;
 import com.fpt.edu.status.AuctionRegisterStatus;
+import com.fpt.edu.status.AuctionSessionStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -30,4 +32,5 @@ public interface IAuctionRegisterRepository  extends JpaRepository<AuctionRegist
   AuctionRegister findByLotIdAndStatus(Integer lotId, AuctionRegisterStatus auctionRegisterStatus);
 
   AuctionRegister findByIdAndStatus(Integer id, AuctionRegisterStatus auctionRegisterStatus);
+  AuctionSession findAuctionSessionByIdAndStatus(int id, AuctionSessionStatus status);
 }

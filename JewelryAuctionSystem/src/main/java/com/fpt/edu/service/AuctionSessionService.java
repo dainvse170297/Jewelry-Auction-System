@@ -164,6 +164,37 @@ public class AuctionSessionService implements IAuctionSessionService {
         map.put("Registers", registerDTOS);
         return map;
     }
+    @Override
+    public ViewLiveAuctionSessionDetailDTO getPastAuctionSessionDetail(Integer sessionId) {
+        AuctionSession auctionSession = auctionSessionRepository.findById(sessionId).get();
+        ViewLiveAuctionSessionDetailDTO viewLiveAuctionSessionDetailDTO = new ViewLiveAuctionSessionDetailDTO();
+        viewLiveAuctionSessionDetailDTO.setId(auctionSession.getId());
+        viewLiveAuctionSessionDetailDTO.setStaffId(auctionSession.getStaff().getId());
+        viewLiveAuctionSessionDetailDTO.setStartTime(auctionSession.getStartTime());
+        viewLiveAuctionSessionDetailDTO.setEndTime(auctionSession.getEndTime());
+        viewLiveAuctionSessionDetailDTO.setName(auctionSession.getName());
+        viewLiveAuctionSessionDetailDTO.setDescription(auctionSession.getDescription());
+        viewLiveAuctionSessionDetailDTO.setStatus(auctionSession.getStatus());
+        Set<Lot> lots = auctionSession.getLots();
+        Set<LotDTO> lotDTOS = new HashSet<>();
+        for (Lot lot : lots) {
+            LotDTO lotDTO = new LotDTO();
+            lotDTO.setId(lot.getId());
+            lotDTO.setProductId(lot.getProduct().getId());
+            lotDTO.setProductName(lot.getProduct().getName());
+            lotDTO.setCurrentPrice(lot.getCurrentPrice());
+            lotDTO.setEstimatePriceMin(lot.getProduct().getEstimatePriceMin());
+            lotDTO.setEstimatePriceMax(lot.getProduct().getEstimatePriceMax());
+            lotDTO.setStatus(lot.getStatus());
+            lotDTO.setProductImages(lot.getProduct().getProductImages());
+            lotDTO.setPaymentInfoDTO(new PaymentInfoDTO());
+            lotDTOS.add(lotDTO);
+        }
+        viewLiveAuctionSessionDetailDTO.setLots(lotDTOS);
+        return viewLiveAuctionSessionDetailDTO;
+    }
+
+
 
     @Override
     public AuctionSessionDTO publicAuctionSession(Integer sessionId) {
