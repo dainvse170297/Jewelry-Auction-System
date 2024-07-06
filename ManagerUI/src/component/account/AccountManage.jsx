@@ -1,10 +1,100 @@
-import React from "react";
-import { Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Modal } from "react-bootstrap";
+import { toast } from "react-toastify";
+import Form from "react-bootstrap/Form";
 
 export { EditManageAccount, AddManageAccount };
 
+const handleBlur = (e) => {
+  const { name, value } = e.target;
+  if (value.trim() === "") {
+    if (name === "username") {
+      toast.error("Username is required");
+    } else if (name === "password") {
+      toast.error("Password is required");
+    }
+  }
+};
+
 const AddManageAccount = () => {
-  return <Button variant="success">Create new account</Button>;
+  const [accountInfo, setAccountInfo] = useState({
+    id: "",
+    username: "",
+    password: "",
+    fullName: "",
+  });
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+
+  const handleShow = () => {
+    setShow(true);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setAccountInfo({
+      ...accountInfo,
+      [name]: value,
+    });
+  };
+
+  return (
+    <>
+      <Button variant="success" onClick={handleShow}>
+        Create new account
+      </Button>
+      <Modal size="md" show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Create new account</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="row mb-3 mx-2 d-flex justify-content-center">
+            <div className="col-sm-6">
+              <Form.Label htmlFor="estimateMin">
+                Username <span style={{ color: "red" }}>*</span>
+              </Form.Label>
+            </div>
+            <div className="col-sm-6">
+              <Form.Control
+                type="number"
+                id="username"
+                aria-describedby="passwordHelpBlock"
+                name="username"
+                value={accountInfo.username}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+              />
+            </div>
+          </div>
+          <div className="row mb-3 mx-2 d-flex justify-content-center">
+            <div className="col-sm-6">
+              <Form.Label htmlFor="estimateMax">
+                Password <span style={{ color: "red" }}>*</span>
+              </Form.Label>
+            </div>
+            <div className="col-sm-6">
+              <Form.Control
+                type="number"
+                id="password"
+                aria-describedby="passwordHelpBlock"
+                name="password"
+                value={accountInfo.password}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+              />
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer className="row-sm-9 d-flex justify-content-center">
+          <Button className="btn-success mx-2">Create account</Button>
+          <Button className="btn-danger mx-2" onClick={handleClose}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
 };
 
 const EditManageAccount = (accountId) => {

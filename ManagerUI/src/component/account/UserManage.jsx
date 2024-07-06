@@ -30,8 +30,11 @@ const UserManage = () => {
         role: "STAFF",
       },
     ]);
-    setFilteredStaff(staffAccounts);
   }, []);
+
+  useEffect(() => {
+    setFilteredStaff(staffAccounts);
+  }, [staffAccounts]);
 
   useEffect(() => {
     setFilteredStaff(

@@ -6,7 +6,11 @@ import { FaBackward } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
-import { getAllCategory, getValuationRequestById, postAddProduct } from "../../services/apiService";
+import {
+  getAllCategory,
+  getValuationRequestById,
+  postAddProduct,
+} from "../../services/apiService";
 import moment from "moment/moment";
 import { Carousel, Col, Row } from "react-bootstrap";
 import FullScreenImage from "../../view/image/FullScreenImage";
@@ -140,18 +144,15 @@ const SetupProductInfo = () => {
   };
 
   return (
-
     <div className="ms-5 me-5">
       <h3 className="text-center mt-5">Set Up Product</h3>
       <hr />
       <div className="row">
-
         <div className="col-lg-8">
           <h6 className="text-center text-secondary">Setup Data</h6>
           <div className="">
             <form action="" onSubmit={handleFormSubmit}>
               {/* SELECT CATEGORY */}
-
 
               <Form.Group controlId="name">
                 <Form.Label>
@@ -192,7 +193,11 @@ const SetupProductInfo = () => {
                   value={product.categoryId}
                   onChange={handleInputChange}
                   onBlur={handleBlur}
-                  style={{ width: "50%", maxWidth: "470px", marginBottom: "1rem" }}
+                  style={{
+                    width: "50%",
+                    maxWidth: "470px",
+                    marginBottom: "1rem",
+                  }}
                 >
                   <option value="" className="text-secondary">
                     -- Select Category --
@@ -218,7 +223,6 @@ const SetupProductInfo = () => {
                       value={product.startPrice}
                       onChange={handleInputChange}
                       onBlur={handleBlur}
-
                     />
                   </Form.Group>
                 </Col>
@@ -234,12 +238,10 @@ const SetupProductInfo = () => {
                       value={product.buyNowPrice}
                       onChange={handleInputChange}
                       onBlur={handleBlur}
-
                     />
                   </Form.Group>
                 </Col>
               </Row>
-
 
               <Row>
                 <Col>
@@ -255,7 +257,6 @@ const SetupProductInfo = () => {
                       onChange={handleInputChange}
                       onBlur={handleBlur}
                       className="col-sm-2"
-
                     />
                   </Form.Group>
                 </Col>
@@ -271,7 +272,6 @@ const SetupProductInfo = () => {
                       value={product.pricePerStep}
                       onChange={handleInputChange}
                       onBlur={handleBlur}
-
                     />
                   </Form.Group>
                 </Col>
@@ -290,7 +290,6 @@ const SetupProductInfo = () => {
                       value={product.estimatePriceMin}
                       onChange={handleInputChange}
                       onBlur={handleBlur}
-
                     />
                   </Form.Group>
                 </Col>
@@ -306,7 +305,6 @@ const SetupProductInfo = () => {
                       value={product.estimatePriceMax}
                       onChange={handleInputChange}
                       onBlur={handleBlur}
-
                     />
                   </Form.Group>
                 </Col>
@@ -324,7 +322,9 @@ const SetupProductInfo = () => {
                   onBlur={handleBlur}
                 />
 
-                <div className="mt-4 text-center"> {/* Modified */}
+                <div className="mt-4 text-center">
+                  {" "}
+                  {/* Modified */}
                   {!isWaiting ? (
                     <Button variant="primary" type="submit" size="lg">
                       Submit
@@ -349,7 +349,7 @@ const SetupProductInfo = () => {
                       width: "200px",
                       height: "200px",
                       objectFit: "cover",
-                      margin: "20px"
+                      margin: "20px",
                     }}
                   />
                 ))}
@@ -375,19 +375,28 @@ const SetupProductInfo = () => {
             Max Price: $<strong>{valuationRequest.estimatePriceMax}</strong>
           </p>
           <p>
-            Time Request: <strong>{moment(valuationRequest.timeRequest).format("DD/MM/yyyy HH:mm:ss")}</strong>
+            Time Request:{" "}
+            <strong>
+              {moment(valuationRequest.timeRequest).format(
+                "DD/MM/yyyy HH:mm:ss"
+              )}
+            </strong>
           </p>
           {valuationRequest.memberEstimatePrice && (
             <p>
-              Member Expected Price: $<strong>{valuationRequest.memberEstimatePrice}</strong>
+              Member Expected Price: $
+              <strong>{valuationRequest.memberEstimatePrice}</strong>
             </p>
           )}
-          <div className="">
-            <FullScreenImage imageUrls={valuationRequest.valuationImagesUrls} />
-          </div>
-
+          {valuationRequest.valuationImagesUrls && (
+            <div className="">
+              <FullScreenImage
+                imageUrls={valuationRequest.valuationImagesUrls}
+              />
+            </div>
+          )}
         </div>
-      </div >
+      </div>
     </div>
   );
 };
