@@ -29,7 +29,7 @@ const FullLayout = () => {
           {/********Middle Content**********/}
           <Header onChange={() => setOnHide(!onHide)} />
 
-          <Container className="p-4" fluid>
+          <Container className="m-4 p-0" fluid>
             <Outlet />
           </Container>
         </div>
