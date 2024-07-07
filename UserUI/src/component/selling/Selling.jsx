@@ -24,11 +24,11 @@ const Selling = () => {
           </div>
           <div className="row">
             <div className="col-md-6">
-              <h1 className="text-center h1">Selling with FU AUCTION</h1>
+              <h1 className="text-center h1">Selling with FUJA</h1>
               <p>
-                FU AUCTION has been specifically designed to protect your
-                interests and maximize your results in the shortest possible
-                timeframe. With our unique model, we are at the forefront of
+                FUJA has been specifically designed to protect your interests
+                and maximize your results in the shortest possible timeframe.
+                With our unique model, we are at the forefront of
                 revolutionizing the industry, merging the tried-and-true methods
                 of traditional auction houses with the dynamism of modern
                 innovative marketplace models, utilizing cutting-edge technology
@@ -37,14 +37,14 @@ const Selling = () => {
               <p>
                 With the lowest seller’s fees/premiums, very frequent
                 (bi-weekly) auctions, a substantial global following,
-                record-breaking results, and a flawless 5-star Google rating, FU
-                Auction stands head and shoulders above the rest.
+                record-breaking results, and a flawless 5-star Google rating,
+                FUJA stands head and shoulders above the rest.
               </p>
               <div>
                 <p className="text-center slogan md-5">
-                  " FU Auction is a classy company that is laser-focused on
-                  giving the seller the best experience possible... they do
-                  exactly what they say they are going to do. "
+                  " FUJA is a classy company that is laser-focused on giving the
+                  seller the best experience possible... they do exactly what
+                  they say they are going to do. "
                 </p>
                 <p className="text-center autho">
                   <strong>Hai Linh</strong>
@@ -71,48 +71,48 @@ const Selling = () => {
 
               <h3>Or want to learn more first?</h3>
               <p>
-                To continue learning about selling with FU AUCTION, keep
-                scrolling and reading.
+                To continue learning about selling with FUJA, keep scrolling and
+                reading.
               </p>
             </div>
           </div>
 
           <div className="text-center md-5 my-5">
             Now that you have an understanding of our mission and approach to
-            selling at FU AUCTION, let’s delve deeper into the mechanics of our
+            selling at FUJA, let’s delve deeper into the mechanics of our
             operation, and explore the topics that every potential seller should
-            know. The following sections will highlight what makes FU AUCTION
-            different and answer the question, “Why FU AUCTION?”, as well as
-            walk you through the entire process from start to finish. This guide
-            is designed to prepare you thoroughly for your selling journey with
-            FU AUCTION, giving you the confidence to make informed decisions at
-            every step of the way.
+            know. The following sections will highlight what makes FUJA
+            different and answer the question, “Why FUJA?”, as well as walk you
+            through the entire process from start to finish. This guide is
+            designed to prepare you thoroughly for your selling journey with
+            FUJA, giving you the confidence to make informed decisions at every
+            step of the way.
           </div>
 
           <div className="row">
             <div className="col-md-12">
-              <h1 className="text-center md-5 h1">Why Sell With FU AUCTION?</h1>
+              <h1 className="text-center md-5 h1">Why Sell With FUJA?</h1>
               <div className="my-5 whysell">
                 <p>
-                  At FU AUCTION, we’re committed to setting and upholding the
-                  highest standards for our sellers. Selling jewelry and watches
-                  can be a challenging and confusing process, but it doesn’t
-                  have to be. With FU AUCTION by your side, you can rest assured
-                  that your valuable assets are in the best hands possible.
+                  At FUJA, we’re committed to setting and upholding the highest
+                  standards for our sellers. Selling jewelry and watches can be
+                  a challenging and confusing process, but it doesn’t have to
+                  be. With FUJA by your side, you can rest assured that your
+                  valuable assets are in the best hands possible.
                 </p>
                 <p>
                   We think of ourselves as a torch-bearer on the dimly-lit,
                   pitfall-filled path to selling jewelry and watches.
                 </p>
                 <p>
-                  At FU AUCTION, our core values of integrity, authenticity,
+                  At FUJA, our core values of integrity, authenticity,
                   accountability, and excellence are at the forefront of
                   everything we do. We believe our values, performance, and
                   reputation set us far apart from our competitors.
                 </p>
                 <p>
                   Here are the five (5) reasons that answer the question, “Why
-                  Sell with FU AUCTION?”:
+                  Sell with FUJA?”:
                 </p>
               </div>
             </div>
@@ -124,9 +124,9 @@ const Selling = () => {
                 1 of 5: Our Goals Are Aligned With Yours
               </h1>
               <p>
-                FU AUCTION has been specifically designed to protect your
-                interests and maximize your results in the shortest possible
-                timeframe. With our unique model, we are at the forefront of
+                FUJA has been specifically designed to protect your interests
+                and maximize your results in the shortest possible timeframe.
+                With our unique model, we are at the forefront of
                 revolutionizing the industry, merging the tried-and-true methods
                 of traditional auction houses with the dynamism of modern
                 innovative marketplace models, utilizing cutting-edge technology
@@ -135,8 +135,8 @@ const Selling = () => {
               <p>
                 With the lowest seller’s fees/premiums, very frequent
                 (bi-weekly) auctions, a substantial global following,
-                record-breaking results, and a flawless 5-star Google rating, FU
-                AUCTION stands head and shoulders above the rest.
+                record-breaking results, and a flawless 5-star Google rating,
+                FUJA stands head and shoulders above the rest.
               </p>
             </div>
             <div className="col-md-6 text-center">
@@ -148,7 +148,7 @@ const Selling = () => {
               />
               <p className="img-content">
                 The Cartier Crash 1991 Limited Edition; achieved a record-high
-                $81,250 at FU AUCTION's 2019 IMPORTANT WATCHES auction.
+                $81,250 at FUJA's 2019 IMPORTANT WATCHES auction.
               </p>
             </div>
           </div>
@@ -159,9 +159,9 @@ const Selling = () => {
                 2 of 5: We Have Solutions That Others Simply Do Not
               </h1>
               <p>
-                FU AUCTION has been specifically designed to protect your
-                interests and maximize your results in the shortest possible
-                timeframe. With our unique model, we are at the forefront of
+                FUJA has been specifically designed to protect your interests
+                and maximize your results in the shortest possible timeframe.
+                With our unique model, we are at the forefront of
                 revolutionizing the industry, merging the tried-and-true methods
                 of traditional auction houses with the dynamism of modern
                 innovative marketplace models, utilizing cutting-edge technology
@@ -170,8 +170,8 @@ const Selling = () => {
               <p>
                 With the lowest seller’s fees/premiums, very frequent
                 (bi-weekly) auctions, a substantial global following,
-                record-breaking results, and a flawless 5-star Google rating, FU
-                AUCTION stands head and shoulders above the rest.
+                record-breaking results, and a flawless 5-star Google rating,
+                FUJA stands head and shoulders above the rest.
               </p>
             </div>
             <div className="col-md-6 text-center">
@@ -183,7 +183,7 @@ const Selling = () => {
               />
               <p className="img-content">
                 Group of Chanel Vintage Fashion Costume Jewelry. Sold at one of
-                FU AUCTION's auctions for $25,000.
+                FUJA's auctions for $25,000.
               </p>
             </div>
           </div>
@@ -194,9 +194,9 @@ const Selling = () => {
                 3 of 5: We Are Trusted by Thousands of Sellers Worldwide
               </h1>
               <p>
-                FU AUCTION has been specifically designed to protect your
-                interests and maximize your results in the shortest possible
-                timeframe. With our unique model, we are at the forefront of
+                FUJA has been specifically designed to protect your interests
+                and maximize your results in the shortest possible timeframe.
+                With our unique model, we are at the forefront of
                 revolutionizing the industry, merging the tried-and-true methods
                 of traditional auction houses with the dynamism of modern
                 innovative marketplace models, utilizing cutting-edge technology
@@ -205,8 +205,8 @@ const Selling = () => {
               <p>
                 With the lowest seller’s fees/premiums, very frequent
                 (bi-weekly) auctions, a substantial global following,
-                record-breaking results, and a flawless 5-star Google rating, FU
-                AUCTION stands head and shoulders above the rest.
+                record-breaking results, and a flawless 5-star Google rating,
+                FUJA stands head and shoulders above the rest.
               </p>
             </div>
             <div className="col-md-6 text-center">
@@ -218,7 +218,7 @@ const Selling = () => {
               />
               <p className="img-content">
                 Rolex Daytona "Rainbow" in 18K Gold with Box and Papers Sold at
-                FU AUCTION for $375,000
+                FUJA for $375,000
               </p>
             </div>
           </div>
@@ -229,9 +229,9 @@ const Selling = () => {
                 4 of 5: Our Marketing Efforts Are Unmatched
               </h1>
               <p>
-                FU AUCTION has been specifically designed to protect your
-                interests and maximize your results in the shortest possible
-                timeframe. With our unique model, we are at the forefront of
+                FUJA has been specifically designed to protect your interests
+                and maximize your results in the shortest possible timeframe.
+                With our unique model, we are at the forefront of
                 revolutionizing the industry, merging the tried-and-true methods
                 of traditional auction houses with the dynamism of modern
                 innovative marketplace models, utilizing cutting-edge technology
@@ -240,8 +240,8 @@ const Selling = () => {
               <p>
                 With the lowest seller’s fees/premiums, very frequent
                 (bi-weekly) auctions, a substantial global following,
-                record-breaking results, and a flawless 5-star Google rating, FU
-                AUCTION stands head and shoulders above the rest.
+                record-breaking results, and a flawless 5-star Google rating,
+                FUJA stands head and shoulders above the rest.
               </p>
             </div>
             <div className="col-md-6 text-center">
@@ -253,7 +253,7 @@ const Selling = () => {
               />
               <p className="img-content">
                 Exceptionally Rare Type IIA D/IF 6.01-Carat Emerald-Cut Diamond,
-                GIA Certified with Mounting Sold at FU AUCTION for $260,000
+                GIA Certified with Mounting Sold at FUJA for $260,000
               </p>
             </div>
           </div>
@@ -264,9 +264,9 @@ const Selling = () => {
                 5 of 5: We Provide Comprehensive Support Throughout the Process
               </h1>
               <p>
-                FU AUCTION has been specifically designed to protect your
-                interests and maximize your results in the shortest possible
-                timeframe. With our unique model, we are at the forefront of
+                FUJA has been specifically designed to protect your interests
+                and maximize your results in the shortest possible timeframe.
+                With our unique model, we are at the forefront of
                 revolutionizing the industry, merging the tried-and-true methods
                 of traditional auction houses with the dynamism of modern
                 innovative marketplace models, utilizing cutting-edge technology
@@ -275,8 +275,8 @@ const Selling = () => {
               <p>
                 With the lowest seller’s fees/premiums, very frequent
                 (bi-weekly) auctions, a substantial global following,
-                record-breaking results, and a flawless 5-star Google rating, FU
-                AUCTION stands head and shoulders above the rest.
+                record-breaking results, and a flawless 5-star Google rating,
+                FUJA stands head and shoulders above the rest.
               </p>
             </div>
             <div className="col-md-6 text-center">
@@ -288,20 +288,18 @@ const Selling = () => {
               />
               <p className="img-content">
                 Suzanne Belperron "Cambodian" Chalcedony Cuff w/ Certificate of
-                Authenticity Sold at FU AUCTION for $137,500
+                Authenticity Sold at FUJA for $137,500
               </p>
             </div>
           </div>
 
           <div className="text-center md-5 my-5">
-            <h1 className="h1">
-              Understanding the Selling Process with FU AUCTION
-            </h1>
+            <h1 className="h1">Understanding the Selling Process with FUJA</h1>
             <p>
-              Now that you understand why selling with FU AUCTION is a smart
-              choice, let’s delve into the process itself. We have broken down
-              the process into seven clear, easy-to-understand steps to make
-              sure you are well-prepared and confident every step of the way.
+              Now that you understand why selling with FUJA is a smart choice,
+              let’s delve into the process itself. We have broken down the
+              process into seven clear, easy-to-understand steps to make sure
+              you are well-prepared and confident every step of the way.
             </p>
           </div>
 
