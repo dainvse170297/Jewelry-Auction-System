@@ -616,6 +616,9 @@ function PreliminaryValuated({ valuationRequestId, staffId, onHide }) {
                 <Button onClick={handleConfirm} className="btn-success mx-2">
                   Confirm product received
                 </Button>
+                <Button onClick={handleClose} className="btn-danger mx-2">
+                  Cancel
+                </Button>
               </>
             )}
           </Modal.Footer>
