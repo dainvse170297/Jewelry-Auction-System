@@ -27,8 +27,13 @@ const Header = () => {
   };
 
   return (
-    <Navbar bg="white" expand="lg" className="border-bottom" fixed="top">
-      <Container>
+    <Navbar
+      bg="white"
+      expand="lg"
+      className="border-bottom  d-flex justify-content-center "
+      fixed="top"
+    >
+      <Container className="mx-4">
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="row">
           <div className="col-5 d-flex justify-content-center align-item-center">

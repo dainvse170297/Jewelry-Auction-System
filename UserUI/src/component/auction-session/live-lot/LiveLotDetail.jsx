@@ -36,7 +36,6 @@ export default function LiveLotDetail() {
   const [message, setMessage] = useState(null);
 
   const [isSold, setIsSold] = useState(false);
-
   const [winningMessage, setWinningMessage] = useState("");
 
   const [financialProofAmount, setFinancialProofAmount] = useState(0);

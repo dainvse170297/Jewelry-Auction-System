@@ -1,0 +1,1 @@
+import{j as o,ad as e,ae as s}from"./index-Bvu6Xm-K.js";import{C as r}from"./Container-dDyvD6Vg.js";const a=()=>o.jsx(r,{children:o.jsx(e,{children:o.jsxs(s,{children:[o.jsx("h1",{children:"404 - Page Not Found"}),o.jsx("p",{children:"Oops! The page you are looking for does not exist."})]})})});export{a as default};
