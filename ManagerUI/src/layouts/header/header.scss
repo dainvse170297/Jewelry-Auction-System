@@ -12,4 +12,15 @@
       color: white;
     }
   }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;
+
+    .user-name {
+      color: white;
+      margin-right: 0.5rem;
+    }
+  }
 }
