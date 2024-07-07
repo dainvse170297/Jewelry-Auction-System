@@ -86,7 +86,7 @@ const AllValuationRequestList = () => {
 
   useEffect(() => {
     setFilteredValuationRequests(
-      valuationRequests.filter(
+      valuationRequests?.filter(
         (request) =>
           selectedStatus === "" || request.valuationStatus === selectedStatus
       )
