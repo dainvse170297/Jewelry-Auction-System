@@ -25,3 +25,10 @@ img {
     color: white;
     transition: 0.3s;
 }
+
+.text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+}
