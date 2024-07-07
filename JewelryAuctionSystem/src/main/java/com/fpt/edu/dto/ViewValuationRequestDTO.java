@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -23,5 +24,5 @@ public class ViewValuationRequestDTO {
     private BigDecimal estimatePriceMin;
     private String description;
     private Integer productId;
-    private Set<ValuationImage> valuationImages;
+    private List<ValuationImage> valuationImages;
 }

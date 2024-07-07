@@ -60,7 +60,7 @@ public class ValuationRequestService implements IValuationRequestService {
         valuationRequest.setValuationStatus(ValuationRequestStatus.REQUESTED);
         valuationRequest.setProduct(null);
         iValuationRequestRepository.save(valuationRequest);
-        Set<String> valuationImages = new HashSet<>();
+        List<String> valuationImages = new ArrayList<>();
         //set image
         for (MultipartFile file : files) {
             Map image;
@@ -88,7 +88,7 @@ public class ValuationRequestService implements IValuationRequestService {
     public List<ValuationRequestDetailDTO> getAll() {
         List<ValuationRequest> valuationRequests = iValuationRequestRepository.findAll();
         for (ValuationRequest valuationRequest : valuationRequests) {
-            Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
+            List<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
             valuationRequest.setValuationImages(valuationImages);
         }
         return valuationRequestMapper.mapToValuationRequestDetailDTOList(valuationRequests);
@@ -98,7 +98,7 @@ public class ValuationRequestService implements IValuationRequestService {
     public List<ValuationRequestDetailDTO> getRequestedValuationRequest() {
         List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.REQUESTED);
         for (ValuationRequest valuationRequest : valuationRequests) {
-            Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
+            List<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
             valuationRequest.setValuationImages(valuationImages);
         }
         return valuationRequestMapper.mapToValuationRequestDetailDTOList(valuationRequests);
@@ -108,7 +108,7 @@ public class ValuationRequestService implements IValuationRequestService {
     public List<ValuationRequestDetailDTO> getPreliminaryValuationRequest() {
         List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PRELIMINARY_VALUATED);
         for (ValuationRequest valuationRequest : valuationRequests) {
-            Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
+            List<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
             valuationRequest.setValuationImages(valuationImages);
         }
         return valuationRequestMapper.mapToValuationRequestDetailDTOList(valuationRequests);
@@ -131,7 +131,7 @@ public class ValuationRequestService implements IValuationRequestService {
     public List<ValuationRequestDetailDTO> getRequestStatusProductReceived() {
         List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED);
         for (ValuationRequest valuationRequest : valuationRequests) {
-            Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
+            List<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
             valuationRequest.setValuationImages(valuationImages);
         }
         List<ValuationRequestDetailDTO> result = valuationRequestMapper.mapToValuationRequestDetailDTOList(valuationRequests);
@@ -145,7 +145,7 @@ public class ValuationRequestService implements IValuationRequestService {
     @Override
     public ValuationRequestDetailDTO getRequestByIdAndStatusProductReceived(int id) {
         ValuationRequest valuationRequest = iValuationRequestRepository.findByIdAndValuationStatus(id, ValuationRequestStatus.PRODUCT_RECEIVED);
-        Set<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
+        List<ValuationImage> valuationImages = iValuationImageRepository.findByRequest(valuationRequest);
         valuationRequest.setValuationImages(valuationImages);
         return valuationRequestMapper.mapToValuationRequestDetailDTO(valuationRequest);
     }
@@ -178,9 +178,9 @@ public class ValuationRequestService implements IValuationRequestService {
     @Override
     public List<ViewValuationRequestDTO> viewSentRequest(Integer memberId) {
         List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByMemberId(memberId);
-        Map<ValuationRequest, Set<ValuationImage>> valuationRequestImagesMap = new HashMap<>();
+        Map<ValuationRequest, List<ValuationImage>> valuationRequestImagesMap = new HashMap<>();
         for (ValuationRequest valuationRequest : valuationRequests) {
-            Set<ValuationImage> valuationImage = iValuationImageRepository.findByRequest(valuationRequest);
+            List<ValuationImage> valuationImage = iValuationImageRepository.findByRequest(valuationRequest);
             valuationRequestImagesMap.put(valuationRequest, valuationImage);
         }
         return valuationRequestMapper.mapToViewValuationRequestDTOList(valuationRequestImagesMap);
@@ -364,7 +364,7 @@ public class ValuationRequestService implements IValuationRequestService {
     @Override
     public ValuationRequestDetailDTO getValuationRequestDetail(Integer id) {
         ValuationRequest valuationRequest = iValuationRequestRepository.getReferenceById(id);
-        Set<ValuationImage> valuationImage = iValuationImageRepository.findByRequest(valuationRequest);
+        List<ValuationImage> valuationImage = iValuationImageRepository.findByRequest(valuationRequest);
         valuationRequest.setValuationImages(valuationImage);
         return valuationRequestMapper.mapToValuationRequestDetailDTO(valuationRequest);
     }

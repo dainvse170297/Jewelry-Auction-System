@@ -29,13 +29,6 @@ import java.util.stream.Collectors;
 public class ValuationRequestMapper {
 
     private final ValuationImageMapper valuationImageMapper;
-    private IMemberRepository iMemberRepository;
-    private IResponseRequestValuationRepository iResponseRequestValuationRepository;
-    private IProductRepository iProductRepository;
-
-    private IValuationImageRepository iValuationImageRepository;
-
-
     public ValuationRequestMapper(ValuationImageMapper valuationImageMapper) {
         this.valuationImageMapper = valuationImageMapper;
     }
@@ -85,10 +78,10 @@ public class ValuationRequestMapper {
     }
 
     public List<ViewValuationRequestDTO> mapToViewValuationRequestDTOList
-            (Map<ValuationRequest, Set<ValuationImage>> valuationRequestImagesMap){
+            (Map<ValuationRequest, List<ValuationImage>> valuationRequestImagesMap){
         return valuationRequestImagesMap.entrySet().stream().map(entry -> {
             ValuationRequest valuationRequest = entry.getKey();
-            Set<ValuationImage> valuationImages = entry.getValue();
+            List<ValuationImage> valuationImages = entry.getValue();
             return new ViewValuationRequestDTO(
                     valuationRequest.getId(),
                     valuationRequest.getMember().getId(),
