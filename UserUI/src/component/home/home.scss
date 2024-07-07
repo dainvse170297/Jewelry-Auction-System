@@ -1,7 +1,6 @@
 .sub-content {
   backdrop-filter: blur(5px);
 
-<<<<<<< HEAD
   a {
     text-decoration: none;
     font-size: 2rem;
@@ -9,97 +8,5 @@
 
   .sub-title {
     color: white;
-=======
-@mixin transition($args...) {
-  -webkit-transition: $args;
-  -moz-transition: $args;
-  -ms-transition: $args;
-  -o-transition: $args;
-  transition: $args;
-}
-
-.home {
-  display: flex;
-  justify-content: center;
-
-  p {
-    font-size: 20px;
-  }
-}
-
-.container-cus {
-  width: 100%;
-  padding: 0; /* Remove all padding */
-  margin: 0; /* Remove all margin */
-}
-
-.slide {
-  img {
-    width: 100%;
-    height: 800px;
-    object-fit: fill;
-    position: relative; /* For positioning child elements */
-  }
-}
-
-.content-section {
-  background-size: cover;
-  background-position: center;
-  min-height: 390px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; /* Align text at the top */
-  align-items: center;
-  color: $white-color;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  @include transition(transform 0.3s ease); /* Transition effect */
-
-  &:hover {
-    transform: translateY(-10px); /* Move section up on hover */
-    .arrow-link {
-      visibility: visible; /* Make arrow visible on hover */
-      opacity: 1; /* Fade in the arrow */
-    }
-  }
-
-  h2 {
-    position: relative;
-    z-index: 1; /* Ensure text is above the background */
-    color: $primary-color; /* Set h2 color to primary color */
-    text-shadow: 2px 2px 4px rgba($black-color, 0.9); /* Stronger text shadow for better readability */
-    font-weight: bold; /* Make the text bold */
-    font-size: 1.5em; /* Increase the font size slightly */
-  }
- h4 {
-  
-    position: relative;
-    z-index: 1; /* Ensure text is above the background */
-    color: $white-color;
-    text-shadow: 2px 2px 4px rgba($black-color, 0.9); /* Stronger text shadow for better readability */
-    font-size: 1.2em; /* Increase the font size slightly */
-  }
-
-  .arrow-link {
-    position: absolute;
-    bottom: 20px; /* Distance from the bottom */
-    font-size: 35px;
-    color: $white-color;
-    background-color: rgba($black-color, 0.5); /* Semi-transparent background */
-    padding: 10px;
-    border-radius: 50%; /* Round shape */
-    visibility: hidden; /* Initially hide the arrow */
-    opacity: 0; /* Initially set opacity to 0 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    @include transition(visibility 0s, opacity 0.3s ease);
-
-    &:hover {
-      background-color: rgba($black-color, 0.8); /* Darker background on hover */
-      cursor: pointer;
-    }
->>>>>>> hai-linh-fe
   }
 }
