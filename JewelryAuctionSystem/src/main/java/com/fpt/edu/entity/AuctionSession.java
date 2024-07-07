@@ -39,7 +39,7 @@ public class AuctionSession {
     @Column(name = "name", length = 50)
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", length=1000)
     private String description;
 
     private String image;

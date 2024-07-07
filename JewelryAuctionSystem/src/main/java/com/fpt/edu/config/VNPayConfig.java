@@ -19,8 +19,7 @@ public class VNPayConfig {
     @Getter
     private String secretKey = "LZECX3PRZ6SZIVO34ZZEF0ZXYWUKPXUJ";
     private String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
-    private String vnp_ReturnUrl = "http://localhost:5173/payment-callback";
-//    private String vnp_ReturnUrl = "*";
+    private String vnp_ReturnUrl = "https://fuja.vercel.app/payment-callback";
     private String version = "2.1.0";
     private String command = "pay";
     private String vnp_OrderType = "other";

@@ -41,7 +41,7 @@ public class ValuationRequest {
     @Column(name = "member_estimate_price", precision = 19, scale = 1, nullable = true)
     private BigDecimal memberEstimatePrice;
 
-    @Column(name = "description")
+    @Column(name = "description",length=1000)
     private String description;
 
     @Column(name = "cancel_reason", nullable = true)

@@ -48,7 +48,7 @@ const AppRoute = () => {
     <>
       <Layout>
         <Header />
-        <main style={{ paddingTop: "70px" }}>
+        <main style={{ paddingTop: "90px" }}>
           <Routes>
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/home" element={<Home />} />

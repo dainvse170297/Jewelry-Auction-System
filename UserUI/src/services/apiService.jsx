@@ -29,6 +29,7 @@ export {
   postNotifications,
   getReadNotify,
   postConfirmFinalValuation,
+  getAllUpcomingSession,
 };
 
 const postCreateValuation = async (valuation) => {
@@ -203,3 +204,7 @@ const postConfirmFinalValuation = async (id, confirmValue) => {
   params.append("status", confirmValue);
   return axios.post(`response/confirm-final-valuation-by-member`, params);
 };
+
+const getAllUpcomingSession = async () => {
+  return axios.get("auction/session/upcoming")
+}

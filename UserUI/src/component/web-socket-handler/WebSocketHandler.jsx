@@ -6,7 +6,7 @@ import axios from "axios";
 
 const baseURL = "https://jewelry-auction-system.azurewebsites.net/ws";
 
-const WebSocketHandler = ({ lotId, setMessage, setBidHistory }) => {
+const WebSocketHandler = ({ lotId, setMessage, setBidHistory, setFinancialProofAmount }) => {
   const [messages, setMessages] = useState([]);
   const [stompClient, setStompClient] = useState(null);
   const [connected, setConnected] = useState(false);
@@ -40,7 +40,9 @@ const WebSocketHandler = ({ lotId, setMessage, setBidHistory }) => {
       });
       client.subscribe(
         `/topic/financial/member/${currentUser.memberId}`,
-        () => {}
+        (response) => {
+          setFinancialProofAmount(JSON.parse(response.body));
+        }
       );
     });
 
@@ -51,7 +53,7 @@ const WebSocketHandler = ({ lotId, setMessage, setBidHistory }) => {
         stompClient.disconnect();
       }
     };
-  }, [setMessage, lotId, setBidHistory, currentUser.memberId]);
+  }, [setMessage, lotId, setBidHistory, setFinancialProofAmount, currentUser.memberId]);
 
   return null;
 };

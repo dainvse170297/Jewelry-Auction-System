@@ -22,7 +22,7 @@ const ContactInfo = () => {
             <div className="row">
               <div className="col-md-9 offset-md-1">
                 <img
-                  src="https://res.cloudinary.com/dhkmu458i/image/upload/v1720114576/John-Final2_jegndq.jpg"
+                  src="https://res.cloudinary.com/dhkmu458i/image/upload/v1720278041/Timeless-Jewelry-Hero-1024x640_ioadcx.jpg"
                   alt="FU AUCTION Auction"
                   className="img-fluid"
                 />

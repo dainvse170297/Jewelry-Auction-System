@@ -1,7 +1,7 @@
 package com.fpt.edu.status;
 
 public enum PaymentInfoStatus {
-    NONE,
+//    NONE,
     SUCCESS,
-    FAIL,
+//    FAIL,
 }
