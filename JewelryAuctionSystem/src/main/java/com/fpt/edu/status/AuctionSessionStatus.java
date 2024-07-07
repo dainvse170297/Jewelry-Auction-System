@@ -5,6 +5,6 @@ public enum AuctionSessionStatus {
     CANCELED,
     UPCOMING,
     LIVE,
-    PAUSED,
+//    PAUSED,
     PAST
 }
