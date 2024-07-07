@@ -5,16 +5,15 @@ import { getBidHistory } from "../../services/apiService";
 import axios from "axios";
 
 const baseURL = "https://jewelry-auction-system.azurewebsites.net/ws";
+// const baseURL = "http://localhost:8080/ws";
 
-const WebSocketHandler = ({ lotId, setMessage, setBidHistory }) => {
+const WebSocketHandler = ({ lotId, setMessage, setBidHistory, setFinancialProofAmount }) => {
   const [messages, setMessages] = useState([]);
   const [stompClient, setStompClient] = useState(null);
   const [connected, setConnected] = useState(false);
-
+  const currentUser = JSON.parse(localStorage.getItem("account"));
   useEffect(() => {
-    const socket = new SockJS(
-      "https://jewelry-auction-system.azurewebsites.net/ws"
-    );
+    const socket = new SockJS(baseURL);
     const client = Stomp.over(socket);
     client.connect({}, () => {
       setConnected(true);
@@ -40,6 +39,12 @@ const WebSocketHandler = ({ lotId, setMessage, setBidHistory }) => {
           console.log("Error:", error.message);
         }
       });
+      client.subscribe(
+        `/topic/financial/member/${currentUser.memberId}`,
+        (response) => {
+          setFinancialProofAmount(JSON.parse(response.body));
+        }
+      );
     });
 
     setStompClient(client);
@@ -49,7 +54,7 @@ const WebSocketHandler = ({ lotId, setMessage, setBidHistory }) => {
         stompClient.disconnect();
       }
     };
-  }, [setMessage, lotId, setBidHistory]);
+  }, [setMessage, lotId, setBidHistory, setFinancialProofAmount, currentUser.memberId]);
 
   return null;
 };

@@ -59,6 +59,6 @@
   "devDependencies": {
     "@types/bootstrap": "^5.2.10",
     "@vitejs/plugin-react": "^4.3.1",
-    "vite": "^5.3.2"
+    "vite": "^5.3.3"
   }
 }

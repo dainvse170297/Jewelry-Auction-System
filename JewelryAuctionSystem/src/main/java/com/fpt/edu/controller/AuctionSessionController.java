@@ -98,4 +98,9 @@ public class AuctionSessionController {
         return ResponseEntity.ok(auctionSessionService.getPastAuctionSessionDetail(sessionId));
     }
 
+    @PostMapping("/session/staff-manage")
+    public ResponseEntity<List<AuctionSessionDTO>> getAuctionSessionByStaffId(@RequestParam("staffId") Integer staffId) {
+        return ResponseEntity.ok(auctionSessionService.getAuctionSessionByStaffId(staffId));
+    }
+
 }

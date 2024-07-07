@@ -103,6 +103,11 @@ const managerNavigation = [
     icon: FinancialProofRequestIcon,
     href: "/financial-request",
   },
+  {
+    name: "Paid List",
+    icon: MonetizationOn,
+    href: "/paid-list"
+  },
   { name: "User", icon: UserIcon, href: "/user-manage" },
   { name: "Setting", icon: SettingsIcon, href: "/setting" },
   { name: "Profile", icon: ProfileIcon, href: "/profile" },
@@ -132,7 +137,7 @@ const Sidebar = () => {
   return (
     <div
       className="d-flex flex-column vh-100 bg-light sidebar"
-      // style={{ width: "250px", position: "fixed" }}
+    // style={{ width: "250px", position: "fixed" }}
     >
       <div className="text-center my-2 mx-0">
         <img
@@ -174,7 +179,7 @@ const Sidebar = () => {
                     <ul className="p-0 m-0">
                       {activeKey === index &&
                         item.children.map((child, childIndex) => (
-                          <li>
+                          <li key={childIndex}>
                             <Link
                               className="child-item"
                               to={child.href}

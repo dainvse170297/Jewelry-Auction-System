@@ -54,15 +54,19 @@ const CustomerDetail = ({ productId, transferAmount, auctionRegisterId }) => {
 
     const handleConfirmTransfered = async () => {
         try {
-            setIsLoading(true)
-            const response = await confirmTransfered(owner.id, auctionRegisterId, transferAmount, photos)
+            if (photos.length === 0) {
+                return toast.error('Please upload transfer bill photo', { autoClose: 2000 })
 
-            if (response.status === 200) {
-                toast.success('Transfered successfully')
-                setIsLoading(false)
-                window.location.reload()
+            } else {
+                setIsLoading(true)
+                const response = await confirmTransfered(owner.id, auctionRegisterId, transferAmount, photos)
+
+                if (response) {
+                    toast.success('Transfered successfully')
+                    setIsLoading(false)
+                    window.location.reload()
+                }
             }
-
 
         } catch (error) {
             console.log(error)

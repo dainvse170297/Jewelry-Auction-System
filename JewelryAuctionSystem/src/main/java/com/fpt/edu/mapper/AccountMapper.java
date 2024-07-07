@@ -9,6 +9,7 @@ public class AccountMapper {
 
     public static AccountDTO toAccountDTO(Account account) {
         AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setUsername(account.getUsername());
         accountDTO.setId(account.getId());
         accountDTO.setRole(account.getRole().getId());
         accountDTO.setRoleName(account.getRole().getName());

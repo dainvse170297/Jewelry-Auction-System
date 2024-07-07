@@ -12,6 +12,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import logo from "../../../assets/logo/logo.png";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -28,106 +29,132 @@ const Header = () => {
   return (
     <Navbar bg="white" expand="lg" className="border-bottom" fixed="top">
       <Container>
-        <Navbar.Brand href="/home">
-          <House size={24} />
-        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto ms-auto">
-            <Dropdown>
-              <Dropdown.Toggle as={Nav.Link} id="dropdown-auction">
-                AUCTION
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item as={Link} to="/upcoming">
-                  Upcoming Auctions
-                </Dropdown.Item>
-                <Dropdown.Item as={Link} to="/live">
-                  Live Auctions
-                </Dropdown.Item>
-                <Dropdown.Item as={Link} to="/past">
-                  Past Auctions
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-            <Dropdown>
-              <Dropdown.Toggle as={Nav.Link} id="dropdown-selling">
-                SELLING
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item as={Link} to="/selling">
-                  About Selling
-                </Dropdown.Item>
-                <Dropdown.Item as={Link} to="/create-valuation">
-                  Send Valuation Request
-                </Dropdown.Item>
-                <Dropdown.Item as={Link} to="/create-financial-proof">
-                  Create My Financial Proof
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Nav>
-          <Nav className="mx-auto">
-            <Navbar.Brand as={Link} to="/home">
-              FU-AUCTION
-            </Navbar.Brand>
-          </Nav>
-          <Nav className="ms-auto me-auto">
-            <Nav.Link href="/contact">CONTACT</Nav.Link>
-            <Dropdown>
-              <Dropdown.Toggle as={Nav.Link} id="dropdown-auction">
-                POLICIES
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item href="/privacy-policy">
-                  Privacy Policy
-                </Dropdown.Item>
-                <Dropdown.Item href="/terms-conditions">
-                  Terms & Conditions
-                </Dropdown.Item>
-                <Dropdown.Item href="/delivery">
-                  Delivery instructions
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-            <Nav.Link href="/notify" className="">
-              <Bell size={24} />
-            </Nav.Link>
-            <Dropdown>
-              <Dropdown.Toggle as={Nav.Link} id="dropdown-profile">
-                <Person size={24} />
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                {currentUser ? (
-                  <>
-                    <Dropdown.Item as={Link} to="/profile">
-                      {" "}
-                      <PersonIcon /> Profile
-                    </Dropdown.Item>
+        <Navbar.Collapse id="basic-navbar-nav" className="row">
+          <div className="col-5 d-flex justify-content-center align-item-center">
+            <Nav className="me-auto ms-auto">
+              <Navbar.Brand href="/home">
+                <House size={24} />
+              </Navbar.Brand>
+              <Dropdown>
+                <Dropdown.Toggle
+                  as={Nav.Link}
+                  id="dropdown-auction"
+                  className="mx-4"
+                >
+                  AUCTION
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item as={Link} to="/upcoming">
+                    Upcoming Auctions
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/live">
+                    Live Auctions
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/past">
+                    Past Auctions
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              <Dropdown>
+                <Dropdown.Toggle
+                  as={Nav.Link}
+                  id="dropdown-selling"
+                  className="mx-4"
+                >
+                  SELLING
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item as={Link} to="/selling">
+                    About Selling
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/create-valuation">
+                    Send Valuation Request
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/create-financial-proof">
+                    Create My Financial Proof
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Nav>{" "}
+          </div>
 
-                    <Dropdown.Item href="/checkout">
-                      {" "}
-                      <ShoppingCartIcon /> My Winner Auction
-                    </Dropdown.Item>
-                    <Dropdown.Item onClick={handleLogout}>
-                      {" "}
-                      <LogoutIcon /> Log Out
-                    </Dropdown.Item>
-                  </>
-                ) : (
-                  <>
-                    <Dropdown.Item href="/login">
-                      {" "}
-                      <LoginIcon /> Sign In
-                    </Dropdown.Item>
-                    <Dropdown.Item href="/sign-up">
-                      <PersonAddAltIcon /> Sign Up
-                    </Dropdown.Item>
-                  </>
-                )}
-              </Dropdown.Menu>
-            </Dropdown>
-          </Nav>
+          <div className="col-2 d-flex justify-content-center align-item-center">
+            <Nav className="mx-auto">
+              <Navbar.Brand as={Link} to="/home" className="p-0 m-0">
+                <img src={logo} alt="logo" width="70" />
+              </Navbar.Brand>
+            </Nav>
+          </div>
+
+          <div className="col-5  d-flex justify-content-center align-item-center">
+            <Nav className="ms-auto me-auto px-0 mx-0">
+              <Nav.Link href="/contact" className="mx-4">
+                CONTACT
+              </Nav.Link>
+              <Dropdown>
+                <Dropdown.Toggle
+                  as={Nav.Link}
+                  id="dropdown-auction"
+                  className="mx-4"
+                >
+                  POLICIES
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item href="/privacy-policy">
+                    Privacy Policy
+                  </Dropdown.Item>
+                  <Dropdown.Item href="/terms-conditions">
+                    Terms & Conditions
+                  </Dropdown.Item>
+                  <Dropdown.Item href="/delivery">
+                    Delivery instructions
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              <Nav.Link href="/notify" className="">
+                <Bell size={24} />
+              </Nav.Link>
+              <Dropdown>
+                <Dropdown.Toggle
+                  as={Nav.Link}
+                  id="dropdown-profile"
+                  className="mx-4"
+                >
+                  <Person size={24} />
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {currentUser ? (
+                    <>
+                      <Dropdown.Item as={Link} to="/profile">
+                        {" "}
+                        <PersonIcon /> Profile
+                      </Dropdown.Item>
+
+                      <Dropdown.Item href="/checkout">
+                        {" "}
+                        <ShoppingCartIcon /> My Winner Auction
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={handleLogout}>
+                        {" "}
+                        <LogoutIcon /> Log Out
+                      </Dropdown.Item>
+                    </>
+                  ) : (
+                    <>
+                      <Dropdown.Item href="/login">
+                        {" "}
+                        <LoginIcon /> Sign In
+                      </Dropdown.Item>
+                      <Dropdown.Item href="/sign-up">
+                        <PersonAddAltIcon /> Sign Up
+                      </Dropdown.Item>
+                    </>
+                  )}
+                </Dropdown.Menu>
+              </Dropdown>
+            </Nav>
+          </div>
         </Navbar.Collapse>
       </Container>
     </Navbar>
