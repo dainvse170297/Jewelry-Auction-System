@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <>
+<<<<<<< HEAD
       <div className="container-fluid">
         <div className="row d-flex justify-content-center">
           <div className="col-sm-10 px-2">
@@ -104,6 +105,66 @@ const Home = () => {
                     </p>
                     <FaArrowRight className="arrow-icon" />
                   </div>
+=======
+      <div className="container-cus">
+        <div className="row">
+          <div className="col-md-7 offset-md-1">
+            <Carousel className="slide">
+              <Carousel.Item>
+                <img src={banner7} alt="Banner 1" />
+              </Carousel.Item>
+              <Carousel.Item>
+                <img src={banner6} alt="Banner 2" />
+              </Carousel.Item>
+              <Carousel.Item>
+                <img src={banner4} alt="Banner 3" />
+              </Carousel.Item>
+            </Carousel>
+          </div>
+
+          <div className="col-md-3">
+            <div className="row">
+              <div className="col-md-12 mb-4">
+                <div
+                  className="content-section"
+                  style={{
+                    backgroundImage: `url("https://res.cloudinary.com/dhkmu458i/image/upload/v1720328241/auction-AMD_et4rbd.jpg")`,
+                  }}
+                >
+                  <h2 className="mb-5 text-center">Join Selling With Us</h2>
+                  <h4 className="mb-5 text-center">
+                    Send valuation request right now!!!
+                  </h4>
+                  <p className="text-center">
+                    Join FU AUCTION and sell your jewelry and watches to a
+                    global audience.
+                  </p>
+                  <a href="/create-valuation" className="arrow-link">
+                    <FaArrowRight className="arrow-icon" /> {/* Arrow Icon */}
+                  </a>
+                </div>
+              </div>
+              <div className="col-md-12">
+                <div
+                  className="content-section"
+                  style={{
+                    backgroundImage: `url("https://res.cloudinary.com/dhkmu458i/image/upload/v1720328480/01_46_u9uvx2.jpg")`,
+                  }}
+                >
+                  <h2 className=" mb-5 text-center">
+                    Create Financial Proof For Place Bid
+                  </h2>
+                  <h4 className="mb-5 text-center">
+                    Send financial proof for us!!!
+                  </h4>
+                  <p className="text-center mt-5">
+                    Create financial proof to place bids on FU AUCTION for your
+                    jewelry
+                  </p>
+                  <a href="/create-financial-proof" className="arrow-link">
+                    <FaArrowRight className="arrow-icon" /> {/* Arrow Icon */}
+                  </a>
+>>>>>>> hai-linh-fe
                 </div>
               </div>
             </div>
