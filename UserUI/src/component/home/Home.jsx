@@ -15,9 +15,9 @@ import { FaArrowRight } from "react-icons/fa"; // Import the arrow icon from rea
 const Home = () => {
   return (
     <>
-      <div className="container-fluid">
+      <div className="container-cus">
         <div className="row">
-          <div className="col-md-7 offset-md-1 ">
+          <div className="col-md-7 offset-md-1">
             <Carousel className="slide">
               <Carousel.Item>
                 <img src={banner7} alt="Banner 1" />
@@ -37,53 +37,42 @@ const Home = () => {
                 <div
                   className="content-section"
                   style={{
-                    backgroundImage: `url("https://rapaport.com/wp-content/uploads/2023/02/auction-AMD.jpg")`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    minHeight: "390px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    color: "#fff",
-                    padding: "20px",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                    backgroundImage: `url("https://res.cloudinary.com/dhkmu458i/image/upload/v1720328241/auction-AMD_et4rbd.jpg")`,
                   }}
                 >
-                  <h1>Join Selling With Us</h1>
-                  <h3>Send valuation request right now!!!</h3>
-                  <p>
+                  <h2 className="mb-5 text-center">Join Selling With Us</h2>
+                  <h4 className="mb-5 text-center">
+                    Send valuation request right now!!!
+                  </h4>
+                  <p className="text-center">
                     Join FU AUCTION and sell your jewelry and watches to a
                     global audience.
                   </p>
-                  <FaArrowRight className="arrow-icon" /> {/* Arrow Icon */}
+                  <a href="/create-valuation" className="arrow-link">
+                    <FaArrowRight className="arrow-icon" /> {/* Arrow Icon */}
+                  </a>
                 </div>
               </div>
               <div className="col-md-12">
                 <div
                   className="content-section"
                   style={{
-                    backgroundImage: `url("https://static.independent.co.uk/s3fs-public/thumbnails/image/2011/12/14/09/liztaylor.jpg")`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    minHeight: "390px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    color: "#fff",
-                    padding: "20px",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                    backgroundImage: `url("https://res.cloudinary.com/dhkmu458i/image/upload/v1720328480/01_46_u9uvx2.jpg")`,
                   }}
                 >
-                  <h1>Create Financial Proof For Place Bid</h1>
-                  <p>
+                  <h2 className=" mb-5 text-center">
+                    Create Financial Proof For Place Bid
+                  </h2>
+                  <h4 className="mb-5 text-center">
+                    Send financial proof for us!!!
+                  </h4>
+                  <p className="text-center mt-5">
                     Create financial proof to place bids on FU AUCTION for your
-                    jewelry and watches.
+                    jewelry
                   </p>
-                  <FaArrowRight className="arrow-icon" /> {/* Arrow Icon */}
+                  <a href="/create-financial-proof" className="arrow-link">
+                    <FaArrowRight className="arrow-icon" /> {/* Arrow Icon */}
+                  </a>
                 </div>
               </div>
             </div>
