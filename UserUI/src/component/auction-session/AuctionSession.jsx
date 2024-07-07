@@ -75,11 +75,11 @@ const AuctionSession = ({ session, showImage, showDetailBtn }) => {
           </div>
         </div>
         {showDetailBtn && (
-          <div className="row">
-            <div className="col-sm-4">
+          <div className="row d-flex justify-content-center">
+            <div className="col-sm-2">
               {session.status === "UPCOMING" && (
                 <Link to={`/upcoming-session-detail/${session.id}`}>
-                  <button type="button" className="detail-button">
+                  <button type="button" className="detail-button btn-red">
                     View Detail
                   </button>
                 </Link>

@@ -551,27 +551,6 @@ function PreliminaryValuated({ valuationRequestId, staffId, onHide }) {
     setShow(true);
   };
 
-  const handleReject = async (confirmValue) => {
-    if (confirmValue) {
-      setIsLoading(true);
-      try {
-        const data = await getRejectValuationRequest(valuationRequestId);
-        console.log("data", data);
-        if (data) {
-          setShow(false);
-          window.location.reload();
-          toast.success("Rejected successfully");
-        } else {
-          console.log("Failed");
-        }
-      } catch (error) {
-        console.log("Error:", error.message);
-        toast.error("Error when reject valuation request");
-      }
-      setIsLoading(false);
-    }
-  };
-
   return (
     <>
       <button onClick={handleShow} className="btn btn-primary" type="button">
@@ -637,15 +616,9 @@ function PreliminaryValuated({ valuationRequestId, staffId, onHide }) {
                 <Button onClick={handleConfirm} className="btn-success mx-2">
                   Confirm product received
                 </Button>
-
-                <Confirm
-                  message="Are you sure you want to reject this valuation request?"
-                  mainLabel="Reject the request"
-                  className="danger"
-                  labelYes="Yes"
-                  labelNo="No"
-                  onConfirm={handleReject}
-                />
+                <Button onClick={handleClose} className="btn-danger mx-2">
+                  Cancel
+                </Button>
               </>
             )}
           </Modal.Footer>

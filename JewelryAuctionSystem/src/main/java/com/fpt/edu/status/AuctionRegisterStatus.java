@@ -3,9 +3,9 @@ package com.fpt.edu.status;
 public enum AuctionRegisterStatus {
     REGISTERED,
     BID,
-    FINISHED,
+//    FINISHED,
     PENDING_PAYMENT,
-    REJECTED,
+//    REJECTED,
     WINNER_PURCHASED,
     DELIVERED,
     PAYMENT_SUCCESS,

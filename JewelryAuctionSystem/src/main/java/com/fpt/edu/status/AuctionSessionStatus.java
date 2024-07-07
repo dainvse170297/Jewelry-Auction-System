@@ -2,9 +2,9 @@ package com.fpt.edu.status;
 
 public enum AuctionSessionStatus {
     CREATED,
-    CANCELED,
+//    CANCELED,
     UPCOMING,
     LIVE,
-    PAUSED,
+//    PAUSED,
     PAST
 }
