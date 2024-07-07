@@ -5,7 +5,6 @@ import { getBidHistory } from "../../services/apiService";
 import axios from "axios";
 
 const baseURL = "https://jewelry-auction-system.azurewebsites.net/ws";
-// const baseURL = "http://localhost:8080/ws";
 
 const WebSocketHandler = ({ lotId, setMessage, setBidHistory, setFinancialProofAmount }) => {
   const [messages, setMessages] = useState([]);
