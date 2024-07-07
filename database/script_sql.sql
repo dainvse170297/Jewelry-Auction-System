@@ -24,7 +24,7 @@ CREATE TABLE `auction session` (
   start_time         date, 
   end_time           date, 
   name               varchar(50), 
-  description        varchar(255), 
+  description        varchar(1000), 
   status             varchar(30), 
   PRIMARY KEY (auction_session_id));
 CREATE TABLE bid (
@@ -37,7 +37,7 @@ CREATE TABLE bid (
 CREATE TABLE category (
   category_id int(10) NOT NULL AUTO_INCREMENT, 
   name        varchar(50), 
-  description varchar(255), 
+  description varchar(1000), 
   PRIMARY KEY (category_id));
 CREATE TABLE `credit card` (
   credit_card_id int(10) NOT NULL AUTO_INCREMENT, 
@@ -96,7 +96,7 @@ CREATE TABLE notify (
   notify_id     int(10) NOT NULL AUTO_INCREMENT, 
   member_id     int(10) NOT NULL, 
   title         varchar(50), 
-  description   varchar(255), 
+  description   varchar(1000), 
   `date`        datetime NULL, 
   is_read       bit(1), 
   notifiable_id int(10), 
@@ -114,7 +114,7 @@ CREATE TABLE product (
   product_id         int(10) NOT NULL AUTO_INCREMENT, 
   category_id        int(10) NOT NULL, 
   name               varchar(50), 
-  description        varchar(255), 
+  description        varchar(1000), 
   estimate_price_max decimal(19, 1), 
   estimate_price_min decimal(19, 1), 
   PRIMARY KEY (product_id));
@@ -166,7 +166,7 @@ CREATE TABLE `valuation request` (
   member_id             int(10) NOT NULL, 
   product_id            int(10) NOT NULL, 
   time_request          date, 
-  description           varchar(255), 
+  description           varchar(1000), 
   valuation_status      varchar(30), 
   delivery_status       varchar(30), 
   estimate_price_min    decimal(19, 1), 
