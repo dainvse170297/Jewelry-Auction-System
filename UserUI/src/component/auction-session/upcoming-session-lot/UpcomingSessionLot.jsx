@@ -223,6 +223,9 @@ const UpcomingSessionLot = () => {
             <Modal.Body>
               <h5>Would you like to set a price in advance?</h5>
             </Modal.Body>
+            <div className="ms-3">
+              {errorMsg && <p className="text-danger">{errorMsg} <a className="text-danger" href="/create-financial-proof">Create financial proof?</a></p>}
+            </div>
             <Modal.Footer>
               <button className="register-to-bid-no-btn" onClick={handleSubmitWitoutPreBid}>
                 Register without place bid
