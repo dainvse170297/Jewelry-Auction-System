@@ -231,13 +231,21 @@ const ValuationResponseList = ({ id }) => {
                                     <p className="my-3">
                                       Min Estimate:{" "}
                                       <strong>
-                                        {data.productDTO.estimatePriceMin}$
+                                        {
+                                          data.valuationRequestDTO
+                                            .estimatePriceMin
+                                        }
+                                        $
                                       </strong>{" "}
                                     </p>
                                     <p className="my-3">
                                       Max Estimate:{" "}
                                       <strong>
-                                        {data.productDTO.estimatePriceMax}$
+                                        {
+                                          data.valuationRequestDTO
+                                            .estimatePriceMax
+                                        }
+                                        $
                                       </strong>{" "}
                                     </p>
                                   </div>
