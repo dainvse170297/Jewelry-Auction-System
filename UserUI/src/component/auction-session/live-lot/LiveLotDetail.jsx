@@ -15,6 +15,7 @@ import {
 import Countdown from "../../countdown/Countdown";
 import WebSocketHandler from "../../web-socket-handler/WebSocketHandler";
 import "./LiveLotDetail.scss";
+import ImageGallery from "../../../views/image/ImageGallery";
 
 export default function LiveLotDetail() {
   const { id } = useParams();
@@ -53,7 +54,6 @@ export default function LiveLotDetail() {
       }
     };
     getInfo();
-    //console.log("location", location);
   }, [id]);
 
   useEffect(() => {
@@ -61,13 +61,13 @@ export default function LiveLotDetail() {
       try {
         const response = await getProfileDetail(currentUser.memberId);
         // console.log(response);
-        setFinancialProofAmount(response.financialProofAmount)
+        setFinancialProofAmount(response.financialProofAmount);
       } catch (error) {
         console.log("Error:", error.message);
       }
-    }
+    };
     getMember();
-  }, [])
+  }, []);
 
   useEffect(() => {
     const bidHistory = async () => {
@@ -100,7 +100,6 @@ export default function LiveLotDetail() {
   };
 
   const placeBid = async (calculatedAmount) => {
-
     setAmountBid(calculatedAmount);
     if (currentUser === null) {
       navigate("/login", { state: { from: `/live-lot-detail/${id}` } });
@@ -141,7 +140,6 @@ export default function LiveLotDetail() {
           toast.error("Failed to place bid...");
         }
       }
-
     }
   };
 
@@ -202,7 +200,7 @@ export default function LiveLotDetail() {
         <>
           <div className="row mt-5">
             <div className="col-lg-6">
-              <div className="lot-img">
+              {/* <div className="lot-img">
                 <Carousel>
                   {productInfo.productImages &&
                     productInfo.productImages.map((item, index) => (
@@ -211,7 +209,17 @@ export default function LiveLotDetail() {
                       </Carousel.Item>
                     ))}
                 </Carousel>
-              </div>
+              </div> */}
+              {productInfo.productImages && (
+                <>
+                  <ImageGallery
+                    className="mw-100"
+                    images={productInfo.productImages.map(
+                      (item, index) => item.imageUrl
+                    )}
+                  />
+                </>
+              )}
             </div>
             <div className="col-lg-6">
               <div className="clock">
