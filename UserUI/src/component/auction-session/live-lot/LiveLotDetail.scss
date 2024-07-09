@@ -1,5 +1,5 @@
 .clock {
-  background-color: #EFEBE8;
+  background-color: #efebe8;
   border-radius: 10px;
 }
 
@@ -10,19 +10,17 @@
 }
 
 .bid-panel {
-  background-color: #EFEBE8;
-  padding: 20px;
+  background-color: #efebe8;
 
   .bid-btn {
-    background-color: #B23842;
+    background-color: #b23842;
     color: #ffffff;
     border: none;
-    padding: 10px 20px;
     letter-spacing: 2px;
   }
 
   .bid-input {
-    width: 100%;
+    // width: 100%;
     padding: 5px 20px;
   }
 
@@ -30,15 +28,19 @@
     background-color: black;
     color: #ffffff;
     border: none;
-    padding: 10px 20px;
     letter-spacing: 2px;
     margin-right: 10px;
   }
 
+  .bid-choose {
+    border: 1px solid #494949;
+    font-size: 1.2rem;
+    border-radius: 0.3rem;
+  }
 }
 
 .bid-history {
-  background-color: #B7B7B7;
+  background-color: #dfdede;
   padding-left: 10px;
   padding-right: 10px;
 
@@ -48,5 +50,14 @@
 }
 
 .buy_now_price {
-  color: #B23842;
+  color: #b23842;
+}
+
+li {
+  // list-style-type: none;
+  padding: 0.3rem;
+  a {
+    color: #b23842;
+    text-decoration: none;
+  }
 }
