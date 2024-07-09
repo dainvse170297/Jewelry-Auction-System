@@ -5,6 +5,8 @@ import com.fpt.edu.entity.ValuationImage;
 import com.fpt.edu.repository.IValuationImageRepository;
 import com.fpt.edu.repository.IValuationRequestRepository;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Set;
 
@@ -31,12 +33,12 @@ public class ValuationImageMapper {
         return valuationImages.stream().map(this::toValuationImageDTO).collect(Collectors.toSet());
     }
 
-    public Set<Integer> mapToValuationImageIdList(Set<ValuationImage> valuationImages) {
-        return valuationImages.stream().map(ValuationImage::getId).collect(Collectors.toSet());
+    public List<Integer> mapToValuationImageIdList(List<ValuationImage> valuationImages) {
+        return valuationImages.stream().map(ValuationImage::getId).collect(Collectors.toList());
     }
 
-    public Set<String> toValuationImageUrls(Set<ValuationImage> valuationImages) {
-        return valuationImages.stream().map(ValuationImage::getImageUrl).collect(Collectors.toSet());
+    public List<String> toValuationImageUrls(List<ValuationImage> valuationImages) {
+        return valuationImages.stream().map(ValuationImage::getImageUrl).collect(Collectors.toList());
     }
 
     public Set<ValuationImage> mapIdToValuationImageList(Set<Integer> valuationImageIds) {

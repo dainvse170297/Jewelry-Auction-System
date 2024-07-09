@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
@@ -58,25 +57,7 @@ export default function CreateFinancialProofRequest() {
     setLoading(true);
 
     try {
-      // const formData = new FormData();
-      // formData.append("memberId", valuation.memberId);
-      // valuation.
-      //   photos.forEach((photo) => {
-      //     formData.append("image", photo);
-      //   });
-
-      // const createValuation = await axios.post(
-      //   `http://localhost:8080/financial-proof/create`,
-      //   formData,
-      //   {
-      //     headers: {
-      //       "Content-Type": "multipart/form-data",
-      //     },
-      //   }
-      // );
-
       const createValuation = await postCreateFinancialProofAmount(valuation);
-
       if (createValuation) {
         toast.success("Financial proof request successfully submitted!");
         setValuation({
@@ -86,6 +67,10 @@ export default function CreateFinancialProofRequest() {
           photos: [],
         });
         setSelectedImages([]);
+
+        setTimeout(() => {
+          window.location.reload(); // Reload page to remove modal
+        }, 1000);
       } else {
         toast.error("Error submitting financial proof request..");
       }
@@ -121,9 +106,9 @@ export default function CreateFinancialProofRequest() {
                 must be available immediately without restriction. Proof of
                 funds must demonstrate your ability to bid up to your requested
                 limit. The acceptance of proof of funds documents is made at the
-                sole and absolute discretion of <strong>FU-Auction</strong>.
-                Please note, proof of funds may be accepted from a partner(s) or
-                in an entity's name if the proper authorizations are provided.
+                sole and absolute discretion of <strong>FUJA</strong>. Please
+                note, proof of funds may be accepted from a partner(s) or in an
+                entity's name if the proper authorizations are provided.
               </p>
               <div className="text-center mt-4">
                 <img

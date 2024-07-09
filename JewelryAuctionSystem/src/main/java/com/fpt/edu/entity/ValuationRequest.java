@@ -6,7 +6,9 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -56,6 +58,5 @@ public class ValuationRequest {
 //    private ResponseRequestValuation responseRequestValuations;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "request")
-    private Set<ValuationImage> valuationImages = new LinkedHashSet<>();
-
+    private List<ValuationImage> valuationImages = new ArrayList<>();
 }

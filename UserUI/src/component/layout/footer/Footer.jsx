@@ -59,9 +59,7 @@ const Footer = () => {
         <div className="row">
           <div className="col-lg-12 text-center">
             <div className="footer__copyright__text">
-              <p>
-                Copyright &copy; {currentYear} All rights reserved | FU Auction
-              </p>
+              <p>Copyright &copy; {currentYear} All rights reserved | FUJA</p>
             </div>
           </div>
         </div>

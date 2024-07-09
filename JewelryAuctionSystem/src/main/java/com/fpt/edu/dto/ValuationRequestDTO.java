@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -23,5 +24,5 @@ public class ValuationRequestDTO {
     private String description;
     private Integer productId;
 //    private Integer responseRequestValuationsId;
-    private Set<Integer> valuationImages;
+    private List<Integer> valuationImages;
 }

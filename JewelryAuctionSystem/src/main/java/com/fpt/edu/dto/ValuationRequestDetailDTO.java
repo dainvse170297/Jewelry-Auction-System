@@ -5,7 +5,9 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -25,5 +27,5 @@ public class ValuationRequestDetailDTO {
     private String description;
     private Integer productId;
     //    private Integer responseRequestValuationsId;
-    private Set<String> valuationImagesUrls = new LinkedHashSet<>();
+    private List<String> valuationImagesUrls = new ArrayList<>();
 }

@@ -10,5 +10,5 @@ import java.util.Set;
 
 @Repository
 public interface IValuationImageRepository extends JpaRepository<ValuationImage, Integer> {
-    Set<ValuationImage> findByRequest(ValuationRequest valuationRequest);
+    List<ValuationImage> findByRequest(ValuationRequest valuationRequest);
 }

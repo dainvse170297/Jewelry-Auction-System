@@ -182,26 +182,21 @@ public class FinancialProofService implements IFinancialProofService {
     }
 
     @Override
-    public FinancialProofRequestDTO rejectFinancialProofRequest(Integer idRq, String username) {
+    public FinancialProofRequestDTO rejectFinancialProofRequest(Integer idRq, Integer staffId, String userRole) {
         FinancialProofRequest financialProofRequest = iFinancialProofRequestRepository
                 .findById(idRq).orElseThrow(() -> new RuntimeException("Financial proof request not found"));
 
-       Optional<Account> account = iAccountRepository.findByUsername(username);
-        if(account.isEmpty() || account.get().getRole().getName().equals("MEMBER")){
-            throw new RuntimeException("Account invalid");
-        }
-        if(account.get().getRole().getName().equals("STAFF")){
-            Staff staff = account.get().getStaff();
+        if(userRole.equals("STAFF")){
+            Staff staff = new Staff();
+            staff.setId(staffId);
             financialProofRequest.setStaff(staff);
-
-        }else{
-            if(financialProofRequest.getStatus().equals(FinancialProofRequestStatus.AVAILABLE)){
-                Manager manager = account.get().getManager();
-                financialProofRequest.setManager(manager);
-            }else{
-                throw new RuntimeException("REQUESTED STATUS can not reject by MANAGER");
-            }
         }
+        if(userRole.equals("MANAGER")){
+            Manager manager = new Manager();
+            manager.setId(staffId);
+            financialProofRequest.setManager(manager);
+        }
+
         financialProofRequest.setStatus(FinancialProofRequestStatus.REJECTED);
         iFinancialProofRequestRepository.save(financialProofRequest);
         Member member = financialProofRequest.getMember();

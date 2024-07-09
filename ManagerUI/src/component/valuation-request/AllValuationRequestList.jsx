@@ -75,7 +75,7 @@ const AllValuationRequestList = () => {
     const getAll = async () => {
       try {
         const data = await getAllValuationRequests();
-        setValuationRequests(data);
+        setValuationRequests(Array.isArray(data) ? data : []);
         setIsLoading(false);
       } catch (error) {
         console.log("Error:", error.message);
@@ -86,7 +86,7 @@ const AllValuationRequestList = () => {
 
   useEffect(() => {
     setFilteredValuationRequests(
-      valuationRequests.filter(
+      valuationRequests?.filter(
         (request) =>
           selectedStatus === "" || request.valuationStatus === selectedStatus
       )

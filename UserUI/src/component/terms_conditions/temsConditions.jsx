@@ -10,18 +10,18 @@ const TermsAndConditions = () => {
       <div className="content-section">
         <h5 className="section-title">Introduction</h5>
         <p>
-          Welcome to FU AUCTION. These terms and conditions outline the rules
-          and regulations for the use of our website and services. By accessing
-          this website, we assume you accept these terms and conditions. Do not
-          continue to use FU AUCTION if you do not agree to all of the terms and
+          Welcome to FUJA. These terms and conditions outline the rules and
+          regulations for the use of our website and services. By accessing this
+          website, we assume you accept these terms and conditions. Do not
+          continue to use FUJA if you do not agree to all of the terms and
           conditions stated on this page.
         </p>
       </div>
       <div className="content-section">
         <h5 className="section-title">Intellectual Property Rights</h5>
         <p>
-          Other than the content you own, under these Terms, FU AUCTION and/or
-          its licensors own all the intellectual property rights and materials
+          Other than the content you own, under these Terms, FUJA and/or its
+          licensors own all the intellectual property rights and materials
           contained in this website. You are granted a limited license only for
           purposes of viewing the material contained on this website.
         </p>
@@ -63,9 +63,8 @@ const TermsAndConditions = () => {
       <div className="content-section">
         <h5 className="section-title">Your Bid & Payment</h5>
         <p>
-          Bids on FU AUCTION follow specific increments and values for each
-          increment. When you place a bid, you agree to adhere to these
-          increments.
+          Bids on FUJA follow specific increments and values for each increment.
+          When you place a bid, you agree to adhere to these increments.
         </p>
         <ul>
           <li>
@@ -97,39 +96,38 @@ const TermsAndConditions = () => {
         <p>
           In these terms and conditions, “Your Content” shall mean any audio,
           video text, images, or other material you choose to display on this
-          website. By displaying Your Content, you grant FU AUCTION a
-          non-exclusive, worldwide irrevocable, sub-licensable license to use,
-          reproduce, adapt, publish, translate, and distribute it in any and all
-          media.
+          website. By displaying Your Content, you grant FUJA a non-exclusive,
+          worldwide irrevocable, sub-licensable license to use, reproduce,
+          adapt, publish, translate, and distribute it in any and all media.
         </p>
       </div>
       <div className="content-section">
         <h5 className="section-title">No Warranties</h5>
         <p>
-          This website is provided “as is,” with all faults, and FU AUCTION
-          expresses no representations or warranties, of any kind related to
-          this website or the materials contained on this website. Also, nothing
-          contained on this website shall be interpreted as advising you.
+          This website is provided “as is,” with all faults, and FUJA expresses
+          no representations or warranties, of any kind related to this website
+          or the materials contained on this website. Also, nothing contained on
+          this website shall be interpreted as advising you.
         </p>
       </div>
       <div className="content-section">
         <h5 className="section-title">Limitation of Liability</h5>
         <p>
-          In no event shall FU AUCTION, nor any of its officers, directors, and
+          In no event shall FUJA, nor any of its officers, directors, and
           employees, be held liable for anything arising out of or in any way
           connected with your use of this website whether such liability is
-          under contract. FU AUCTION, including its officers, directors, and
-          employees shall not be held liable for any indirect, consequential, or
-          special liability arising out of or in any way related to your use of
-          this website.
+          under contract. FUJA, including its officers, directors, and employees
+          shall not be held liable for any indirect, consequential, or special
+          liability arising out of or in any way related to your use of this
+          website.
         </p>
       </div>
       <div className="content-section">
         <h5 className="section-title">Indemnification</h5>
         <p>
-          You hereby indemnify to the fullest extent FU AUCTION from and against
-          any and/or all liabilities, costs, demands, causes of action, damages,
-          and expenses arising in any way related to your breach of any of the
+          You hereby indemnify to the fullest extent FUJA from and against any
+          and/or all liabilities, costs, demands, causes of action, damages, and
+          expenses arising in any way related to your breach of any of the
           provisions of these Terms.
         </p>
       </div>
@@ -144,16 +142,16 @@ const TermsAndConditions = () => {
       <div className="content-section">
         <h5 className="section-title">Variation of Terms</h5>
         <p>
-          FU AUCTION is permitted to revise these Terms at any time as it sees
-          fit, and by using this website you are expected to review these Terms
-          on a regular basis.
+          FUJA is permitted to revise these Terms at any time as it sees fit,
+          and by using this website you are expected to review these Terms on a
+          regular basis.
         </p>
       </div>
       <div className="content-section">
         <h5 className="section-title">Assignment</h5>
         <p>
-          The FU AUCTION is allowed to assign, transfer, and subcontract its
-          rights and/or obligations under these Terms without any notification.
+          The FUJA is allowed to assign, transfer, and subcontract its rights
+          and/or obligations under these Terms without any notification.
           However, you are not allowed to assign, transfer, or subcontract any
           of your rights and/or obligations under these Terms.
         </p>
@@ -161,8 +159,8 @@ const TermsAndConditions = () => {
       <div className="content-section">
         <h5 className="section-title">Entire Agreement</h5>
         <p>
-          These Terms constitute the entire agreement between FU AUCTION and you
-          in relation to your use of this website and supersede all prior
+          These Terms constitute the entire agreement between FUJA and you in
+          relation to your use of this website and supersede all prior
           agreements and understandings.
         </p>
       </div>
