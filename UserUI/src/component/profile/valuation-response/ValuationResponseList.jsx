@@ -147,10 +147,7 @@ const ValuationResponseList = ({ id }) => {
                                           type="button"
                                           value={currentStatus}
                                           onClick={() =>
-                                            handleConfirm(
-                                              data.valuationRequestDTO.id,
-                                              true
-                                            )
+                                            handleConfirm(response.id, true)
                                           }
                                           className="btn btn-success mx-3 px-5"
                                         >
@@ -160,10 +157,7 @@ const ValuationResponseList = ({ id }) => {
                                           type="button"
                                           value={currentStatus}
                                           onClick={() =>
-                                            handleConfirm(
-                                              data.valuationRequestDTO.id,
-                                              false
-                                            )
+                                            handleConfirm(response.id, false)
                                           }
                                           className="btn btn-danger mx-3 px-5"
                                         >
