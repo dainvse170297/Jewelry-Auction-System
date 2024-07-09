@@ -35,4 +35,6 @@ public interface  IAuctionSessionService {
     AuctionSessionDTO publicAuctionSession(Integer sessionId);
 
     List<AuctionSessionDTO> getAuctionSessionByStaffId(Integer staffId);
+
+    AuctionSessionDTO updateSession(int sessionId, String name, String description, LocalDateTime startDate, LocalDateTime endDate, LocalDateTime startingBid, int staffId);
 }

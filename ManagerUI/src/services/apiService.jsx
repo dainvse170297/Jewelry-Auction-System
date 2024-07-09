@@ -35,6 +35,7 @@ export {
   postConfirmDelivery,
   getAuctionSessionById,
   getAllDeliveredAuctionRegister,
+  postUpdateSession,
 
   //Lot and product
   postAddProduct,
@@ -244,6 +245,24 @@ const postCreateSession = async (auctionSession) => {
     },
   });
 };
+
+const postUpdateSession = async (auctionSessionId, auctionSession) => {
+
+  const formData = new FormData();
+  formData.append("auctionSessionId", auctionSessionId);
+  formData.append("staffId", auctionSession.staffId);
+  formData.append("name", auctionSession.name);
+  formData.append("description", auctionSession.description);
+  formData.append("startTime", auctionSession.startTime);
+  formData.append("endTime", auctionSession.endTime);
+  formData.append("startingBid", auctionSession.startingBid);
+
+  return axios.post("auction/update-session", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+}
 
 const getFinalValuationRequestsDetail = async (id) => {
   return axios.get(`valuation/view-final-request-details/${id}`);

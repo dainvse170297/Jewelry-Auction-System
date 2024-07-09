@@ -52,7 +52,13 @@ public class AuctionSessionService implements IAuctionSessionService {
     }
 
     @Override
-    public AuctionSessionDTO createSession(String name, String description, LocalDateTime startDate, LocalDateTime endDate, LocalDateTime startingBid, int staffId, MultipartFile image) throws IOException {
+    public AuctionSessionDTO createSession(String name,
+                                           String description,
+                                           LocalDateTime startDate,
+                                           LocalDateTime endDate,
+                                           LocalDateTime startingBid,
+                                           int staffId,
+                                           MultipartFile image) throws IOException {
         Staff staff = staffRepository.findById(staffId).get();
         AuctionSession auctionSession = new AuctionSession();
         auctionSession.setName(name);
@@ -72,6 +78,25 @@ public class AuctionSessionService implements IAuctionSessionService {
         auctionSessionRepository.save(auctionSession);
 
         return auctionSessionMapper.toAuctionSessionDTO(auctionSession);
+    }
+
+    @Override
+    public AuctionSessionDTO updateSession(int sessionId,
+                                           String name,
+                                           String description,
+                                           LocalDateTime startDate,
+                                           LocalDateTime endDate,
+                                           LocalDateTime startingBid,
+                                           int staffId) {
+        AuctionSession editAuctionSession = auctionSessionRepository.findById(sessionId).orElseThrow(() -> new RuntimeException("Auction session not found"));
+        editAuctionSession.setName(name);
+        editAuctionSession.setDescription(description);
+        editAuctionSession.setStartTime(startDate);
+        editAuctionSession.setEndTime(endDate);
+        editAuctionSession.setStartingBid(startingBid);
+        editAuctionSession.setStaff(staffRepository.findById(staffId).get());
+        auctionSessionRepository.save(editAuctionSession);
+        return auctionSessionMapper.toAuctionSessionDTO(editAuctionSession);
     }
 
     @Override
