@@ -33,6 +33,7 @@ export {
   getAllCategory,
   getListPurchasedLot,
   postConfirmDelivery,
+  getAuctionSessionById,
 
   //Lot and product
   postAddProduct,
@@ -283,3 +284,7 @@ const postConfirmVIPFinancialProof = async (id, staffId, confirmValue) => {
 
   return axios.post(`financial-proof/confirm-vip`, formData);
 };
+
+const getAuctionSessionById = async (id) => {
+  return axios.get(`auction/session/${id}`);
+}

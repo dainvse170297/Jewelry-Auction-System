@@ -34,7 +34,7 @@ const ReadyLots = () => {
           <h2 className="text-center mt-2">Ready Lots</h2>
           <div className="row">
             {readyLots.map((lot, index) => (
-              <Col md={3} key={index}>
+              <Col md={3} sm={4} key={index}>
 
                 <div className="card mt-3" key={index}>
                   <div className="card-body">
@@ -42,10 +42,10 @@ const ReadyLots = () => {
                       src={lot.productImages[0].imageUrl}
                       alt={lot.productName + " photo"}
                     />
-                    <h6 className="card-title">
+                    <h6 className="card-title text">
                       <strong>{truncateText(lot.productName, 35)}</strong>
                     </h6>
-                    <p className="card-subtitle mb-2 text-muted">
+                    <p className="card-subtitle mb-2 text-muted text">
                       <em>{truncateText(lot.description, 35)}</em>
                     </p>
                     <p className="card-text">
