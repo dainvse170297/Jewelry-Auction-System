@@ -10,6 +10,8 @@ import CheckOutDetail from "../component/checkout/CheckOutDetail";
 import PaymentCallback from "../component/checkout/PaymentCallback";
 import PaymentSuccess from "../component/checkout/PaymentSuccess";
 import PaymentFailure from "../component/checkout/PaymentFailure";
+import e from "cors";
+import ValuationRequestDetail from "../component/profile/valuation-request/ValuationRequestDetail";
 
 const privateRoutes = [
   {
@@ -55,7 +57,11 @@ const privateRoutes = [
   {
     path: "/payment-failure",
     element: <PaymentFailure />,
-  }
+  },
+  {
+    path: "/valuation-request/:id",
+    element: <ValuationRequestDetail />,
+  },
 ];
 
 export default privateRoutes;

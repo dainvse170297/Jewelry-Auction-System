@@ -9,6 +9,8 @@ import {
 import React, { useEffect, useState } from "react";
 import { Eye } from "react-bootstrap-icons";
 import { getReadNotify, postNotifications } from "../../services/apiService";
+import { Link } from "react-router-dom";
+import "./notify.scss";
 
 const NotificationList = () => {
   const [notifications, setNotifications] = useState([]);
@@ -42,7 +44,7 @@ const NotificationList = () => {
   return (
     <>
       <CssBaseline />
-      <Container>
+      <Container className="notifies">
         <Typography variant="h4" gutterBottom>
           Notifications
         </Typography>
@@ -62,6 +64,20 @@ const NotificationList = () => {
                   </Typography>
                 </CardContent>
               </div>
+              <div className="col-2 d-flex justify-content-center align-items-center">
+                {notification.notifiableType === "VALUATION_REQUEST_SUCCESS" &&
+                notification.notifiableId !== null ? (
+                  <Button
+                    className="detail-button px-3 py-1"
+                    as={Link}
+                    to={`/valuation-request/${notification.notifiableId}`}
+                    onClick={() => handleReadNotification(notification.id)}
+                  >
+                    View
+                  </Button>
+                ) : null}
+              </div>
+
               {notification.isRead !== false ? (
                 <></>
               ) : (

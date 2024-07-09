@@ -1,0 +1,12 @@
+.notifies {
+  .detail-button {
+    background-color: #d36554;
+    text-decoration: none;
+    border: none;
+    color: #ffffff;
+
+    &:hover {
+      background-color: #b23842;
+    }
+  }
+}
