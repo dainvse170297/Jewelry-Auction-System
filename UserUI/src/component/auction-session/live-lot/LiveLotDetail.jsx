@@ -166,7 +166,7 @@ export default function LiveLotDetail() {
     setShowModal(false);
   };
 
-  if (productInfo !== null || productInfo.status === "SOLD") {
+  if (productInfo !== null && productInfo.status === "SOLD") {
     return (
       <>
         <div className="container">
@@ -278,24 +278,28 @@ export default function LiveLotDetail() {
                     </h6>
                   </div>
                 </div>
-                {bidHistory.length > 0 && (
-                  <div className="col mt-3">
-                    <div className="bid-history">
-                      <h5 className="text-center">Bid History</h5>
-                      <hr />
-                      {bidHistory.slice(0, 6).map((item, index) => (
-                        <div key={index} className="">
-                          <p className="mb-1 pb-1">
-                            ${item.price}{" "}
-                            <span>
-                              {moment(item.bidTime).format("YYYY-MM-DD HH:mm")}
-                            </span>
-                          </p>
-                        </div>
-                      ))}
+                <div className="row">
+                  {bidHistory.length > 0 && (
+                    <div className="col mt-3">
+                      <div className="bid-history">
+                        <h5 className="text-center">Bid History</h5>
+                        <hr />
+                        {bidHistory.slice(0, 6).map((item, index) => (
+                          <div key={index} className="">
+                            <p className="mb-1 pb-1">
+                              ${item.price}{" "}
+                              <span>
+                                {moment(item.bidTime).format(
+                                  "YYYY-MM-DD HH:mm"
+                                )}
+                              </span>
+                            </p>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
 
                 <div className="d-flex justify-content-center mt-2">
                   <div className="d-flex align-items-center">
@@ -338,16 +342,14 @@ export default function LiveLotDetail() {
                             <p className="p-0 m-0">Total:</p>
                           </div>
                           <div className="bid-input">
-                            {productInfo && productInfo.currentPrice && (
-                              <input
-                                type="text"
-                                value={
-                                  productInfo?.currentPrice +
-                                  productInfo?.pricePerStep * multiplier
-                                }
-                                readOnly
-                              />
-                            )}
+                            <input
+                              type="text"
+                              value={
+                                productInfo?.currentPrice +
+                                productInfo?.pricePerStep * multiplier
+                              }
+                              readOnly
+                            />
                           </div>
                         </div>
                       </div>
