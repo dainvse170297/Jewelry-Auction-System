@@ -97,14 +97,18 @@ const ValuationResponseList = ({ id }) => {
                           <div hidden={onHide2} id="final">
                             <div className="card card-body">
                               <p>This is your final valuation</p>
-                              <p>{data.valuationRequestDTO.description}</p>
+                              <p>{data.valuationRequestDTO?.description}</p>
                               <p>
                                 Min Estimate:{" "}
-                                <strong>{response.valuationPriceMin}$</strong>{" "}
+                                <strong>
+                                  {response.productDTO?.estimatePriceMin}$
+                                </strong>{" "}
                               </p>
                               <p>
                                 Max Estimate:{" "}
-                                <strong>{response.valuationPriceMax}$</strong>{" "}
+                                <strong>
+                                  {response.productDTO?.estimatePriceMax}$
+                                </strong>{" "}
                               </p>
                               <p>
                                 Details info:{" "}
