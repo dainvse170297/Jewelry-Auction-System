@@ -10,12 +10,12 @@ const Privacypolicy = () => {
       <div className="content-section">
         <h5 className="section-title">Introduction</h5>
         <p>
-          Welcome to FU AUCTION. We value your privacy and are committed to
-          protecting your personal information. This Privacy Policy explains how
-          we collect, use, disclose, and safeguard your information when you
-          visit our website and use our services. Please read this privacy
-          policy carefully. If you do not agree with the terms of this privacy
-          policy, please do not access the site.
+          Welcome to FUJA. We value your privacy and are committed to protecting
+          your personal information. This Privacy Policy explains how we
+          collect, use, disclose, and safeguard your information when you visit
+          our website and use our services. Please read this privacy policy
+          carefully. If you do not agree with the terms of this privacy policy,
+          please do not access the site.
         </p>
       </div>
       <div className="content-section">

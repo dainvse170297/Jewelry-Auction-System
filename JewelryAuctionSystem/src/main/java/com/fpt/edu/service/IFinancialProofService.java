@@ -25,7 +25,7 @@ public interface IFinancialProofService {
 
     FinancialProofRequestDTO updateFinancialProofRequest(Integer idRq, Integer staffId, BigDecimal financialProofAmount,String role);
 
-    FinancialProofRequestDTO rejectFinancialProofRequest(Integer idRq, String username);
+    FinancialProofRequestDTO rejectFinancialProofRequest(Integer idRq, Integer staffId, String userRole);
 
     List<FinancialProofRequestDTO> getPendingApproval();
 
