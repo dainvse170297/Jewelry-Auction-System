@@ -45,7 +45,15 @@ const LotPreview = ({ lot, registeredValue, sessionStatus }) => {
             <>
               {" "}
               <p>
-                Current Price: {lot.currentPrice} <strong>$</strong>{" "}
+                {lot.currentPrice ? (
+                  <>
+                    Current Price: <strong>$ {lot.currentPrice} </strong>{" "}
+                  </>
+                ) : (
+                  <>
+                    Start price:<strong>$ {lot.startPrice}</strong>{" "}
+                  </>
+                )}
               </p>
               <Link to={`/live-lot-detail/${lot.id}`} className="btn ">
                 <button className="placebid ">Place Bid</button>
