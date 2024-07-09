@@ -38,6 +38,18 @@ public class AuctionSessionController {
         return ResponseEntity.ok(auction);
     }
 
+    @PostMapping("/update-session")
+    public ResponseEntity<AuctionSessionDTO> updateAuctionSession(@RequestParam("auctionSessionId") int sessionId,
+                                                               @RequestParam("name") String name,
+                                                               @RequestParam("description") String description,
+                                                               @RequestParam("startTime") LocalDateTime startDate,
+                                                               @RequestParam("endTime") LocalDateTime endDate,
+                                                               @RequestParam("startingBid") LocalDateTime startingBid,
+                                                               @RequestParam("staffId") int staffId) {
+        AuctionSessionDTO auction = auctionSessionService.updateSession(sessionId, name, description, startDate, endDate, startingBid, staffId);
+        return ResponseEntity.ok(auction);
+    }
+
     @GetMapping("/all-session")
     public ResponseEntity<List<AuctionSessionDTO>> getAllAuctionSession() {
         return ResponseEntity.ok(auctionSessionService.getAllAuctionSession());
