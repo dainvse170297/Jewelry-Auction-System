@@ -19,6 +19,8 @@ public class NotifyMapper {
         notifyDTO.setTitle(notify.getTitle());
         notifyDTO.setDescription(notify.getDescription());
         notifyDTO.setIsRead(notify.getIsRead());
+        notifyDTO.setNotifiableType(notify.getNotifiableType());
+        notifyDTO.setNotifiableId(notify.getNotifiableId());
         return notifyDTO;
     }
 
