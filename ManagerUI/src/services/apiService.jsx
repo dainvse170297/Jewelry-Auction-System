@@ -34,6 +34,7 @@ export {
   getListPurchasedLot,
   postConfirmDelivery,
   getAuctionSessionById,
+  getAllDeliveredAuctionRegister,
 
   //Lot and product
   postAddProduct,
@@ -136,6 +137,10 @@ const publicCreatedSession = async (sessionId) => {
 
 const getAllWinnerPurchasedAuctionRegister = async () => {
   return axios.get(`auction-register/get-purchased-auction-register`);
+};
+
+const getAllDeliveredAuctionRegister = async () => {
+  return axios.get(`auction-register/get-delivered-auction-register`);
 };
 
 const getMemberByProductId = async (productId) => {

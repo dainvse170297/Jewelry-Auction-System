@@ -30,7 +30,6 @@ const CheckOut = () => {
                 memberId = currentUser.memberId;
                 setIsLoading(true)
                 try {
-                    // const data = await axios.get(`http://localhost:8080/auction-register/view-win-auction-list/${memberId}`);
                     const data = await getAllCheckOutProducts(memberId);
                     setProducts(data);
                     setIsLoading(false)

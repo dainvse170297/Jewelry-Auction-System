@@ -25,4 +25,8 @@ public interface IAuctionRegisterService  {
     List<AuctionRegister> getPurchasedAuctionRegister();
 
     AuctionRegister getPurchasedAuctionRegisterById(Integer id);
+
+    List<AuctionRegister> getDeliveredAuctionRegister();
+
+    AuctionRegister getDeliveredAuctionRegisterById(Integer id);
 }
