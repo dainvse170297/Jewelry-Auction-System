@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
@@ -58,25 +57,7 @@ export default function CreateFinancialProofRequest() {
     setLoading(true);
 
     try {
-      // const formData = new FormData();
-      // formData.append("memberId", valuation.memberId);
-      // valuation.
-      //   photos.forEach((photo) => {
-      //     formData.append("image", photo);
-      //   });
-
-      // const createValuation = await axios.post(
-      //   `http://localhost:8080/financial-proof/create`,
-      //   formData,
-      //   {
-      //     headers: {
-      //       "Content-Type": "multipart/form-data",
-      //     },
-      //   }
-      // );
-
       const createValuation = await postCreateFinancialProofAmount(valuation);
-
       if (createValuation) {
         toast.success("Financial proof request successfully submitted!");
         setValuation({
