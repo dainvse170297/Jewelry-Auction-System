@@ -13,7 +13,7 @@ const LiveAuctionSessionDetail = () => {
   useEffect(() => {
     const fetchSessionData = async () => {
       try {
-        const data = await postLiveAuctionSessionDetail(id, currentUser?.id);
+        const data = await postLiveAuctionSessionDetail(id, currentUser?.memberId);
         if (data !== null) {
           setSessionData(data);
         } else {
