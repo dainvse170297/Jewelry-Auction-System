@@ -39,7 +39,7 @@ const AddLotToSession = () => {
     useEffect(() => {
         const getAllCreatedSessions = async () => {
             try {
-                const response = await getAllAuctionSession()
+                const response = await getAllCreatedSessions()
                 setCreatedSessions(response)
             } catch (error) {
                 console.log("Error get all created session: ", error)
