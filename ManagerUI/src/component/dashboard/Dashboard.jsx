@@ -117,58 +117,59 @@ const Dashboard = () => {
             ? beforeYearData.year
             : currentYearData.year}
         </Button>
-      </div>
-      <div className="mainContent mt-3">
-        <Grid container spacing={3} justifyContent="center">
-          <Grid item xs={12} md={3}>
-            <StatisticsCard
-              title="Total Revenue"
-              value={`$${selectedRevenue.reduce(
-                (total, revenue) => total + revenue,
-                0
-              )}`}
-              percentage={percentageRevenueChange.toFixed(2)}
-              isIncrease={isRevenueIncrease}
-              className="mb-3"
-            />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <StatisticsCard
-              title="Total Auction Session"
-              value={selectedData.totalAuctionSession || 0}
-              percentage={percentageAuctionSessionChange.toFixed(2)}
-              isIncrease={isAuctionSessionIncrease}
-              className="mb-3"
-            />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <StatisticsCard
-              title="Total Auction Lots"
-              value={selectedData.totalAuctionLots || 0}
-              percentage={percentageAuctionLotsChange.toFixed(2)}
-              isIncrease={isAuctionLotsIncrease}
-              className="mb-3"
-            />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <StatisticsCard
-              title="Total Lot Sold"
-              value={selectedData.totalAuctionLotsSold || 0}
-              percentage={percentageAuctionLotsSoldChange.toFixed(2)}
-              isIncrease={isAuctionLotsSoldIncrease}
-              className="mb-3"
-            />
-          </Grid>
 
-          <Grid item xs={12} md={10}>
-            <ChartComponent
-              revenueCurrentYear={revenueCurrentYear}
-              revenueBeforeYear={revenueBeforeYear}
-              currentYearData={currentYearData}
-              beforeYearData={beforeYearData}
-            />
+        <div className="mainContent mt-3">
+          <Grid container spacing={3} justifyContent="center">
+            <Grid item xs={12} md={3}>
+              <StatisticsCard
+                title="Total Revenue"
+                value={`$${selectedRevenue.reduce(
+                  (total, revenue) => total + revenue,
+                  0
+                )}`}
+                percentage={percentageRevenueChange.toFixed(2)}
+                isIncrease={isRevenueIncrease}
+                className="mb-3"
+              />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <StatisticsCard
+                title="Total Auction Session"
+                value={selectedData.totalAuctionSession || 0}
+                percentage={percentageAuctionSessionChange.toFixed(2)}
+                isIncrease={isAuctionSessionIncrease}
+                className="mb-3"
+              />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <StatisticsCard
+                title="Total Auction Lots"
+                value={selectedData.totalAuctionLots || 0}
+                percentage={percentageAuctionLotsChange.toFixed(2)}
+                isIncrease={isAuctionLotsIncrease}
+                className="mb-3"
+              />
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <StatisticsCard
+                title="Total Lot Sold"
+                value={selectedData.totalAuctionLotsSold || 0}
+                percentage={percentageAuctionLotsSoldChange.toFixed(2)}
+                isIncrease={isAuctionLotsSoldIncrease}
+                className="mb-3"
+              />
+            </Grid>
+
+            <Grid item xs={12} md={10}>
+              <ChartComponent
+                revenueCurrentYear={revenueCurrentYear}
+                revenueBeforeYear={revenueBeforeYear}
+                currentYearData={currentYearData}
+                beforeYearData={beforeYearData}
+              />
+            </Grid>
           </Grid>
-        </Grid>
+        </div>
       </div>
     </div>
   );
