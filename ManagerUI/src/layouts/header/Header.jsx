@@ -18,7 +18,7 @@ const Header = ({ onChange }) => {
           <MenuIcon className="icon" />
         </button>
         <div className="user-info">
-          <p className="header-title my-0 py-0 welcome">
+          <p className="header-title my-0 py-0 user-name">
             Welcome <strong>{user.name}</strong>
           </p>
           <Avatar imageUrl={avatar} />
