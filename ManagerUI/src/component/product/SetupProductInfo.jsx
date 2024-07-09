@@ -145,7 +145,7 @@ const SetupProductInfo = () => {
 
   return (
     <div className="ms-5 me-5">
-      <h3 className="text-center mt-5">Setup Product Information</h3>
+      <h3 className="text-center mt-5">Set Up Product</h3>
       <hr />
       <div className="row">
         <div className="col-lg-8">
@@ -388,9 +388,13 @@ const SetupProductInfo = () => {
               <strong>{valuationRequest.memberEstimatePrice}</strong>
             </p>
           )}
-          <div className="">
-            <FullScreenImage imageUrls={valuationRequest.valuationImagesUrls} />
-          </div>
+          {valuationRequest.valuationImagesUrls && (
+            <div className="">
+              <FullScreenImage
+                imageUrls={valuationRequest.valuationImagesUrls}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

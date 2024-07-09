@@ -95,7 +95,35 @@ const UpcomingSessionLot = () => {
     setShowModal(false);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmitWitoutPreBid = async (e) => {
+    e.preventDefault();
+
+    try {
+
+      const response = await postPrePlaceBid(
+        currentUser.memberId,
+        lotId,
+        price
+      );
+      if (!response.message) {
+        setIsRegister(true);
+        toast.success("Register to bid successfully");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+        console.log(response);
+      } else {
+        toast.error("Failed to register to bid");
+        setErrorMsg(response.message);
+      }
+
+
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  const handleSubmitWithinPreBid = async (e) => {
     e.preventDefault();
 
     try {
@@ -195,8 +223,11 @@ const UpcomingSessionLot = () => {
             <Modal.Body>
               <h5>Would you like to set a price in advance?</h5>
             </Modal.Body>
+            <div className="ms-3">
+              {errorMsg && <p className="text-danger">{errorMsg} <a className="text-danger" href="/create-financial-proof">Create financial proof?</a></p>}
+            </div>
             <Modal.Footer>
-              <button className="register-to-bid-no-btn" onClick={handleSubmit}>
+              <button className="register-to-bid-no-btn" onClick={handleSubmitWitoutPreBid}>
                 Register without place bid
               </button>
               <button
@@ -219,27 +250,18 @@ const UpcomingSessionLot = () => {
             {isPreBid ? (
               <>
                 <InputGroup className="mb-3 custom-input-group" size="sm">
-                  {/* <Form.Control
-                    placeholder="Enter price...."
-                    aria-label=""
-                    aria-describedby="basic-addon2"
-                    type="number"
-                    value={price}
-                    name="price"
-                    onChange={(e) => setPrice(e.target.value)}
-                    min={0}
-                  /> */}
                   <Form.Select
                     name="price"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
+                    required
                   >
-                    <option value="">--</option>
+                    <option>--</option>
                     {preBidPrices.map((preBidPrice, index) => (
                       <option key={index} value={preBidPrice}>{preBidPrice}</option>
                     ))}
                   </Form.Select>
-                  <button className="custom-btn" onClick={handleSubmit}>
+                  <button className="custom-btn" onClick={handleSubmitWithinPreBid}>
                     Submit
                   </button>
                 </InputGroup>
@@ -258,12 +280,6 @@ const UpcomingSessionLot = () => {
               <button className="register-to-bid-no-btn" onClick={handleGoBack}>
                 Back
               </button>
-              {/* <button
-                className="register-to-bid-yes-btn"
-                onClick={handlePreBid}
-              >
-                Place a bid
-              </button> */}
             </Modal.Footer>
           </Modal>
 

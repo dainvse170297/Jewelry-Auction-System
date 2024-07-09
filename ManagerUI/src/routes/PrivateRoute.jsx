@@ -8,7 +8,7 @@ const PrivateRoute = () => {
 
   useEffect(() => {
     if (!user.auth) navigate("/login");
-  }, [user, navigate]);
+  }, [user]);
 
   return user.auth ? <Outlet /> : null;
 };

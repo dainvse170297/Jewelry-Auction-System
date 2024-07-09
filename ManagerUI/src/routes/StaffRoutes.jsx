@@ -8,8 +8,6 @@ import { FinancialProofRequestList } from "../component/financial-proof-request/
 import { ViewPurchasedLot } from "../component/lots/ViewPurchasedLot";
 import SetupProductInfo from "../component/product/SetupProductInfo";
 import { ViewDeliveredLot } from "../component/lots/ViewDeliveredLot";
-// import ValuationRequestDetail from "../component/product/SetupProductInfo";
-// import ValuationRequestProductReceivedList from "../component/staff/ValuationRequestProductReceivedList";
 
 const StaffRoutes = [
   {
@@ -40,10 +38,6 @@ const StaffRoutes = [
     path: "/valuation-request/product-received/confirm/:id",
     element: <SetupProductInfo />,
   },
-  // {
-  //   path: "/product/pending-send",
-  //   element: <ValuationRequestDetail />,
-  // },
 ];
 
 export default StaffRoutes;

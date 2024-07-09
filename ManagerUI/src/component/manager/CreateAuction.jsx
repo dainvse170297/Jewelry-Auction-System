@@ -58,23 +58,14 @@ const CreateAuction = () => {
       auctionSession.startingBid.trim() === ""
     ) {
       toast.warning("Need to fill all fields");
-    }
-    if (
-      moment(auctionSession.startingBid).isAfter(
-        moment(auctionSession.startTime)
-      )
-    ) {
+    } else if (moment(auctionSession.startingBid).isAfter(moment(auctionSession.startTime))) {
       toast.error("Starting Bid Date must be before Start Date");
-    }
-    if (
-      moment(auctionSession.startTime).isAfter(moment(auctionSession.endTime))
-    ) {
+    } else if (moment(auctionSession.startTime).isAfter(moment(auctionSession.endTime))) {
       toast.error("Start Date must be before End Date");
     } else {
       try {
         setIsWaiting(true);
         const response = await postCreateSession(auctionSession);
-        // console.log(response.status === 'CREATED');
         if (response.status === 'CREATED') {
           toast.success("Auction Session created successfully!");
           setIsWaiting(false);

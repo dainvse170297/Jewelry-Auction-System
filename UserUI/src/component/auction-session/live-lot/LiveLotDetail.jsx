@@ -4,7 +4,7 @@ import { LinearProgress } from "@mui/material";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Button, Carousel, Modal } from "react-bootstrap";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import {
   getBidHistory,
@@ -15,6 +15,7 @@ import {
 import Countdown from "../../countdown/Countdown";
 import WebSocketHandler from "../../web-socket-handler/WebSocketHandler";
 import "./LiveLotDetail.scss";
+import ImageGallery from "../../../views/image/ImageGallery";
 
 export default function LiveLotDetail() {
   const { id } = useParams();
@@ -22,7 +23,7 @@ export default function LiveLotDetail() {
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
-
+  const [highlightStyle, setHighlightStyle] = useState({});
   const [errorMsg, setErrorMsg] = useState("");
   const [productInfo, setProductInfo] = useState({});
   const [bidHistory, setBidHistory] = useState([]);
@@ -53,7 +54,6 @@ export default function LiveLotDetail() {
       }
     };
     getInfo();
-    //console.log("location", location);
   }, [id]);
 
   useEffect(() => {
@@ -61,13 +61,13 @@ export default function LiveLotDetail() {
       try {
         const response = await getProfileDetail(currentUser.memberId);
         // console.log(response);
-        setFinancialProofAmount(response.financialProofAmount)
+        setFinancialProofAmount(response.financialProofAmount);
       } catch (error) {
         console.log("Error:", error.message);
       }
-    }
+    };
     getMember();
-  }, [])
+  }, []);
 
   useEffect(() => {
     const bidHistory = async () => {
@@ -100,7 +100,6 @@ export default function LiveLotDetail() {
   };
 
   const placeBid = async (calculatedAmount) => {
-
     setAmountBid(calculatedAmount);
     if (currentUser === null) {
       navigate("/login", { state: { from: `/live-lot-detail/${id}` } });
@@ -141,7 +140,6 @@ export default function LiveLotDetail() {
           toast.error("Failed to place bid...");
         }
       }
-
     }
   };
 
@@ -170,20 +168,40 @@ export default function LiveLotDetail() {
 
   if (productInfo !== null && productInfo.status === "SOLD") {
     return (
-      <div className="container">
-        <div className="text-center">
-          <h3>This item has been sold</h3>
-          <a href="/" className="a">
-            <ArrowBackIcon /> BACK TO HOME
-          </a>
+      <>
+        <div className="container">
+          <div className="text-center">
+            <h3>This item has been sold</h3>
+            <a href="/" className="a">
+              <ArrowBackIcon /> BACK TO HOME
+            </a>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   const goBack = () => {
     navigate(-1);
   };
+
+  useEffect(() => {
+    if (productInfo.currentPrice !== 0) {
+      setHighlightStyle({
+        color: "white",
+        backgroundColor: "red",
+        fontWeight: "bold",
+        transition: "background-color 0.5s ease",
+      });
+
+      // Reset the style back to normal after some time (e.g., 2 seconds)
+      const timer = setTimeout(() => {
+        setHighlightStyle({});
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [productInfo.currentPrice]);
 
   return (
     <div className="container">
@@ -202,16 +220,15 @@ export default function LiveLotDetail() {
         <>
           <div className="row mt-5">
             <div className="col-lg-6">
-              <div className="lot-img">
-                <Carousel>
-                  {productInfo.productImages &&
-                    productInfo.productImages.map((item, index) => (
-                      <Carousel.Item key={index}>
-                        <img src={item.imageUrl} alt={"photo"} />
-                      </Carousel.Item>
-                    ))}
-                </Carousel>
-              </div>
+              {productInfo.productImages && (
+                <>
+                  <ImageGallery
+                    images={productInfo.productImages.map(
+                      (item, index) => item.imageUrl
+                    )}
+                  />
+                </>
+              )}
             </div>
             <div className="col-lg-6">
               <div className="clock">
@@ -219,20 +236,23 @@ export default function LiveLotDetail() {
                   <Countdown targetDate={productInfo.endTime} />
                 </div>
               </div>
+              <hr />
 
-              <div className="item-infor mt-5">
-                <h4 className="text-center">
+              <div className="item-infor mt-2">
+                <h4>
                   <strong>{productInfo.productName}</strong>
                 </h4>
-                <div className="text-center text-secondary">
-                  {productInfo.description}
-                </div>
 
-                <div className="d-flex justify-content-center mt-5">
+                <div className="d-flex justify-content-center">
                   <div className="d-flex align-items-center">
                     {productInfo.currentPrice !== 0 ? (
-                      <h4 className="me-3">
-                        CURRENT PRICE : ${productInfo.currentPrice}
+                      <h4
+                        className="p-3 border rounded-2"
+                        style={highlightStyle}
+                      >
+                        <strong>
+                          CURRENT PRICE : ${productInfo.currentPrice}
+                        </strong>
                       </h4>
                     ) : (
                       <h4 className="me-3">
@@ -248,43 +268,63 @@ export default function LiveLotDetail() {
                   </div>
                 </div>
 
-                <div className="d-flex justify-content-center mt-5">
+                <div className="d-flex justify-content-center mt-2">
                   <div className="d-flex align-items-center">
-                    <h4 className="me-3 buy_now_price">
+                    <h6 className="buy_now_price">
                       SALE FOR : ${" "}
                       {productInfo.buyNowPrice === null
                         ? 0
                         : productInfo.buyNowPrice}
-                    </h4>
+                    </h6>
                   </div>
                 </div>
+                <div className="row">
+                  {bidHistory.length > 0 && (
+                    <div className="col mt-3">
+                      <div className="bid-history">
+                        <h5 className="text-center">Bid History</h5>
+                        <hr />
+                        {bidHistory.slice(0, 6).map((item, index) => (
+                          <div key={index} className="">
+                            <p className="mb-1 pb-1">
+                              ${item.price}{" "}
+                              <span>
+                                {moment(item.bidTime).format(
+                                  "YYYY-MM-DD HH:mm"
+                                )}
+                              </span>
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
 
-                <div className="d-flex justify-content-center mt-5">
+                <div className="d-flex justify-content-center mt-2">
                   <div className="d-flex align-items-center">
                     <h4 className="me-3 text-success">{winningMessage}</h4>
                   </div>
                 </div>
 
                 <div className="mt-5 mb-5">
-                  <div className="">
-                    <div className="bid-panel">
-                      <h5 className="text-center">Bidding Panel</h5>
-                      <div className="d-flex justify-content-center">
-                        <button
-                          className="buy-now-btn"
-                          onClick={handleShowModal}
-                        >
-                          <ShoppingBagIcon className="me-3" />
-                          BUY NOW
-                        </button>
-                        <button onClick={calculateBid} className="bid-btn">
-                          PLACE BID
-                        </button>
-
-                        <div className="ms-3">
-                          <div className="text-center text-secondary">
-                            Price per step: ${productInfo.pricePerStep}
+                  <div className="bid-panel py-3">
+                    <h4 className="text-center">
+                      <strong>Bidding Panel</strong>
+                    </h4>
+                    <div className="d-flex ps-2 my-2">
+                      <div className="col-sm-7 px-2">
+                        <div className="d-flex bid-choose ">
+                          <div className="w-100 ps-2 d-flex justify-content-between align-items-center">
+                            <p className="p-0 m-0">Price per step:</p>
+                            <p className="p-0 m-0">
+                              <strong style={{ color: "red" }}>
+                                ${productInfo.pricePerStep}
+                              </strong>
+                            </p>
+                            :
                           </div>
+
                           <div className="bid-input">
                             <input
                               type="number"
@@ -296,33 +336,82 @@ export default function LiveLotDetail() {
                           </div>
                         </div>
                       </div>
-
-                      <ToastContainer />
+                      <div className="col-sm-5 px-2">
+                        <div className="d-flex bid-choose ">
+                          <div className="w-100 ps-2 d-flex justify-content-between align-items-center">
+                            <p className="p-0 m-0">Total:</p>
+                          </div>
+                          <div className="bid-input">
+                            <input
+                              type="text"
+                              value={
+                                productInfo?.currentPrice +
+                                productInfo?.pricePerStep * multiplier
+                              }
+                              readOnly
+                            />
+                          </div>
+                        </div>
+                      </div>
                     </div>
+
+                    <div className="d-flex justify-content-center">
+                      <button
+                        className="buy-now-btn py-3 px-4"
+                        onClick={handleShowModal}
+                      >
+                        <ShoppingBagIcon className="me-3" />
+                        BUY NOW
+                      </button>
+                      <button
+                        onClick={calculateBid}
+                        className="bid-btn py-3 px-4"
+                      >
+                        PLACE BID
+                      </button>
+                    </div>
+                    <ToastContainer />
                   </div>
                 </div>
               </div>
             </div>
-
-            <div className="col-lg-6 mt-3"></div>
-            {bidHistory.length > 0 && (
-              <div className="col-lg-6 mt-3">
-                <div className="bid-history">
-                  <h5 className="text-center">Bid History</h5>
-                  <hr />
-                  {bidHistory.map((item, index) => (
-                    <div key={index} className="">
-                      <p>
-                        ${item.price}{" "}
-                        <span>
-                          {moment(item.bidTime).format("YYYY-MM-DD HH:mm")}
-                        </span>
-                      </p>
-                    </div>
-                  ))}
-                </div>
+          </div>
+          <div className="row mt-2">
+            <div className="col-sm-9 px-0">
+              <div className="border rounded-2 py-2 pe-4 me-1 ps-3">
+                <h4>Product Details</h4>
+                <p className="mb-3">
+                  <strong>{productInfo.productName}</strong>
+                </p>
+                <p className="mb-3">{productInfo.description}</p>
+                <p className="mb-3">
+                  Start price : <strong>${productInfo.startPrice}</strong>{" "}
+                </p>
+                <p className="mb-3">
+                  Estimate price:{" "}
+                  <strong>
+                    ${productInfo.estimatePriceMin} - $
+                    {productInfo.estimatePriceMax}{" "}
+                  </strong>{" "}
+                </p>
               </div>
-            )}
+            </div>
+            <div className="col-sm-3 h-100">
+              <div className="border rounded-2 py-2 ps-3 ms-1 h-100">
+                <h4>Useful for you</h4>
+                <ul>
+                  <li>
+                    <a href="/selling">How to sell my jewelry?</a>
+                  </li>
+                  <li>
+                    <a href="/contact">Contact for support?</a>
+                  </li>
+                  <li>
+                    <a href="/privacy-policy">Our policies</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </>
       )}

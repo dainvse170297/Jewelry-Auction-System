@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import avatar from "../../assets/profile/avatar/staff/avatar_01.png";
 import Avatar from "./avatar/Avatar";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -17,14 +18,9 @@ const Header = ({ onChange }) => {
           <MenuIcon className="icon" />
         </button>
         <div className="user-info">
-          <div className="user-name">
-            {user && (
-              <p className="p-0 m-0">
-                Welcome <strong>{user.name}</strong>
-              </p>
-            )}
-          </div>
-
+          <p className="header-title my-0 py-0 welcome">
+            Welcome <strong>{user.name}</strong>
+          </p>
           <Avatar imageUrl={avatar} />
         </div>
       </nav>
