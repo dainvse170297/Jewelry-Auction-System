@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify'
 // import Sidebar from '../../layout/sidebar/Sidebar'
 import ShowAuctionSessionDetail from './ShowAuctionSessionDetail'
 import './style.scss'
-import { getAllAuctionSession, getReadyLotById, postAddLotToSession } from '../../../services/apiService'
+import { getAllAuctionSession, getAllCreatedSession, getReadyLotById, postAddLotToSession } from '../../../services/apiService'
 
 const AddLotToSession = () => {
 
@@ -27,7 +27,6 @@ const AddLotToSession = () => {
         const getLotById = async () => {
             try {
                 const response = await getReadyLotById(id)
-                //console.log("Lot detail by id: ", response)
                 setLot(response)
             } catch (error) {
                 console.log("Error get lot detail by id: ", error)
@@ -39,7 +38,7 @@ const AddLotToSession = () => {
     useEffect(() => {
         const getAllCreatedSessions = async () => {
             try {
-                const response = await getAllCreatedSessions()
+                const response = await getAllCreatedSession()
                 setCreatedSessions(response)
             } catch (error) {
                 console.log("Error get all created session: ", error)
