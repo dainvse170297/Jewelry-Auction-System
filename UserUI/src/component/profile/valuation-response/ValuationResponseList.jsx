@@ -72,7 +72,7 @@ const ValuationResponseList = ({ id }) => {
               <div className="row">
                 <div className="col px-5">
                   {/* Show response valuation request */}
-                  {data.responseRequestValuationDTOS?.map((response, index) => (
+                  {data?.responseRequestValuationDTOS.map((response, index) => (
                     <div key={index}>
                       {(response.status === "FINAL" ||
                         response.status === "REJECTED" ||
@@ -97,26 +97,30 @@ const ValuationResponseList = ({ id }) => {
                           <div hidden={onHide2} id="final">
                             <div className="card card-body">
                               <p>This is your final valuation</p>
-                              <p>{data.valuationRequestDTO?.description}</p>
-                              <p>
-                                Min Estimate:{" "}
-                                <strong>
-                                  {response.productDTO?.estimatePriceMin}$
-                                </strong>{" "}
-                              </p>
-                              <p>
-                                Max Estimate:{" "}
-                                <strong>
-                                  {response.productDTO?.estimatePriceMax}$
-                                </strong>{" "}
-                              </p>
-                              <p>
-                                Details info:{" "}
-                                <strong>
-                                  {data.productDTO?.name} -{" "}
-                                  {data.productDTO?.description}{" "}
-                                </strong>{" "}
-                              </p>
+                              {data.productDTO && (
+                                <>
+                                  <p>
+                                    Min Estimate:{" "}
+                                    <strong>
+                                      {data.productDTO.estimatePriceMin}$
+                                    </strong>{" "}
+                                  </p>
+                                  <p>
+                                    Max Estimate:{" "}
+                                    <strong>
+                                      {data.productDTO.estimatePriceMax}$
+                                    </strong>{" "}
+                                  </p>
+                                  <p>
+                                    Details info:{" "}
+                                    <strong>
+                                      {data.productDTO.name} -{" "}
+                                      {data.productDTO.description}{" "}
+                                    </strong>{" "}
+                                  </p>
+                                </>
+                              )}
+
                               <p>
                                 Some beautiful images of your jewelry that we
                                 take:{" "}
@@ -143,7 +147,10 @@ const ValuationResponseList = ({ id }) => {
                                           type="button"
                                           value={currentStatus}
                                           onClick={() =>
-                                            handleConfirm(response.id, true)
+                                            handleConfirm(
+                                              data.valuationRequestDTO.id,
+                                              true
+                                            )
                                           }
                                           className="btn btn-success mx-3 px-5"
                                         >
@@ -153,7 +160,10 @@ const ValuationResponseList = ({ id }) => {
                                           type="button"
                                           value={currentStatus}
                                           onClick={() =>
-                                            handleConfirm(response.id, false)
+                                            handleConfirm(
+                                              data.valuationRequestDTO.id,
+                                              false
+                                            )
                                           }
                                           className="btn btn-danger mx-3 px-5"
                                         >
@@ -227,13 +237,15 @@ const ValuationResponseList = ({ id }) => {
                                     <p className="my-3">
                                       Min Estimate:{" "}
                                       <strong>
-                                        {response.valuationPriceMin}$
+                                        {data.estimatePriceMax.estimatePriceMin}
+                                        $
                                       </strong>{" "}
                                     </p>
                                     <p className="my-3">
                                       Max Estimate:{" "}
                                       <strong>
-                                        {response.valuationPriceMax}$
+                                        {data.estimatePriceMax.estimatePriceMax}
+                                        $
                                       </strong>{" "}
                                     </p>
                                   </div>
@@ -247,7 +259,8 @@ const ValuationResponseList = ({ id }) => {
                                 <div className="row">
                                   <p className="my-3">
                                     <strong>
-                                      999 - SSS street - HO CHI MINH City
+                                      Lot E2a-7, Street D1, D. D1 Long Thanh My,
+                                      Thu Duc City Ho Chi Minh
                                     </strong>
                                   </p>
                                 </div>
