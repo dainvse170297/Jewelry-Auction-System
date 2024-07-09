@@ -166,16 +166,18 @@ export default function LiveLotDetail() {
     setShowModal(false);
   };
 
-  if (productInfo !== null && productInfo.status === "SOLD") {
+  if (productInfo !== null || productInfo.status === "SOLD") {
     return (
-      <div className="container">
-        <div className="text-center">
-          <h3>This item has been sold</h3>
-          <a href="/" className="a">
-            <ArrowBackIcon /> BACK TO HOME
-          </a>
+      <>
+        <div className="container">
+          <div className="text-center">
+            <h3>This item has been sold</h3>
+            <a href="/" className="a">
+              <ArrowBackIcon /> BACK TO HOME
+            </a>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
@@ -336,14 +338,16 @@ export default function LiveLotDetail() {
                             <p className="p-0 m-0">Total:</p>
                           </div>
                           <div className="bid-input">
-                            <input
-                              type="text"
-                              value={
-                                productInfo.currentPrice +
-                                productInfo.pricePerStep * multiplier
-                              }
-                              readOnly
-                            />
+                            {productInfo && productInfo.currentPrice && (
+                              <input
+                                type="text"
+                                value={
+                                  productInfo?.currentPrice +
+                                  productInfo?.pricePerStep * multiplier
+                                }
+                                readOnly
+                              />
+                            )}
                           </div>
                         </div>
                       </div>
