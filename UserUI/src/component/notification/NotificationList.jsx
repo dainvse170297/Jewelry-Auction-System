@@ -12,7 +12,7 @@ const NotificationList = () => {
     useEffect(() => {
         const getNotificationList = async () => {
             try {
-                const response = await postNotifications(currentUser.id)
+                const response = await postNotifications(currentUser.memberId)
                 setNotifications(response)
             } catch (error) {
                 console.log('error', error)

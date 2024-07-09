@@ -39,6 +39,7 @@ public class BidService implements IBidService {
     private final BidMapper bidMapper;
     private final IAuctionRegisterRepository iAuctionRegisterRepository;
     private final IFinancialProofRequestRepository iFinancialProofRequestRepository;
+    private final INotifyRepository iNotifyRepository;
     @Autowired
     WebSocketService webSocketService;
 
@@ -96,6 +97,15 @@ public class BidService implements IBidService {
             }
             member.setFinancialProofAmount(newFinancialProofAmount);
             iMemberRepository.save(member);
+            Notify notify = new Notify();
+            notify.setMember(member);
+            notify.setTitle("# You have won the auction: " + lot.getProduct().getName());
+            notify.setDescription("You have won the auction" + lot.getProduct().getName() + " with price $" + byNowPrice);
+            notify.setDate(LocalDateTime.now());
+            notify.setIsRead(false);
+
+            iNotifyRepository.save(notify);
+
             return ResponseEntity.ok(bidMapper.mapToBidDTO(bid, memberName));
         }
 

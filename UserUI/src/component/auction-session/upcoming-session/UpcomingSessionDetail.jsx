@@ -28,7 +28,7 @@ const UpcomingSessionDetail = () => {
   ]);
 
   const currentUser = JSON.parse(localStorage.getItem("account"));
-  const memberId = currentUser ? currentUser.id : 0;
+  const memberId = currentUser ? currentUser.memberId : 0;
 
   useEffect(() => {
     try {

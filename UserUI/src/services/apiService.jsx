@@ -191,7 +191,7 @@ const deleteCreditCard = async (memberId) => {
   return axios.delete(`/member/profile/${memberId}/delete-credit-card`);
 };
 const postNotifications = async (memberId) => {
-  return axios.post(`notify/member/${memberId}`);
+  return axios.get(`notify/member/${memberId}`);
 };
 
 const getReadNotify = async (notifyId) => {

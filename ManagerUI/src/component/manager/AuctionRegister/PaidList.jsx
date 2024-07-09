@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { getAllWinnerPurchasedAuctionRegister } from '../../../services/apiService'
+import { getAllDeliveredAuctionRegister, getAllWinnerPurchasedAuctionRegister } from '../../../services/apiService'
 import { FaCashRegister, FaEye } from 'react-icons/fa'
 import { Button, Modal } from 'react-bootstrap'
 import CustomerDetail from './CustomerDetail'
 
 const PaidList = () => {
 
-    const [purchasedAuctionRegister, setPurchasedAuctionRegister] = useState([])
+    const [deliveredAuctionRegister, setDeliveredAuctionRegister] = useState([])
 
     const [show, setShow] = useState(false);
 
@@ -28,8 +28,8 @@ const PaidList = () => {
     useEffect(() => {
         const fetchPaidList = async () => {
             try {
-                const response = await getAllWinnerPurchasedAuctionRegister()
-                setPurchasedAuctionRegister(response)
+                const response = await getAllDeliveredAuctionRegister()
+                setDeliveredAuctionRegister(response)
             } catch (error) {
                 console.log(error)
             }
@@ -53,7 +53,7 @@ const PaidList = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {purchasedAuctionRegister.map((item, index) => (
+                        {deliveredAuctionRegister.map((item, index) => (
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>{item.lot?.product?.name}</td>

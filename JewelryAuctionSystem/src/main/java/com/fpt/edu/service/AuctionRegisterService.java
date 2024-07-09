@@ -126,5 +126,20 @@ public class AuctionRegisterService implements IAuctionRegisterService {
 
     }
 
+    @Override
+    public List<AuctionRegister> getDeliveredAuctionRegister() {
+        return auctionRegisterRepository.findByStatus(AuctionRegisterStatus.DELIVERED);
+    }
+
+    @Override
+    public AuctionRegister getDeliveredAuctionRegisterById(Integer id) {
+        AuctionRegister auctionRegister = auctionRegisterRepository.findByIdAndStatus(id, AuctionRegisterStatus.DELIVERED);
+        if(auctionRegister != null){
+            return auctionRegister;
+        }else{
+            throw new RuntimeException("Auction register is not in DELIVERED status");
+        }
+    }
+
 
 }

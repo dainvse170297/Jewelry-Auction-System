@@ -21,6 +21,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.crypto.spec.SecretKeySpec;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -44,7 +45,9 @@ public class SecurityConfig {
     private final String[] MEMBER_GET_ENDPOINTS = {
             "/valuation/view-sent-request/{id}",
             "/response/view-valuation-response/{id}",
-            "/member/info"
+            "/member/info",
+            "/notify/member/{id}",
+            "/notify/read/{id}",
     };
     private final String[] STAFF_POST_ENDPOINTS = {
             "/valuation/preliminary-valuation",
@@ -111,9 +114,9 @@ public class SecurityConfig {
 //    @Bean
 //    public CorsConfigurationSource corsConfigurationSource() {
 //        CorsConfiguration configuration =  new CorsConfiguration();
-//        configuration.addAllowedOrigin("*");
-//        configuration.addAllowedMethod("*");
-//        configuration.addAllowedHeader("*");
+//        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "https://fuja.vercel.app"));
+//        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+//        configuration.setAllowedHeaders(Arrays.asList("*"));
 //        configuration.setAllowCredentials(true);
 //
 //        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
