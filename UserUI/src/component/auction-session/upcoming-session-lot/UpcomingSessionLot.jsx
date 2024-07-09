@@ -25,7 +25,7 @@ const UpcomingSessionLot = () => {
 
   const [showPreBidModal, setShowPreBidModal] = useState(false);
 
-  const preBidPrices = []
+  const preBidPrices = [];
 
   let memberId = currentUser ? currentUser.memberId : 0;
 
@@ -42,7 +42,7 @@ const UpcomingSessionLot = () => {
   }, [lotId]);
 
   for (let i = 0; i <= lot.maxStep; i++) {
-    preBidPrices.push(lot.startPrice + lot.pricePerStep * i)
+    preBidPrices.push(lot.startPrice + lot.pricePerStep * i);
   }
 
   useEffect(() => {
@@ -57,7 +57,6 @@ const UpcomingSessionLot = () => {
           setIsRegister(false);
         }
         // console.log(wasBid);
-
       } catch (error) {
         console.log(error);
       }
@@ -78,7 +77,7 @@ const UpcomingSessionLot = () => {
   const handleGoBack = () => {
     setShowPreBidModal(false);
     setShowModal(true);
-  }
+  };
 
   const handleShow = () => {
     if (currentUser === null) {
@@ -99,7 +98,6 @@ const UpcomingSessionLot = () => {
     e.preventDefault();
 
     try {
-
       const response = await postPrePlaceBid(
         currentUser.memberId,
         lotId,
@@ -116,8 +114,6 @@ const UpcomingSessionLot = () => {
         toast.error("Failed to register to bid");
         setErrorMsg(response.message);
       }
-
-
     } catch (error) {
       console.log(error.response);
     }
@@ -148,7 +144,6 @@ const UpcomingSessionLot = () => {
           setErrorMsg(response.message);
         }
       }
-
     } catch (error) {
       console.log(error.response);
     }
@@ -192,7 +187,7 @@ const UpcomingSessionLot = () => {
             Estimate Price: ${lot.product?.estimatePriceMin} - $
             {lot.product?.estimatePriceMax}
           </p>
-          <p className="secondary">Current Start Price: ${lot.currentPrice}</p>
+          <p className="secondary">Current Start Price: ${lot.startPrice}</p>
           <p className="secondary">
             Category: {lot.product?.category?.name.toUpperCase()}
           </p>
@@ -224,10 +219,20 @@ const UpcomingSessionLot = () => {
               <h5>Would you like to set a price in advance?</h5>
             </Modal.Body>
             <div className="ms-3">
-              {errorMsg && <p className="text-danger">{errorMsg} <a className="text-danger" href="/create-financial-proof">Create financial proof?</a></p>}
+              {errorMsg && (
+                <p className="text-danger">
+                  {errorMsg}{" "}
+                  <a className="text-danger" href="/create-financial-proof">
+                    Create financial proof?
+                  </a>
+                </p>
+              )}
             </div>
             <Modal.Footer>
-              <button className="register-to-bid-no-btn" onClick={handleSubmitWitoutPreBid}>
+              <button
+                className="register-to-bid-no-btn"
+                onClick={handleSubmitWitoutPreBid}
+              >
                 Register without place bid
               </button>
               <button
@@ -239,8 +244,11 @@ const UpcomingSessionLot = () => {
             </Modal.Footer>
           </Modal>
 
-
-          <Modal show={showPreBidModal} onHide={handleClosePreBidModal} centered>
+          <Modal
+            show={showPreBidModal}
+            onHide={handleClosePreBidModal}
+            centered
+          >
             <Modal.Header closeButton>
               <Modal.Title>Register to Bid</Modal.Title>
             </Modal.Header>
@@ -258,10 +266,15 @@ const UpcomingSessionLot = () => {
                   >
                     <option>--</option>
                     {preBidPrices.map((preBidPrice, index) => (
-                      <option key={index} value={preBidPrice}>{preBidPrice}</option>
+                      <option key={index} value={preBidPrice}>
+                        {preBidPrice}
+                      </option>
                     ))}
                   </Form.Select>
-                  <button className="custom-btn" onClick={handleSubmitWithinPreBid}>
+                  <button
+                    className="custom-btn"
+                    onClick={handleSubmitWithinPreBid}
+                  >
                     Submit
                   </button>
                 </InputGroup>
@@ -282,7 +295,6 @@ const UpcomingSessionLot = () => {
               </button>
             </Modal.Footer>
           </Modal>
-
         </div>
         <ToastContainer />
       </div>
