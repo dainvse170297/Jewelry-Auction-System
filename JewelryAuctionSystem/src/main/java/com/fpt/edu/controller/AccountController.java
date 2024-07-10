@@ -34,7 +34,7 @@ public class AccountController {
         return ResponseEntity.ok().body(accountService.createAccount(username, password, fullName, email, phone, address));
     }
 
-    @GetMapping("id/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<Map<String, Object>> getInformationById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok().body(accountService.getInformationById(id));
     }
@@ -48,7 +48,7 @@ public class AccountController {
     }
 
     //change information
-    @PostMapping("id/{id}/change-information")
+    @PostMapping("/id/{id}/change-information")
     public ResponseEntity<Map<String, Object>> changeInformation(@PathVariable("id") Integer id,
                                                                  @RequestParam("fullname") String fullname,
                                                                  @RequestParam("phone") String phone,
@@ -62,6 +62,14 @@ public class AccountController {
                                                       @RequestParam("fullName") String fullName) {
 
         return ResponseEntity.ok().body(accountService.createStaffAccount(username, password, fullName));
+    }
+
+    @PostMapping("/staff/update")
+    public ResponseEntity<Account> updateStaffAccount(@RequestParam("staffId") int staffId,
+                                                      @RequestParam("password") String password,
+                                                      @RequestParam("fullName") String fullName) {
+
+        return ResponseEntity.ok().body(accountService.updateStaffAccount(staffId,password, fullName));
     }
 
     @GetMapping("/info/{id}")

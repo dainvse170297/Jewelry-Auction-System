@@ -11,6 +11,6 @@ public interface IAccountRepository extends JpaRepository<Account, Integer> {
 
     Optional<Account> findByUsername(String username);
 
-
+    Optional<Account> findByStaffId(Integer staffId);
 
 }
