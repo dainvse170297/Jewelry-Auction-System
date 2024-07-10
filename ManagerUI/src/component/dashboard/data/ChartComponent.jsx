@@ -18,6 +18,8 @@ const ChartComponent = ({
   currentYearData,
   beforeYearData,
 }) => {
+  const profitCurrentYear = revenueCurrentYear.map((revenue) => revenue * 0.2);
+  const profitBeforeYear = revenueBeforeYear.map((revenue) => revenue * 0.2);
   const data = {
     labels: [
       "January",
@@ -36,12 +38,12 @@ const ChartComponent = ({
     datasets: [
       {
         label: beforeYearData.year,
-        data: revenueBeforeYear,
+        data: profitBeforeYear,
         backgroundColor: "rgba(54, 162, 235, 0.6)",
       },
       {
         label: currentYearData.year,
-        data: revenueCurrentYear,
+        data: profitCurrentYear,
         backgroundColor: "rgba(75, 192, 192, 0.6)",
       },
     ],
@@ -78,7 +80,7 @@ const ChartComponent = ({
             alignItems: "center",
           }}
         >
-          <Typography variant="h6">Monthly Total Revenue</Typography>
+          <Typography variant="h6">Monthly Total Profit</Typography>
           <Typography variant="body2">
             Year: {beforeYearData.year} - {currentYearData.year}
           </Typography>

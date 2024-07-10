@@ -4,6 +4,8 @@ import StatisticsCard from "../dashboard/data/StatisticsCard";
 import { Grid, Button, MenuItem, Select } from "@mui/material";
 import { getRevenueByYear } from "../../services/apiService";
 import ExportExcel from "../../services/ExportExcel";
+import JewelryPieChart from "./data/JewelryPieChart";
+import JewelryBarChart from "./data/JewelryBarChart";
 
 const Dashboard = () => {
   const currentYear = new Date().getFullYear();
@@ -16,6 +18,7 @@ const Dashboard = () => {
       try {
         const data = await getRevenueByYear(year);
         setRevenueData((prevData) => ({ ...prevData, [year]: data }));
+        console.log(">>> revenue data", data);
       } catch (error) {
         console.error(`Error fetching revenue for year ${year}:`, error);
       }
@@ -79,6 +82,28 @@ const Dashboard = () => {
   );
   const isAuctionLotsSoldIncrease = percentageAuctionLotsSoldChange >= 0;
 
+  const totalProfit = totalSelectedRevenue * 0.2 || 0; // 20% profit of Payment method
+  const profitPercentage = calculatePercentageChange(
+    totalProfit,
+    totalOtherYearRevenue * 0.2
+  );
+  const isProfitIncrease = profitPercentage >= 0;
+  console.log("total profits ", totalProfit);
+
+  const totalLotPendingPayment =
+    selectedData.totalAuctionLotsPendingPayment || 0;
+  console.log(
+    "totalLotPendingPayment",
+    selectedData.totalAuctionLotsPendingPayment
+  );
+
+  const totalLotPendingPaymentPercentage = calculatePercentageChange(
+    totalLotPendingPayment,
+    otherYearData.totalAuctionLotsPendingPayment || 0
+  );
+  const isTotalLotPendingPaymentIncrease =
+    totalLotPendingPaymentPercentage >= 0;
+
   return (
     <div className="home">
       <div
@@ -89,9 +114,9 @@ const Dashboard = () => {
           alignItems: "center",
         }}
       >
-        <h2 className="text-center" style={{ flexGrow: 1 }}>
+        <h1 className="text-center" style={{ flexGrow: 1 }}>
           Dashboard
-        </h2>
+        </h1>
         <Select
           value={selectedYear}
           onChange={handleChangeYear}
@@ -104,6 +129,9 @@ const Dashboard = () => {
           ))}
         </Select>
         <div className="mainContent mt-3">
+          <h3 className="text-center mt-5" style={{ flexGrow: 1 }}>
+            Past Auction
+          </h3>
           <Grid container spacing={3} justifyContent="center">
             <Grid item xs={12} md={3}>
               <StatisticsCard
@@ -142,7 +170,31 @@ const Dashboard = () => {
               />
             </Grid>
 
+            <Grid item xs={12} md={3}>
+              <StatisticsCard
+                title="Total Profit"
+                value={`$${totalProfit}`}
+                percentage={profitPercentage.toFixed(2)}
+                isIncrease={isProfitIncrease}
+                className="mb-3"
+              />
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <StatisticsCard
+                title="Total Lot Pending Payments"
+                value={selectedData.totalAuctionLotsPendingPayment || 0}
+                percentage={totalLotPendingPaymentPercentage.toFixed(2)}
+                isIncrease={isTotalLotPendingPaymentIncrease}
+                className="mb-3"
+              />
+            </Grid>
+
             <Grid item xs={12} md={10}>
+              <hr />
+              <h3 className="text-center mt-5" style={{ flexGrow: 1 }}>
+                Yearly Profit Comparison
+              </h3>
               <ChartComponent
                 revenueCurrentYear={revenueData[currentYear]?.revenue || []}
                 revenueBeforeYear={revenueData[currentYear - 1]?.revenue || []}
@@ -150,7 +202,27 @@ const Dashboard = () => {
                 beforeYearData={revenueData[currentYear - 1] || {}}
               />
             </Grid>
+            <hr />
+            <h3 className="text-center my-5" style={{ flexGrow: 1 }}>
+              Yearly Profit Comparison / dont' finish
+            </h3>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6}>
+                <JewelryPieChart />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <JewelryBarChart />
+              </Grid>
+            </Grid>
+            {/* <Grid item xs={12} md={6}>
+              <JewelryBarChart />
+            </Grid> */}
           </Grid>
+
+          <hr />
+          <h3 className="text-center my-5" style={{ flexGrow: 1 }}>
+            Account upcoming soon....
+          </h3>
         </div>
       </div>
     </div>

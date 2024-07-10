@@ -45,6 +45,9 @@ public class DashboardService implements IDashboardService {
         Arrays.fill(revenues, 0L); // Initialize all elements to 0
         int totalLotJoinToAuction = 0;
         int totalLotSold = 0;
+        int totalLotPendingPayment = 0;
+        List<Map<String, Integer>> profitByCategory = new ArrayList<>();
+
         for (AuctionSession auctionSession : auctionSessions) {
             LocalDateTime auctionDate = auctionSession.getStartingBid();
             log.info("Start bid: " + auctionDate);
@@ -52,16 +55,23 @@ public class DashboardService implements IDashboardService {
             log.info("Month" + month);
             List<Lot> lots = lotRepository.findByAuctionSession(auctionSession);
             totalLotJoinToAuction += lots.size();
+
             log.info("Lot size" + lots.size());
             for (Lot lotItem : lots) {
                 List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findByLot(lotItem);
                 log.info("auction register" + auctionRegisters.size());
                 for (AuctionRegister auctionRegister : auctionRegisters) {
+
+                    if(auctionRegister.getStatus() == AuctionRegisterStatus.PENDING_PAYMENT){
+                        totalLotPendingPayment++;
+                    }
+
                     if (auctionRegister.getStatus() == AuctionRegisterStatus.PAYMENT_SUCCESS) {
                         log.info("total sold in loop: " + totalLotSold);
                         totalLotSold++;
                         revenues[month] += auctionRegister.getFinalPrice().longValue();
                         log.info("log by month", revenues[month]);
+
                     }
                 }
             }
@@ -73,6 +83,8 @@ public class DashboardService implements IDashboardService {
         dashboardDTO.setTotalAuctionSession(auctionSessions.size());
         dashboardDTO.setTotalAuctionLots(totalLotJoinToAuction);
         dashboardDTO.setTotalAuctionLotsSold(totalLotSold);
+        dashboardDTO.setTotalAuctionLotsPendingPayment(totalLotPendingPayment);
+        log.info("TotalAuctionLotsPendingPayment : {}                    :", totalLotPendingPayment);
         for (int i = 0; i < revenues.length; i++) {
             log.info("Revenue of month {} in year {}: {}", i + 1, year, revenues[i]);
         }
