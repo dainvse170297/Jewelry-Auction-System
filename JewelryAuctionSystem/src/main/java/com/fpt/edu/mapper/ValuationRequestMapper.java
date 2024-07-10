@@ -34,8 +34,6 @@ public class ValuationRequestMapper {
     }
 
     public ValuationRequestDTO mapToValuationRequestDTO(ValuationRequest valuationRequest){
-//        ResponseRequestValuation responseRequestValuation = valuationRequest.getResponseRequestValuations();
-//        Integer responseRequestValuationId = responseRequestValuation == null ? null : responseRequestValuation.getId();
         Integer productId = valuationRequest.getProduct() == null ? null : valuationRequest.getProduct().getId();
         return new ValuationRequestDTO(
                 valuationRequest.getId(),

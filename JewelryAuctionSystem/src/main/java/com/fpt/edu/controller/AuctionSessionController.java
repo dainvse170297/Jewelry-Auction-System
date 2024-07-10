@@ -77,10 +77,9 @@ public class AuctionSessionController {
     }
 
     @PostMapping("/session/view-live-auction-session-detail")
-    public ResponseEntity<?> viewLiveAuctionSessionDetail(@RequestParam("sessionId") Integer sessionId,
+    public ResponseEntity<ViewLiveAuctionSessionDetailDTO> viewLiveAuctionSessionDetail(@RequestParam("sessionId") Integer sessionId,
                                                           @RequestParam("memberId") Integer memberId) {
-        ResponseEntity<?> response = auctionSessionService.viewLiveAuctionSessionDetail(sessionId, memberId);
-        return response;
+        return auctionSessionService.viewLiveAuctionSessionDetail(sessionId, memberId);
     }
 
     @PostMapping("/session/upcoming/details")

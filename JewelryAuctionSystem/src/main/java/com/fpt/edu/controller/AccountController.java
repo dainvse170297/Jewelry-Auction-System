@@ -18,10 +18,6 @@ public class AccountController {
 
     private final IAccountService accountService;
 
-    @GetMapping("/")
-    public String getAccount() {
-        return "Account";
-    }
 
     @PostMapping("/member/register")
     public ResponseEntity<Account> createAccount(@RequestParam("username") String username,

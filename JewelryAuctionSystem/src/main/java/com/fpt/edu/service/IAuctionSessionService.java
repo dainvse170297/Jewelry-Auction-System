@@ -27,7 +27,7 @@ public interface  IAuctionSessionService {
 
     List<AuctionSessionDTO> getAuctionSession(AuctionSessionStatus status);
 
-    ResponseEntity<?> viewLiveAuctionSessionDetail(Integer sessionId, Integer memberId);
+    ResponseEntity<ViewLiveAuctionSessionDetailDTO> viewLiveAuctionSessionDetail(Integer sessionId, Integer memberId);
 
     Map<String, Object> getAuctionSessionDetails(Integer sessionId, Integer memberId);
     ViewLiveAuctionSessionDetailDTO getPastAuctionSessionDetail(Integer sessionId);
