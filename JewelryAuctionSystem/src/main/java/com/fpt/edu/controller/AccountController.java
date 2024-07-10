@@ -40,7 +40,7 @@ public class AccountController {
     }
 
     //change password
-    @PostMapping("id/{id}/change-password")
+    @PostMapping("/id/{id}/change-password")
     public ResponseEntity<Map<String, Object>> changePassword(@PathVariable("id") Integer id,
                                                               @RequestParam("oldPassword") String oldPassword,
                                                               @RequestParam("newPassword") String newPassword) {
