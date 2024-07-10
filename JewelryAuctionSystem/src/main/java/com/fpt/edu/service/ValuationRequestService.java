@@ -7,14 +7,12 @@ import com.fpt.edu.mapper.NotifyMapper;
 import com.fpt.edu.repository.*;
 import com.fpt.edu.status.ValuationRequestStatus;
 import com.fpt.edu.mapper.ValuationRequestMapper;
-import com.fpt.edu.dto.ValuationRequestDTO;
 import com.fpt.edu.status.ResponseValuationRequestStatus;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import com.fpt.edu.status.NotifyType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -80,7 +78,8 @@ public class ValuationRequestService implements IValuationRequestService {
         ValuationRequestDetailDTO valuationRequestDTO = valuationRequestMapper.mapToValuationRequestDetailDTO(valuationRequest);
         valuationRequestDTO.setValuationImagesUrls(valuationImages);
         //set notify
-        iNotifyService.insertNotify(member, createRequestTitle(valuationRequest), createRequestMessage(valuationRequest));
+        iNotifyService.insertNotify(member, createRequestTitle(valuationRequest), createRequestMessage(valuationRequest),
+                NotifyType.VALUATION_REQUEST_SUCCESS, valuationRequest.getId());
         return valuationRequestDTO;
     }
 
@@ -120,7 +119,8 @@ public class ValuationRequestService implements IValuationRequestService {
         valuationRequest.setValuationStatus(ValuationRequestStatus.PRODUCT_RECEIVED);
         Member member = iMemberRepository.getReferenceById(valuationRequestMapper.mapToValuationRequestDTO(valuationRequest).getMemberId());
         LocalDateTime createDate = LocalDateTime.now();
-        iNotifyService.insertNotify(member, productReceivedTitle(valuationRequest), productReceivedMessage(valuationRequest));
+        iNotifyService.insertNotify(member, productReceivedTitle(valuationRequest), productReceivedMessage(valuationRequest)
+        ,NotifyType.VALUATION_REQUEST_PRODUCT_RECEIVED, valuationRequest.getId());
         iValuationRequestRepository.save(valuationRequest);
         valuationRequest.setValuationImages(iValuationImageRepository.findByRequest(valuationRequest));
         ValuationRequestDetailDTO dto = valuationRequestMapper.mapToValuationRequestDetailDTO(valuationRequest);
@@ -162,7 +162,8 @@ public class ValuationRequestService implements IValuationRequestService {
         iResponseRequestValuationService.insertResponseRequestValuation(ResponseValuationRequestStatus.PRELIMINARY, estimateMin, estimateMax, staff, valuationRequest);
         //create notify
         Member member = valuationRequest.getMember();
-        iNotifyService.insertNotify(member, preliminaryValuatedTitle(valuationRequest), preliminaryValuatedMessage(valuationRequest));
+        iNotifyService.insertNotify(member, preliminaryValuatedTitle(valuationRequest), preliminaryValuatedMessage(valuationRequest),
+                    NotifyType.VALUATION_REQUEST_PRELIMINARY, valuationRequest.getId());
         iValuationRequestRepository.save(valuationRequest);
         valuationRequest.setValuationImages(iValuationImageRepository.findByRequest(valuationRequest));
         return valuationRequestMapper.mapToValuationRequestDetailDTO(valuationRequest);
@@ -343,7 +344,8 @@ public class ValuationRequestService implements IValuationRequestService {
                     || valuationRequest.getValuationStatus().equals(ValuationRequestStatus.REQUESTED)) {
                 valuationRequest.setValuationStatus(ValuationRequestStatus.CANCELED);
                 iValuationRequestRepository.save(valuationRequest);
-                iNotifyService.insertNotify(valuationRequest.getMember(), cancelValuationRequestTitle(valuationRequest), cancelValuationRequestMessage(valuationRequest));
+                iNotifyService.insertNotify(valuationRequest.getMember(), cancelValuationRequestTitle(valuationRequest), cancelValuationRequestMessage(valuationRequest)
+                , NotifyType.VALUATION_REQUEST_CANCEL, valuationRequest.getId());
                 result = true;
             }
         } catch (Exception e) {
@@ -369,6 +371,7 @@ public class ValuationRequestService implements IValuationRequestService {
         return valuationRequestMapper.mapToValuationRequestDetailDTO(valuationRequest);
     }
 
+    //auto cancel valuation request that has been preliminary valuated for 30 days
     @Scheduled(fixedRate = 1000 * 60 * 60 * 24) // 1 day
     public void autoCancelValuationRequest() {
         List<ValuationRequest> valuationRequests = iValuationRequestRepository.findByValuationStatus(ValuationRequestStatus.PRELIMINARY_VALUATED);
@@ -376,18 +379,19 @@ public class ValuationRequestService implements IValuationRequestService {
             if (LocalDateTime.now().isAfter(valuationRequest.getTimeRequest().plusDays(30))) {
                 valuationRequest.setValuationStatus(ValuationRequestStatus.CANCELED);
                 iValuationRequestRepository.save(valuationRequest);
-                iNotifyService.insertNotify(valuationRequest.getMember(), cancelValuationRequestTitle(valuationRequest), cancelValuationRequestMessage(valuationRequest));
+                iNotifyService.insertNotify(valuationRequest.getMember(), cancelValuationRequestTitle(valuationRequest), timeoutPreliminaryValuatedMessage(valuationRequest)
+                , NotifyType.VALUATION_REQUEST_CANCEL, valuationRequest.getId());
             }
         }
     }
 
     //Create Notify by specific format message
     private String createRequestTitle(ValuationRequest valuationRequest) {
-        return "#" + valuationRequest.getId() + ": Your Valuation Request has been sent";
+        return "Your Valuation Request has been sent";
     }
 
     private String createRequestMessage(ValuationRequest valuationRequest) {
-        return "Your valuation request #" + valuationRequest.getId() + " has been sent. Please wait for our response.";
+        return "Your valuation request has been sent. Please wait for our response.";
     }
 
     private String productReceivedTitle(ValuationRequest valuationRequest) {
@@ -412,6 +416,9 @@ public class ValuationRequestService implements IValuationRequestService {
 
     private String cancelValuationRequestMessage(ValuationRequest valuationRequest) {
         return "Your valuation request has been canceled. Please contact us if you need any further information.";
+    }
+    private String timeoutPreliminaryValuatedMessage(ValuationRequest valuationRequest) {
+        return "Your valuation request has been canceled because it has been preliminary valuated for 30 days. Please contact us if you need any further information.";
     }
 
 }

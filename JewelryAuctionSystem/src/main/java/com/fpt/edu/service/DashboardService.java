@@ -57,7 +57,7 @@ public class DashboardService implements IDashboardService {
                 List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findByLot(lotItem);
                 log.info("auction register" + auctionRegisters.size());
                 for (AuctionRegister auctionRegister : auctionRegisters) {
-                    if (auctionRegister.getStatus() == AuctionRegisterStatus.WINNER_PURCHASED) {
+                    if (auctionRegister.getStatus() == AuctionRegisterStatus.PAYMENT_SUCCESS) {
                         log.info("total sold in loop: " + totalLotSold);
                         totalLotSold++;
                         revenues[month] += auctionRegister.getFinalPrice().longValue();

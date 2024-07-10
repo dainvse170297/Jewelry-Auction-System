@@ -12,6 +12,7 @@ import com.fpt.edu.repository.*;
 import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.AuctionSessionStatus;
 import com.fpt.edu.status.LotStatus;
+import com.fpt.edu.status.NotifyType;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -252,7 +251,8 @@ public class AuctionSessionService implements IAuctionSessionService {
                         Member member = register.getMember();
                         iNotifyService.insertNotify(member,
                                 "Lot: " + lot.getProduct().getName() + " is live now",
-                                "Lot: " + lot.getProduct().getName() + " is live now in " + session.getName() + " at " + session.getStartTime().format(formatter) + " to " + session.getEndTime().format(formatter));
+                                "Lot: " + lot.getProduct().getName() + " is live now in " + session.getName() + " at " + session.getStartTime().format(formatter) + " to " + session.getEndTime().format(formatter)
+                        , NotifyType.LIVE_LOT, lot.getId());
                     }
                 }
                 session.setStatus(AuctionSessionStatus.LIVE);
@@ -273,7 +273,8 @@ public class AuctionSessionService implements IAuctionSessionService {
                         Member winner = iMemberRepository.getReferenceById(lot.getCurrentWinnerId());
                         iNotifyService.insertNotify(winner,
                                 "You win the lot: " + lot.getProduct().getName(),
-                                "You win the lot: " + lot.getProduct().getName() + " in " + session.getName() + " with the price of ₫" + lot.getCurrentPrice());
+                                "You win the lot: " + lot.getProduct().getName() + " in " + session.getName() + " with the price of ₫" + lot.getCurrentPrice(),
+                                NotifyType.WINNER, lot.getId());
                         AuctionRegister register = auctionRegisterRepository.findByLotIdAndMemberId(lot.getId(), lot.getCurrentWinnerId());
                         //   System.out.println(register.getId() + " " + register.getFinalPrice() + " " + lot.getCurrentPrice() + " " + lot.getProduct().getName() + " " + lot.getId());
                         register.setStatus(AuctionRegisterStatus.PENDING_PAYMENT);

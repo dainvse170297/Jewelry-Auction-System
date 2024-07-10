@@ -43,14 +43,14 @@ const ViewFinancialProof = ({ id }) => {
             <h6 className="card-title">Credit Card</h6>
             <p className="card-text text-muted">
               <strong>Card Number:</strong>{" "}
-              {financialProof.creditCard.bankNumber}
+              {financialProof?.creditCard?.bankNumber}
             </p>
             <p className="card-text text-muted">
               <strong>Card Holder:</strong>{" "}
-              {financialProof.creditCard.accountHolder}
+              {financialProof?.creditCard?.accountHolder}
             </p>
             <p className="card-text text-muted">
-              <strong>Bank Name:</strong> {financialProof.creditCard.bankName}
+              <strong>Bank Name:</strong> {financialProof?.creditCard?.bankName}
             </p>
           </div>
         </div>
@@ -85,18 +85,18 @@ const ViewFinancialProof = ({ id }) => {
             <h6 className="card-title">Financial Proof Request Information</h6>
             <p className="card-text text-muted">
               <strong>Time Request:</strong>{" "}
-              {moment(financialProof.financialProofRequest.timeRequest).format(
-                "DD/MM/YYYY HH:mm:ss"
-              )}
+              {moment(
+                financialProof?.financialProofRequest?.timeRequest
+              ).format("DD/MM/YYYY HH:mm:ss")}
             </p>
             <p className="card-text text-muted">
               <strong>Status:</strong>{" "}
-              {financialProof.financialProofRequest.status}
+              {financialProof?.financialProofRequest?.status}
             </p>
-            {financialProof.financialProofRequest.status === "AVAILABLE" ? (
+            {financialProof?.financialProofRequest?.status === "AVAILABLE" ? (
               <p className="card-text text-muted">
                 <strong>Financial Proof Amount: </strong> $
-                {financialProof.financialProofRequest.financialProofAmount}
+                {financialProof.financialProofRequest?.financialProofAmount}
               </p>
             ) : (
               <p className="card-text text-muted">

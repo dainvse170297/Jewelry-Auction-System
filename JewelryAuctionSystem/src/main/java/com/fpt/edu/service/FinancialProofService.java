@@ -6,6 +6,7 @@ import com.fpt.edu.mapper.FinancialProofRequestMapper;
 import com.fpt.edu.repository.*;
 import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.FinancialProofRequestStatus;
+import com.fpt.edu.status.NotifyType;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -202,7 +203,7 @@ public class FinancialProofService implements IFinancialProofService {
         Member member = financialProofRequest.getMember();
         iNotifyService.insertNotify(member,
                 "Your Financial Proof Request Has Been Reject ! ",
-                "Your financial proof request sent at  " +financialProofRequest.getTimeRequest() + " has been rejected !");
+                "Your financial proof request sent at  " +financialProofRequest.getTimeRequest() + " has been rejected !", NotifyType.FINANCIAL_REJECTED, financialProofRequest.getId());
         return financialProofRequestMapper.mapToFinancialProofRequestDTO(financialProofRequest);
     }
 
@@ -248,7 +249,8 @@ public class FinancialProofService implements IFinancialProofService {
         Member member = financialProofRequest.getMember();
         iNotifyService.insertNotify(member,
                 "Your Financial Proof Request Has Been Approved! ",
-                "Congratulations! Your request for financial proof sent at  " +financialProofRequest.getTimeRequest() + " has been approved. You can join our auction right now!");
+                "Congratulations! Your request for financial proof sent at  " +financialProofRequest.getTimeRequest() + " has been approved. You can join our auction right now!",
+                NotifyType.FINANCIAL_APPROVED, financialProofRequest.getId());
         return financialProofRequestMapper.mapToFinancialProofRequestDTO(financialProofRequest);
     }
 

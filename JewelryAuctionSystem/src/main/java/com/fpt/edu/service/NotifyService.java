@@ -5,6 +5,7 @@ import com.fpt.edu.entity.Member;
 import com.fpt.edu.entity.*;
 import com.fpt.edu.mapper.NotifyMapper;
 import com.fpt.edu.repository.*;
+import com.fpt.edu.status.NotifyType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +20,15 @@ public class NotifyService implements INotifyService{
     private final IMemberRepository iMemberRepository;
     private final NotifyMapper NotifyMapper;
     @Override
-    public NotifyDTO insertNotify(Member member, String title, String description) {
+    public NotifyDTO insertNotify(Member member, String title, String description, NotifyType notifiableType, Integer notifiableId) {
         Notify notify = new Notify();
         notify.setMember(member);
         notify.setTitle(title);
         notify.setDescription(description);
         notify.setDate(LocalDateTime.now());
         notify.setIsRead(false);
+        notify.setNotifiableType(notifiableType);
+        notify.setNotifiableId(notifiableId);
         return NotifyMapper.toNotifyDTO(iNotifyRepository.save(notify));
     }
 

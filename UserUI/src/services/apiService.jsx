@@ -1,35 +1,55 @@
 import axios from "../utils/axiosCustomize";
 
 export {
+  //valuation request
   postCreateValuation,
+  getSentValuationRequest,
+  getValuationRequestById,
+
+  //Valuation response
+  getValuationRepsonse,
+
+  //Financial proof request
+  postCreateFinancialProofAmount,
+  getFinancialProof,
+
+  //Auction session
+  getAllUpcomingSession,
   getUpcomingSessionList,
   postUpcomingSessionDetail,
-  getCheckLotRegister,
-  getUpcomingLotDetail,
   getLiveAuctionSessionList,
   postLiveAuctionSessionDetail,
   getPastSessionList,
   postPastSessionDetail,
+
+  //Lots
+  getUpcomingLotDetail,
   getLiveLotDetail,
+
+  //Auction register
+  getCheckLotRegister,
+
+  //Bidding
   getBidHistory,
   postPlaceBidding,
   postPrePlaceBid,
+
+  //CheckOut
+  getPaymentCallback,
   getAllCheckOutProducts,
   getCheckOut,
-  getPaymentCallback,
-  postCreateFinancialProofAmount,
+
+  //Profile
   getProfileDetail,
-  getSentValuationRequest,
-  getValuationRepsonse,
-  getAuctionRegisterHistory,
-  getFinancialProof,
+  deleteCreditCard,
   postAddCreditCard,
   putEditCreditCard,
-  deleteCreditCard,
+  getAuctionRegisterHistory,
+
+  //Notification
   postNotifications,
   getReadNotify,
   postConfirmFinalValuation,
-  getAllUpcomingSession,
 };
 
 const postCreateValuation = async (valuation) => {
@@ -206,5 +226,9 @@ const postConfirmFinalValuation = async (id, confirmValue) => {
 };
 
 const getAllUpcomingSession = async () => {
-  return axios.get("auction/session/upcoming")
-}
+  return axios.get("auction/session/upcoming");
+};
+
+const getValuationRequestById = async (id) => {
+  return axios.get(`/valuation/valuation-request-detail/${id}`);
+};
