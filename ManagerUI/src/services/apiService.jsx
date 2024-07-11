@@ -1,9 +1,12 @@
 import axios from "../utils/axiosCustomize";
 
 export {
+  //Dashboard
+  getRevenueByYear,
+  getDataAccountByYear,
+
   //Valuation Request
   getAllValuationRequests,
-  getRevenueByYear,
   postPreliminaryConfirm,
   getFinalValuationRequests,
   postAproveFinalValuation,
@@ -121,7 +124,11 @@ const postSendFinalValuationToMember = async (id) => {
 };
 
 const getRevenueByYear = async (anYear) => {
-  return axios.get(`dashboard/data/${anYear}`);
+  return axios.get(`dashboard/dataRevenue/${anYear}`);
+};
+
+const getDataAccountByYear = async (anYear) => {
+  return axios.get(`dashboard/dataAccount/${anYear}`);
 };
 
 const getAllAuctionSession = async () => {
@@ -247,7 +254,6 @@ const postCreateSession = async (auctionSession) => {
 };
 
 const postUpdateSession = async (auctionSessionId, auctionSession) => {
-
   const formData = new FormData();
   formData.append("auctionSessionId", auctionSessionId);
   formData.append("staffId", auctionSession.staffId);
@@ -262,7 +268,7 @@ const postUpdateSession = async (auctionSessionId, auctionSession) => {
       "Content-Type": "multipart/form-data",
     },
   });
-}
+};
 
 const getFinalValuationRequestsDetail = async (id) => {
   return axios.get(`valuation/view-final-request-details/${id}`);
@@ -311,4 +317,4 @@ const postConfirmVIPFinancialProof = async (id, staffId, confirmValue) => {
 
 const getAuctionSessionById = async (id) => {
   return axios.get(`auction/session/${id}`);
-}
+};

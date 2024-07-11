@@ -21,4 +21,6 @@ public interface IValuationRequestRepository extends JpaRepository<ValuationRequ
 
     Page<ValuationRequest> findByMemberId(Integer memberId, Pageable pageable);
     Page<ValuationRequest> findAll(Pageable pageable);
+
+    List<ValuationRequest> findByValuationStatusAndMemberId(ValuationRequestStatus status, Integer memberId);
 }

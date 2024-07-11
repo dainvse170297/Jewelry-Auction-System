@@ -13,6 +13,8 @@ import com.fpt.edu.repository.IPaymentInfoRepository;
 import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.LotStatus;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import static com.fpt.edu.mapper.PaymentInfoMapper.toPaymentInfoDTO;
 @RequiredArgsConstructor
 public class LotService implements ILotService{
 
+    private static final Logger log = LoggerFactory.getLogger(LotService.class);
     private final ILotRepository lotRepository;
     private final LotMapper lotMapper;
     private final IAuctionRegisterRepository auctionRegisterRepository;
@@ -72,11 +75,14 @@ public class LotService implements ILotService{
             List<LotDTO> lotDTOS = new ArrayList<>();
             for (Lot lot : lots) {
                 if(lot.getStatus().equals(LotStatus.SOLD)){
-                    LotDTO lotDTO = lotMapper.toLotDTO(lot);
+                    LotDTO lotDTO = lotMapper.toLotDTO(lot); //4523
                     lotDTO.setNumberOfRegister(auctionRegisterRepository.countByLotIdAndStatus(lot.getId(), status));
                     lotDTO.setCurrentWinnerName(iMemberRepository.findById(lot.getCurrentWinnerId()).get().getFullname());
                     lotDTO.setAuctionRegistersId(auctionRegisterRepository.findByLotIdAndStatus(lot.getId(),status).getId());
+
+                    log.info("auctionRegisterId: "+auctionRegisterRepository.findByLotIdAndStatus(lot.getId(),status).getId());
                     PaymentInfo paymentInfo =paymentInfoRepository.findByAuctionRegisterId(auctionRegisterRepository.findByLotIdAndStatus(lot.getId(),status).getId());
+                    log.info("paymentInfo: "+paymentInfo);
                     lotDTO.setPaymentInfoDTO(toPaymentInfoDTO(paymentInfo));
                     lotDTOS.add(lotDTO);
                 }
