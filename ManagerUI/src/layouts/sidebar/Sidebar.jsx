@@ -106,10 +106,20 @@ const managerNavigation = [
   {
     name: "Paid List",
     icon: MonetizationOn,
-    href: "/paid-list"
+    href: "/paid-list",
   },
   { name: "User", icon: UserIcon, href: "/user-manage" },
-  { name: "Setting", icon: SettingsIcon, href: "/setting" },
+  {
+    name: "Setting",
+    icon: SettingsIcon,
+
+    children: [
+      {
+        name: "Export to File",
+        href: "/export",
+      },
+    ],
+  },
   { name: "Profile", icon: ProfileIcon, href: "/profile" },
 ];
 
@@ -137,7 +147,7 @@ const Sidebar = () => {
   return (
     <div
       className="d-flex flex-column vh-100 bg-light sidebar"
-    // style={{ width: "250px", position: "fixed" }}
+      // style={{ width: "250px", position: "fixed" }}
     >
       <div className="text-center my-2 mx-0">
         <img

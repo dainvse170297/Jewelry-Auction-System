@@ -17,6 +17,7 @@ import { ViewDeliveredLot } from "../component/lots/ViewDeliveredLot";
 import { ViewPurchasedLot } from "../component/lots/ViewPurchasedLot";
 import PaidList from "../component/manager/AuctionRegister/PaidList";
 import SetupProductInfo from "../component/product/SetupProductInfo";
+import Export from "../component/export/Export";
 
 const ManagerRoutes = [
   {
@@ -39,6 +40,11 @@ const ManagerRoutes = [
     path: "/setting",
     element: <Setting />,
   },
+  {
+    path: "/export",
+    element: <Export />,
+  },
+
   {
     path: "/auction",
     element: <AuctionSessionList />,

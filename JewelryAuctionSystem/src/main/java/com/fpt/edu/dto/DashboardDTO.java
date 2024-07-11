@@ -15,10 +15,11 @@ import java.util.Map;
 public class DashboardDTO {
    private String year;
    private Long[] revenue = new Long[12];
+   private Integer totalRevenue;
    private Integer totalAuctionSession;
    private Integer totalAuctionLots;
    private Integer totalAuctionLotsSold;
     private Integer totalAuctionLotsPendingPayment;
-    private List<Map<String,Integer>> getProfitByCategory;
+    private  List<Map<String, Integer>> getProfitByCategory;
 }
 

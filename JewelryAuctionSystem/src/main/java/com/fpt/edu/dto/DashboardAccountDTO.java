@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DashboardAccountDTO {
+    private int year;
     private int totalAccounts;
     private int totalCustomers;
     private int totalStaffs;

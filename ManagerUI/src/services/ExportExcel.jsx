@@ -2,7 +2,7 @@ import React from "react";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
-const ExportExcel = (data) => {
+const ExportExcel = ({ data, fileName }) => {
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
@@ -11,13 +11,12 @@ const ExportExcel = (data) => {
     const dataBlob = new Blob([excelBuffer], {
       type: "application/octet-stream",
     });
-    saveAs(dataBlob, "ExportedData.xlsx");
+    saveAs(dataBlob, `${fileName}.xlsx`);
   };
 
   return (
     <div>
-      <h1>Export Data to Excel</h1>
-      <button onClick={exportToExcel}>Export</button>
+      <button onClick={exportToExcel}>Export {fileName} to Excel</button>
     </div>
   );
 };

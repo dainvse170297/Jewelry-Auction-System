@@ -44,80 +44,66 @@ public class DashboardService implements IDashboardService {
     @Override
     public DashboardDTO getRevenueEachMonthOfYear(int year) {
         DashboardDTO dashboardDTO = new DashboardDTO();
-        List<AuctionSession> auctionSessions = getListAuctionSession(year); // 1 3
-        // get total number of lot join in auction session past
+        List<AuctionSession> auctionSessions = getListAuctionSession(year);
         Long[] revenues = new Long[12];
         Arrays.fill(revenues, 0L); // Initialize all elements to 0
         int totalLotJoinToAuction = 0;
         int totalLotSold = 0;
         int totalLotPendingPayment = 0;
-        List<Map<String, Integer>> profitByCategory = new ArrayList<>();
+        int totalRevenue = 0;
+        // Create a single map for profit by category
+        Map<String, Integer> totalProfitByCategory = new HashMap<>();
+        String[] jewelryTypes = {"Bracelets", "Earrings", "Necklaces", "Rings"};
+
+        for (String jewelryType : jewelryTypes) {
+            totalProfitByCategory.put(jewelryType, 0);
+        }
 
         for (AuctionSession auctionSession : auctionSessions) {
             LocalDateTime auctionDate = auctionSession.getStartingBid();
-            log.info("Start bid: " + auctionDate);
-            int month = auctionDate.getMonthValue() - 1; // MonthValue is 1-based, so adjust to 0-based index
-            log.info("Month" + month);                                          // auction session id = 1 thi
-            List<Lot> lots = lotRepository.findByAuctionSession(auctionSession);  // 1 2  3
+            int month = auctionDate.getMonthValue() - 1;
+
+            List<Lot> lots = lotRepository.findByAuctionSession(auctionSession);
             totalLotJoinToAuction += lots.size();
 
-            log.info("Lot size" + lots.size());
             for (Lot lotItem : lots) {
-                List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findByLot(lotItem); // 4 5 6
-                log.info("auction register" + auctionRegisters.size());
+                List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findByLot(lotItem);
+
                 for (AuctionRegister auctionRegister : auctionRegisters) {
-
-                    if (auctionRegister.getStatus() == AuctionRegisterStatus.PENDING_PAYMENT) {
-                        totalLotPendingPayment++;
-                    }
-
                     if (auctionRegister.getStatus() == AuctionRegisterStatus.PAYMENT_SUCCESS) {
-                        log.info("total sold in loop: " + totalLotSold);
                         totalLotSold++;
                         revenues[month] += auctionRegister.getFinalPrice().longValue();
-                        log.info("log by month", revenues[month]);
-
-                        HashMap<String, Integer> profitJewelry = new HashMap<>();
+                        totalRevenue += auctionRegister.getFinalPrice().intValue();
                         int idCategory = auctionRegister.getLot().getProduct().getCategory().getId();
-                        log.info("id category: " + idCategory);
-                        String[] jewelryTypes = {"Bracelets", "Earrings", "Necklaces", "Rings"};
 
                         // Check if idCategory is within the valid range
                         if (idCategory >= 1 && idCategory <= 4) {
-                            // Set the profit for the corresponding jewelry type
-                            profitJewelry.put(jewelryTypes[idCategory - 1], auctionRegister.getFinalPrice().intValue());
-
-                            // Set the profit for the other jewelry types to 0
-                            for (int i = 0; i < jewelryTypes.length; i++) {
-                                if (i != idCategory - 1) {
-                                    profitJewelry.put(jewelryTypes[i], 0);
-                                }
-                            }
+                            String jewelryType = jewelryTypes[idCategory - 1];
+                            int currentProfit = totalProfitByCategory.get(jewelryType);
+                            int newProfit = currentProfit + auctionRegister.getFinalPrice().intValue();
+                            totalProfitByCategory.put(jewelryType, newProfit);
                         } else {
                             throw new RuntimeException("Category not found");
                         }
-                        profitByCategory.add(profitJewelry);
-
                     }
                 }
             }
 
-
-            log.info("Total lot join to auction session: {}            :", totalLotJoinToAuction);
-            log.info("Total lot sold: {}                    :", totalLotSold);
-            dashboardDTO.setYear(String.valueOf(year));
-            dashboardDTO.setRevenue(revenues);
-            dashboardDTO.setTotalAuctionSession(auctionSessions.size());
-            dashboardDTO.setTotalAuctionLots(totalLotJoinToAuction);
-            dashboardDTO.setTotalAuctionLotsSold(totalLotSold);
-            dashboardDTO.setTotalAuctionLotsPendingPayment(totalLotPendingPayment);
-            dashboardDTO.setGetProfitByCategory(profitByCategory);
-            log.info("TotalAuctionLotsPendingPayment : {}                    :", totalLotPendingPayment);
-            for (int i = 0; i < revenues.length; i++) {
-                log.info("Revenue of month {} in year {}: {}", i + 1, year, revenues[i]);
-            }
-
+            totalLotPendingPayment = totalLotJoinToAuction - totalLotSold;
         }
+
+        dashboardDTO.setYear(String.valueOf(year));
+        dashboardDTO.setRevenue(revenues);
+        dashboardDTO.setTotalAuctionSession(auctionSessions.size());
+        dashboardDTO.setTotalAuctionLots(totalLotJoinToAuction);
+        dashboardDTO.setTotalAuctionLotsSold(totalLotSold);
+        dashboardDTO.setTotalAuctionLotsPendingPayment(totalLotPendingPayment);
+        dashboardDTO.setTotalRevenue(totalRevenue);
+        // Convert totalProfitByCategory map to a list of maps
+        List<Map<String, Integer>> profitByCategory = new ArrayList<>();
+        profitByCategory.add(totalProfitByCategory);
+        dashboardDTO.setGetProfitByCategory(profitByCategory);
+
         return dashboardDTO;
     }
 
@@ -163,6 +149,7 @@ public class DashboardService implements IDashboardService {
 
 
         }
+         dashboardAccountDTO.setYear(year);
         dashboardAccountDTO.setTotalAccounts(totalAccount);
         dashboardAccountDTO.setTotalCustomers(totalCustomers);
         dashboardAccountDTO.setTotalStaffs(totalStaffs);
