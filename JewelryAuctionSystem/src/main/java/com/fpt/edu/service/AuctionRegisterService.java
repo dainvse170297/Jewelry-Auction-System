@@ -28,6 +28,8 @@ public class AuctionRegisterService implements IAuctionRegisterService {
 
     private final IPaymentInfoRepository paymentInfoRepository;
 
+    private final IValuationRequestRepository valuationRequestRepository;
+
 
     @Override
     public AuctionRegisterDTO register(AuctionRegister register) {
@@ -47,7 +49,12 @@ public class AuctionRegisterService implements IAuctionRegisterService {
         Member member = memberRepository.findById(memberId).get();
         Lot lot = lotRepository.findById(lotId).get();
 
-        if(member.getFinancialProofAmount() == null || member.getFinancialProofAmount().compareTo(price) < 0){
+        ValuationRequest valuationRequest = valuationRequestRepository.findByProductId(lot.getProduct().getId());
+
+        Integer ownerId = valuationRequest.getMember().getId();
+        if(ownerId.equals(memberId)){
+            throw new RuntimeException("You can not bid your own product");
+        }else if(member.getFinancialProofAmount() == null || member.getFinancialProofAmount().compareTo(price) < 0){
             throw new OutOfFinancialProofAmountException("Not enough money. Please check your financial proof amount.");
         }
         auctionRegister.setMember(member);

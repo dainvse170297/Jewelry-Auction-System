@@ -224,6 +224,7 @@ public class AuctionSessionService implements IAuctionSessionService {
     public AuctionSessionDTO publicAuctionSession(Integer sessionId) {
         AuctionSession auctionSession = auctionSessionRepository.findById(sessionId).get();
         auctionSession.setStatus(AuctionSessionStatus.UPCOMING);
+        auctionSession.setStartingBid(LocalDateTime.now());
         auctionSessionRepository.save(auctionSession);
         return auctionSessionMapper.toAuctionSessionDTO(auctionSession);
     }
