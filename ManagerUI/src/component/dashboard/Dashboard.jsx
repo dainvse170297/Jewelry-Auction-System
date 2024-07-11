@@ -126,7 +126,8 @@ const Dashboard = () => {
   );
   const isTotalLotPendingPaymentIncrease =
     totalLotPendingPaymentPercentage >= 0;
-  // category
+
+  // Convert category data for jewelry pie chart
   const convertCategoryData = (categoryData) => {
     return Object.entries(categoryData).map(([name, revenue]) => ({
       name,
@@ -138,7 +139,7 @@ const Dashboard = () => {
     selectedData.getProfitByCategory ? selectedData.getProfitByCategory[0] : {}
   );
 
-  // Account data
+  // Convert account data for bar and line charts
   const convertToChartData = (data) => {
     return Object.keys(data).map((year) => ({
       year: year,
@@ -150,126 +151,133 @@ const Dashboard = () => {
 
   return (
     <div className="home">
-      <div
-        className="row"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <h1 className="text-center" style={{ flexGrow: 1 }}>
-          Dashboard
-        </h1>
-        <Select
-          value={selectedYear}
-          onChange={handleChangeYear}
-          style={{ fontSize: "0.8rem" }}
-        >
-          {years.map((year) => (
-            <MenuItem key={year} value={year}>
-              {year}
-            </MenuItem>
-          ))}
-        </Select>
-        <Grid container spacing={3} justifyContent="center" mt={3}>
-          <Grid item xs={12} md={3}>
-            <StatisticsCard
-              title="Total Auction Session"
-              value={selectedData.totalAuctionSession || 0}
-              percentage={percentageAuctionSessionChange.toFixed(2)}
-              isIncrease={isAuctionSessionIncrease}
-            />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <StatisticsCard
-              title="Total Auction Lots"
-              value={selectedData.totalAuctionLots || 0}
-              percentage={percentageAuctionLotsChange.toFixed(2)}
-              isIncrease={isAuctionLotsIncrease}
-            />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <StatisticsCard
-              title="Total Lot Pending Payments"
-              value={selectedData.totalAuctionLotsPendingPayment || 0}
-              percentage={totalLotPendingPaymentPercentage.toFixed(2)}
-              isIncrease={isTotalLotPendingPaymentIncrease}
-            />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <StatisticsCard
-              title="Total Lot Payment Success"
-              value={selectedData.totalAuctionLotsSold || 0}
-              percentage={percentageAuctionLotsSoldChange.toFixed(2)}
-              isIncrease={isAuctionLotsSoldIncrease}
-            />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <StatisticsCard
-              title="Total Revenue"
-              value={`$${totalSelectedRevenue}`}
-              percentage={percentageRevenueChange.toFixed(2)}
-              isIncrease={isRevenueIncrease}
-            />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <StatisticsCard
-              title="Total Profit"
-              value={`$${totalProfit}`}
-              percentage={profitPercentage.toFixed(2)}
-              isIncrease={isProfitIncrease}
-            />
-          </Grid>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <h1 className="text-center">Dashboard</h1>
+          <Select
+            value={selectedYear}
+            onChange={handleChangeYear}
+            style={{ fontSize: "0.8rem", marginLeft: "10px" }}
+          >
+            {years.map((year) => (
+              <MenuItem key={year} value={year}>
+                {year}
+              </MenuItem>
+            ))}
+          </Select>
+        </Grid>
 
-          <hr />
+        {/* Statistics Cards */}
+        <Grid item xs={12} md={4}>
+          <StatisticsCard
+            title="Total Auction Session"
+            value={selectedData.totalAuctionSession || 0}
+            percentage={percentageAuctionSessionChange.toFixed(2)}
+            isIncrease={isAuctionSessionIncrease}
+          />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <StatisticsCard
+            title="Total Auction Lots"
+            value={selectedData.totalAuctionLots || 0}
+            percentage={percentageAuctionLotsChange.toFixed(2)}
+            isIncrease={isAuctionLotsIncrease}
+          />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <StatisticsCard
+            title="Total Lot Pending Payments"
+            value={selectedData.totalAuctionLotsPendingPayment || 0}
+            percentage={totalLotPendingPaymentPercentage.toFixed(2)}
+            isIncrease={isTotalLotPendingPaymentIncrease}
+          />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <StatisticsCard
+            title="Total Lot Payment Success"
+            value={selectedData.totalAuctionLotsSold || 0}
+            percentage={percentageAuctionLotsSoldChange.toFixed(2)}
+            isIncrease={isAuctionLotsSoldIncrease}
+          />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <StatisticsCard
+            title="Total Revenue"
+            value={`$${totalSelectedRevenue}`}
+            percentage={percentageRevenueChange.toFixed(2)}
+            isIncrease={isRevenueIncrease}
+          />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <StatisticsCard
+            title="Total Profit"
+            value={`$${totalProfit}`}
+            percentage={profitPercentage.toFixed(2)}
+            isIncrease={isProfitIncrease}
+          />
+        </Grid>
 
-          <Grid container spacing={3} alignItems="center">
-            <Grid item xs={12} md={6}>
-              <h3 className="text-center my-5">Profit by Jewelry Type</h3>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <JewelryPieChart data={jewelryData} />
-            </Grid>
-          </Grid>
-          <hr />
-          <Grid item xs={12} md={10}>
-            <hr />
-            <h3 className="text-center mt-5">Yearly Profit Comparison</h3>
-            <ChartComponent
-              revenueCurrentYear={revenueData[currentYear]?.revenue || []}
-              revenueBeforeYear={revenueData[currentYear - 1]?.revenue || []}
-              currentYearData={revenueData[currentYear] || {}}
-              beforeYearData={revenueData[currentYear - 1] || {}}
-            />
-          </Grid>
-          <Grid item xs={12} md={10}>
+        {/* Jewelry Pie Chart */}
+        <Grid item xs={12} md={4}>
+          <h3 className="text-center my-5">Profit by Jewelry Type</h3>
+          <JewelryPieChart data={jewelryData} />
+        </Grid>
+
+        {/* Yearly Profit Comparison Chart */}
+        <Grid item xs={12} md={7}>
+          <h3 className="text-center mt-5">Yearly Profit Comparison</h3>
+          <ChartComponent
+            revenueCurrentYear={revenueData[currentYear]?.revenue || []}
+            revenueBeforeYear={revenueData[currentYear - 1]?.revenue || []}
+            currentYearData={revenueData[currentYear] || {}}
+            beforeYearData={revenueData[currentYear - 1] || {}}
+          />
+        </Grid>
+
+        {/* Account Data Over Years Bar Chart */}
+        <Grid item xs={12} md={6}>
+          <div className="chart-container">
             <h3 className="text-center mt-5">Account Data Over Years</h3>
             <BarChart
-              width={1000}
-              height={500}
+              width={500}
+              height={300}
               data={accountChartData}
-              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+              margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="year" />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="totalAccounts" fill="#8884d8" />
-              <Bar dataKey="totalCustomers" fill="#82ca9d" />
-              <Bar dataKey="totalStaffs" fill="#ffc658" />
-              <Bar dataKey="customerParticipationRatio" fill="#ff8c00" />
+              <Bar
+                dataKey="totalAccounts"
+                fill="#8884d8"
+                name="Total Accounts"
+              />
+              <Bar
+                dataKey="totalCustomers"
+                fill="#82ca9d"
+                name="Total Customers"
+              />
+              <Bar dataKey="totalStaffs" fill="#DC0083" name="Total Staffs" />
+              <Bar
+                dataKey="totalManagers"
+                fill="#ffc658"
+                name="Total Managers"
+              />
             </BarChart>
-          </Grid>
+          </div>
+        </Grid>
 
-          <Grid item xs={12} md={10}>
+        {/* Participation Rate Over Years Line Chart */}
+        <Grid item xs={12} md={6}>
+          <div className="chart-container">
             <h3 className="text-center mt-5">Participation Rate Over Years</h3>
             <LineChart
-              width={1000}
-              height={500}
+              width={500}
+              height={300}
               data={accountChartData}
-              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+              margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="year" />
@@ -279,17 +287,19 @@ const Dashboard = () => {
               <Line
                 type="monotone"
                 dataKey="totalCusParticipatedAuction"
+                name="Total Customer Participated Auction"
                 stroke="#8884d8"
               />
               <Line
                 type="monotone"
                 dataKey="totalCusParticipatedSelling"
+                name="Total Customer Participated Selling"
                 stroke="#82ca9d"
               />
             </LineChart>
-          </Grid>
+          </div>
         </Grid>
-      </div>
+      </Grid>
     </div>
   );
 };
