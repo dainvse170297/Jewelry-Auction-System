@@ -335,5 +335,5 @@ const postEditStaffAccount = async (newStaffAccount) => {
   formData.append("staffId", newStaffAccount.id);
   formData.append("password", newStaffAccount.password);
   formData.append("fullName", newStaffAccount.fullName);
-  return axios.get(`account/staff/update`, formData);
+  return axios.post(`account/staff/update`, formData);
 }  

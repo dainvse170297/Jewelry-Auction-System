@@ -78,18 +78,19 @@ public class AuctionRegisterService implements IAuctionRegisterService {
 
     @Override
     public void processAuctionRegisterAfterPayment(List<Integer> auctionRegisterIds) {
-        PaymentInfo paymentInfo = new PaymentInfo();
+
         for(Integer auctionRegisterId : auctionRegisterIds){
+            System.out.println(auctionRegisterId);
             AuctionRegister auctionRegister = auctionRegisterRepository.findById(auctionRegisterId).get();
+            PaymentInfo paymentInfo = new PaymentInfo();
+
             auctionRegister.setStatus(AuctionRegisterStatus.WINNER_PURCHASED);
-            auctionRegisterRepository.save(auctionRegister);
-
-
             paymentInfo.setAuctionRegister(auctionRegister);
             paymentInfo.setStatus(PaymentInfoStatus.SUCCESS);
             paymentInfo.setAmount(auctionRegister.getFinalPrice());
             paymentInfo.setCreationTime(LocalDateTime.now());
             paymentInfoRepository.save(paymentInfo);
+            auctionRegisterRepository.save(auctionRegister);
         }
     }
 
