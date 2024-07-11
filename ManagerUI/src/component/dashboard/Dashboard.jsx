@@ -136,7 +136,10 @@ const Dashboard = () => {
   };
 
   const jewelryData = convertCategoryData(
-    selectedData.getProfitByCategory ? selectedData.getProfitByCategory[0] : {}
+    selectedData.getProfitByCategory &&
+      selectedData.getProfitByCategory.length > 0
+      ? selectedData.getProfitByCategory[0]
+      : {}
   );
 
   // Convert account data for bar and line charts
