@@ -58,9 +58,9 @@ public class BidService implements IBidService {
     public ResponseEntity<BidDTO> placeForBid(Integer memberId, Integer lotId, BigDecimal price) {
         log.info("--- Start Place For Bid ---");
         Member member = iMemberRepository.findById(memberId).get();
-        log.info("member id: {} ",member.getId());
+        log.info("member id: {} ", member.getId());
         String memberName = member.getFullname();
-        log.info("member name: {} ",member.getFullname());
+        log.info("member name: {} ", member.getFullname());
         AuctionRegister auctionRegister = iAuctionRegisterRepository.findByLotIdAndMemberId(lotId, memberId);
         log.info("auction: {}", auctionRegister.getId());
         BigDecimal newFinancialProofAmount = member.getFinancialProofAmount();
@@ -71,10 +71,8 @@ public class BidService implements IBidService {
         if (buyNowPrice.compareTo(price) <= 0) {
             log.info("Price Buy Now: {}", buyNowPrice);
             if (lot.getStatus() == LotStatus.SOLD) {
-                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This lot has been sold");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This lot has been sold");
             }
-
-
             // update lot info
             lot.setCurrentPrice(buyNowPrice);
             lot.setCurrentWinnerId(memberId);
@@ -84,31 +82,39 @@ public class BidService implements IBidService {
             Bid bid = createAndSaveBid(memberId, lotId, buyNowPrice);
 
             //update auction register
+            if (auctionRegister.getCurrentPrice() != null) {
 
-                if (auctionRegister.getCurrentPrice() != null) {
-
-                    newFinancialProofAmount = member.getFinancialProofAmount()
-                            .subtract(bid.getPrice().subtract(auctionRegister.getCurrentPrice()));
-                }
-                else {
-                    newFinancialProofAmount = member.getFinancialProofAmount().subtract(bid.getPrice());
-                }
-
-                auctionRegister.setCurrentPrice(buyNowPrice);
-                auctionRegister.setFinalPrice(buyNowPrice);
-                auctionRegister.setStatus(AuctionRegisterStatus.PENDING_PAYMENT);
-                iAuctionRegisterRepository.save(auctionRegister);
+                newFinancialProofAmount = member.getFinancialProofAmount()
+                        .subtract(bid.getPrice().subtract(auctionRegister.getCurrentPrice()));
+            } else {
+                newFinancialProofAmount = member.getFinancialProofAmount().subtract(bid.getPrice());
+            }
+            auctionRegister.setCurrentPrice(buyNowPrice);
+            auctionRegister.setFinalPrice(buyNowPrice);
+            auctionRegister.setStatus(AuctionRegisterStatus.PENDING_PAYMENT);
+            iAuctionRegisterRepository.save(auctionRegister);
 
             member.setFinancialProofAmount(newFinancialProofAmount);
             iMemberRepository.save(member);
+
+
             Notify notify = new Notify();
             notify.setMember(member);
             notify.setTitle("# You have won the auction: " + lot.getProduct().getName());
             notify.setDescription("You have won the auction" + lot.getProduct().getName() + " with price $" + buyNowPrice);
             notify.setDate(LocalDateTime.now());
             notify.setIsRead(false);
-
             iNotifyRepository.save(notify);
+
+            //update everyone else financial prove amount
+            List<AuctionRegister> auctionRegisters = iAuctionRegisterRepository.findByLotId(lotId);
+            for (AuctionRegister auctionRegister1 : auctionRegisters) {
+                if (auctionRegister1.getId() != auctionRegister.getId()) {
+                    Member member1 = auctionRegister1.getMember();
+                    member1.setFinancialProofAmount(member1.getFinancialProofAmount().add(auctionRegister1.getCurrentPrice()));
+                    iMemberRepository.save(member1);
+                }
+            }
 
             throw new ResponseStatusException(HttpStatus.OK, "You have won the auction with price $" + buyNowPrice);
         }
@@ -123,18 +129,17 @@ public class BidService implements IBidService {
             Bid bid = createAndSaveBid(memberId, lotId, price);
 
 
-                if (auctionRegister.getCurrentPrice() != null) {
-                    newFinancialProofAmount = member.getFinancialProofAmount()
-                            .subtract(bid.getPrice().subtract(auctionRegister.getCurrentPrice()));
-                }
-                else {
-                    newFinancialProofAmount = member.getFinancialProofAmount().subtract(bid.getPrice());
-                }
-                auctionRegister.setCurrentPrice(price);
-                auctionRegister.setFinalPrice(price);
-                iAuctionRegisterRepository.save(auctionRegister);
-                member.setFinancialProofAmount(member.getFinancialProofAmount().subtract(bid.getPrice()));
-                iMemberRepository.save(member);
+            if (auctionRegister.getCurrentPrice() != null) {
+                newFinancialProofAmount = member.getFinancialProofAmount()
+                        .subtract(bid.getPrice().subtract(auctionRegister.getCurrentPrice()));
+            } else {
+                newFinancialProofAmount = member.getFinancialProofAmount().subtract(bid.getPrice());
+            }
+            auctionRegister.setCurrentPrice(price);
+            auctionRegister.setFinalPrice(price);
+            iAuctionRegisterRepository.save(auctionRegister);
+            member.setFinancialProofAmount(member.getFinancialProofAmount().subtract(bid.getPrice()));
+            iMemberRepository.save(member);
 
             member.setFinancialProofAmount(newFinancialProofAmount);
             iMemberRepository.save(member);

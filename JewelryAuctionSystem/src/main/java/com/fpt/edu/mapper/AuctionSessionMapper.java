@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class AuctionSessionMapper {
-    String defaultImageURL = "https://res.cloudinary.com/dhkmu458i/image/upload/v1719595203/qmnyicl2trdxqjsqnuu7.jpg";
+    String defaultImageURL = "https://www.fortunaauction.com/wp-content/uploads/2019/12/Upcoming-Auction-Placeholder-Template.jpg";
     public AuctionSessionDTO toAuctionSessionDTO(AuctionSession auctionSession) {
         AuctionSessionDTO auctionSessionDTO = new AuctionSessionDTO();
         auctionSessionDTO.setId(auctionSession.getId());
