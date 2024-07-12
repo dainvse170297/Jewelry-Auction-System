@@ -20,7 +20,7 @@ const AccountExportComponent = () => {
 
       const promises = years.map(async (year) => {
         const response = await axios.get(
-          `https://jewelry-auction-system.azurewebsites.net/dashboard/dataAccount/${year}`
+          `https://fuja.azurewebsites.net/dashboard/dataAccount/${year}`
         );
         return response.data;
       });

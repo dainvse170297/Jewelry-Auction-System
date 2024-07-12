@@ -19,7 +19,7 @@ const RevenueExportComponent = () => {
 
       const promises = years.map(async (year) => {
         const response = await axios.get(
-          `http://localhost:8080/dashboard/dataRevenue/${year}`
+          `https://fuja.azurewebsites.net/dashboard/dataRevenue/${year}`
         );
         return response.data;
       });

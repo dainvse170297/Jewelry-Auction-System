@@ -19,7 +19,7 @@ const RevenueExportCategoryComponent = () => {
 
       const promises = years.map(async (year) => {
         const response = await axios.get(
-          `https://jewelry-auction-system.azurewebsites.net/dashboard/dataRevenue/${year}`
+          `https://fuja.azurewebsites.net/dashboard/dataRevenue/${year}`
         );
         return response.data;
       });
@@ -38,26 +38,26 @@ const RevenueExportCategoryComponent = () => {
         const earringsProfit =
           item.getProfitByCategory && item.getProfitByCategory.length > 0
             ? Math.round(
-                (item.getProfitByCategory[0]?.Earrings || 0) * 0.2 * 100
-              ) / 100
+              (item.getProfitByCategory[0]?.Earrings || 0) * 0.2 * 100
+            ) / 100
             : 0;
         const necklacesProfit =
           item.getProfitByCategory && item.getProfitByCategory.length > 0
             ? Math.round(
-                (item.getProfitByCategory[0]?.Necklaces || 0) * 0.2 * 100
-              ) / 100
+              (item.getProfitByCategory[0]?.Necklaces || 0) * 0.2 * 100
+            ) / 100
             : 0;
         const braceletsProfit =
           item.getProfitByCategory && item.getProfitByCategory.length > 0
             ? Math.round(
-                (item.getProfitByCategory[0]?.Bracelets || 0) * 0.2 * 100
-              ) / 100
+              (item.getProfitByCategory[0]?.Bracelets || 0) * 0.2 * 100
+            ) / 100
             : 0;
         const ringsProfit =
           item.getProfitByCategory && item.getProfitByCategory.length > 0
             ? Math.round(
-                (item.getProfitByCategory[0]?.Rings || 0) * 0.2 * 100
-              ) / 100
+              (item.getProfitByCategory[0]?.Rings || 0) * 0.2 * 100
+            ) / 100
             : 0;
 
         return {
