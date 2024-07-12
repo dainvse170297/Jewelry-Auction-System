@@ -46,7 +46,7 @@ const PaidList = () => {
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Product Name</th>
+                            <th>Jewelry Name</th>
                             <th>Winner Price</th>
                             <th>Winner Name</th>
                             <th></th>

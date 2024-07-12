@@ -8,6 +8,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import {
   getBidHistory,
+  getCheckLotRegister,
   getLiveLotDetail,
   getProfileDetail,
   postPlaceBidding,
@@ -42,6 +43,8 @@ export default function LiveLotDetail() {
 
   const [financialProofAmount, setFinancialProofAmount] = useState(0);
 
+  const [lastestBid, setLastestBid] = useState(0);
+
   useEffect(() => {
     const getInfo = async () => {
       setIsLoading(true);
@@ -60,6 +63,19 @@ export default function LiveLotDetail() {
     };
     getInfo();
   }, [id]);
+
+  useEffect(() => {
+    const getLastestBid = async () => {
+      try {
+        const response = await getCheckLotRegister(currentUser.memberId, id);
+        //console.log("Lastest Bid:", response.currentPrice);
+        setLastestBid(response.currentPrice);
+      } catch (error) {
+        console.log("Error:", error);
+      }
+    }
+    getLastestBid();
+  }, [])
 
   useEffect(() => {
     const getMember = async () => {
@@ -108,7 +124,7 @@ export default function LiveLotDetail() {
     if (currentUser === null) {
       navigate("/login", { state: { from: `/live-lot-detail/${id}` } });
     } else {
-      if (calculatedAmount > financialProofAmount) {
+      if ((calculatedAmount - lastestBid) > financialProofAmount) {
         toast.error("You do not have enough money to place this bid");
         return;
       } else {

@@ -220,12 +220,16 @@ const UpcomingSessionLot = () => {
               <h5>Would you like to set a price in advance?</h5>
             </Modal.Body>
             <div className="ms-3">
-              {errorMsg && (
+              {errorMsg === 'Not enough money. Please check your financial proof amount.' ? (
                 <p className="text-danger">
                   {errorMsg}{" "}
                   <a className="text-danger" href="/create-financial-proof">
                     Create financial proof?
                   </a>
+                </p>
+              ) : (
+                <p className="text-danger">
+                  {errorMsg}{" "}
                 </p>
               )}
             </div>
