@@ -22,14 +22,11 @@ const ContactInfo = () => {
             <div className="row">
               <div className="col-md-9 offset-md-1">
                 <img
-                  src="https://res.cloudinary.com/dhkmu458i/image/upload/v1720278041/Timeless-Jewelry-Hero-1024x640_ioadcx.jpg"
+                  src="https://www.philophrosyne.com/cdn/shop/articles/Jewelry-Auctions-What-You-Need-to-Know_1024x1024.jpg?v=1689680322"
                   alt="FUJA Auction"
                   className="img-fluid"
                 />
-                <p className="img-caption">
-                  One of FUJA's recent auctions attended live and online by
-                  bidders from around the world.
-                </p>
+                <p className="img-caption"></p>
               </div>
             </div>
           </div>

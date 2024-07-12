@@ -10,8 +10,14 @@ import FullScreenImage from "../../image/FullScreenImage.jsx";
 import { postCreateFinancialProofAmount } from "../../services/apiService.jsx";
 
 const customImage =
-  "https://res.cloudinary.com/dhkmu458i/image/upload/v1719989868/Untitled-2560-_C3_97-1703-px-1-1-400x267_susf5n.jpg";
-
+  "https://cache.net-a-porter.com/content/images/story-head-content-15thAugust2022-1660549922781.jpeg/w1900_q65.jpeg";
+const imageStyle = {
+  width: "100%",
+  height: "auto",
+  maxWidth: "480px",
+  margin: "0 auto",
+  borderRadius: "10px",
+};
 export default function CreateFinancialProofRequest() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -115,6 +121,7 @@ export default function CreateFinancialProofRequest() {
                   src={customImage}
                   alt="Custom Icon"
                   className="policy-icon"
+                  style={imageStyle}
                 />
               </div>
             </div>
