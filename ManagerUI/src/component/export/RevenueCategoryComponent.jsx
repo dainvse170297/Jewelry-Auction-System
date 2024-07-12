@@ -19,7 +19,7 @@ const RevenueExportCategoryComponent = () => {
 
       const promises = years.map(async (year) => {
         const response = await axios.get(
-          `http://localhost:8080/dashboard/dataRevenue/${year}`
+          `https://jewelry-auction-system.azurewebsites.net/dashboard/dataRevenue/${year}`
         );
         return response.data;
       });
@@ -31,36 +31,43 @@ const RevenueExportCategoryComponent = () => {
     }
   };
 
-  // Function to handle export to Excel for revenue data
-  // Function to handle export to Excel for revenue data
   const exportToExcel = () => {
     const currentYearFile = new Date().getFullYear();
     if (revenueData) {
       const mappedData = revenueData.map((item, index) => {
         const earringsProfit =
           item.getProfitByCategory && item.getProfitByCategory.length > 0
-            ? (item.getProfitByCategory[0]?.Earrings || 0) * 0.2
+            ? Math.round(
+                (item.getProfitByCategory[0]?.Earrings || 0) * 0.2 * 100
+              ) / 100
             : 0;
         const necklacesProfit =
           item.getProfitByCategory && item.getProfitByCategory.length > 0
-            ? (item.getProfitByCategory[0]?.Necklaces || 0) * 0.2
+            ? Math.round(
+                (item.getProfitByCategory[0]?.Necklaces || 0) * 0.2 * 100
+              ) / 100
             : 0;
         const braceletsProfit =
           item.getProfitByCategory && item.getProfitByCategory.length > 0
-            ? (item.getProfitByCategory[0]?.Bracelets || 0) * 0.2
+            ? Math.round(
+                (item.getProfitByCategory[0]?.Bracelets || 0) * 0.2 * 100
+              ) / 100
             : 0;
         const ringsProfit =
           item.getProfitByCategory && item.getProfitByCategory.length > 0
-            ? (item.getProfitByCategory[0]?.Rings || 0) * 0.2
+            ? Math.round(
+                (item.getProfitByCategory[0]?.Rings || 0) * 0.2 * 100
+              ) / 100
             : 0;
 
         return {
           Year: (item.year || currentYearFile - index).toString(),
-          "Total Revenue": (item.totalRevenue * 0.2 || 0).toString(),
-          "Profit Earrings": earringsProfit.toString(),
-          "Profit Necklaces": necklacesProfit.toString(),
-          "Profit Bracelets": braceletsProfit.toString(),
-          "Profit Rings": ringsProfit.toString(),
+          "Total Revenue":
+            Math.round((item.totalRevenue * 0.2 || 0) * 100) / 100,
+          "Profit Earrings": earringsProfit,
+          "Profit Necklaces": necklacesProfit,
+          "Profit Bracelets": braceletsProfit,
+          "Profit Rings": ringsProfit,
         };
       });
 
@@ -74,7 +81,6 @@ const RevenueExportCategoryComponent = () => {
       saveAs(dataBlob, `RevenueCategoryData.xlsx`);
     }
   };
-
   // Fetch revenue data on component mount
   useEffect(() => {
     fetchRevenueData();

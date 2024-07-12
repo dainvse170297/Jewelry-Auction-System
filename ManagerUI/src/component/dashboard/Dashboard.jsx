@@ -131,7 +131,7 @@ const Dashboard = () => {
   const convertCategoryData = (categoryData) => {
     return Object.entries(categoryData).map(([name, revenue]) => ({
       name,
-      revenue: revenue * 0.2,
+      revenue: Math.round(revenue * 0.2 * 100) / 100,
     }));
   };
 

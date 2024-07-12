@@ -8,9 +8,6 @@ const Export = () => {
   return (
     <Grid container spacing={3} justifyContent="center">
       <Grid item xs={12}>
-        <Typography variant="h2" align="center" gutterBottom>
-          System Setting
-        </Typography>
         <Typography variant="h4" align="center" gutterBottom>
           Export Data Options
         </Typography>
@@ -19,8 +16,6 @@ const Export = () => {
         <RevenueExportComponent />
         <AccountExportComponent />
         <RevenueExportCategoryComponent />
-        {/* Additional Export Components */}
-        {/* <AuctionListExportComponent /> */}
       </Grid>
     </Grid>
   );
