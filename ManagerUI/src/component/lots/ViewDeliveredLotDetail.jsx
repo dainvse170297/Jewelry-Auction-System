@@ -23,7 +23,7 @@ const ViewDeliveredLotDetail = ({ delivered, onHide }) => {
                   Customer Name: <strong>{delivered.currentWinnerName}</strong>
                 </p>
                 <p>
-                  Product Name: <strong>{delivered.productName}</strong>
+                  Jewelry Name: <strong>{delivered.productName}</strong>
                 </p>
                 <p>
                   Description: <strong>{delivered.description}</strong>

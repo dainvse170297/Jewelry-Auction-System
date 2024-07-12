@@ -614,7 +614,7 @@ function PreliminaryValuated({ valuationRequestId, staffId, onHide }) {
             ) : (
               <>
                 <Button onClick={handleConfirm} className="btn-success mx-2">
-                  Confirm product received
+                  Confirm Jewelry received
                 </Button>
                 <Button onClick={handleClose} className="btn-danger mx-2">
                   Cancel
@@ -626,7 +626,7 @@ function PreliminaryValuated({ valuationRequestId, staffId, onHide }) {
       </Modal>
       <Modal show={!!selectedImageUrl} onHide={handleImageClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Product Image</Modal.Title>
+          <Modal.Title>Jewelry Image</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <img
@@ -737,7 +737,7 @@ function ProductReceived({ valuationRequestId }) {
                 to={`/valuation-request/product-received/confirm/${valuationRequestId}`}
               >
                 <Button variant="success" className="mx-3">
-                  Setup product information
+                  Setup Jewelry information
                 </Button>
               </Link>
             </Modal.Footer>
@@ -746,7 +746,7 @@ function ProductReceived({ valuationRequestId }) {
       </Modal>
       <Modal show={!!selectedImageUrl} onHide={handleImageClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Product Image</Modal.Title>
+          <Modal.Title>Jewelry Image</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <img
@@ -916,7 +916,7 @@ function PendingApproval({ valuationRequestId, onUpdate }) {
 
       <Modal show={!!selectedImageUrl} onHide={handleImageClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Product Image</Modal.Title>
+          <Modal.Title>Jewelry Image</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <img
@@ -1058,7 +1058,7 @@ function ManagerApproved({ valuationRequestId, onUpdate }) {
 
       <Modal show={!!selectedImageUrl} onHide={handleImageClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Product Image</Modal.Title>
+          <Modal.Title>Jewelry Image</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <img
