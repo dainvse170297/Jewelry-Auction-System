@@ -56,14 +56,14 @@ public class AuctionRegisterService implements IAuctionRegisterService {
             throw new RuntimeException("You can not register to bid your own product");
         }else if(member.getFinancialProofAmount() == null || member.getFinancialProofAmount().compareTo(price) < 0){
             throw new OutOfFinancialProofAmountException("Not enough money. Please check your financial proof amount.");
+        }else{
+            auctionRegister.setMember(member);
+            auctionRegister.setLot(lot);
+            auctionRegister.setStatus(AuctionRegisterStatus.REGISTERED);
+            auctionRegister.setPreviousPrice(price);
+
+            auctionRegisterRepository.save(auctionRegister);
         }
-        auctionRegister.setMember(member);
-        auctionRegister.setLot(lot);
-        auctionRegister.setStatus(AuctionRegisterStatus.REGISTERED);
-        auctionRegister.setPreviousPrice(price);
-
-        auctionRegisterRepository.save(auctionRegister);
-
         return auctionRegister;
     }
 
