@@ -25,7 +25,6 @@ public class Member {
 //    @JoinColumn(name = "credit_card_id", nullable = true)
     private CreditCard creditCard;
 
-//
 //    @OneToOne(fetch = FetchType.LAZY, optional = false)
 //    @JoinColumn(name = "account_id", nullable = false)
 //    private Account account;
