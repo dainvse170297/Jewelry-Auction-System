@@ -282,10 +282,10 @@ public class AuctionSessionService implements IAuctionSessionService {
                         auctionRegisterRepository.save(register);
                         lot.setStatus(LotStatus.SOLD);
                         iLotRepository.save(lot);
-                        //update everyone else financial prove amount
+                        //update everyone else financial proof amount
                         List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findByLotId(lot.getId());
                         for (AuctionRegister auctionRegister1 : auctionRegisters) {
-                            if (auctionRegister1.getId() != lot.getCurrentWinnerId()) {
+                            if (auctionRegister1.getMember().getId() != lot.getCurrentWinnerId()) {
                                 Member member1 = auctionRegister1.getMember();
                                 member1.setFinancialProofAmount(member1.getFinancialProofAmount().add(auctionRegister1.getCurrentPrice()));
                                 iMemberRepository.save(member1);
