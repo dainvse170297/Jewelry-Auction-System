@@ -5,10 +5,7 @@ import com.fpt.edu.entity.Account;
 import com.fpt.edu.service.IStaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +20,11 @@ public class StaffController {
     @GetMapping("/accounts")
     public ResponseEntity<List<AccountDTO>> getAllStaffAccounts(){
         return ResponseEntity.ok(staffService.getAllStaffAccounts());
+    }
+
+    @GetMapping("/accounts/{id}")
+    public ResponseEntity<AccountDTO> getStaffAccountById(@PathVariable int id){
+        return ResponseEntity.ok(staffService.getStaffAccountById(id));
     }
 
 }

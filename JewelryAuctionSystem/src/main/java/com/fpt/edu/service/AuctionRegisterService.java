@@ -28,6 +28,8 @@ public class AuctionRegisterService implements IAuctionRegisterService {
 
     private final IPaymentInfoRepository paymentInfoRepository;
 
+    private final IValuationRequestRepository valuationRequestRepository;
+
 
     @Override
     public AuctionRegisterDTO register(AuctionRegister register) {
@@ -47,7 +49,12 @@ public class AuctionRegisterService implements IAuctionRegisterService {
         Member member = memberRepository.findById(memberId).get();
         Lot lot = lotRepository.findById(lotId).get();
 
-        if(member.getFinancialProofAmount() == null || member.getFinancialProofAmount().compareTo(price) < 0){
+        ValuationRequest valuationRequest = valuationRequestRepository.findByProductId(lot.getProduct().getId());
+
+        Integer ownerId = valuationRequest.getMember().getId();
+        if(ownerId.equals(memberId)){
+            throw new RuntimeException("You can not register to bid your own product");
+        }else if(member.getFinancialProofAmount() == null || member.getFinancialProofAmount().compareTo(price) < 0){
             throw new OutOfFinancialProofAmountException("Not enough money. Please check your financial proof amount.");
         }
         auctionRegister.setMember(member);
@@ -78,18 +85,19 @@ public class AuctionRegisterService implements IAuctionRegisterService {
 
     @Override
     public void processAuctionRegisterAfterPayment(List<Integer> auctionRegisterIds) {
-        PaymentInfo paymentInfo = new PaymentInfo();
+
         for(Integer auctionRegisterId : auctionRegisterIds){
+            System.out.println(auctionRegisterId);
             AuctionRegister auctionRegister = auctionRegisterRepository.findById(auctionRegisterId).get();
+            PaymentInfo paymentInfo = new PaymentInfo();
+
             auctionRegister.setStatus(AuctionRegisterStatus.WINNER_PURCHASED);
-            auctionRegisterRepository.save(auctionRegister);
-
-
             paymentInfo.setAuctionRegister(auctionRegister);
             paymentInfo.setStatus(PaymentInfoStatus.SUCCESS);
             paymentInfo.setAmount(auctionRegister.getFinalPrice());
             paymentInfo.setCreationTime(LocalDateTime.now());
             paymentInfoRepository.save(paymentInfo);
+            auctionRegisterRepository.save(auctionRegister);
         }
     }
 

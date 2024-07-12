@@ -10,4 +10,7 @@ import java.util.List;
 public interface IStaffRepository extends JpaRepository<Staff, Integer> {
     @Query(value = "SELECT acc FROM Account acc JOIN Staff st ON acc.staff.id = st.id")
     List<Account> findAccountByStaff();
+
+    @Query(value = "SELECT acc FROM Account acc JOIN Staff st ON acc.staff.id = st.id WHERE st.id = ?1")
+    Account findAccountById(int id);
 }

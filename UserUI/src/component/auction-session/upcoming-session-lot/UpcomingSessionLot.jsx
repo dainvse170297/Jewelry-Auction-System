@@ -141,6 +141,7 @@ const UpcomingSessionLot = () => {
           console.log(response);
         } else {
           toast.error("Failed to register to bid");
+          toast.error(response.message);
           setErrorMsg(response.message);
         }
       }

@@ -124,7 +124,7 @@ const Login = () => {
               <Spinner animation="border" role="status" className="mt-3"></Spinner>
             ) : (
               <>
-                <Button type="submit" variant="contained" className="mt-5" fullWidth>
+                <Button type="submit" variant="contained" className="" fullWidth>
                   <LockOutlinedIcon />
                   LOG IN
                 </Button>

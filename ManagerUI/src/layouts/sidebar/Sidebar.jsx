@@ -120,6 +120,8 @@ const managerNavigation = [
       },
     ],
   },
+  { name: "Staff", icon: UserIcon, href: "/staff-manage" },
+  { name: "Setting", icon: SettingsIcon, href: "/setting" },
   { name: "Profile", icon: ProfileIcon, href: "/profile" },
 ];
 

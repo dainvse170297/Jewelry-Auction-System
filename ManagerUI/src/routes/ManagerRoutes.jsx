@@ -33,7 +33,7 @@ const ManagerRoutes = [
     element: <PendingApprovalList />,
   },
   {
-    path: "/user-manage",
+    path: "/staff-manage",
     element: <UserManage />,
   },
   {

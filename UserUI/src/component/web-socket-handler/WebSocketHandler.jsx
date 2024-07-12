@@ -4,7 +4,8 @@ import SockJS from "sockjs-client/dist/sockjs";
 import { getBidHistory } from "../../services/apiService";
 import axios from "axios";
 
-const baseURL = "https://jewelry-auction-system.azurewebsites.net/ws";
+// const baseURL = "https://jewelry-auction-system.azurewebsites.net/ws";
+const baseURL = "http://localhost:8080/ws";
 
 const WebSocketHandler = ({ lotId, setMessage, setBidHistory, setFinancialProofAmount }) => {
   const [messages, setMessages] = useState([]);
@@ -29,7 +30,8 @@ const WebSocketHandler = ({ lotId, setMessage, setBidHistory, setFinancialProofA
         try {
           await axios
             .get(
-              `https://jewelry-auction-system.azurewebsites.net/bid/list-bid?lotId=${lotId}`
+              // `https://jewelry-auction-system.azurewebsites.net/bid/list-bid?lotId=${lotId}`
+              `http://localhost:8080/bid/list-bid?lotId=${lotId}`
             )
             .then((result) => {
               setBidHistory(result.data); // Assuming setBidHistory is your state setter

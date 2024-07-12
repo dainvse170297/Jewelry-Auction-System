@@ -169,7 +169,7 @@ const EditAuctionSession = ({ auctionSessionId }) => {
                                         key={index}
                                         value={staff.staffId}
                                         className=""
-                                        {...editingSession.staffId === staff.staffId && { selected: "selected" }}
+                                        {...editingSession.staffId === staff.staffId ? 'selected' : ''}
                                     >
                                         {staff.fullname}
                                     </option>

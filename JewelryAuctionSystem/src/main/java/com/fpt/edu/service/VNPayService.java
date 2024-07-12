@@ -21,6 +21,7 @@ public class VNPayService {
     public PaymentDTO.VNPayResponse createVNPayPayment(HttpServletRequest request){
         try {
             long amount = (long) (Integer.parseInt(request.getParameter("amount"))*100L * Math.ceil(currencyService.getExchangeRate()));
+//            long amount = (long) (Integer.parseInt(request.getParameter("amount"))*100L);
             String bankCode = request.getParameter("bankCode");
             Map<String, String> vnpParamsMap = vnPayConfig.getVNPayConfig();
             vnpParamsMap.put("vnp_Amount", String.valueOf(amount));
