@@ -34,4 +34,6 @@ public interface IAccountService {
     Account updateStaffAccount(Integer staffId, String password, String fullName);
 
     Map<String, Object> getAccountInfo(Integer id);
+
+    Map<String, Object> deleteAccount(Integer id);
 }

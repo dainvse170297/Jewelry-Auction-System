@@ -327,5 +327,20 @@ public class AccountService implements IAccountService {
         }
         return map;
     }
+
+    @Override
+    public Map<String, Object> deleteAccount(Integer id) {
+        Account account = accountRepository.getReferenceById(id);
+        Map<String, Object> map = new HashMap<>();
+        if (account.getStaff() != null) {
+        AccountDTO accountDTO = AccountMapper.toAccountDTO(account);
+        accountRepository.delete(account);
+        map.put("message", "Delete account successfully");
+        map.put("account", accountDTO);}
+        else {
+            map.put("message", "Account is not staff");
+        }
+        return map;
+    }
 }
 

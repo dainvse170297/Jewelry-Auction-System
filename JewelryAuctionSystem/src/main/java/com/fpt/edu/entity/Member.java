@@ -22,7 +22,7 @@ public class Member {
     private Integer id;
 
     @OneToOne(cascade = CascadeType.ALL, optional = true)
-//    @JoinColumn(name = "credit_card_id", nullable = true)
+    @JoinColumn(name = "credit_card_id", nullable = true)
     private CreditCard creditCard;
 
 //
