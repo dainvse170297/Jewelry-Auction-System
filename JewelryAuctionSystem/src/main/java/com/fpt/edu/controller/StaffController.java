@@ -2,15 +2,14 @@ package com.fpt.edu.controller;
 
 import com.fpt.edu.dto.AccountDTO;
 import com.fpt.edu.entity.Account;
+import com.fpt.edu.service.IAccountService;
 import com.fpt.edu.service.IStaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -19,10 +18,28 @@ import java.util.List;
 public class StaffController {
 
     private final IStaffService staffService;
+    private final IAccountService accountService;
 
     @GetMapping("/accounts")
-    public ResponseEntity<List<AccountDTO>> getAllStaffAccounts(){
+    public ResponseEntity<List<AccountDTO>> getAllStaffAccounts() {
         return ResponseEntity.ok(staffService.getAllStaffAccounts());
     }
 
+    @PostMapping("/account/register")
+    public ResponseEntity<Account> createStaffAccount(@RequestParam("username") String username,
+                                                      @RequestParam("password") String password,
+                                                      @RequestParam("fullName") String fullName) {
+
+        return ResponseEntity.ok().body(accountService.createStaffAccount(username, password, fullName));
+    }
+
+    @GetMapping("/account/{id}")
+    public ResponseEntity<Map<String, Object>> getAccountInfo(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok().body(accountService.getAccountInfo(id));
+    }
+
+    @PostMapping("/account/delete/{id}")
+    public ResponseEntity<Map<String, Object>> deleteAccount(@PathVariable("id") Integer id) { //acccount id chu ko phai staff id
+        return ResponseEntity.ok().body(accountService.deleteAccount(id));
+    }
 }

@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/member")
@@ -57,5 +59,11 @@ public class MemberController {
         } else {
             return ResponseEntity.badRequest().body("Credit Card Not Found");
         }
+    }
+
+    @GetMapping("/get-all")
+    public ResponseEntity<List<MemberDTO>> getAllMembers(){
+        List<MemberDTO> memberDTO = memberService.getAllMembers();
+        return ResponseEntity.ok().body(memberDTO);
     }
 }
