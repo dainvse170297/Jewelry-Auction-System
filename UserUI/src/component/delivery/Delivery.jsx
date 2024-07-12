@@ -5,13 +5,13 @@ const Delivery = () => {
   const imgIntroduce =
     "https://res.cloudinary.com/dhkmu458i/image/upload/v1720111650/6c4e7411-c64c-4195-a16c-a357a2d7991e_cnjo5w.jpg";
   const step1Img =
-    "https://res.cloudinary.com/dhkmu458i/image/upload/v1720113445/happy-client-with-their-box-delivered_23-2149229255.jpg_nwfjxu.jpg";
+    "https://bangkeobaochau.com/image/catalog/t2/Bang-keo-bao-chau-t2-27.jpg";
   const step2Img =
-    "https://res.cloudinary.com/dhkmu458i/image/upload/v1720113585/Box-Case-Labels_kjudur.png";
+    "https://media.licdn.com/dms/image/C4D12AQHOCpH6FlTIOg/article-cover_image-shrink_600_2000/0/1623997377411?e=2147483647&v=beta&t=2XE-5wKANtLQZ23wccxwhoVBLuPBCeZdBQ7dA__6CP4";
   const step3Img =
-    "https://res.cloudinary.com/dhkmu458i/image/upload/v1720113730/1140-insurance_lmwipw.jpg";
+    "https://static.vecteezy.com/system/resources/previews/015/360/477/original/freight-cargo-delivery-insurance-concept-parcel-package-transportation-protection-coverage-guarantee-policy-cardboard-boxes-with-logistics-courier-safe-service-shipping-risk-management-eps-vector.jpg";
   const step4Img =
-    "https://res.cloudinary.com/dhkmu458i/image/upload/v1720113800/post-service-tracking-abstract-concept-vector-illustration-parcel-monitor-track-trace-your-shipment-package-tracking-number-express-delivery-online-shopping-mail-box-abstract-metaphor_335657-1777_ik10jt.jpg";
+    "https://assets-global.website-files.com/642ef757a877301c1891551b/65b3bb5503a927738c9a5d8b_retail-delivery-service-scaled.webp";
 
   return (
     <div className="container-fluid">
@@ -45,8 +45,12 @@ const Delivery = () => {
           </div>
           <div className="col-md-6 mb-4">
             <h3 className="text-center step-title">Step 2: Proper Labeling</h3>
-            <img src={step2Img} alt="Step 2" className="img-fluid step-image" />
-            <p>
+            <img
+              src={step2Img}
+              alt="Step 2"
+              className="img-fluid step-image mb-5"
+            />
+            <p className="mt-5">
               Clearly label your package with the recipient's address and your
               return address. Include any special handling instructions to
               ensure careful handling.
@@ -81,8 +85,13 @@ const Delivery = () => {
             <h3 className="text-center step-title">
               Step 4: Tracking and Confirmation
             </h3>
-            <img src={step4Img} alt="Step 4" className="img-fluid step-image" />
-            <p>
+            <img
+              src={step4Img}
+              alt="Step 4"
+              className="img-fluid step-image mb-5"
+            />
+
+            <p className=" mt-5">
               Use a shipping service that offers tracking and delivery
               confirmation. This allows you to monitor the progress of your
               package and confirm its safe arrival.
