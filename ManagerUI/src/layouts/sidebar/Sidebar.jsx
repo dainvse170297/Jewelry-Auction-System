@@ -38,7 +38,7 @@ const staffNavigation = [
       { name: "All Request", href: "/valuation-request" },
 
       {
-        name: "Set Up Product",
+        name: "Set Up Jewelry",
         href: "/valuation-request/received",
       },
     ],
@@ -49,7 +49,7 @@ const staffNavigation = [
     href: "/financial-request",
   },
   {
-    name: "Product",
+    name: "Jewelry",
     icon: SettingsIcon,
     children: [{ name: "Pending to send", href: "/product/pending-send" }],
   },
@@ -64,7 +64,7 @@ const managerNavigation = [
     children: [
       { name: "All request", href: "/valuation-request" },
       {
-        name: "Set up product",
+        name: "Set up Jewelry",
         href: "/valuation-request/received",
       },
       { name: "Pending approval", href: "/valuation-request/pending-approval" },

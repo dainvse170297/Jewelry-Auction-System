@@ -60,7 +60,7 @@ public class DashboardService implements IDashboardService {
         }
 
         for (AuctionSession auctionSession : auctionSessions) {
-            LocalDateTime auctionDate = auctionSession.getStartingBid();
+            LocalDateTime auctionDate = auctionSession.getStartingBid(); //start
             int month = auctionDate.getMonthValue() - 1;
 
             List<Lot> lots = lotRepository.findByAuctionSession(auctionSession);

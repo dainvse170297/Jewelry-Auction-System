@@ -145,7 +145,7 @@ const SetupProductInfo = () => {
 
   return (
     <div className="ms-5 me-5">
-      <h3 className="text-center mt-5">Set Up Product</h3>
+      <h3 className="text-center mt-5">Set Up Jewelry</h3>
       <hr />
       <div className="row">
         <div className="col-lg-8">
@@ -156,7 +156,7 @@ const SetupProductInfo = () => {
 
               <Form.Group controlId="name">
                 <Form.Label>
-                  Product Name <span style={{ color: "red" }}>*</span>
+                  Jewelry Name <span style={{ color: "red" }}>*</span>
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -170,7 +170,7 @@ const SetupProductInfo = () => {
 
               <Form.Group controlId="description">
                 <Form.Label>
-                  Product Description <span style={{ color: "red" }}>*</span>
+                  Jewelry Description <span style={{ color: "red" }}>*</span>
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -184,7 +184,7 @@ const SetupProductInfo = () => {
 
               <Form.Group controlId="categoryId">
                 <Form.Label>
-                  Product category <span style={{ color: "red" }}>*</span>
+                  Jewelry category <span style={{ color: "red" }}>*</span>
                 </Form.Label>
                 <Form.Select
                   size=""

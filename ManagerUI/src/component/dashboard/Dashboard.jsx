@@ -206,7 +206,7 @@ const Dashboard = () => {
         <Grid item xs={12} md={4}>
           <StatisticsCard
             title="Total Revenue"
-            value={`$${totalSelectedRevenue}`}
+            value={`$${totalSelectedRevenue + totalProfit}`}
             percentage={percentageRevenueChange.toFixed(2)}
             isIncrease={isRevenueIncrease}
           />
@@ -263,11 +263,11 @@ const Dashboard = () => {
                 name="Total Customers"
               />
               <Bar dataKey="totalStaffs" fill="#DC0083" name="Total Staffs" />
-              <Bar
+              {/* <Bar
                 dataKey="totalManagers"
                 fill="#ffc658"
                 name="Total Managers"
-              />
+              /> */}
             </BarChart>
           </div>
         </Grid>

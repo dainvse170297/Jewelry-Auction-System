@@ -47,7 +47,7 @@ const ViewPurchasedLotDetail = ({ purchased, onHide }) => {
                   Customer Name: <strong>{purchased.currentWinnerName}</strong>
                 </p>
                 <p>
-                  Product Name: <strong>{purchased.productName}</strong>
+                  Jewelry Name: <strong>{purchased.productName}</strong>
                 </p>
                 <p>
                   Description: <strong>{purchased.description}</strong>
