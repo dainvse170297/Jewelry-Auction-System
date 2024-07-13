@@ -15,10 +15,15 @@ public class StaffService implements IStaffService {
 
     private final IStaffRepository staffRepository;
 
-
     @Override
     public List<AccountDTO> getAllStaffAccounts() {
         List<Account> staffAccounts = staffRepository.findAccountByStaff();
         return staffAccounts.stream().map(account -> AccountMapper.toAccountDTO(account)).toList();
+    }
+
+    @Override
+    public AccountDTO getStaffAccountById(int id) {
+        Account staffAccount = staffRepository.findAccountById(id);
+        return AccountMapper.toAccountDTO(staffAccount);
     }
 }

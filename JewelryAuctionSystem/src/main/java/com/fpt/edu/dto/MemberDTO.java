@@ -16,7 +16,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class MemberDTO {
     private Integer id;
-    private Integer creditCardId;
     private BigDecimal financialProofAmount;
     private String email;
     private String fullname;

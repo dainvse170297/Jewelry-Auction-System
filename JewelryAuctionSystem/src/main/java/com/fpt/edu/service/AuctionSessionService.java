@@ -127,14 +127,13 @@ public class AuctionSessionService implements IAuctionSessionService {
     }
 
 
-
     @Override
     public ResponseEntity<ViewLiveAuctionSessionDetailDTO> viewLiveAuctionSessionDetail(Integer sessionId, Integer memberId) {
         AuctionRegisterStatus statusRegister = AuctionRegisterStatus.REGISTERED;
         LotStatus statusLot = LotStatus.AUCTIONING;
 
         List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, statusRegister);
-      //  auctionRegisters.addAll(auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, AuctionRegisterStatus.REGISTERED));
+        //  auctionRegisters.addAll(auctionRegisterRepository.findAuctionRegisterByMemberIdAndStatus(memberId, AuctionRegisterStatus.REGISTERED));
 
         List<Lot> lots = auctionRegisters.stream()
                 .map(AuctionRegister::getLot)
@@ -189,6 +188,7 @@ public class AuctionSessionService implements IAuctionSessionService {
         map.put("Registers", registerDTOS);
         return map;
     }
+
     @Override
     public ViewLiveAuctionSessionDetailDTO getPastAuctionSessionDetail(Integer sessionId) {
         AuctionSession auctionSession = auctionSessionRepository.findById(sessionId).get();
@@ -220,11 +220,11 @@ public class AuctionSessionService implements IAuctionSessionService {
     }
 
 
-
     @Override
     public AuctionSessionDTO publicAuctionSession(Integer sessionId) {
         AuctionSession auctionSession = auctionSessionRepository.findById(sessionId).get();
         auctionSession.setStatus(AuctionSessionStatus.UPCOMING);
+        auctionSession.setStartingBid(LocalDateTime.now());
         auctionSessionRepository.save(auctionSession);
         return auctionSessionMapper.toAuctionSessionDTO(auctionSession);
     }
@@ -253,7 +253,7 @@ public class AuctionSessionService implements IAuctionSessionService {
                         iNotifyService.insertNotify(member,
                                 "Lot: " + lot.getProduct().getName() + " is live now",
                                 "Lot: " + lot.getProduct().getName() + " is live now in " + session.getName() + " at " + session.getStartTime().format(formatter) + " to " + session.getEndTime().format(formatter)
-                        , NotifyType.LIVE_LOT, lot.getId());
+                                , NotifyType.LIVE_LOT, lot.getId());
                     }
                 }
                 session.setStatus(AuctionSessionStatus.LIVE);
@@ -282,6 +282,17 @@ public class AuctionSessionService implements IAuctionSessionService {
                         auctionRegisterRepository.save(register);
                         lot.setStatus(LotStatus.SOLD);
                         iLotRepository.save(lot);
+                        //update everyone else financial proof amount
+                        List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findByLotId(lot.getId());
+                        for (AuctionRegister auctionRegister1 : auctionRegisters) {
+                            if (auctionRegister1.getMember().getId() != lot.getCurrentWinnerId()) {
+                                Member member1 = auctionRegister1.getMember();
+                                if (auctionRegister1.getCurrentPrice() != null && auctionRegister1.getCurrentPrice() != null) {
+                                    member1.setFinancialProofAmount(member1.getFinancialProofAmount().add(auctionRegister1.getCurrentPrice()));
+                                    iMemberRepository.save(member1);
+                                }
+                            }
+                        }
                     } else {
                         lot.setStatus(LotStatus.READY);
                         iLotRepository.save(lot);

@@ -108,7 +108,14 @@ const managerNavigation = [
     icon: MonetizationOn,
     href: "/paid-list",
   },
-  { name: "User", icon: UserIcon, href: "/user-manage" },
+  {
+    name: "User",
+    icon: UserIcon,
+    children: [
+      { name: "Member Manage", href: "/user-manage" },
+      { name: "Staff Manage", href: "/staff-manage" },
+    ],
+  },
   {
     name: "Setting",
     icon: SettingsIcon,

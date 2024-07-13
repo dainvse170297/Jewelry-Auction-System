@@ -384,8 +384,15 @@ const SetupProductInfo = () => {
           </p>
           {valuationRequest.memberEstimatePrice && (
             <p>
-              Member Expected Price: $
-              <strong>{valuationRequest.memberEstimatePrice}</strong>
+              {valuationRequest.memberEstimatePrice > 0 ? (
+                <>
+                  Member Expected Price: $
+                  <strong>{valuationRequest.memberEstimatePrice}</strong>
+                </>
+              ) : (
+                <>
+                </>
+              )}
             </p>
           )}
           {valuationRequest.valuationImagesUrls && (

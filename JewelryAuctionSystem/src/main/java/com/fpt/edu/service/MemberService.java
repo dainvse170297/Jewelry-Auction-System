@@ -5,6 +5,7 @@ import com.fpt.edu.dto.CreditCardRequestDTO;
 import com.fpt.edu.dto.FinancialProofRequestDTO;
 import com.fpt.edu.dto.MemberDTO;
 import com.fpt.edu.entity.*;
+import com.fpt.edu.mapper.MemberMapper;
 import com.fpt.edu.repository.*;
 import com.fpt.edu.status.FinancialProofRequestStatus;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ public class MemberService implements IMemberService{
     private final IValuationRequestRepository iValuationRequestRepository;
     private final IFinancialProofRequestRepository iFinancialProofRequestRepository;
     private final ICreditCardRepository iCreditCardRepository;
+    private final MemberMapper memberMapper;
     public MemberDTO getMyInfo(){
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         log.info("Username: {}", name);
@@ -135,6 +137,18 @@ public class MemberService implements IMemberService{
         }
         return false;
     }
+
+    @Override
+    public List<MemberDTO> getAllMembers() {
+        List<Member> members = iMemberRepository.findAll();
+        for(Member member: members){
+            iCreditCardRepository.getReferenceById(member.getCreditCard().getId());
+        }
+        List<MemberDTO> memberDTO = memberMapper.toMemberDTOs(members);
+        return memberDTO;
+    }
+
+
     @Override
     public MemberDTO getMyInfoFinancialProof(Integer memberId){
         Optional<Member> member = iMemberRepository.findById(memberId);

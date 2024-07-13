@@ -289,7 +289,7 @@ const Profile = () => {
                 <CheckOut />
               </div>
               <div className="tab-pane" id="security">
-                <ChangePassword />
+                <ChangePassword memberId={currentUser.memberId} />
               </div>
 
               <div className="tab-pane" id="billing">

@@ -14,7 +14,6 @@ public class CreditCardMapper {
                 creditCard.getAccountHolder(),
                 creditCard.getBankNumber(),
                 creditCard.getBankName()
-//                creditCard.getMember().getId()
         );
     }
 
