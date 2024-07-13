@@ -51,6 +51,7 @@ export {
   postCreateStaffAccount,
   postEditStaffAccount,
   getStaffAccountByStaffId,
+  getLotsBySessionId,
 };
 
 const getAllValuationRequests = async () => {
@@ -341,4 +342,8 @@ const postEditStaffAccount = async (newStaffAccount) => {
   formData.append("password", newStaffAccount.password);
   formData.append("fullName", newStaffAccount.fullName);
   return axios.post(`account/staff/update`, formData);
+};
+
+const getLotsBySessionId = async (sessionId) => {
+  return axios.get(`lot/get-lots-by-session/${sessionId}`);
 };

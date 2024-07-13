@@ -1,18 +1,24 @@
-import React, { memo, useEffect, useState } from "react";
-import { getAllAuctionSession } from "../../services/apiService";
+import { Edit, Visibility } from "@mui/icons-material";
 import moment from "moment";
-import { Edit, Face } from "@mui/icons-material";
+import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import CreateAuction from "../manager/CreateAuction";
-import EditAuctionSession from "./EditAuctionSession";
+import { getAllAuctionSession } from "../../services/apiService";
 import Paginator from "../common/Paginator";
+import EditAuctionSession from "./EditAuctionSession";
+import AuctionSessionDetail from "./AuctionSessionDetail";
 
 const AuctionSessionList = () => {
   // Your component logic here
   const [show, setShow] = useState(false);
 
+  const [showDetail, setShowDetail] = useState(false);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleCloseDetail = () => setShowDetail(false);
+
+  const handleShowSessionDetail = () => setShowDetail(true);
 
   const [auctionSessions, setAuctionSessions] = useState([]);
 
@@ -52,6 +58,11 @@ const AuctionSessionList = () => {
     handleShow();
   }
 
+  const handleShowDetail = (id) => {
+    setAuctionSessionId(id);
+    handleShowSessionDetail();
+  }
+
   return (
     <div className="container">
       <div className="text-center">
@@ -65,7 +76,7 @@ const AuctionSessionList = () => {
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Status</th>
-                <th>Action</th>
+                <th colSpan={2}>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -86,6 +97,11 @@ const AuctionSessionList = () => {
                       </button>
                     )}
 
+                  </td>
+                  <td>
+                    <button className="btn btn-success" onClick={() => handleShowDetail(session.id)}>
+                      <Visibility />
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -108,6 +124,20 @@ const AuctionSessionList = () => {
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal show={showDetail} onHide={handleCloseDetail} centered size="lg" scrollable>
+            <Modal.Header closeButton>
+              <Modal.Title>Auction Session</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <AuctionSessionDetail auctionSessionId={auctionSessionId} />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseDetail}>
                 Close
               </Button>
             </Modal.Footer>

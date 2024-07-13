@@ -3,10 +3,22 @@ import { getAllCreatedSession, publicCreatedSession } from '../../../services/ap
 import moment from 'moment'
 import { Button } from '@mui/material'
 import { ToastContainer, toast } from 'react-toastify'
+import { Modal } from 'react-bootstrap'
+import AuctionSessionDetail from '../../auction-session/AuctionSessionDetail'
 
 const PublicCreatedSession = () => {
 
     const [createdSessions, setCreatedSessions] = useState([])
+    const [showDetail, setShowDetail] = useState(false);
+    const handleCloseDetail = () => setShowDetail(false);
+
+    const handleShowSessionDetail = () => setShowDetail(true);
+    const [auctionSessionId, setAuctionSessionId] = useState(null);
+
+    const handleShowDetail = (id) => {
+        setAuctionSessionId(id);
+        handleShowSessionDetail();
+    }
 
     useEffect(() => {
         const getCreatedSession = async () => {
@@ -46,7 +58,7 @@ const PublicCreatedSession = () => {
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Status</th>
-                                <th>Action</th>
+                                <th colSpan={2}>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,6 +72,9 @@ const PublicCreatedSession = () => {
                                     <td>
                                         <Button onClick={() => handlePublic(session.id)}>Public</Button>
                                     </td>
+                                    <td>
+                                        <Button onClick={() => handleShowDetail(session.id)}>Detail</Button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -67,6 +82,20 @@ const PublicCreatedSession = () => {
                 </div>
             </div>
             <ToastContainer />
+
+            <Modal show={showDetail} onHide={handleCloseDetail} centered size="lg" scrollable>
+                <Modal.Header closeButton>
+                    <Modal.Title>Auction Session</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <AuctionSessionDetail auctionSessionId={auctionSessionId} />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseDetail}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 }

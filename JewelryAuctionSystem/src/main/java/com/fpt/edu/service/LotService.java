@@ -3,13 +3,11 @@ package com.fpt.edu.service;
 import com.fpt.edu.dto.LotDTO;
 import com.fpt.edu.dto.PaymentInfoDTO;
 import com.fpt.edu.entity.AuctionRegister;
+import com.fpt.edu.entity.AuctionSession;
 import com.fpt.edu.entity.Lot;
 import com.fpt.edu.entity.PaymentInfo;
 import com.fpt.edu.mapper.LotMapper;
-import com.fpt.edu.repository.IAuctionRegisterRepository;
-import com.fpt.edu.repository.ILotRepository;
-import com.fpt.edu.repository.IMemberRepository;
-import com.fpt.edu.repository.IPaymentInfoRepository;
+import com.fpt.edu.repository.*;
 import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.LotStatus;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +31,7 @@ public class LotService implements ILotService{
     private final IAuctionRegisterRepository auctionRegisterRepository;
     private final IMemberRepository iMemberRepository;
     private final IPaymentInfoRepository paymentInfoRepository;
+    private final IAuctionSessionRepository auctionSessionRepository;
 
     @Override
     public List<Lot> getLotsByStatusReady() {
@@ -115,7 +114,9 @@ public class LotService implements ILotService{
 
     @Override
     public List<Lot> getLotsBySession(int sessionId) {
-        return null;
+        AuctionSession auctionSession = auctionSessionRepository.findById(sessionId).get();
+        List<Lot> lots = lotRepository.findByAuctionSession(auctionSession);
+        return lots;
     }
 
 }
