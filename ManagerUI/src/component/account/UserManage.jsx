@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaTrash } from "react-icons/fa";
 import { getAllStaffAccount } from "../../services/apiService";
 import Paginator from "../common/Paginator";
 import "./account.scss";
@@ -96,7 +96,7 @@ const UserManage = () => {
                         <th scope="col">Username</th>
                         <th scope="col">Full name</th>
                         <th scope="col">Role</th>
-                        <th scope="col">Action</th>
+                        <th scope="col" colSpan={2}>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -107,9 +107,13 @@ const UserManage = () => {
                           <td>{staff.fullname}</td>
                           <td>{staff.roleName}</td>
                           <td>
-
                             <EditManageAccount staffId={staff.staffId} />
 
+                          </td>
+                          <td>
+                            <Button variant="danger">
+                              <FaTrash />
+                            </Button>
                           </td>
                         </tr>
                       ))}

@@ -112,4 +112,10 @@ public class LotService implements ILotService{
         }
         return lotDTOS;
     }
+
+    @Override
+    public List<Lot> getLotsBySession(int sessionId) {
+        return null;
+    }
+
 }

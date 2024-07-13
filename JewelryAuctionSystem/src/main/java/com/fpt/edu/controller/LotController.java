@@ -44,4 +44,9 @@ public class LotController {
     public ResponseEntity<List<LotDTO>> getLotsByDeliveredAuctionRegister() {
         return ResponseEntity.ok(lotService.getLotsByDeliveredAuctionRegister());
     }
+
+    @GetMapping("/get-lots-by-session/{sessionId}")
+    public ResponseEntity<List<LotDTO>> getLotsBySession(@PathVariable int sessionId) {
+        return ResponseEntity.ok(lotMapper.toLotDTOS(lotService.getLotsBySession(sessionId)));
+    }
 }
