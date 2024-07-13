@@ -4,20 +4,20 @@ import { FaSearch } from "react-icons/fa";
 import { getAllStaffAccount } from "../../services/apiService";
 import Paginator from "../common/Paginator";
 import "./account.scss";
-import { AddManageAccount, EditManageAccount } from "./AccountManage";
+import { AddStaffAccount, EditStaffAccount } from "./AccountManage";
 
-const UserManage = () => {
+const StaffMange = () => {
   const [staffAccounts, setStaffAccounts] = useState([]);
   const [input, setInput] = useState("");
   const [filteredStaff, setFilteredStaff] = useState([]);
 
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(7)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(7);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  const currentItems = filteredStaff.slice(indexOfFirstItem, indexOfLastItem)
+  const currentItems = filteredStaff.slice(indexOfFirstItem, indexOfLastItem);
 
   const calculateTotalPage = (itemsPerPage, items) => {
     const totalItem = items.length;
@@ -36,7 +36,7 @@ const UserManage = () => {
       } catch (error) {
         console.log(error);
       }
-    }
+    };
     fetchStaffAccounts();
   }, []);
 
@@ -60,7 +60,7 @@ const UserManage = () => {
           <div className="row">
             <div className="d-flex align-items-center rounded-1 mb-3 py-2">
               <div className="h5 mx-2 my-0"></div>
-              <AddManageAccount />
+              <AddStaffAccount />
             </div>
           </div>
         </div>
@@ -107,9 +107,7 @@ const UserManage = () => {
                           <td>{staff.fullname}</td>
                           <td>{staff.roleName}</td>
                           <td>
-
-                            <EditManageAccount staffId={staff.staffId} />
-
+                            <EditStaffAccount staffId={staff.staffId} />
                           </td>
                         </tr>
                       ))}
@@ -130,4 +128,4 @@ const UserManage = () => {
   );
 };
 
-export default UserManage;
+export default StaffMange;

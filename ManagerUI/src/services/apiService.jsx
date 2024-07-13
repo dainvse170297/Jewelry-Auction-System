@@ -45,9 +45,12 @@ export {
   getReadyLots,
   getReadyLotById,
   postAddLotToSession,
-  getAllStaffAccount,
   postCreateSession,
   getDeliveredLots,
+
+  //Account
+  getAllMemberAccounts,
+  getAllStaffAccount,
   postCreateStaffAccount,
   postEditStaffAccount,
   getStaffAccountByStaffId,
@@ -341,4 +344,8 @@ const postEditStaffAccount = async (newStaffAccount) => {
   formData.append("password", newStaffAccount.password);
   formData.append("fullName", newStaffAccount.fullName);
   return axios.post(`account/staff/update`, formData);
+};
+
+const getAllMemberAccounts = async () => {
+  return axios.get(`member/get-all`);
 };
