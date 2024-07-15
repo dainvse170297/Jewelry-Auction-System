@@ -38,31 +38,35 @@ const RevenueExportCategoryComponent = () => {
         const earringsProfit =
           item.getProfitByCategory && item.getProfitByCategory.length > 0
             ? Math.round(
-              (item.getProfitByCategory[0]?.Earrings || 0) * 0.2 * 100
-            ) / 100
+                (item.getProfitByCategory[0]?.Earrings || 0) * 0.2 * 100
+              ) / 100
             : 0;
         const necklacesProfit =
           item.getProfitByCategory && item.getProfitByCategory.length > 0
             ? Math.round(
-              (item.getProfitByCategory[0]?.Necklaces || 0) * 0.2 * 100
-            ) / 100
+                (item.getProfitByCategory[0]?.Necklaces || 0) * 0.2 * 100
+              ) / 100
             : 0;
         const braceletsProfit =
           item.getProfitByCategory && item.getProfitByCategory.length > 0
             ? Math.round(
-              (item.getProfitByCategory[0]?.Bracelets || 0) * 0.2 * 100
-            ) / 100
+                (item.getProfitByCategory[0]?.Bracelets || 0) * 0.2 * 100
+              ) / 100
             : 0;
         const ringsProfit =
           item.getProfitByCategory && item.getProfitByCategory.length > 0
             ? Math.round(
-              (item.getProfitByCategory[0]?.Rings || 0) * 0.2 * 100
-            ) / 100
+                (item.getProfitByCategory[0]?.Rings || 0) * 0.2 * 100
+              ) / 100
             : 0;
 
         return {
           Year: (item.year || currentYearFile - index).toString(),
           "Total Revenue":
+            Math.round(
+              (item.totalRevenue + item.totalRevenue * 0.2 || 0) * 100
+            ) / 100,
+          "Total Profit":
             Math.round((item.totalRevenue * 0.2 || 0) * 100) / 100,
           "Profit Earrings": earringsProfit,
           "Profit Necklaces": necklacesProfit,
