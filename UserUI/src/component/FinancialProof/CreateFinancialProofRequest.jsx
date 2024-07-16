@@ -130,12 +130,10 @@ export default function CreateFinancialProofRequest() {
                 <p className="h5">Photos</p>
                 <hr />
                 <PhotoReviewModal onOk={handleImagesUpload} />
-                {selectedImages.length > 0 && (
-                  <FullScreenImage imageUrls={selectedImages} />
-                )}
+
                 <p className="pt-2 text-muted">JPEG, PNG, PDF</p>
               </div>
-              <div className="text-center mt-5">
+              <div className="text-center">
                 <form onSubmit={createFinancialProof}>
                   {selectedImages.length > 0 && (
                     <Button
@@ -161,6 +159,30 @@ export default function CreateFinancialProofRequest() {
                     </Button>
                   )}
                 </form>
+              </div>
+
+              <div className="mt-5 mb-5 ">
+                <p className="policy-text px-4 extra-margin">
+                  All submitted documents will be reviewed for authenticity and
+                  relevance. If any discrepancies are found, the request may be
+                  denied. It's essential to ensure that all documents are clear
+                  and legible.
+                </p>
+                <p className="policy-text px-4">
+                  If you have any questions or need further assistance, please
+                  don't hesitate to reach out to us. We are always here to
+                  assist you with any inquiries or requests. Feel free to
+                  contact us for timely support!
+                </p>
+                <div className="text-center">
+                  <Button
+                    variant="danger"
+                    className="px-4 py-2" // Increased padding
+                    onClick={() => navigate("/contact")}
+                  >
+                    Contact Us
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
