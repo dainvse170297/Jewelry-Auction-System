@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal, Form, Carousel } from "react-bootstrap";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import {
   postSetAmountFinancialProof,
@@ -43,23 +43,31 @@ const FinancialProofRequestDetail = ({
     }
   };
 
-  const PreliminaryConfirm = async () => {
+  const PreliminaryConfirm = async (isApprove) => {
     try {
+      console.log("PreliminaryConfirm called with isApprove:", isApprove);
       if (
         userRole === "MANAGER" &&
         financialProofRequest.status === "PENDING_MANAGER_APPROVAL"
       ) {
-        const data = await confirmVIP(true); // Assuming this function exists for manager actions
+        const data = await postConfirmVIPFinancialProof(
+          financialProofRequest.id,
+          staffId,
+          isApprove
+        );
+
         if (data !== null) {
-          toast.success("Approve successfully");
+          toast.success(
+            isApprove ? "Approved successfully" : "Rejected successfully"
+          );
+          console.log("toast check", data);
           setTimeout(() => {
             window.location.reload(); // Reload page to remove modal
-          }, 1000);
+          }, 2500);
         } else {
           toast.error("Failed to confirm VIP");
         }
       } else {
-        // Regular staff or manager action for setting financial proof amount
         const data = await postSetAmountFinancialProof(
           financialProofRequest.id,
           staffId,
@@ -67,15 +75,17 @@ const FinancialProofRequestDetail = ({
           userRole
         );
         if (data.status === "AVAILABLE") {
-          toast.success("Financial Proof Successfully Set");
-          onHide(true); // Hide modal
+          console.log("toast check", data);
+          toast.success("Financial Proof Set Successfully");
+          // onHide(true); // Hide modal
           setTimeout(() => {
             window.location.reload(); // Reload page to remove modal
-          }, 1000);
+          }, 2500);
         } else if (data.status === "PENDING_MANAGER_APPROVAL") {
           toast.success("Financial Proof Sent to Manager for Approval");
-          onHide(true); // Hide modal
-          window.location.reload(); // Reload page to remove modal
+          setTimeout(() => {
+            window.location.reload(); // Reload page to remove modal
+          }, 2500);
         } else {
           toast.error("Failed to set Financial Proof");
         }
@@ -83,34 +93,6 @@ const FinancialProofRequestDetail = ({
     } catch (error) {
       console.log("Error:", error.message);
       toast.error("Error When Setting Financial Proof");
-    }
-  };
-
-  const confirmVIP = async (confirmValue) => {
-    try {
-      const data = await postConfirmVIPFinancialProof(
-        financialProofRequest.id,
-        staffId,
-        confirmValue
-      );
-
-      if (data !== null) {
-        if (confirmValue && data.status === "AVAILABLE") {
-          toast.success("Approve successfully");
-          window.location.reload(); // Reload page to remove modal
-        } else if (!confirmValue && response.data.status === "REJECTED") {
-          toast.success("Reject successfully");
-          window.location.reload(); // Reload page to remove modal
-        } else {
-          toast.error("Failed to confirm VIP");
-        }
-        onHide(true); // Hide modal
-      } else {
-        console.log("Failed to confirm VIP");
-      }
-    } catch (error) {
-      console.log("Error:", error.message);
-      toast.error("Error when confirming financial proof");
     }
   };
 
@@ -128,6 +110,7 @@ const FinancialProofRequestDetail = ({
 
   return (
     <>
+      <ToastContainer />
       <div className="card card-body">
         <p>
           Member Id: <strong>{financialProofRequest.memberId}</strong>
@@ -196,6 +179,7 @@ const FinancialProofRequestDetail = ({
       )}
 
       <Modal.Footer>
+        <ToastContainer />
         <Button variant="secondary" onClick={() => onHide(false)}>
           Close
         </Button>
@@ -211,7 +195,7 @@ const FinancialProofRequestDetail = ({
           </>
         ) : (
           canSetAmount() && (
-            <Button variant="success" onClick={PreliminaryConfirm}>
+            <Button variant="success" onClick={() => PreliminaryConfirm(false)}>
               Set Amount
             </Button>
           )
