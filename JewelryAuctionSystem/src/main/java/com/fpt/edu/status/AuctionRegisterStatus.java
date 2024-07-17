@@ -9,4 +9,5 @@ public enum AuctionRegisterStatus {
     WINNER_PURCHASED,
     DELIVERED,
     PAYMENT_SUCCESS,
+    CANCELLED
 }
