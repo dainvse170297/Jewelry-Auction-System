@@ -11,7 +11,9 @@ import {
   putEditCreditCard,
 } from "../../../services/apiService";
 
-const ProfileDetail = ({ memberId }) => {
+const ProfileDetail = () => {
+  const memberId = JSON.parse(localStorage.getItem("account")).memberId;
+
   const [profile, setProfile] = useState({});
   const [showCreditCardForm, setShowCreditCardForm] = useState(false);
   const [isEditing, setIsEditing] = useState(false);

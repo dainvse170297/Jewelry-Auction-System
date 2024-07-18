@@ -11,8 +11,8 @@ import PaymentSuccess from "../component/checkout/PaymentSuccess";
 import PaymentFailure from "../component/checkout/PaymentFailure";
 import ValuationRequestDetail from "../component/profile/valuation-request/ValuationRequestDetail";
 import MyValuationRequest from "../component/profile/valuation-request/MyValuationRequest";
-import NewProfile from "../component/profile/NewProfile";
-import NewProfileDetail from "../component/profile/ProfileDetail/NewProfileDetail";
+import Profile from "../component/profile/Profile";
+import ProfileDetail from "../component/profile/ProfileDetail/ProfileDetail";
 import ViewFinancialProof from "../component/profile/FinancialProof/ViewFinancialProof";
 import ChangePassword from "../component/profile/ChangePassword/ChangePassword";
 import AuctionRegisterHistoryList from "../component/profile/AuctionRegisterHistory/AuctionRegisterHistoryList";
@@ -27,11 +27,11 @@ const privateRoutes = [
   },
   {
     path: "/profile",
-    element: <NewProfile />,
+    element: <Profile />,
     children: [
       {
         path: "",
-        element: <NewProfileDetail />,
+        element: <ProfileDetail />,
       },
       {
         path: "valuation-request",
