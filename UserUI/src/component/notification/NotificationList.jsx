@@ -7,10 +7,9 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Eye } from "react-bootstrap-icons";
 import { getReadNotify, postNotifications } from "../../services/apiService";
-import { Link } from "react-router-dom";
 import "./notify.scss";
+import NotificationMap from "./NotificationMapLink";
 
 const NotificationList = () => {
   const [notifications, setNotifications] = useState([]);
@@ -51,7 +50,7 @@ const NotificationList = () => {
         {notifications.map((notification, index) => (
           <Card className="mb-2" key={index}>
             <div className="row mx-auto">
-              <div className="col-lg-10">
+              <div className="col-lg-9">
                 <CardContent>
                   {notification.isRead === false ? (
                     <Typography variant="caption" color="error">
@@ -64,31 +63,9 @@ const NotificationList = () => {
                   </Typography>
                 </CardContent>
               </div>
-              <div className="col-2 d-flex justify-content-center align-items-center">
-                {notification.notifiableType === "VALUATION_REQUEST_SUCCESS" &&
-                notification.notifiableId !== null ? (
-                  <Button
-                    className="detail-button px-3 py-1"
-                    as={Link}
-                    to={`/valuation-request/${notification.notifiableId}`}
-                    onClick={() => handleReadNotification(notification.id)}
-                  >
-                    View
-                  </Button>
-                ) : null}
+              <div className="col-lg-3 d-flex justify-content-center align-items-center">
+                <NotificationMap notification={notification} />
               </div>
-
-              {notification.isRead !== false ? (
-                <></>
-              ) : (
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                  <Button
-                    onClick={() => handleReadNotification(notification.id)}
-                  >
-                    <Eye />
-                  </Button>
-                </div>
-              )}
             </div>
           </Card>
         ))}

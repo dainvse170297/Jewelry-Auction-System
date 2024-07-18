@@ -18,5 +18,7 @@ public interface IAccountRepository extends JpaRepository<Account, Integer> {
     List<Account> findByCreationDateBetween(
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
+            
+    Optional<Account> findByStaffId(Integer staffId);
 
 }

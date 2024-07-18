@@ -1,9 +1,11 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://jewelry-auction-system.azurewebsites.net/",
+  baseURL: "https://fuja.azurewebsites.net/",
   //baseURL: "http://localhost:8080/",
 });
+
+// instance.defaults.headers.common["Content-Type"] = "application/json";
 
 // Add a request interceptor
 instance.interceptors.request.use(

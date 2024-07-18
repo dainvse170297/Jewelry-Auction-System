@@ -224,6 +224,7 @@ public class AuctionSessionService implements IAuctionSessionService {
     public AuctionSessionDTO publicAuctionSession(Integer sessionId) {
         AuctionSession auctionSession = auctionSessionRepository.findById(sessionId).get();
         auctionSession.setStatus(AuctionSessionStatus.UPCOMING);
+        auctionSession.setStartingBid(LocalDateTime.now());
         auctionSessionRepository.save(auctionSession);
         return auctionSessionMapper.toAuctionSessionDTO(auctionSession);
     }
@@ -271,32 +272,36 @@ public class AuctionSessionService implements IAuctionSessionService {
             if (session.getEndTime().isBefore(now)) { // if the current time is after the end time
                 List<Lot> lots = iLotRepository.findByAuctionSession(session);
                 for (Lot lot : lots) {
-                    if (lot.getCurrentWinnerId() != null) {
-                        Member winner = iMemberRepository.getReferenceById(lot.getCurrentWinnerId());
-                        iNotifyService.insertNotify(winner,
-                                "You win the lot: " + lot.getProduct().getName(),
-                                "You win the lot: " + lot.getProduct().getName() + " in " + session.getName() + " with the price of ₫" + lot.getCurrentPrice(),
-                                NotifyType.WINNER, lot.getId());
-                        AuctionRegister register = auctionRegisterRepository.findByLotIdAndMemberId(lot.getId(), lot.getCurrentWinnerId());
-                        //   System.out.println(register.getId() + " " + register.getFinalPrice() + " " + lot.getCurrentPrice() + " " + lot.getProduct().getName() + " " + lot.getId());
-                        register.setStatus(AuctionRegisterStatus.PENDING_PAYMENT);
-                        auctionRegisterRepository.save(register);
-                        lot.setStatus(LotStatus.SOLD);
-                        iLotRepository.save(lot);
-                        //update everyone else financial proof amount
-                        List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findByLotId(lot.getId());
-                        for (AuctionRegister auctionRegister1 : auctionRegisters) {
-                            if (auctionRegister1.getMember().getId() != lot.getCurrentWinnerId()) {
-                                Member member1 = auctionRegister1.getMember();
-                                if (member1.getFinancialProofAmount() != null && auctionRegister1.getCurrentPrice() != null) {
-                                    member1.setFinancialProofAmount(member1.getFinancialProofAmount().add(auctionRegister1.getCurrentPrice()));
-                                    iMemberRepository.save(member1);
+                    if (lot.getStatus().equals(LotStatus.AUCTIONING)) {
+                        if (lot.getCurrentWinnerId() != null) {
+                            Member winner = iMemberRepository.getReferenceById(lot.getCurrentWinnerId());
+                            iNotifyService.insertNotify(winner,
+                                    "You win the lot: " + lot.getProduct().getName(),
+                                    "You win the lot: " + lot.getProduct().getName() + " in " + session.getName() + " with the price of ₫" + lot.getCurrentPrice(),
+                                    NotifyType.WINNER, lot.getId());
+                            AuctionRegister register = auctionRegisterRepository.findByLotIdAndMemberId(lot.getId(), lot.getCurrentWinnerId());
+                            //   System.out.println(register.getId() + " " + register.getFinalPrice() + " " + lot.getCurrentPrice() + " " + lot.getProduct().getName() + " " + lot.getId());
+                            register.setStatus(AuctionRegisterStatus.PENDING_PAYMENT);
+                            auctionRegisterRepository.save(register);
+                            lot.setStatus(LotStatus.SOLD);
+                            iLotRepository.save(lot);
+                            //update everyone else financial proof amount
+                            List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findByLotId(lot.getId());
+                            for (AuctionRegister auctionRegister1 : auctionRegisters) {
+                                if (auctionRegister1.getMember().getId() != lot.getCurrentWinnerId()) {
+                                    Member member1 = auctionRegister1.getMember();
+                                    if (member1.getFinancialProofAmount() != null && auctionRegister1.getCurrentPrice() != null) {
+                                        member1.setFinancialProofAmount(member1.getFinancialProofAmount().add(auctionRegister1.getCurrentPrice()));
+                                        iMemberRepository.save(member1);
+                                    }
                                 }
                             }
+                        } else {
+                            lot.setStatus(LotStatus.READY);
+                            iLotRepository.save(lot);
                         }
-                    } else {
-                        lot.setStatus(LotStatus.READY);
-                        iLotRepository.save(lot);
+                    }else {
+                        // Sold lot already
                     }
                 }
                 session.setStatus(AuctionSessionStatus.PAST);

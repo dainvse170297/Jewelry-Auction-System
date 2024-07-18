@@ -14,7 +14,7 @@ import UserIcon from "@mui/icons-material/ManageAccounts";
 import SettingsIcon from "@mui/icons-material/Settings";
 import FinancialProofRequestIcon from "@mui/icons-material/RequestQuote";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { MonetizationOn } from "@mui/icons-material";
+import { CasesRounded, Casino, CurrencyExchange, MonetizationOn } from "@mui/icons-material";
 import { Nav } from "react-bootstrap";
 
 // Navigation
@@ -38,7 +38,7 @@ const staffNavigation = [
       { name: "All Request", href: "/valuation-request" },
 
       {
-        name: "Set Up Product",
+        name: "Set Up Jewelry",
         href: "/valuation-request/received",
       },
     ],
@@ -49,7 +49,7 @@ const staffNavigation = [
     href: "/financial-request",
   },
   {
-    name: "Product",
+    name: "Jewelry",
     icon: SettingsIcon,
     children: [{ name: "Pending to send", href: "/product/pending-send" }],
   },
@@ -64,7 +64,7 @@ const managerNavigation = [
     children: [
       { name: "All request", href: "/valuation-request" },
       {
-        name: "Set up product",
+        name: "Set up Jewelry",
         href: "/valuation-request/received",
       },
       { name: "Pending approval", href: "/valuation-request/pending-approval" },
@@ -108,7 +108,19 @@ const managerNavigation = [
     icon: MonetizationOn,
     href: "/paid-list",
   },
-  { name: "User", icon: UserIcon, href: "/user-manage" },
+  {
+    name: "Transaction History",
+    icon: CurrencyExchange,
+    href: "/transaction-history",
+  },
+  {
+    name: "User",
+    icon: UserIcon,
+    children: [
+      { name: "Member Manage", href: "/user-manage" },
+      { name: "Staff Manage", href: "/staff-manage" },
+    ],
+  },
   {
     name: "Setting",
     icon: SettingsIcon,
@@ -147,7 +159,7 @@ const Sidebar = () => {
   return (
     <div
       className="d-flex flex-column vh-100 bg-light sidebar"
-      // style={{ width: "250px", position: "fixed" }}
+    // style={{ width: "250px", position: "fixed" }}
     >
       <div className="text-center my-2 mx-0">
         <img

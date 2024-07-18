@@ -45,6 +45,7 @@ export {
   postAddCreditCard,
   putEditCreditCard,
   getAuctionRegisterHistory,
+  postChangePassword,
 
   //Notification
   postNotifications,
@@ -232,3 +233,10 @@ const getAllUpcomingSession = async () => {
 const getValuationRequestById = async (id) => {
   return axios.get(`/valuation/valuation-request-detail/${id}`);
 };
+
+const postChangePassword = async (memberId, oldPassword, newPassword) => {
+  const formData = new FormData();
+  formData.append("oldPassword", oldPassword);
+  formData.append("newPassword", newPassword);
+  return axios.post(`account/id/${memberId}/change-password`, formData);
+}

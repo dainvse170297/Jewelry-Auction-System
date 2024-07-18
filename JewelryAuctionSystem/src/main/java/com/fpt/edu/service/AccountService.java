@@ -280,7 +280,7 @@ public class AccountService implements IAccountService {
     public Account createStaffAccount(String username, String password, String fullName) {
         Account account = new Account();
         if (accountRepository.findByUsername(username).isPresent()) {
-            throw new UsernameExistedException("Username is existed");
+            throw new UsernameExistedException("Staff username is existed");
         } else {
             Staff staff = new Staff();
             staff.setFullname(fullName);
@@ -293,6 +293,17 @@ public class AccountService implements IAccountService {
             account.setStaff(staff);
             accountRepository.save(account);
         }
+        return account;
+    }
+
+    @Override
+    public Account updateStaffAccount(Integer staffId,String password, String fullName) {
+        Account account = accountRepository.findByStaffId(staffId).orElseThrow(
+                () -> new RuntimeException("Staff not found")
+        );
+        account.setPassword(password);
+        account.getStaff().setFullname(fullName);
+        accountRepository.save(account);
         return account;
     }
 

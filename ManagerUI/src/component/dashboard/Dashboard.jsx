@@ -23,10 +23,14 @@ import {
 
 const Dashboard = () => {
   const currentYear = new Date().getFullYear();
+  // year
   const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
   const [revenueData, setRevenueData] = useState({});
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [accountData, setAccountData] = useState({});
+  // month
+  const months = Array.from({ length: 12 }, (_, i) => i + 1);
+  const [selectedMonth, setSelectedMonth] = useState(1); // Default to January
 
   useEffect(() => {
     const fetchRevenueData = async (year) => {
@@ -66,13 +70,17 @@ const Dashboard = () => {
     setSelectedYear(event.target.value);
   };
 
+  const handleChangeMonth = (event) => {
+    setSelectedMonth(event.target.value);
+  };
+
   const calculatePercentageChange = (current, previous) => {
     if (previous === 0) {
       return current > 0 ? 100 : 0;
     }
     return ((current - previous) / previous) * 100;
   };
-
+  //year handle
   const selectedData = revenueData[selectedYear] || {};
   const otherYearData = revenueData[selectedYear - 1] || {};
 
@@ -127,6 +135,25 @@ const Dashboard = () => {
   const isTotalLotPendingPaymentIncrease =
     totalLotPendingPaymentPercentage >= 0;
 
+  // month handle
+  const monthlyRevenue = selectedData.revenue || [];
+  const totalSelectedMonthRevenue = monthlyRevenue[selectedMonth - 1] || 0; // Adjust for month index
+  const totalOtherMonthRevenue = monthlyRevenue[selectedMonth - 2] || 0; // revenue of month in other year
+
+  const totalProfitByMonth = totalSelectedMonthRevenue * 0.2 || 0; // 20% profit of Payment method
+
+  const revenuePercentageMonth = calculatePercentageChange(
+    totalSelectedMonthRevenue,
+    totalOtherMonthRevenue
+  );
+  const isRevenueIncreaseMonth = revenuePercentageMonth >= 0;
+
+  const profitPercentageMonth = calculatePercentageChange(
+    totalProfitByMonth,
+    totalOtherMonthRevenue * 0.2
+  );
+  const isProfitIncreaseMonth = profitPercentageMonth >= 0;
+
   // Convert category data for jewelry pie chart
   const convertCategoryData = (categoryData) => {
     return Object.entries(categoryData).map(([name, revenue]) => ({
@@ -167,7 +194,8 @@ const Dashboard = () => {
                 {year}
               </MenuItem>
             ))}
-          </Select>
+          </Select>{" "}
+          Year
         </Grid>
 
         {/* Statistics Cards */}
@@ -206,7 +234,7 @@ const Dashboard = () => {
         <Grid item xs={12} md={4}>
           <StatisticsCard
             title="Total Revenue"
-            value={`$${totalSelectedRevenue}`}
+            value={`$${(totalSelectedRevenue + totalProfit).toFixed(2)}`}
             percentage={percentageRevenueChange.toFixed(2)}
             isIncrease={isRevenueIncrease}
           />
@@ -214,12 +242,48 @@ const Dashboard = () => {
         <Grid item xs={12} md={4}>
           <StatisticsCard
             title="Total Profit"
-            value={`$${totalProfit}`}
+            value={`$${totalProfit.toFixed(2)}`}
             percentage={profitPercentage.toFixed(2)}
             isIncrease={isProfitIncrease}
           />
         </Grid>
+        <hr />
 
+        <Grid item xs={12}>
+          <Select
+            value={selectedMonth}
+            onChange={handleChangeMonth}
+            style={{ fontSize: "0.8rem", marginLeft: "10px" }}
+          >
+            {months.map((month) => (
+              <MenuItem key={month} value={month}>
+                {month}
+              </MenuItem>
+            ))}
+          </Select>{" "}
+          Month
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <StatisticsCard
+            title="Total Revenue By Month"
+            value={`$${(totalSelectedMonthRevenue + totalProfitByMonth).toFixed(
+              2
+            )}`} //select by month and year is selected above
+            percentage={revenuePercentageMonth.toFixed(2)}
+            isIncrease={isRevenueIncreaseMonth}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <StatisticsCard
+            title="Total Profit By Month"
+            value={`$${totalProfitByMonth.toFixed(2)}`} //select by month
+            percentage={profitPercentageMonth.toFixed(2)}
+            isIncrease={isProfitIncreaseMonth}
+          />
+        </Grid>
+
+        <hr />
         {/* Jewelry Pie Chart */}
         <Grid item xs={12} md={4}>
           <h3 className="text-center my-5">Profit by Jewelry Type</h3>
@@ -263,11 +327,11 @@ const Dashboard = () => {
                 name="Total Customers"
               />
               <Bar dataKey="totalStaffs" fill="#DC0083" name="Total Staffs" />
-              <Bar
+              {/* <Bar
                 dataKey="totalManagers"
                 fill="#ffc658"
                 name="Total Managers"
-              />
+              /> */}
             </BarChart>
           </div>
         </Grid>

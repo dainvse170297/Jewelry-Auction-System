@@ -7,6 +7,8 @@ import com.fpt.edu.mapper.BidMapper;
 import com.fpt.edu.repository.*;
 import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.LotStatus;
+import com.fpt.edu.status.NotifyType;
+import com.fpt.edu.utils.MessageProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -14,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -37,8 +38,7 @@ public class BidService implements IBidService {
     private final IBidRepository iBidRepository;
     private final BidMapper bidMapper;
     private final IAuctionRegisterRepository iAuctionRegisterRepository;
-    private final IFinancialProofRequestRepository iFinancialProofRequestRepository;
-    private final INotifyRepository iNotifyRepository;
+    private final INotifyService iNotifyService;
     @Autowired
     WebSocketService webSocketService;
 
@@ -97,14 +97,12 @@ public class BidService implements IBidService {
             member.setFinancialProofAmount(newFinancialProofAmount);
             iMemberRepository.save(member);
 
-
-            Notify notify = new Notify();
-            notify.setMember(member);
-            notify.setTitle("You have won the auction: " + lot.getProduct().getName());
-            notify.setDescription("You have won the auction" + lot.getProduct().getName() + " with price $" + buyNowPrice);
-            notify.setDate(LocalDateTime.now());
-            notify.setIsRead(false);
-            iNotifyRepository.save(notify);
+            // Send notification to winner
+            iNotifyService.insertNotify(member,
+                    MessageProvider.BidService.buyNowSuccessTitle(lot.getProduct().getName()),
+                    MessageProvider.BidService.buyNowSuccessDescription(lot.getProduct().getName(), buyNowPrice),
+                    NotifyType.WINNER, lotId
+            );
 
             //update everyone else financial prove amount
             List<AuctionRegister> auctionRegisters = iAuctionRegisterRepository.findByLotId(lotId);
@@ -118,8 +116,8 @@ public class BidService implements IBidService {
                 }
             }
 
-            throw new ResponseStatusException(HttpStatus.OK, "You have won the auction with price $" + buyNowPrice);
-        }
+            throw new ResponseStatusException(HttpStatus.OK, "You have won the auction with price " + buyNowPrice);
+        }//end handle buy now case
 
         BigDecimal currentPrice = lot.getCurrentPrice() == null ? lot.getStartPrice() : lot.getCurrentPrice();
 

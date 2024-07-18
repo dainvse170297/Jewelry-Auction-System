@@ -11,8 +11,10 @@ import com.fpt.edu.repository.IMemberRepository;
 import com.fpt.edu.repository.ISellerPaymentImgRepository;
 import com.fpt.edu.repository.ISellerPaymentRepository;
 import com.fpt.edu.status.AuctionRegisterStatus;
+import com.fpt.edu.utils.MessageProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -30,6 +32,7 @@ public class SellerPaymentService implements ISellerPaymentService{
     private final ISellerPaymentImgRepository sellerPaymentImgRepository;
     private final IMemberRepository memberRepository;
     private final IAuctionRegisterRepository auctionRegisterRepository;
+    private final INotifyService iNotifyService;
 
     private final Cloudinary cloudinary;
 
@@ -59,11 +62,40 @@ public class SellerPaymentService implements ISellerPaymentService{
             sellerPaymentImgRepository.save(sellerPaymentImg);
         }
 
+        // Send notify to seller
+        iNotifyService.insertNotify(thisMember,
+            MessageProvider.PaymentService.sellerPaymentSuccessTitle,
+            MessageProvider.PaymentService.sellerPaymentSuccessDescription,
+            null,
+            null
+        );
+
         AuctionRegister auctionRegister = auctionRegisterRepository.findById(auctionRegisterId).get();
         auctionRegister.setStatus(AuctionRegisterStatus.PAYMENT_SUCCESS);
         auctionRegisterRepository.save(auctionRegister);
-
-
         return sellerPayment;
     }
+
+    @Override
+    public List<SellerPayment> getAllSellerPayment() {
+        return sellerPaymentRepository.findAll();
+    }
+
+    @Override
+    public SellerPayment getSellerPaymentById(Integer id) {
+        return sellerPaymentRepository.findById(id).get();
+    }
+
+    @Override
+    public List<SellerPayment> getByMemberId(Integer memberId) {
+        return sellerPaymentRepository.findByMemberId(memberId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Member getMemberBySellerPaymentId(int sellerPaymentId) {
+        return sellerPaymentRepository.findMemberBySellerPaymentId(sellerPaymentId);
+    }
+
+
 }

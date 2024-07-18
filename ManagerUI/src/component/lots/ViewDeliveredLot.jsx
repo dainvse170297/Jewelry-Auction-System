@@ -71,7 +71,7 @@ const ViewDeliveredLot = () => {
                       <tr>
                         <th scope="col">#</th>
                         <th scope="col">Current Winner Name</th>
-                        <th scope="col">Product Name</th>
+                        <th scope="col">Jewelry Name</th>
                         <th scope="col">Time Payment</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>

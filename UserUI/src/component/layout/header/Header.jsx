@@ -94,7 +94,7 @@ const Header = () => {
 
           <div className="col-5  d-flex justify-content-center align-item-center">
             <Nav className="ms-auto me-auto px-0 mx-0">
-              <Nav.Link href="/contact" className="mx-4">
+              <Nav.Link as={Link} to={"/contact"} className="mx-4">
                 CONTACT
               </Nav.Link>
               <Dropdown>
@@ -117,7 +117,7 @@ const Header = () => {
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-              <Nav.Link href="/notify" className="">
+              <Nav.Link as={Link} to={"/notify"} className="">
                 <Bell size={24} />
               </Nav.Link>
               <Dropdown>

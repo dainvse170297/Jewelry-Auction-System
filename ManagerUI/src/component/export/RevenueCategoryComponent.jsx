@@ -19,7 +19,7 @@ const RevenueExportCategoryComponent = () => {
 
       const promises = years.map(async (year) => {
         const response = await axios.get(
-          `https://jewelry-auction-system.azurewebsites.net/dashboard/dataRevenue/${year}`
+          `https://fuja.azurewebsites.net/dashboard/dataRevenue/${year}`
         );
         return response.data;
       });
@@ -63,6 +63,10 @@ const RevenueExportCategoryComponent = () => {
         return {
           Year: (item.year || currentYearFile - index).toString(),
           "Total Revenue":
+            Math.round(
+              (item.totalRevenue + item.totalRevenue * 0.2 || 0) * 100
+            ) / 100,
+          "Total Profit":
             Math.round((item.totalRevenue * 0.2 || 0) * 100) / 100,
           "Profit Earrings": earringsProfit,
           "Profit Necklaces": necklacesProfit,

@@ -24,7 +24,7 @@ const ValuationRequestDetail = () => {
     };
     setLoading(false);
     fetchValuationRequestById();
-  }, []);
+  }, [id]);
 
   if (!valuationRequest) return <div>No valuation request found</div>;
 
@@ -35,7 +35,7 @@ const ValuationRequestDetail = () => {
   return (
     <>
       <div className="row d-flex justify-content-center">
-        <div className="col-sm-10">
+        <div className="col-sm-8">
           <div className="row">
             <div className="">
               <a onClick={goBack} className="a">
@@ -44,10 +44,10 @@ const ValuationRequestDetail = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-6">
+            <div className="col-5">
               <ImageGallery images={valuationRequest?.valuationImagesUrls} />
             </div>
-            <div className="col-6">
+            <div className="col-7">
               <h2>Valuation Request Detail</h2>
               <p>
                 <strong>Time Request:</strong>
@@ -58,7 +58,7 @@ const ValuationRequestDetail = () => {
               <p>
                 <strong>Description:</strong> {valuationRequest.description}
               </p>
-              <div className="d-flex">
+              <div className="d-flex align-items-center my-2">
                 <strong>Status:</strong>{" "}
                 <ValuationRequestLabel
                   status={valuationRequest.valuationStatus}
@@ -67,20 +67,20 @@ const ValuationRequestDetail = () => {
               <p>
                 <strong>Estimate Price Range:</strong>{" "}
                 {valuationRequest.estimatePriceMin
-                  ? `$${valuationRequest.estimatePriceMin}`
-                  : "N/A"}{" "}
-                -{" "}
+                  ? `$${valuationRequest.estimatePriceMin} -`
+                  : ""}{" "}
                 {valuationRequest.estimatePriceMax
                   ? `$${valuationRequest.estimatePriceMax}`
-                  : "N/A"}
+                  : "This valuation request has no estimate price range"}
               </p>
               <p>
                 <strong>Member Estimate Price:</strong>
 
-                {valuationRequest.memberEstimatePrice ? (
+                {valuationRequest.memberEstimatePrice &&
+                valuationRequest.memberEstimatePrice > 0 ? (
                   <>${valuationRequest.memberEstimatePrice}</>
                 ) : (
-                  "No"
+                  "You have not provided an estimate price"
                 )}
               </p>
             </div>

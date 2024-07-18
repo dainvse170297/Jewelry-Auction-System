@@ -89,10 +89,14 @@ const Register = () => {
           member.email,
           member.address
         );
-        toast("Account created successfully");
-        setTimeout(() => {
-          navigate("/login");
-        }, 1000);
+        if (data.message) {
+          setErrorMsg(data.message);
+        } else {
+          toast("Account created successfully");
+          setTimeout(() => {
+            navigate("/login");
+          }, 1000);
+        }
       } catch (error) {
         if (error.response) {
           setErrorMsg(error.response.data.message);

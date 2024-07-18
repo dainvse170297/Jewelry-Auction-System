@@ -26,19 +26,11 @@ const CheckOutDetail = () => {
     } else {
       setIsLoading(true)
       try {
-        // const response = await axios.get(`http://localhost:8080/api/payment/vnpay`, {
-        //   headers: {
-        //     'Content-Type': 'application/json'
-        //   },
-        //   params: {
-        //     amount,
-        //     bankCode
-        //   }
-        // })
+
         const response = await getCheckOut(bankCode, amount)
-        // const data = response.data;
+
         setIsLoading(false)
-        console.log(response);
+
         if (response && response.data.paymentUrl) {
           window.location.href = response.data.paymentUrl;
         } else {

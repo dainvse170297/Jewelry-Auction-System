@@ -8,4 +8,6 @@ import java.util.List;
 public interface IStaffService {
 
     List<AccountDTO> getAllStaffAccounts();
+
+    AccountDTO getStaffAccountById(int id);
 }

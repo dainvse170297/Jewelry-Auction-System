@@ -3,17 +3,16 @@ package com.fpt.edu.service;
 import com.fpt.edu.dto.LotDTO;
 import com.fpt.edu.dto.PaymentInfoDTO;
 import com.fpt.edu.entity.AuctionRegister;
+import com.fpt.edu.entity.AuctionSession;
 import com.fpt.edu.entity.Lot;
 import com.fpt.edu.entity.Member;
 import com.fpt.edu.entity.PaymentInfo;
 import com.fpt.edu.mapper.LotMapper;
-import com.fpt.edu.repository.IAuctionRegisterRepository;
-import com.fpt.edu.repository.ILotRepository;
-import com.fpt.edu.repository.IMemberRepository;
-import com.fpt.edu.repository.IPaymentInfoRepository;
+import com.fpt.edu.repository.*;
 import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.LotStatus;
 import com.fpt.edu.status.NotifyType;
+import com.fpt.edu.utils.MessageProvider;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +36,7 @@ public class LotService implements ILotService {
     private final IAuctionRegisterRepository auctionRegisterRepository;
     private final IMemberRepository iMemberRepository;
     private final IPaymentInfoRepository paymentInfoRepository;
+    private final IAuctionSessionRepository auctionSessionRepository;
     private final NotifyService notifyService;
 
     @Override
@@ -74,8 +74,8 @@ public class LotService implements ILotService {
     @Override
     public List<LotDTO> getLotsByWinnerPurchaseAuctionRegister() {
         AuctionRegisterStatus status = AuctionRegisterStatus.WINNER_PURCHASED;
-        List<AuctionRegister> auctionRegisters =
-                auctionRegisterRepository.findByStatus(status);
+        List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findByStatus(status);
+
 
         List<Lot> lots = auctionRegisters.stream().map(AuctionRegister::getLot).toList();
 
@@ -120,6 +120,13 @@ public class LotService implements ILotService {
         return lotDTOS;
     }
 
+    @Override
+    public List<Lot> getLotsBySession(int sessionId) {
+        AuctionSession auctionSession = auctionSessionRepository.findById(sessionId).get();
+        List<Lot> lots = lotRepository.findByAuctionSession(auctionSession);
+        return lots;
+    }
+
     @Scheduled(fixedRate = 60 * 60 * 24 * 1000) //1 day
     public void updateLotStatus() {
         List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findByStatus(AuctionRegisterStatus.PENDING_PAYMENT);
@@ -132,8 +139,8 @@ public class LotService implements ILotService {
                 auctionRegisterRepository.save(auctionRegister);
                 //not paid lot, remind them to pay
                 notifyService.insertNotify(auctionRegister.getMember(),
-                        "Payment Cancelled",
-                        "Your payment has been cancelled due to non-payment.Your payment has been cancelled due to non-payment. Your account is going to be terminated.",
+                        MessageProvider.PaymentService.timeoutWinnerPaymentTitle,
+                        MessageProvider.PaymentService.timeoutWinnerPaymentDescription,
                         NotifyType.PAYMENT,
                         auctionRegister.getId()
                 );

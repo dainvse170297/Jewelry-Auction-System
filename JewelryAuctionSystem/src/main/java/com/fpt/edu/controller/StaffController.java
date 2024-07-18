@@ -25,6 +25,11 @@ public class StaffController {
         return ResponseEntity.ok(staffService.getAllStaffAccounts());
     }
 
+    @GetMapping("/accounts/{id}")
+    public ResponseEntity<AccountDTO> getStaffAccountById(@PathVariable int id){
+        return ResponseEntity.ok(staffService.getStaffAccountById(id));
+    }
+
     @PostMapping("/account/register")
     public ResponseEntity<Account> createStaffAccount(@RequestParam("username") String username,
                                                       @RequestParam("password") String password,
