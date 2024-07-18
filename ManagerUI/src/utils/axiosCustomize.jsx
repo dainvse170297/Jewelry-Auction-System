@@ -5,6 +5,8 @@ const instance = axios.create({
   //baseURL: "http://localhost:8080/",
 });
 
+instance.defaults.headers.common["Content-Type"] = "application/json";
+
 // Add a request interceptor
 instance.interceptors.request.use(
   function (config) {

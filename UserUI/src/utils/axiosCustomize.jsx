@@ -1,12 +1,9 @@
 import axios from "axios";
 
 const instance = axios.create({
-  // baseURL: "http://localhost:8080/",
+  //baseURL: "http://localhost:8080/",
   baseURL: "https://fuja.azurewebsites.net/",
 });
-
-// instance.defaults.headers.common["Authorization "] = "Bearer " + localStorage.getItem("token");
-instance.defaults.headers.common["Content-Type"] = "application/json";
 
 // Add a request interceptor
 instance.interceptors.request.use(
