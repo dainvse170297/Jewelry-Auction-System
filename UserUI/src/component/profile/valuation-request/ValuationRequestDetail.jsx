@@ -67,20 +67,20 @@ const ValuationRequestDetail = () => {
               <p>
                 <strong>Estimate Price Range:</strong>{" "}
                 {valuationRequest.estimatePriceMin
-                  ? `$${valuationRequest.estimatePriceMin}`
-                  : "N/A"}{" "}
-                -{" "}
+                  ? `$${valuationRequest.estimatePriceMin} -`
+                  : ""}{" "}
                 {valuationRequest.estimatePriceMax
                   ? `$${valuationRequest.estimatePriceMax}`
-                  : "N/A"}
+                  : "This valuation request has no estimate price range"}
               </p>
               <p>
                 <strong>Member Estimate Price:</strong>
 
-                {valuationRequest.memberEstimatePrice ? (
+                {valuationRequest.memberEstimatePrice &&
+                valuationRequest.memberEstimatePrice > 0 ? (
                   <>${valuationRequest.memberEstimatePrice}</>
                 ) : (
-                  "No"
+                  "You have not provided an estimate price"
                 )}
               </p>
             </div>

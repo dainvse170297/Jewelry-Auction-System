@@ -1,5 +1,5 @@
 import React from "react";
-import { GoToValuationRequestDetail } from "./NotifyAction";
+import { GoToValuationRequestDetail, ShowResponseList } from "./NotifyAction";
 
 const NotificationMap = ({ notification }) => {
   switch (notification.notifiableType) {
@@ -10,7 +10,12 @@ const NotificationMap = ({ notification }) => {
     case "VALUATION_REQUEST_PRODUCT_RECEIVED":
       return <GoToValuationRequestDetail notification={notification} />;
     case "FINAL_VALUATION":
-      return <GoToValuationRequestDetail notification={notification} />;
+      return (
+        <>
+          <ShowResponseList notification={notification} />
+          <GoToValuationRequestDetail notification={notification} />;
+        </>
+      );
 
     default:
       return null;
