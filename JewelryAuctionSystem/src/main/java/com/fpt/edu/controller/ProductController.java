@@ -32,12 +32,42 @@ public class ProductController {
                                               @RequestParam("pricePerStep") BigDecimal pricePerStep,
                                               @RequestParam("maxStep") Integer maxStep,
                                               @RequestParam("startPrice") BigDecimal startPrice) throws IOException {
-
-        Product product = productService.createProduct(valuationRequestId,categoryId,name,description,estimatePriceMax,estimatePriceMin, photos, buyNowPrice, pricePerStep, maxStep, startPrice);
-
+        Product product = productService.createProduct(valuationRequestId, categoryId, name, description, estimatePriceMax, estimatePriceMin, photos, buyNowPrice, pricePerStep, maxStep, startPrice);
+        return ResponseEntity.ok(product);
+    }
+@PostMapping("/update-product")
+    public ResponseEntity<Product> updateProduct( @RequestParam("productId") int productId,
+                                                @RequestParam("valuationRequestId") int valuationRequestId,
+                                              @RequestParam("categoryId") int categoryId,
+                                              @RequestParam("name") String name,
+                                              @RequestParam("description") String description,
+                                              @RequestParam("estimatePriceMax") BigDecimal estimatePriceMax,
+                                              @RequestParam("estimatePriceMin") BigDecimal estimatePriceMin,
+                                              @RequestParam(value = "photos", required = false) MultipartFile[] photos,
+                                              @RequestParam(value = "buyNowPrice", required = false) BigDecimal buyNowPrice,
+                                              @RequestParam(value = "pricePerStep", required = false) BigDecimal pricePerStep,
+                                              @RequestParam(value = "maxStep", required = false) Integer maxStep,
+                                              @RequestParam(value = "startPrice", required = false) BigDecimal startPrice) throws IOException {
+        Product product = productService.updateProduct(productId, valuationRequestId, categoryId, name, description, estimatePriceMax, estimatePriceMin, photos, buyNowPrice, pricePerStep, maxStep, startPrice);
         return ResponseEntity.ok(product);
     }
 
+    @GetMapping("/get-product-by-id")
+    public ResponseEntity<Product> getProductById(@RequestParam("productId") int productId) {
+        Product product = productService.getProductById(productId);
+        return ResponseEntity.ok(product);
+    }
+
+    @GetMapping("/get-all-product")
+    public ResponseEntity<?> getAllProduct() {
+        return ResponseEntity.ok(productService.getAllProduct());
+    }
+
+    @GetMapping("/delete-product")
+    public ResponseEntity<?> deleteProduct(@RequestParam("productId") int productId) {
+        productService.deleteProduct(productId);
+        return ResponseEntity.ok("Delete product successfully");
+    }
 
 
 }

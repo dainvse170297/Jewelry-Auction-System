@@ -2,6 +2,7 @@ package com.fpt.edu.repository;
 
 import com.fpt.edu.entity.AuctionSession;
 import com.fpt.edu.entity.Lot;
+import com.fpt.edu.entity.Product;
 import com.fpt.edu.status.LotStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +20,6 @@ public interface ILotRepository extends JpaRepository<Lot, Integer> {
     List<Lot> findByAuctionSession(AuctionSession auctionSession);
     List<Lot> findByAuctionSession_Id(Integer auctionSessionId);
     List<Lot> findByAuctionSession_IdAndStatus(Integer auctionSessionId, LotStatus lotStatus);
+
+    Lot findByProduct(Product product);
 }
