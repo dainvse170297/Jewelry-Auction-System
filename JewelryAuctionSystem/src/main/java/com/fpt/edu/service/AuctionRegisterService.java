@@ -53,17 +53,17 @@ public class AuctionRegisterService implements IAuctionRegisterService {
 
         Integer ownerId = valuationRequest.getMember().getId();
         if(ownerId.equals(memberId)){
-            throw new RuntimeException("You can not register to bid your own product");
+            throw new RuntimeException("You can not register to bid your own jewelry");
         }else if(member.getFinancialProofAmount() == null || member.getFinancialProofAmount().compareTo(price) < 0){
             throw new OutOfFinancialProofAmountException("Not enough money. Please check your financial proof amount.");
+        }else{
+            auctionRegister.setMember(member);
+            auctionRegister.setLot(lot);
+            auctionRegister.setStatus(AuctionRegisterStatus.REGISTERED);
+            auctionRegister.setPreviousPrice(price);
+
+            auctionRegisterRepository.save(auctionRegister);
         }
-        auctionRegister.setMember(member);
-        auctionRegister.setLot(lot);
-        auctionRegister.setStatus(AuctionRegisterStatus.REGISTERED);
-        auctionRegister.setPreviousPrice(price);
-
-        auctionRegisterRepository.save(auctionRegister);
-
         return auctionRegister;
     }
 

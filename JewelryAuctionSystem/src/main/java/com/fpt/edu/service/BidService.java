@@ -111,8 +111,10 @@ public class BidService implements IBidService {
             for (AuctionRegister auctionRegister1 : auctionRegisters) {
                 if (auctionRegister1.getId() != auctionRegister.getId()) {
                     Member member1 = auctionRegister1.getMember();
-                    member1.setFinancialProofAmount(member1.getFinancialProofAmount().add(auctionRegister1.getCurrentPrice()));
-                    iMemberRepository.save(member1);
+                    if (member1.getFinancialProofAmount() != null && auctionRegister1.getCurrentPrice() != null) {
+                        member1.setFinancialProofAmount(member1.getFinancialProofAmount().add(auctionRegister1.getCurrentPrice()));
+                        iMemberRepository.save(member1);
+                    }
                 }
             }
 

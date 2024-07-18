@@ -287,7 +287,7 @@ public class AuctionSessionService implements IAuctionSessionService {
                         for (AuctionRegister auctionRegister1 : auctionRegisters) {
                             if (auctionRegister1.getMember().getId() != lot.getCurrentWinnerId()) {
                                 Member member1 = auctionRegister1.getMember();
-                                if (auctionRegister1.getCurrentPrice() != null && auctionRegister1.getCurrentPrice() != null) {
+                                if (member1.getFinancialProofAmount() != null && auctionRegister1.getCurrentPrice() != null) {
                                     member1.setFinancialProofAmount(member1.getFinancialProofAmount().add(auctionRegister1.getCurrentPrice()));
                                     iMemberRepository.save(member1);
                                 }
