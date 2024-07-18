@@ -47,5 +47,5 @@ public class Account {
     private Manager manager;
 
     @Column(name="is_active")
-    private boolean isActive;
+    private boolean isActive = true;
 }

@@ -2,11 +2,7 @@ package com.fpt.edu.service;
 
 import com.fpt.edu.dto.LotDTO;
 import com.fpt.edu.dto.PaymentInfoDTO;
-import com.fpt.edu.entity.AuctionRegister;
-import com.fpt.edu.entity.AuctionSession;
-import com.fpt.edu.entity.Lot;
-import com.fpt.edu.entity.Member;
-import com.fpt.edu.entity.PaymentInfo;
+import com.fpt.edu.entity.*;
 import com.fpt.edu.mapper.LotMapper;
 import com.fpt.edu.repository.*;
 import com.fpt.edu.status.AuctionRegisterStatus;
@@ -20,6 +16,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +34,7 @@ public class LotService implements ILotService {
     private final IMemberRepository iMemberRepository;
     private final IPaymentInfoRepository paymentInfoRepository;
     private final IAuctionSessionRepository auctionSessionRepository;
+    private final IAccountRepository accountRepository;
     private final NotifyService notifyService;
 
     @Override
@@ -131,10 +129,16 @@ public class LotService implements ILotService {
     public void updateLotStatus() {
         List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findByStatus(AuctionRegisterStatus.PENDING_PAYMENT);
         for (AuctionRegister auctionRegister : auctionRegisters) {
-            if (auctionRegister.getLot().getAuctionSession().getEndTime().plusDays(15).isBefore(java.time.LocalDateTime.now())) {
+            if (auctionRegister.getLot().getAuctionSession().getEndTime().plusDays(15).isBefore(LocalDateTime.now())) {
                 Lot lot = auctionRegister.getLot();
-                lot.setStatus(LotStatus.READY);
-                lotRepository.save(lot);
+                Lot newLot = new Lot();
+                newLot.setProduct(lot.getProduct());
+                newLot.setStatus(LotStatus.READY);
+                newLot.setBuyNowPrice(lot.getBuyNowPrice());
+                newLot.setStartPrice(lot.getStartPrice());
+                newLot.setPricePerStep(lot.getPricePerStep());
+                newLot.setMaxStep(lot.getMaxStep());
+                lotRepository.save(newLot);
                 auctionRegister.setStatus(AuctionRegisterStatus.CANCELLED);
                 auctionRegisterRepository.save(auctionRegister);
                 //not paid lot, remind them to pay
@@ -144,11 +148,13 @@ public class LotService implements ILotService {
                         NotifyType.PAYMENT,
                         auctionRegister.getId()
                 );
+                Account account = accountRepository.findByMembers(auctionRegister.getMember());
+                account.setActive(false);
+                accountRepository.save(account);
                 Member member = auctionRegister.getMember();
                 member.setFinancialProofAmount(new BigDecimal(-1));
-                member.setFullname("Terminated Account!");
                 iMemberRepository.save(member);
-            } else if (auctionRegister.getLot().getAuctionSession().getEndTime().plusDays(14).isBefore(java.time.LocalDateTime.now())) {
+            } else if (auctionRegister.getLot().getAuctionSession().getEndTime().plusDays(14).isBefore(LocalDateTime.now())) {
                 auctionRegisterRepository.save(auctionRegister);
                 notifyService.insertNotify(auctionRegister.getMember(),
                         "Payment Reminder",
@@ -156,7 +162,7 @@ public class LotService implements ILotService {
                         NotifyType.PAYMENT,
                         auctionRegister.getId()
                 );
-            } else if (auctionRegister.getLot().getAuctionSession().getEndTime().plusDays(7).isBefore(java.time.LocalDateTime.now())) {
+            } else if (auctionRegister.getLot().getAuctionSession().getEndTime().plusDays(7).isBefore(LocalDateTime.now())) {
                 //not paid lot, remind them to pay
                 notifyService.insertNotify(auctionRegister.getMember(),
                         "Payment Reminder",
