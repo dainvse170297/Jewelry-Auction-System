@@ -1,6 +1,7 @@
 package com.fpt.edu.repository;
 
 import com.fpt.edu.entity.Account;
+import com.fpt.edu.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,4 +22,5 @@ public interface IAccountRepository extends JpaRepository<Account, Integer> {
             
     Optional<Account> findByStaffId(Integer staffId);
 
+    Account findByMembers(Member member);
 }

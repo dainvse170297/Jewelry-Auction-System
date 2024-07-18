@@ -11,6 +11,7 @@ import { getSentValuationRequest } from "../../../services/apiService";
 import Paginator from "../../common/Paginator";
 import ValuationResponseList from "../valuation-response/ValuationResponseList";
 import "./style.scss";
+import { ValuationRequestLabelText } from "../../../views/status/Statuslabel";
 
 export default function MyValuationRequest() {
   const id = JSON.parse(localStorage.getItem("account")).memberId;
@@ -130,6 +131,9 @@ export default function MyValuationRequest() {
               onChange={handleStatusChange}
             >
               <MenuItem value="">All</MenuItem>
+              <MenuItem value="PENDING_MEMBER_ACCEPTANCE">
+                PENDING FOR ACCEPTANCE
+              </MenuItem>
               <MenuItem value="MEMBER_ACCEPTED">ACCEPTED</MenuItem>
               <MenuItem value="REQUESTED">REQUESTED</MenuItem>
               <MenuItem value="CANCELED">REJECTED</MenuItem>
@@ -162,10 +166,10 @@ export default function MyValuationRequest() {
                       </h6>
                       <p>{request.description}</p>
                       <p>
-                        Status:{" "}
-                        {request.valuationStatus === "MEMBER_ACCEPTED"
-                          ? "ACCEPTED"
-                          : request.valuationStatus}
+                        Curent state:{" "}
+                        <ValuationRequestLabelText
+                          status={request.valuationStatus}
+                        />
                       </p>
                     </div>
                   </td>

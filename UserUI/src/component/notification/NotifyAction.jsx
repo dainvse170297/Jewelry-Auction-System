@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import "./notify.scss";
 import { Link } from "react-router-dom";
@@ -13,7 +13,7 @@ const handleReadNotification = async (notificationId) => {
   try {
     const response = await getReadNotify(notificationId);
     if (response) {
-      window.location.reload();
+      //   window.location.reload();
     }
   } catch (error) {
     console.log("error", error);
@@ -22,10 +22,10 @@ const handleReadNotification = async (notificationId) => {
 
 const GoToValuationRequestDetail = ({ notification }) => {
   return (
-    <>
+    <div className="action">
       {notification ? (
         <Button
-          className="detail-button px-3 py-1"
+          className="detail-button-1 px-3 py-1"
           as={Link}
           to={`/valuation-request/${notification.notifiableId}`}
           onClick={() => handleReadNotification(notification.id)}
@@ -33,14 +33,15 @@ const GoToValuationRequestDetail = ({ notification }) => {
           View request
         </Button>
       ) : null}
-    </>
+    </div>
   );
 };
 
 const ShowResponseList = ({ notification }) => {
   const [showModal, setShowModal] = useState(false);
 
-  const handleShowResponse = () => {
+  const handleShowResponse = (notification) => {
+    handleReadNotification(notification.id);
     setShowModal(true);
   };
 
@@ -49,29 +50,22 @@ const ShowResponseList = ({ notification }) => {
   };
 
   return (
-    <>
+    <div className="action">
       {notification && notification.notifiableId ? (
         <>
           <Button
-            className="detail-button px-3 py-1"
-            as={Link}
-            to={`/valuation-response/${notification.notifiableId}`}
-            onClick={() => handleReadNotification(notification.id)}
+            className="detail-button px-2 py-1 mx-2"
+            onClick={() => handleShowResponse(notification)}
           >
             View response
           </Button>
-          <Button
-            className="detail-button px-3 py-1"
-            onClick={handleShowResponse}
-          ></Button>
+
           <Modal show={showModal} onHide={handleCloseModal} size="lg">
             <Modal.Header closeButton>
               <Modal.Title>Valuation Response</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              {selectedRequestId && (
-                <ValuationResponseList id={notification.id} />
-              )}
+              <ValuationResponseList id={notification.notifiableId} />
             </Modal.Body>
             <Modal.Footer>
               <Button variant="standard" onClick={handleCloseModal}>
@@ -81,6 +75,6 @@ const ShowResponseList = ({ notification }) => {
           </Modal>
         </>
       ) : null}
-    </>
+    </div>
   );
 };

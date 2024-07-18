@@ -14,7 +14,7 @@ const AuctionRegisterHistoryList = () => {
   );
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(8);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -89,7 +89,7 @@ const AuctionRegisterHistoryList = () => {
                       }
                       className="a-name"
                     >
-                      {item.lot?.product?.name}
+                      <strong>{item.lot?.product?.name}</strong>
                     </a>
                   </td>
                   <td>

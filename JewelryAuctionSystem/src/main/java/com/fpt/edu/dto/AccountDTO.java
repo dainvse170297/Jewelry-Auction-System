@@ -23,4 +23,5 @@ public class AccountDTO {
     private Integer memberId;
     private Integer staffId;
     private Integer managerId;
+    private boolean isActive;
 }
