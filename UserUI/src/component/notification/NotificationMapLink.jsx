@@ -8,8 +8,8 @@ const NotificationMap = ({ notification }) => {
     case "VALUATION_REQUEST_PRELIMINARY":
       return (
         <>
+          <GoToValuationRequestDetail notification={notification} />
           <ShowResponseList notification={notification} />
-          <GoToValuationRequestDetail notification={notification} />;
         </>
       );
     case "VALUATION_REQUEST_PRODUCT_RECEIVED":
@@ -17,8 +17,8 @@ const NotificationMap = ({ notification }) => {
     case "FINAL_VALUATION":
       return (
         <>
+          <GoToValuationRequestDetail notification={notification} />
           <ShowResponseList notification={notification} />
-          <GoToValuationRequestDetail notification={notification} />;
         </>
       );
     default:

@@ -44,7 +44,7 @@ const NotificationList = () => {
     <>
       <CssBaseline />
       <Container className="notifies">
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" className="text-center" gutterBottom>
           Notifications
         </Typography>
         {notifications.map((notification, index) => (
@@ -63,7 +63,7 @@ const NotificationList = () => {
                   </Typography>
                 </CardContent>
               </div>
-              <div className="col-lg-3 d-flex justify-content-center align-items-center">
+              <div className="col-lg-3 d-flex align-items-center">
                 <NotificationMap notification={notification} />
               </div>
             </div>
