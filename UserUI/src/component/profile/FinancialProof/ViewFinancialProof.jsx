@@ -8,7 +8,7 @@ import moment from "moment/moment";
 import { getFinancialProof } from "../../../services/apiService";
 
 const ViewFinancialProof = () => {
-  const id = JSON.parse(localStorage.getItem("account")).meberId;
+  const id = JSON.parse(localStorage.getItem("account")).memberId;
 
   const [financialProof, setFinancialProof] = useState(null);
 
