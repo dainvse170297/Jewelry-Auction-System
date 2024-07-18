@@ -7,6 +7,7 @@ import com.fpt.edu.mapper.BidMapper;
 import com.fpt.edu.repository.*;
 import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.LotStatus;
+import com.fpt.edu.status.NotifyType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -100,8 +101,10 @@ public class BidService implements IBidService {
 
             Notify notify = new Notify();
             notify.setMember(member);
-            notify.setTitle("# You have won the auction: " + lot.getProduct().getName());
+            notify.setTitle("You have won the auction: " + lot.getProduct().getName());
             notify.setDescription("You have won the auction" + lot.getProduct().getName() + " with price $" + buyNowPrice);
+            notify.setNotifiableId(lotId);
+            notify.setNotifiableType(NotifyType.WINNER);
             notify.setDate(LocalDateTime.now());
             notify.setIsRead(false);
             iNotifyRepository.save(notify);
@@ -119,7 +122,7 @@ public class BidService implements IBidService {
             }
 
             throw new ResponseStatusException(HttpStatus.OK, "You have won the auction with price $" + buyNowPrice);
-        }
+        }//end handle buy now case
 
         BigDecimal currentPrice = lot.getCurrentPrice() == null ? lot.getStartPrice() : lot.getCurrentPrice();
 
