@@ -46,8 +46,8 @@ const ValuationRequestLabel = ({ status }) => {
   }
 
   return (
-    <div className="mx-3 p-2" style={labelStyle}>
-      {status}
+    <div className="mx-3 p-2 rounded-2" style={labelStyle}>
+      {label}
     </div>
   );
 };

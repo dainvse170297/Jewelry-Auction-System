@@ -14,12 +14,12 @@ public class MessageProvider {
         public static final String valuationRequestSuccessDescription = "Your valuation request has been sent. Please wait for our response.";
 
         public static final String productReceivedTitle = "We have received your jewelry";
-        public static final String productReceivedMessage = "Your jewelry has been received. We are processing the valuation. We will contact you as soon as your product is evaluated.";
+        public static final String productReceivedMessage = "Your jewelry has been received. We are processing the valuation. We will contact you as soon as your jewelry is evaluated.";
 
         public static final String preliminaryValuatedTitle = "Your jewelry has been preliminary valuated";
         public static final String preliminaryValuatedMessage = "We have done the preliminary valuation for your jewelry. We will contact you soon.";
 
-        public static final String finalValuatedTitle = "Your product has been valuated";
+        public static final String finalValuatedTitle = "Your jewelry has been valuated";
         public static final String finalValuatedMessage = "We have done the final valuation for your jewelry. Please check your response list for the result.";
 
         public static final String cancelValuationRequestTitle = "Your valuation request has been canceled";
