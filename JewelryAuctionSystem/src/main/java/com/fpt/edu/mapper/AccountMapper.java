@@ -23,6 +23,7 @@ public class AccountMapper {
             accountDTO.setManagerId(account.getManager().getId());
             accountDTO.setFullname(account.getManager().getFullname());
         }
+        accountDTO.setActive(account.isActive());
         accountDTO.setCreateDate(account.getCreateDate());
         return accountDTO;
     }

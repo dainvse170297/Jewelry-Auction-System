@@ -331,11 +331,12 @@ public class AccountService implements IAccountService {
     @Override
     public Map<String, Object> deleteAccount(Integer id) {
         Account account = accountRepository.getReferenceById(id);
+        account.setActive(false);
+        accountRepository.save(account);
         Map<String, Object> map = new HashMap<>();
         if (account.getStaff() != null) {
         AccountDTO accountDTO = AccountMapper.toAccountDTO(account);
-        accountRepository.delete(account);
-        map.put("message", "Delete account successfully");
+        map.put("message", "Set account to inactive successfully");
         map.put("account", accountDTO);}
         else {
             map.put("message", "Account is not staff");
