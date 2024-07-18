@@ -112,7 +112,7 @@ const MemberManage = () => {
                           <td>{member.fullname}</td>
                           <td>{member.email}</td>
                           <td>{member.phone}</td>
-                          <td>
+                          <td className="d-flex justify-content-center">
                             <EditMemberAccount member={member} />
                             <DeleteMemberAccount memberId={member.id} />
                           </td>
