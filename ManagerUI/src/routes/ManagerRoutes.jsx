@@ -1,7 +1,7 @@
 import React from "react";
 import Dashboard from "../component/dashboard/Dashboard";
 import Setting from "../component/manager/SystemSetting";
-import UserManage from "../component/account/UserManage";
+import StaffMange from "../component/account/StaffMange";
 import AuctionSessionList from "../component/auction-session/AuctionSessionList";
 import CreateAuction from "../component/manager/CreateAuction";
 import { ReadyLots } from "../component/lots/LotList";
@@ -18,6 +18,7 @@ import { ViewPurchasedLot } from "../component/lots/ViewPurchasedLot";
 import PaidList from "../component/manager/AuctionRegister/PaidList";
 import SetupProductInfo from "../component/product/SetupProductInfo";
 import Export from "../component/export/Export";
+import MemberManage from "../component/account/MemberManage";
 
 const ManagerRoutes = [
   {
@@ -34,7 +35,7 @@ const ManagerRoutes = [
   },
   {
     path: "/staff-manage",
-    element: <UserManage />,
+    element: <StaffMange />,
   },
   {
     path: "/setting",
@@ -89,6 +90,10 @@ const ManagerRoutes = [
   {
     path: "/valuation-request/product-received/confirm/:id",
     element: <SetupProductInfo />,
+  },
+  {
+    path: "/user-manage",
+    element: <MemberManage />,
   },
 ];
 

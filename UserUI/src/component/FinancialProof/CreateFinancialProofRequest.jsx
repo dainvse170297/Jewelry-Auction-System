@@ -10,8 +10,14 @@ import FullScreenImage from "../../image/FullScreenImage.jsx";
 import { postCreateFinancialProofAmount } from "../../services/apiService.jsx";
 
 const customImage =
-  "https://res.cloudinary.com/dhkmu458i/image/upload/v1719989868/Untitled-2560-_C3_97-1703-px-1-1-400x267_susf5n.jpg";
-
+  "https://cache.net-a-porter.com/content/images/story-head-content-15thAugust2022-1660549922781.jpeg/w1900_q65.jpeg";
+const imageStyle = {
+  width: "100%",
+  height: "auto",
+  maxWidth: "480px",
+  margin: "0 auto",
+  borderRadius: "10px",
+};
 export default function CreateFinancialProofRequest() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -115,6 +121,7 @@ export default function CreateFinancialProofRequest() {
                   src={customImage}
                   alt="Custom Icon"
                   className="policy-icon"
+                  style={imageStyle}
                 />
               </div>
             </div>
@@ -123,12 +130,10 @@ export default function CreateFinancialProofRequest() {
                 <p className="h5">Photos</p>
                 <hr />
                 <PhotoReviewModal onOk={handleImagesUpload} />
-                {selectedImages.length > 0 && (
-                  <FullScreenImage imageUrls={selectedImages} />
-                )}
+
                 <p className="pt-2 text-muted">JPEG, PNG, PDF</p>
               </div>
-              <div className="text-center mt-5">
+              <div className="text-center">
                 <form onSubmit={createFinancialProof}>
                   {selectedImages.length > 0 && (
                     <Button
@@ -154,6 +159,30 @@ export default function CreateFinancialProofRequest() {
                     </Button>
                   )}
                 </form>
+              </div>
+
+              <div className="mt-5 mb-5 ">
+                <p className="policy-text px-4 extra-margin">
+                  All submitted documents will be reviewed for authenticity and
+                  relevance. If any discrepancies are found, the request may be
+                  denied. It's essential to ensure that all documents are clear
+                  and legible.
+                </p>
+                <p className="policy-text px-4">
+                  If you have any questions or need further assistance, please
+                  don't hesitate to reach out to us. We are always here to
+                  assist you with any inquiries or requests. Feel free to
+                  contact us for timely support!
+                </p>
+                <div className="text-center">
+                  <Button
+                    variant="danger"
+                    className="px-4 py-2" // Increased padding
+                    onClick={() => navigate("/contact")}
+                  >
+                    Contact Us
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

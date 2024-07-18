@@ -2,13 +2,23 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
 import Form from "react-bootstrap/Form";
-import { getStaffAccountByStaffId, postCreateStaffAccount, postEditStaffAccount } from "../../services/apiService";
+import {
+  getStaffAccountByStaffId,
+  postCreateStaffAccount,
+  postEditStaffAccount,
+} from "../../services/apiService";
 import { Button, TextField } from "@mui/material";
-import { Add, EditRounded } from "@mui/icons-material";
+import { Add, EditRounded, DeleteRounded } from "@mui/icons-material";
 
-export { EditManageAccount, AddManageAccount };
+export {
+  AddStaffAccount,
+  EditStaffAccount,
+  AddMemberAccount,
+  EditMemberAccount,
+  DeleteMemberAccount,
+};
 
-const AddManageAccount = () => {
+const AddStaffAccount = () => {
   const [accountInfo, setAccountInfo] = useState({
     username: "",
     password: "",
@@ -31,7 +41,11 @@ const AddManageAccount = () => {
   };
 
   const handleCreateStaff = async () => {
-    if (accountInfo.username.trim() === "" || accountInfo.password.trim() === "" || accountInfo.fullName.trim() === "") {
+    if (
+      accountInfo.username.trim() === "" ||
+      accountInfo.password.trim() === "" ||
+      accountInfo.fullName.trim() === ""
+    ) {
       toast.warning("You need to fill all the fields");
       return;
     }
@@ -51,7 +65,7 @@ const AddManageAccount = () => {
       console.log("Error: ", error);
       toast.error("Create account failed");
     }
-  }
+  };
 
   return (
     <>
@@ -64,7 +78,11 @@ const AddManageAccount = () => {
         </Modal.Header>
         <Modal.Body>
           <div className="row mb-3 mx-2 d-flex justify-content-center">
-            <TextField id="staffName" label="Staff Name" variant="outlined" required
+            <TextField
+              id="staffName"
+              label="Staff Name"
+              variant="outlined"
+              required
               className="mt-3"
               type="text"
               name="fullName"
@@ -72,7 +90,11 @@ const AddManageAccount = () => {
               onChange={handleInputChange}
             />
 
-            <TextField id="staffUsername" label="Staff Username" variant="outlined" required
+            <TextField
+              id="staffUsername"
+              label="Staff Username"
+              variant="outlined"
+              required
               className="mt-3"
               type="text"
               name="username"
@@ -80,7 +102,11 @@ const AddManageAccount = () => {
               onChange={handleInputChange}
             />
 
-            <TextField id="staffPassword" label="Password" variant="outlined" required
+            <TextField
+              id="staffPassword"
+              label="Password"
+              variant="outlined"
+              required
               className="mt-3"
               type="password"
               name="password"
@@ -88,12 +114,22 @@ const AddManageAccount = () => {
               onChange={handleInputChange}
             />
           </div>
-
-
         </Modal.Body>
         <Modal.Footer className="row-sm-9 d-flex justify-content-center">
-          <Button variant="contained" color="success" className=" mx-2" onClick={handleCreateStaff}>Create account</Button>
-          <Button variant="outlined" color="error" className=" mx-2" onClick={handleClose}>
+          <Button
+            variant="contained"
+            color="success"
+            className=" mx-2"
+            onClick={handleCreateStaff}
+          >
+            Create account
+          </Button>
+          <Button
+            variant="outlined"
+            color="error"
+            className=" mx-2"
+            onClick={handleClose}
+          >
             Cancel
           </Button>
         </Modal.Footer>
@@ -103,7 +139,7 @@ const AddManageAccount = () => {
   );
 };
 
-const EditManageAccount = ({ staffId }) => {
+const EditStaffAccount = ({ staffId }) => {
   const [newAccountInfo, setNewAccountInfo] = useState({
     id: staffId,
     username: "",
@@ -124,16 +160,16 @@ const EditManageAccount = ({ staffId }) => {
       } catch (error) {
         console.log("Error: ", error);
       }
-    }
+    };
     getStaff();
-  }, [])
+  }, []);
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
 
   const handleShow = () => {
     try {
-      const getData = async () => { };
+      const getData = async () => {};
       getData();
     } catch (error) {
       console.log("Error: ", error);
@@ -149,8 +185,11 @@ const EditManageAccount = ({ staffId }) => {
   };
 
   const confirmUpdate = async () => {
-
-    if (newAccountInfo.username.trim() === "" || newAccountInfo.password.trim() === "" || newAccountInfo.fullName.trim() === "") {
+    if (
+      newAccountInfo.username.trim() === "" ||
+      newAccountInfo.password.trim() === "" ||
+      newAccountInfo.fullName.trim() === ""
+    ) {
       toast.warning("You need to fill all the fields");
       return;
     }
@@ -173,7 +212,7 @@ const EditManageAccount = ({ staffId }) => {
 
   return (
     <>
-      <Button variant="outlined" color="warning" onClick={handleShow} >
+      <Button variant="outlined" color="warning" onClick={handleShow}>
         <EditRounded />
       </Button>
       <Modal show={show} onHide={handleClose} centered>
@@ -182,7 +221,11 @@ const EditManageAccount = ({ staffId }) => {
         </Modal.Header>
         <Modal.Body>
           <div className="row mb-3 mx-2 d-flex justify-content-center">
-            <TextField id="staffName" label="Staff Name" variant="outlined" required
+            <TextField
+              id="staffName"
+              label="Staff Name"
+              variant="outlined"
+              required
               className="mt-3"
               type="text"
               name="fullName"
@@ -190,7 +233,10 @@ const EditManageAccount = ({ staffId }) => {
               onChange={handleInputChange}
             />
 
-            <TextField id="staffUsername" label="Staff Username" variant="outlined"
+            <TextField
+              id="staffUsername"
+              label="Staff Username"
+              variant="outlined"
               className="mt-3"
               type="text"
               name="username"
@@ -201,7 +247,11 @@ const EditManageAccount = ({ staffId }) => {
               }}
             />
 
-            <TextField id="staffPassword" label="Password" variant="outlined" required
+            <TextField
+              id="staffPassword"
+              label="Password"
+              variant="outlined"
+              required
               className="mt-3"
               type="password"
               name="password"
@@ -210,16 +260,56 @@ const EditManageAccount = ({ staffId }) => {
             />
           </div>
           <Modal.Footer className="row-sm-9 d-flex justify-content-center">
-            <Button variant="contained" color="warning" className="mx-2" onClick={confirmUpdate}>
+            <Button
+              variant="contained"
+              color="warning"
+              className="mx-2"
+              onClick={confirmUpdate}
+            >
               Save Change
             </Button>
-            <Button variant="outlined" color="error" className=" mx-2" onClick={handleClose}>
+            <Button
+              variant="outlined"
+              color="error"
+              className=" mx-2"
+              onClick={handleClose}
+            >
               Cancel
             </Button>
           </Modal.Footer>
-        </Modal.Body >
-      </Modal >
+        </Modal.Body>
+      </Modal>
       <ToastContainer />
+    </>
+  );
+};
+
+const AddMemberAccount = () => {
+  return (
+    <>
+      <Button variant="contained" color="success">
+        <Add />
+      </Button>
+    </>
+  );
+};
+
+const EditMemberAccount = ({ memberId }) => {
+  return (
+    <>
+      <Button className="mx-2" variant="outlined" color="warning">
+        <EditRounded />
+      </Button>
+    </>
+  );
+};
+
+const DeleteMemberAccount = ({ memberId }) => {
+  return (
+    <>
+      <Button className="mx-2" variant="outlined" color="error">
+        <DeleteRounded />
+      </Button>
     </>
   );
 };

@@ -1,23 +1,27 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { FaSearch, FaTrash } from "react-icons/fa";
-import { getAllStaffAccount } from "../../services/apiService";
+import { FaSearch } from "react-icons/fa";
+import { getAllMemberAccounts } from "../../services/apiService";
 import Paginator from "../common/Paginator";
 import "./account.scss";
-import { AddManageAccount, EditManageAccount } from "./AccountManage";
+import {
+  AddMemberAccount,
+  EditMemberAccount,
+  DeleteMemberAccount,
+} from "./AccountManage";
 
-const UserManage = () => {
-  const [staffAccounts, setStaffAccounts] = useState([]);
+const MemberManage = () => {
+  const [memberAccounts, setMemberAccounts] = useState([]);
   const [input, setInput] = useState("");
-  const [filteredStaff, setFilteredStaff] = useState([]);
+  const [filteredMembers, setFilteredMembers] = useState([]);
 
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(7)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  const currentItems = filteredStaff.slice(indexOfFirstItem, indexOfLastItem)
+  const currentItems = filteredMembers.slice(indexOfFirstItem, indexOfLastItem);
 
   const calculateTotalPage = (itemsPerPage, items) => {
     const totalItem = items.length;
@@ -29,25 +33,25 @@ const UserManage = () => {
   };
 
   useEffect(() => {
-    const fetchStaffAccounts = async () => {
+    const fetchData = async () => {
       try {
-        const res = await getAllStaffAccount();
-        setStaffAccounts(res);
+        const res = await getAllMemberAccounts();
+        setMemberAccounts(res);
       } catch (error) {
         console.log(error);
       }
-    }
-    fetchStaffAccounts();
+    };
+    fetchData();
   }, []);
 
   useEffect(() => {
-    setFilteredStaff(staffAccounts);
-  }, [staffAccounts]);
+    setFilteredMembers(memberAccounts);
+  }, [memberAccounts]);
 
   useEffect(() => {
-    setFilteredStaff(
-      staffAccounts.filter((staff) =>
-        staff.fullname.toLowerCase().includes(input.toLowerCase())
+    setFilteredMembers(
+      memberAccounts.filter((member) =>
+        member.fullname.toLowerCase().includes(input.toLowerCase())
       )
     );
   }, [input]);
@@ -56,11 +60,11 @@ const UserManage = () => {
     <div className="row d-flex justify-content-center">
       <div className="col-11">
         <div className="row">
-          <h2 className="text-center mb-4">STAFF Management</h2>
+          <h2 className="text-center mb-4">Member Account Management</h2>
           <div className="row">
             <div className="d-flex align-items-center rounded-1 mb-3 py-2">
               <div className="h5 mx-2 my-0"></div>
-              <AddManageAccount />
+              <AddMemberAccount />
             </div>
           </div>
         </div>
@@ -68,14 +72,14 @@ const UserManage = () => {
         <div className="row">
           <div className="col">
             <div className="row">
-              <div className="h5 text-center">Staff Accounts</div>
+              <div className="h5 text-center">Member accounts</div>
             </div>
             <div className="row d-flex justify-content-center">
               <div className="col-sm-10 col-lg-6">
                 <div className="d-flex align-items-center input-wrapper">
                   <FaSearch className="search-icon" />
                   <input
-                    placeholder="Search staff name"
+                    placeholder="Search member name"
                     type="text"
                     className="search-input"
                     value={input}
@@ -85,35 +89,32 @@ const UserManage = () => {
               </div>
             </div>
             <div className="row mt-2 d-flex justify-content-center">
-              {staffAccounts.length === 0 ? (
-                <div className="text-center">No staff account</div>
+              {memberAccounts.length === 0 ? (
+                <div className="text-center">No member account</div>
               ) : (
                 <>
                   <table className="table text-center">
                     <thead>
                       <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Username</th>
+                        <th scope="col">Member Id</th>
                         <th scope="col">Full name</th>
-                        <th scope="col">Role</th>
-                        <th scope="col" colSpan={2}>Action</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone No</th>
+                        <th scope="col">Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {currentItems.map((staff, index) => (
+                      {currentItems.map((member, index) => (
                         <tr key={index}>
-                          <th scope="row">{index + 1}</th>
-                          <td>{staff.username}</td>
-                          <td>{staff.fullname}</td>
-                          <td>{staff.roleName}</td>
                           <td>
-                            <EditManageAccount staffId={staff.staffId} />
-
+                            <strong>{member.id}</strong>
                           </td>
+                          <td>{member.fullname}</td>
+                          <td>{member.email}</td>
+                          <td>{member.phone}</td>
                           <td>
-                            <Button variant="danger">
-                              <FaTrash />
-                            </Button>
+                            <EditMemberAccount member={member} />
+                            <DeleteMemberAccount memberId={member.id} />
                           </td>
                         </tr>
                       ))}
@@ -121,7 +122,10 @@ const UserManage = () => {
                   </table>
                   <Paginator
                     currentPage={currentPage}
-                    totalPages={calculateTotalPage(itemsPerPage, filteredStaff)}
+                    totalPages={calculateTotalPage(
+                      itemsPerPage,
+                      filteredMembers
+                    )}
                     onPageChange={handlePageChange}
                   />
                 </>
@@ -134,4 +138,4 @@ const UserManage = () => {
   );
 };
 
-export default UserManage;
+export default MemberManage;

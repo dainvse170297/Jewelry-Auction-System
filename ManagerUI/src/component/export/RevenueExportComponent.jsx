@@ -37,7 +37,7 @@ const RevenueExportComponent = () => {
     if (revenueData) {
       const mappedData = revenueData.map((item, index) => ({
         Year: (item.year || currentYearFile - index).toString(),
-        "Total Revenue": item.totalRevenue || 0,
+        "Total Revenue": item.totalRevenue + item.totalRevenue * 0.2 || 0,
         "Total Profit": item.totalRevenue * 0.2 || 0,
         "Total Auction Session": item.totalAuctionSession || 0,
         "Total Auction Lots": item.totalAuctionLots || 0,
