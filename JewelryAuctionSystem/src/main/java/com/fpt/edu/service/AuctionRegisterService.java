@@ -112,7 +112,6 @@ public class AuctionRegisterService implements IAuctionRegisterService {
             notify.setTitle("Your product has been delivered");
             notify.setDescription("Your product has has been delivered. Please check your won jewelry");
             notify.setNotifiableId(auctionRegister.getLot().getId());
-            notify.setNotifiableType(NotifyType.);
             return AuctionRegisterMapper.toAuctionRegisterDTO(auctionRegister);
         }else {
             throw new RuntimeException("Auction register is not in WINNER_PURCHASED status");

@@ -14,7 +14,7 @@ import UserIcon from "@mui/icons-material/ManageAccounts";
 import SettingsIcon from "@mui/icons-material/Settings";
 import FinancialProofRequestIcon from "@mui/icons-material/RequestQuote";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { MonetizationOn } from "@mui/icons-material";
+import { CasesRounded, Casino, CurrencyExchange, MonetizationOn } from "@mui/icons-material";
 import { Nav } from "react-bootstrap";
 
 // Navigation
@@ -109,6 +109,11 @@ const managerNavigation = [
     href: "/paid-list",
   },
   {
+    name: "Transaction History",
+    icon: CurrencyExchange,
+    href: "/transaction-history",
+  },
+  {
     name: "User",
     icon: UserIcon,
     children: [
@@ -154,7 +159,7 @@ const Sidebar = () => {
   return (
     <div
       className="d-flex flex-column vh-100 bg-light sidebar"
-      // style={{ width: "250px", position: "fixed" }}
+    // style={{ width: "250px", position: "fixed" }}
     >
       <div className="text-center my-2 mx-0">
         <img

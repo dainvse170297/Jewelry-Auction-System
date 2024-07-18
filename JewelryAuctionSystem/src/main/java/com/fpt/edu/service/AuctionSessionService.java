@@ -272,7 +272,7 @@ public class AuctionSessionService implements IAuctionSessionService {
             if (session.getEndTime().isBefore(now)) { // if the current time is after the end time
                 List<Lot> lots = iLotRepository.findByAuctionSession(session);
                 for (Lot lot : lots) {
-                    if (!lot.getStatus().equals(LotStatus.SOLD)) {
+                    if (lot.getStatus().equals(LotStatus.AUCTIONING)) {
                         if (lot.getCurrentWinnerId() != null) {
                             Member winner = iMemberRepository.getReferenceById(lot.getCurrentWinnerId());
                             iNotifyService.insertNotify(winner,

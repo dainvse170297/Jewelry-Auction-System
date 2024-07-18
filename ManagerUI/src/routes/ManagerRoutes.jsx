@@ -19,6 +19,7 @@ import PaidList from "../component/manager/AuctionRegister/PaidList";
 import SetupProductInfo from "../component/product/SetupProductInfo";
 import Export from "../component/export/Export";
 import MemberManage from "../component/account/MemberManage";
+import TransactionHistory from "../component/manager/transaction/TransactionHistory";
 
 const ManagerRoutes = [
   {
@@ -82,6 +83,10 @@ const ManagerRoutes = [
   {
     path: "/paid-list",
     element: <PaidList />,
+  },
+  {
+    path: "/transaction-history",
+    element: <TransactionHistory />,
   },
   {
     path: "/valuation-request/received",

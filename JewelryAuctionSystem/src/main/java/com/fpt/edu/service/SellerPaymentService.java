@@ -13,6 +13,7 @@ import com.fpt.edu.repository.ISellerPaymentRepository;
 import com.fpt.edu.status.AuctionRegisterStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -66,4 +67,27 @@ public class SellerPaymentService implements ISellerPaymentService{
 
         return sellerPayment;
     }
+
+    @Override
+    public List<SellerPayment> getAllSellerPayment() {
+        return sellerPaymentRepository.findAll();
+    }
+
+    @Override
+    public SellerPayment getSellerPaymentById(Integer id) {
+        return sellerPaymentRepository.findById(id).get();
+    }
+
+    @Override
+    public List<SellerPayment> getByMemberId(Integer memberId) {
+        return sellerPaymentRepository.findByMemberId(memberId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Member getMemberBySellerPaymentId(int sellerPaymentId) {
+        return sellerPaymentRepository.findMemberBySellerPaymentId(sellerPaymentId);
+    }
+
+
 }
