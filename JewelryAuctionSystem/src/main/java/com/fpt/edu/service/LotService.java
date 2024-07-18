@@ -74,8 +74,8 @@ public class LotService implements ILotService {
     @Override
     public List<LotDTO> getLotsByWinnerPurchaseAuctionRegister() {
         AuctionRegisterStatus status = AuctionRegisterStatus.WINNER_PURCHASED;
-        List<AuctionRegister> auctionRegisters =
-                auctionRegisterRepository.findByStatus(status);
+        List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findByStatus(status);
+
 
         List<Lot> lots = auctionRegisters.stream().map(AuctionRegister::getLot).toList();
 

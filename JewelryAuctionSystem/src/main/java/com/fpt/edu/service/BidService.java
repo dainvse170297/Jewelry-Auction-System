@@ -116,7 +116,7 @@ public class BidService implements IBidService {
                 }
             }
 
-            throw new ResponseStatusException(HttpStatus.OK, "You have won the auction with price $" + buyNowPrice);
+            throw new ResponseStatusException(HttpStatus.OK, "You have won the auction with price " + buyNowPrice);
         }//end handle buy now case
 
         BigDecimal currentPrice = lot.getCurrentPrice() == null ? lot.getStartPrice() : lot.getCurrentPrice();

@@ -55,6 +55,9 @@ export {
   postEditStaffAccount,
   getStaffAccountByStaffId,
   getLotsBySessionId,
+
+  getAllSellerPayment,
+  getMemberBySellerPaymentId,
 };
 
 const getAllValuationRequests = async () => {
@@ -354,3 +357,11 @@ const getAllMemberAccounts = async () => {
 const getLotsBySessionId = async (sessionId) => {
   return axios.get(`lot/get-lots-by-session/${sessionId}`);
 };
+
+const getAllSellerPayment = async () => {
+  return axios.get(`seller-payment/all`);
+}
+
+const getMemberBySellerPaymentId = async (sellerPaymentId) => {
+  return axios.get(`seller-payment/get-member/${sellerPaymentId}`);
+}

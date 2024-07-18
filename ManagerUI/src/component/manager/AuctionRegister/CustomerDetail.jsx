@@ -82,7 +82,7 @@ const CustomerDetail = ({ productId, transferAmount, auctionRegisterId }) => {
                 <p>Owner Name: <strong>{owner.fullname}</strong></p>
                 <p>Owner Email: <strong>{owner.email}</strong></p>
                 <p>Owner Phone: <strong>{owner.phone}</strong></p>
-                <p>Owner Phone: <strong>{owner.address}</strong></p>
+                <p>Owner Address: <strong>{owner.address}</strong></p>
                 <hr />
                 <h6 className='text-center'>Bank Information</h6>
                 <p>Bank Name: <strong>{owner.creditCard?.bankName}</strong></p>
