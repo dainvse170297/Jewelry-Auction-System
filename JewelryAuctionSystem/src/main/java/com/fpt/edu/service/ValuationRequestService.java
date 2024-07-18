@@ -395,7 +395,7 @@ public class ValuationRequestService implements IValuationRequestService {
     }
 
     private String productReceivedTitle(ValuationRequest valuationRequest) {
-        return "#" + valuationRequest.getId() + ": Product Received";
+        return "Product Received";
     }
 
     private String productReceivedMessage(ValuationRequest valuationRequest) {
@@ -403,7 +403,7 @@ public class ValuationRequestService implements IValuationRequestService {
     }
 
     private String preliminaryValuatedTitle(ValuationRequest valuationRequest) {
-        return "#" + valuationRequest.getId() + ": Product Preliminary Valuated";
+        return "Product Preliminary Valuated";
     }
 
     private String preliminaryValuatedMessage(ValuationRequest valuationRequest) {
@@ -411,7 +411,7 @@ public class ValuationRequestService implements IValuationRequestService {
     }
 
     private String cancelValuationRequestTitle(ValuationRequest valuationRequest) {
-        return "#" + valuationRequest.getId() + ": Valuation Request Canceled";
+        return "Valuation Request Canceled";
     }
 
     private String cancelValuationRequestMessage(ValuationRequest valuationRequest) {

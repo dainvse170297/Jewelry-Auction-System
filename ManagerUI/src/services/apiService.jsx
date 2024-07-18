@@ -54,6 +54,7 @@ export {
   postCreateStaffAccount,
   postEditStaffAccount,
   getStaffAccountByStaffId,
+  getLotsBySessionId,
 };
 
 const getAllValuationRequests = async () => {
@@ -348,4 +349,8 @@ const postEditStaffAccount = async (newStaffAccount) => {
 
 const getAllMemberAccounts = async () => {
   return axios.get(`member/get-all`);
+};
+
+const getLotsBySessionId = async (sessionId) => {
+  return axios.get(`lot/get-lots-by-session/${sessionId}`);
 };

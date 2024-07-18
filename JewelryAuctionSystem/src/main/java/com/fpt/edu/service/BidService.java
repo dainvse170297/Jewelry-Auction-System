@@ -7,6 +7,7 @@ import com.fpt.edu.mapper.BidMapper;
 import com.fpt.edu.repository.*;
 import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.LotStatus;
+import com.fpt.edu.status.NotifyType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -100,8 +101,10 @@ public class BidService implements IBidService {
 
             Notify notify = new Notify();
             notify.setMember(member);
-            notify.setTitle("# You have won the auction: " + lot.getProduct().getName());
+            notify.setTitle("You have won the auction: " + lot.getProduct().getName());
             notify.setDescription("You have won the auction" + lot.getProduct().getName() + " with price $" + buyNowPrice);
+            notify.setNotifiableId(lotId);
+            notify.setNotifiableType(NotifyType.WINNER);
             notify.setDate(LocalDateTime.now());
             notify.setIsRead(false);
             iNotifyRepository.save(notify);
@@ -111,13 +114,15 @@ public class BidService implements IBidService {
             for (AuctionRegister auctionRegister1 : auctionRegisters) {
                 if (auctionRegister1.getId() != auctionRegister.getId()) {
                     Member member1 = auctionRegister1.getMember();
-                    member1.setFinancialProofAmount(member1.getFinancialProofAmount().add(auctionRegister1.getCurrentPrice()));
-                    iMemberRepository.save(member1);
+                    if (member1.getFinancialProofAmount() != null && auctionRegister1.getCurrentPrice() != null) {
+                        member1.setFinancialProofAmount(member1.getFinancialProofAmount().add(auctionRegister1.getCurrentPrice()));
+                        iMemberRepository.save(member1);
+                    }
                 }
             }
 
             throw new ResponseStatusException(HttpStatus.OK, "You have won the auction with price $" + buyNowPrice);
-        }
+        }//end handle buy now case
 
         BigDecimal currentPrice = lot.getCurrentPrice() == null ? lot.getStartPrice() : lot.getCurrentPrice();
 

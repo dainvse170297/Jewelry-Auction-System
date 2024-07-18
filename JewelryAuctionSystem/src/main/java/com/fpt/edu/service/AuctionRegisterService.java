@@ -53,17 +53,17 @@ public class AuctionRegisterService implements IAuctionRegisterService {
 
         Integer ownerId = valuationRequest.getMember().getId();
         if(ownerId.equals(memberId)){
-            throw new RuntimeException("You can not register to bid your own product");
+            throw new RuntimeException("You can not register to bid your own jewelry");
         }else if(member.getFinancialProofAmount() == null || member.getFinancialProofAmount().compareTo(price) < 0){
             throw new OutOfFinancialProofAmountException("Not enough money. Please check your financial proof amount.");
+        }else{
+            auctionRegister.setMember(member);
+            auctionRegister.setLot(lot);
+            auctionRegister.setStatus(AuctionRegisterStatus.REGISTERED);
+            auctionRegister.setPreviousPrice(price);
+
+            auctionRegisterRepository.save(auctionRegister);
         }
-        auctionRegister.setMember(member);
-        auctionRegister.setLot(lot);
-        auctionRegister.setStatus(AuctionRegisterStatus.REGISTERED);
-        auctionRegister.setPreviousPrice(price);
-
-        auctionRegisterRepository.save(auctionRegister);
-
         return auctionRegister;
     }
 
@@ -107,6 +107,12 @@ public class AuctionRegisterService implements IAuctionRegisterService {
         if(auctionRegister.getStatus() == AuctionRegisterStatus.WINNER_PURCHASED){
             auctionRegister.setStatus(AuctionRegisterStatus.DELIVERED);
             auctionRegisterRepository.save(auctionRegister);
+            Notify notify = new Notify();
+            notify.setMember(auctionRegister.getMember());
+            notify.setTitle("Your product has been delivered");
+            notify.setDescription("Your product has has been delivered. Please check your won jewelry");
+            notify.setNotifiableId(auctionRegister.getLot().getId());
+            notify.setNotifiableType(NotifyType.);
             return AuctionRegisterMapper.toAuctionRegisterDTO(auctionRegister);
         }else {
             throw new RuntimeException("Auction register is not in WINNER_PURCHASED status");

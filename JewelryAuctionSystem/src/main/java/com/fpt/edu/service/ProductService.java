@@ -72,7 +72,7 @@ public class ProductService implements IProductService {
         product.setProductImages(images);
         productRepository.save(product);
 
-        for(ProductImage image: images){
+        for (ProductImage image : images) {
             productImageRepository.save(image);
         }
 
@@ -91,6 +91,7 @@ public class ProductService implements IProductService {
 
         return product;
     }
+
     @Override
     public ProductDetailDTO viewProductDetails(Integer productId) {
         Optional<Product> productOpt = iProductRepository.findById(productId);
@@ -107,7 +108,75 @@ public class ProductService implements IProductService {
             // Handle the case where no Product with the given id is found
             throw new EntityNotFoundException("No Product found with id: " + productId);
         }
+    }
 
+    @Override
+    public Product updateProduct(int productId,
+                                 int valuationRequestId,
+                                 int categoryId,
+                                 String name,
+                                 String description,
+                                 BigDecimal estimatePriceMax,
+                                 BigDecimal estimatePriceMin,
+                                 MultipartFile[] photos,
+                                 BigDecimal buyNowPrice,
+                                 BigDecimal pricePerStep,
+                                 Integer maxStep,
+                                 BigDecimal startPrice) throws IOException {
+        Product product = productRepository.findById(productId).get();
+        Category category = categoryRepository.findById(categoryId).get();
+        product.setCategory(category);
+        product.setName(name);
+        product.setDescription(description);
+        product.setEstimatePriceMax(estimatePriceMax);
+        product.setEstimatePriceMin(estimatePriceMin);
+        if (photos != null) {
+            productImageRepository.findByProduct(product).forEach(productImageRepository::delete);
+            List<ProductImage> images = new ArrayList<>();
+            for (MultipartFile photoFile : photos) {
+                byte[] photo = photoFile.getBytes();
+                Map r = cloudinary.uploader().upload(photo, ObjectUtils.emptyMap());
+                String url = (String) r.get("url");
+                ProductImage image = new ProductImage();
+                image.setImageUrl(url);
+                image.setProduct(product);
+                images.add(image);
+            }
+            product.setProductImages(images);
 
+            for (ProductImage image : images) {
+                productImageRepository.save(image);
+            }
+        }
+        productRepository.save(product);
+        ValuationRequest valuationRequest = valuationRequestRepository.findById(valuationRequestId).get();
+        if (valuationRequest != null) {
+            valuationRequest.setProduct(product);
+            valuationRequestRepository.save(valuationRequest);
+        }
+        Lot lot = lotRepository.findByProduct(product);
+        if (lot != null) {
+            if (startPrice != null) lot.setStartPrice(startPrice);
+            if (buyNowPrice != null) lot.setBuyNowPrice(buyNowPrice);
+            if (maxStep != null) lot.setMaxStep(maxStep);
+            if (pricePerStep != null) lot.setPricePerStep(pricePerStep);
+            lotRepository.save(lot);
+        }
+        return product;
+    }
+
+    @Override
+    public Product getProductById(int productId) {
+        return productRepository.findById(productId).get();
+    }
+
+    @Override
+    public void deleteProduct(int productId) {
+        productRepository.deleteById(productId);
+    }
+
+    @Override
+    public List<Product> getAllProduct() {
+        return productRepository.findAll();
     }
 }
