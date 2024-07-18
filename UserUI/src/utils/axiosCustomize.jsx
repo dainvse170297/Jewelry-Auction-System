@@ -2,7 +2,7 @@ import axios from "axios";
 
 const instance = axios.create({
   // baseURL: "http://localhost:8080/",
-  baseURL: "https://jewelry-auction-system.azurewebsites.net/",
+  baseURL: "https://fuja.azurewebsites.net/",
 });
 
 // Add a request interceptor
