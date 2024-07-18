@@ -141,9 +141,6 @@ public class MemberService implements IMemberService{
     @Override
     public List<MemberDTO> getAllMembers() {
         List<Member> members = iMemberRepository.findAll();
-        for(Member member: members){
-            iCreditCardRepository.getReferenceById(member.getCreditCard().getId());
-        }
         List<MemberDTO> memberDTO = memberMapper.toMemberDTOs(members);
         return memberDTO;
     }

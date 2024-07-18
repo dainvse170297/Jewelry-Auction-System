@@ -249,6 +249,7 @@ public class AccountService implements IAccountService {
         }
         return map;
     }
+
     @Override
     public Map<String, Object> changePassword(Integer id, String oldPassword, String newPassword) {
         Account account = accountRepository.getReferenceById(id);
@@ -297,7 +298,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Account updateStaffAccount(Integer staffId,String password, String fullName) {
+    public Account updateStaffAccount(Integer staffId, String password, String fullName) {
         Account account = accountRepository.findByStaffId(staffId).orElseThrow(
                 () -> new RuntimeException("Staff not found")
         );
@@ -334,14 +335,11 @@ public class AccountService implements IAccountService {
         account.setActive(false);
         accountRepository.save(account);
         Map<String, Object> map = new HashMap<>();
-        if (account.getStaff() != null) {
         AccountDTO accountDTO = AccountMapper.toAccountDTO(account);
         map.put("message", "Set account to inactive successfully");
-        map.put("account", accountDTO);}
-        else {
-            map.put("message", "Account is not staff");
-        }
+        map.put("account", accountDTO);
         return map;
     }
 }
+
 
