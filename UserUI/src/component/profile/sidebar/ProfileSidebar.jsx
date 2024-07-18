@@ -24,6 +24,10 @@ const navigation = {
     title: "Auction Register History",
     link: "/profile/auction-register",
   },
+  transactionHistory: {
+    title: "Transaction History",
+    link: "/profile/transaction-history",
+  },
 };
 
 const ProfileSidebar = ({ onMobileClose, openMobile }) => {
@@ -173,6 +177,35 @@ const ProfileSidebar = ({ onMobileClose, openMobile }) => {
           </svg>
 
           <span>My Attend History</span>
+        </Link>
+
+        <Link
+          to={navigation.transactionHistory.link}
+          data-toggle="tab"
+          className={
+            location.pathname === navigation.transactionHistory.link
+              ? "nav-item nav-link has-icon nav-link-faded mb-1 active"
+              : "nav-item nav-link has-icon nav-link-faded mb-1"
+          }
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            className="main-grid-item-icon me-3"
+            fill="none"
+            stroke="#B23842"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+          >
+            <polyline points="21 8 21 21 3 21 3 8" />
+            <rect height="5" width="22" x="1" y="3" />
+            <line x1="10" x2="14" y1="12" y2="12" />
+          </svg>
+
+          <span>Transaction History</span>
         </Link>
       </nav>
     </>
