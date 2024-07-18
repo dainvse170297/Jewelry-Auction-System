@@ -11,8 +11,9 @@ public class MemberMapper {
     public static MemberDTO mapToMemberDTO(Member member, Integer id){
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setId(id);
-        if (member.getCreditCard() != null)
-        memberDTO.setCreditCard(creditCardMapper.mapToCreditCardDTO(member.getCreditCard()));
+        if (member.getCreditCard() != null){
+            memberDTO.setCreditCard(creditCardMapper.mapToCreditCardDTO(member.getCreditCard()));
+        }
         memberDTO.setFinancialProofAmount(member.getFinancialProofAmount());
         memberDTO.setEmail(member.getEmail());
         memberDTO.setFullname(member.getFullname());

@@ -2,7 +2,6 @@ package com.fpt.edu.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.fpt.edu.dto.ProductDTO;
 import com.fpt.edu.dto.ProductDetailDTO;
 import com.fpt.edu.entity.*;
 import com.fpt.edu.mapper.ProductMapper;

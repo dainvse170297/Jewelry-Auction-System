@@ -7,16 +7,14 @@ import { Link } from "react-router-dom";
 import moment from "moment/moment";
 import { getFinancialProof } from "../../../services/apiService";
 
-const ViewFinancialProof = ({ id }) => {
+const ViewFinancialProof = () => {
+  const id = JSON.parse(localStorage.getItem("account")).meberId;
+
   const [financialProof, setFinancialProof] = useState(null);
 
   useEffect(() => {
     const fetchFinancialProof = async () => {
       try {
-        // const response = await axios.get(
-        //   `http://localhost:8080/member/financial-proof/${id}`
-        // );
-
         const response = await getFinancialProof(id);
         setFinancialProof(response);
       } catch (error) {

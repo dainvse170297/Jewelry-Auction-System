@@ -20,9 +20,7 @@ const Profile = () => {
     } else {
       navigate("/login", { state: { from: `/profile` } });
     }
-
   }, [currentUser]);
-
 
   return (
     <div className="container">
@@ -127,7 +125,18 @@ const Profile = () => {
                   data-toggle="tab"
                   className="nav-item nav-link has-icon nav-link-faded"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" className="main-grid-item-icon me-3" fill="none" stroke="#B23842" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    className="main-grid-item-icon me-3"
+                    fill="none"
+                    stroke="#B23842"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                  >
                     <polyline points="21 8 21 21 3 21 3 8" />
                     <rect height="5" width="22" x="1" y="3" />
                     <line x1="10" x2="14" y1="12" y2="12" />
@@ -135,7 +144,6 @@ const Profile = () => {
 
                   <span>My Attend History</span>
                 </a>
-
               </nav>
             </div>
           </div>
@@ -270,7 +278,18 @@ const Profile = () => {
                     data-toggle="tab"
                     className="nav-link has-icon"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" className="main-grid-item-icon" fill="none" stroke="#B23842" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      className="main-grid-item-icon"
+                      fill="none"
+                      stroke="#B23842"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                    >
                       <polyline points="21 8 21 21 3 21 3 8" />
                       <rect height="5" width="22" x="1" y="3" />
                       <line x1="10" x2="14" y1="12" y2="12" />
@@ -279,7 +298,6 @@ const Profile = () => {
                 </li>
               </ul>
             </div>
-
 
             <div className="tab-content">
               <div className="tab-pane active" id="profile">
@@ -300,7 +318,6 @@ const Profile = () => {
 
               <div className="tab-pane" id="valuationRequest">
                 <MyValuationRequest id={currentUser.memberId} />
-
               </div>
 
               <div className="tab-pane" id="auctionsRegistered">

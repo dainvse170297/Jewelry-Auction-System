@@ -6,7 +6,9 @@ import com.fpt.edu.exception.OutOfFinancialProofAmountException;
 import com.fpt.edu.mapper.AuctionRegisterMapper;
 import com.fpt.edu.repository.*;
 import com.fpt.edu.status.AuctionRegisterStatus;
+import com.fpt.edu.status.NotifyType;
 import com.fpt.edu.status.PaymentInfoStatus;
+import com.fpt.edu.utils.MessageProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +24,12 @@ import java.util.List;
 public class AuctionRegisterService implements IAuctionRegisterService {
 
     private final IAuctionRegisterRepository auctionRegisterRepository;
-
     private final IMemberRepository memberRepository;
     private final ILotRepository lotRepository;
-
     private final IPaymentInfoRepository paymentInfoRepository;
-
     private final IValuationRequestRepository valuationRequestRepository;
 
+    private final INotifyService iNotifyService;
 
     @Override
     public AuctionRegisterDTO register(AuctionRegister register) {
@@ -86,11 +86,11 @@ public class AuctionRegisterService implements IAuctionRegisterService {
     @Override
     public void processAuctionRegisterAfterPayment(List<Integer> auctionRegisterIds) {
 
+        List<String> jewelryNames = new ArrayList<>();
+
         for(Integer auctionRegisterId : auctionRegisterIds){
-            System.out.println(auctionRegisterId);
             AuctionRegister auctionRegister = auctionRegisterRepository.findById(auctionRegisterId).get();
             PaymentInfo paymentInfo = new PaymentInfo();
-
             auctionRegister.setStatus(AuctionRegisterStatus.WINNER_PURCHASED);
             paymentInfo.setAuctionRegister(auctionRegister);
             paymentInfo.setStatus(PaymentInfoStatus.SUCCESS);
@@ -98,6 +98,17 @@ public class AuctionRegisterService implements IAuctionRegisterService {
             paymentInfo.setCreationTime(LocalDateTime.now());
             paymentInfoRepository.save(paymentInfo);
             auctionRegisterRepository.save(auctionRegister);
+            jewelryNames.add(auctionRegister.getLot().getProduct().getName());
+        }
+
+        if (!auctionRegisterIds.isEmpty()){
+            AuctionRegister auctionRegister = auctionRegisterRepository.findById(auctionRegisterIds.get(0)).get();
+            Member member = auctionRegister.getMember();
+            iNotifyService.insertNotify(member,
+                    MessageProvider.PaymentService.winnerPaymentSuccessTitle,
+                    MessageProvider.PaymentService.winnerPaymentSuccessDescription(jewelryNames),
+                    null,null
+                    );
         }
     }
 
@@ -112,7 +123,6 @@ public class AuctionRegisterService implements IAuctionRegisterService {
             notify.setTitle("Your product has been delivered");
             notify.setDescription("Your product has has been delivered. Please check your won jewelry");
             notify.setNotifiableId(auctionRegister.getLot().getId());
-            notify.setNotifiableType(NotifyType.);
             return AuctionRegisterMapper.toAuctionRegisterDTO(auctionRegister);
         }else {
             throw new RuntimeException("Auction register is not in WINNER_PURCHASED status");
