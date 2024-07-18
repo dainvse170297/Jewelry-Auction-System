@@ -142,7 +142,6 @@ public class LotService implements ILotService {
                 member.setFullname("Terminated Account!");
                 iMemberRepository.save(member);
             } else if (auctionRegister.getLot().getAuctionSession().getEndTime().plusDays(14).isBefore(java.time.LocalDateTime.now())) {
-                auctionRegister.setStatus(AuctionRegisterStatus.CANCELLED);
                 auctionRegisterRepository.save(auctionRegister);
                 notifyService.insertNotify(auctionRegister.getMember(),
                         "Payment Reminder",
