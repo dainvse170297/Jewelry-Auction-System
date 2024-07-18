@@ -2,13 +2,16 @@ package com.fpt.edu.controller;
 
 import com.fpt.edu.dto.PaymentDTO;
 import com.fpt.edu.entity.AuctionRegister;
+import com.fpt.edu.entity.PaymentInfo;
 import com.fpt.edu.security.response.ResponseObject;
 import com.fpt.edu.service.IAuctionRegisterService;
+import com.fpt.edu.service.IPaymentInfoService;
 import com.fpt.edu.service.VNPayService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +24,7 @@ public class PaymentController {
 
     private final VNPayService vnPayService;
     private final IAuctionRegisterService auctionRegisterService;
+    private final IPaymentInfoService paymentInfoService;
 
     @GetMapping("/vnpay")
     public ResponseObject<PaymentDTO.VNPayResponse> pay(HttpServletRequest request){
@@ -47,5 +51,15 @@ public class PaymentController {
                     .message("Failed")
                     .build());
         }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<PaymentInfo>> getAllPaymentInfo(){
+        return ResponseEntity.ok(paymentInfoService.getAllPaymentInfo());
+    }
+
+    @GetMapping("/get-by-winner/{winnerId}")
+    public ResponseEntity<List<PaymentInfo>> getPaymentInfoByWinnerId(@PathVariable Integer winnerId){
+        return ResponseEntity.ok(paymentInfoService.findByWinnerId(winnerId));
     }
 }
