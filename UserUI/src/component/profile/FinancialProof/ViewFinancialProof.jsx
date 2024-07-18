@@ -9,7 +9,9 @@ import { getFinancialProof } from "../../../services/apiService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
-const ViewFinancialProof = ({ id }) => {
+const ViewFinancialProof = () => {
+  const id = JSON.parse(localStorage.getItem("account")).memberId;
+
   const [financialProof, setFinancialProof] = useState(null);
   const [showAvailableAmount, setShowAvailableAmount] = useState(false);
   const [showRequestAmount, setShowRequestAmount] = useState(false);

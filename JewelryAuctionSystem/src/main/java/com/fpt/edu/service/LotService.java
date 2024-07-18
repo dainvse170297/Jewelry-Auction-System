@@ -12,6 +12,7 @@ import com.fpt.edu.repository.*;
 import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.LotStatus;
 import com.fpt.edu.status.NotifyType;
+import com.fpt.edu.utils.MessageProvider;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -138,8 +139,8 @@ public class LotService implements ILotService {
                 auctionRegisterRepository.save(auctionRegister);
                 //not paid lot, remind them to pay
                 notifyService.insertNotify(auctionRegister.getMember(),
-                        "Payment Cancelled",
-                        "Your payment has been cancelled due to non-payment.Your payment has been cancelled due to non-payment. Your account is going to be terminated.",
+                        MessageProvider.PaymentService.timeoutWinnerPaymentTitle,
+                        MessageProvider.PaymentService.timeoutWinnerPaymentDescription,
                         NotifyType.PAYMENT,
                         auctionRegister.getId()
                 );

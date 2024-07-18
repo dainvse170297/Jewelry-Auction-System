@@ -11,6 +11,7 @@ import com.fpt.edu.repository.IMemberRepository;
 import com.fpt.edu.repository.ISellerPaymentImgRepository;
 import com.fpt.edu.repository.ISellerPaymentRepository;
 import com.fpt.edu.status.AuctionRegisterStatus;
+import com.fpt.edu.utils.MessageProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +31,7 @@ public class SellerPaymentService implements ISellerPaymentService{
     private final ISellerPaymentImgRepository sellerPaymentImgRepository;
     private final IMemberRepository memberRepository;
     private final IAuctionRegisterRepository auctionRegisterRepository;
+    private final INotifyService iNotifyService;
 
     private final Cloudinary cloudinary;
 
@@ -59,11 +61,17 @@ public class SellerPaymentService implements ISellerPaymentService{
             sellerPaymentImgRepository.save(sellerPaymentImg);
         }
 
+        // Send notify to seller
+        iNotifyService.insertNotify(thisMember,
+            MessageProvider.PaymentService.sellerPaymentSuccessTitle,
+            MessageProvider.PaymentService.sellerPaymentSuccessDescription,
+            null,
+            null
+        );
+
         AuctionRegister auctionRegister = auctionRegisterRepository.findById(auctionRegisterId).get();
         auctionRegister.setStatus(AuctionRegisterStatus.PAYMENT_SUCCESS);
         auctionRegisterRepository.save(auctionRegister);
-
-
         return sellerPayment;
     }
 }

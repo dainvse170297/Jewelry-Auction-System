@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -16,7 +15,6 @@ public class VNPayService {
 
     private final VNPayConfig vnPayConfig;
     private final CurrencyService currencyService;
-    private final IAuctionRegisterService auctionRegisterService;
 
     public PaymentDTO.VNPayResponse createVNPayPayment(HttpServletRequest request){
         try {
@@ -36,12 +34,6 @@ public class VNPayService {
             String vnpSecureHash = VNPayUtil.hmacSHA512(vnPayConfig.getSecretKey(), hashData);
             queryUrl += "&vnp_SecureHash=" + vnpSecureHash;
             String paymentUrl = vnPayConfig.getVnp_PayUrl() + "?" + queryUrl;
-//
-//        for (int id: auctionRegisterIds){
-//            System.out.println(id);
-//        }
-
-
 
             return PaymentDTO.VNPayResponse.builder()
                     .code("OK")

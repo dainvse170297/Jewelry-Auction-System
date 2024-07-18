@@ -7,6 +7,7 @@ import com.fpt.edu.repository.*;
 import com.fpt.edu.status.AuctionRegisterStatus;
 import com.fpt.edu.status.FinancialProofRequestStatus;
 import com.fpt.edu.status.NotifyType;
+import com.fpt.edu.utils.MessageProvider;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,11 +63,7 @@ public class FinancialProofService implements IFinancialProofService {
     @Override
     public FinancialProofRequestDTO createFinancialProofRequest(Integer memberId,
                                                                 Set<MultipartFile> files) {
-
         Member member = iMemberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("Member not found"));
-
-
-
 
         FinancialProofRequestStatus status = FinancialProofRequestStatus.REQUESTED;
         FinancialProofRequest financialProofRequest = new FinancialProofRequest();
@@ -118,16 +115,6 @@ public class FinancialProofService implements IFinancialProofService {
         return financialProofRequests.map(financialProofRequestMapper::mapToFinancialProofRequestDTO);
     }
 
-
-
-
-
-
-
-
-
-
-
     @Override
     public FinancialProofRequestDTO getFinancialProofRequestById(Integer id) {
         FinancialProofRequest financialProofRequest = iFinancialProofRequestRepository
@@ -142,16 +129,17 @@ public class FinancialProofService implements IFinancialProofService {
         FinancialProofRequest financialProofRequest = iFinancialProofRequestRepository
                 .findById(idRq).orElseThrow(() -> new RuntimeException("Financial proof request not found"));
 
-    if(role.equals("STAFF")){
-            Staff staff = new Staff();
-            staff.setId(Id);
-            financialProofRequest.setStaff(staff);
-        }
-    if(role.equals("MANAGER")){
-            Manager manager = new Manager();
-            manager.setId(Id);
-            financialProofRequest.setManager(manager);
-        }
+        if(role.equals("STAFF")){
+                Staff staff = new Staff();
+                staff.setId(Id);
+                financialProofRequest.setStaff(staff);
+            }
+
+        if(role.equals("MANAGER")){
+                Manager manager = new Manager();
+                manager.setId(Id);
+                financialProofRequest.setManager(manager);
+            }
 
         financialProofRequest.setFinancialProofAmount(financialProofAmount);
         log.info("Financial proof amount: {}", financialProofAmount);
@@ -160,7 +148,6 @@ public class FinancialProofService implements IFinancialProofService {
         if(financialProofAmount.compareTo(BigDecimal.ZERO) < 0){
             throw new RuntimeException("Financial proof amount must be greater than 0");
         }
-
 
         if(financialProofAmount.compareTo(FINANCIAL_VIP) >= 0){
             financialProofRequest.setStatus(FinancialProofRequestStatus.PENDING_MANAGER_APPROVAL);
@@ -177,6 +164,11 @@ public class FinancialProofService implements IFinancialProofService {
                     iFinancialProofRequestRepository.save(financialProofRequest1);
                 }
             }
+            //send notification for member
+            iNotifyService.insertNotify(member,
+                    MessageProvider.FinancialProofService.financialProofRequestApprovedTitle,
+                    MessageProvider.FinancialProofService.financialProofRequestApprovedDescription(financialProofRequest.getTimeRequest()),
+                    NotifyType.FINANCIAL_APPROVED, financialProofRequest.getId());
         }
         iFinancialProofRequestRepository.save(financialProofRequest);
         return financialProofRequestMapper.mapToFinancialProofRequestDTO(financialProofRequest);
@@ -202,8 +194,9 @@ public class FinancialProofService implements IFinancialProofService {
         iFinancialProofRequestRepository.save(financialProofRequest);
         Member member = financialProofRequest.getMember();
         iNotifyService.insertNotify(member,
-                "Your Financial Proof Request Has Been Reject ! ",
-                "Your financial proof request sent at  " +financialProofRequest.getTimeRequest() + " has been rejected !", NotifyType.FINANCIAL_REJECTED, financialProofRequest.getId());
+                MessageProvider.FinancialProofService.financialProofRequestRejectedTitle,
+                MessageProvider.FinancialProofService.financialProofRequestRejectedDescription(financialProofRequest.getTimeRequest()),
+                NotifyType.FINANCIAL_REJECTED, financialProofRequest.getId());
         return financialProofRequestMapper.mapToFinancialProofRequestDTO(financialProofRequest);
     }
 
@@ -248,8 +241,8 @@ public class FinancialProofService implements IFinancialProofService {
         iFinancialProofRequestRepository.save(financialProofRequest);
         Member member = financialProofRequest.getMember();
         iNotifyService.insertNotify(member,
-                "Your Financial Proof Request Has Been Approved! ",
-                "Congratulations! Your request for financial proof sent at  " +financialProofRequest.getTimeRequest() + " has been approved. You can join our auction right now!",
+                MessageProvider.FinancialProofService.financialProofRequestApprovedTitle,
+                MessageProvider.FinancialProofService.financialProofRequestApprovedDescription(financialProofRequest.getTimeRequest()),
                 NotifyType.FINANCIAL_APPROVED, financialProofRequest.getId());
         return financialProofRequestMapper.mapToFinancialProofRequestDTO(financialProofRequest);
     }

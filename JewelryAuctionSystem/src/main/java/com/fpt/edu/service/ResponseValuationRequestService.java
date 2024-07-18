@@ -15,7 +15,6 @@ import com.fpt.edu.status.LotStatus;
 import com.fpt.edu.status.ResponseValuationRequestStatus;
 import com.fpt.edu.status.ValuationRequestStatus;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Service;
 import com.fpt.edu.dto.ProductDTO;
 
@@ -106,8 +105,6 @@ public class ResponseValuationRequestService implements IResponseRequestValuatio
             ResponseRequestValuationDTO dto = responseValuationRequestMapper.toResponseValuationRequestDTO(responseValuation);
             dto.setImages(images);
             return dto;
-
-
         } else {
             responseValuation.setResponseValuationRequestStatus(ResponseValuationRequestStatus.REJECTED);
             iResponseRequestValuationRepository.save(responseValuation);

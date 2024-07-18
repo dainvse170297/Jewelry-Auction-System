@@ -24,7 +24,7 @@ const ValuationRequestDetail = () => {
     };
     setLoading(false);
     fetchValuationRequestById();
-  }, []);
+  }, [id]);
 
   if (!valuationRequest) return <div>No valuation request found</div>;
 

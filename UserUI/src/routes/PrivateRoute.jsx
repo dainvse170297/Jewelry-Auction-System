@@ -3,16 +3,19 @@ import LiveLotDetail from "../component/auction-session/live-lot/LiveLotDetail";
 import LiveAuctionSessionDetail from "../component/auction-session/live-session/LiveAuctionSessionDetail";
 import CreateFinancialProofRequest from "../component/FinancialProof/CreateFinancialProofRequest";
 import NotificationList from "../component/notification/NotificationList";
-import Profile from "../component/profile/Profile";
 import CreateValuation from "../component/valuation_request/create/CreateValuation";
 import CheckOut from "../component/checkout/CheckOut";
 import CheckOutDetail from "../component/checkout/CheckOutDetail";
 import PaymentCallback from "../component/checkout/PaymentCallback";
 import PaymentSuccess from "../component/checkout/PaymentSuccess";
 import PaymentFailure from "../component/checkout/PaymentFailure";
-import e from "cors";
 import ValuationRequestDetail from "../component/profile/valuation-request/ValuationRequestDetail";
-
+import MyValuationRequest from "../component/profile/valuation-request/MyValuationRequest";
+import NewProfile from "../component/profile/NewProfile";
+import NewProfileDetail from "../component/profile/ProfileDetail/NewProfileDetail";
+import ViewFinancialProof from "../component/profile/FinancialProof/ViewFinancialProof";
+import ChangePassword from "../component/profile/ChangePassword/ChangePassword";
+import AuctionRegisterHistoryList from "../component/profile/AuctionRegisterHistory/AuctionRegisterHistoryList";
 const privateRoutes = [
   {
     path: "/create-valuation",
@@ -24,7 +27,29 @@ const privateRoutes = [
   },
   {
     path: "/profile",
-    element: <Profile />,
+    element: <NewProfile />,
+    children: [
+      {
+        path: "",
+        element: <NewProfileDetail />,
+      },
+      {
+        path: "valuation-request",
+        element: <MyValuationRequest />,
+      },
+      {
+        path: "financial-proof",
+        element: <ViewFinancialProof />,
+      },
+      {
+        path: "change-password",
+        element: <ChangePassword />,
+      },
+      {
+        path: "auction-register",
+        element: <AuctionRegisterHistoryList />,
+      },
+    ],
   },
   {
     path: "live-session-detail/:id",

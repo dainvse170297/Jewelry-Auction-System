@@ -12,7 +12,9 @@ import Paginator from "../../common/Paginator";
 import ValuationResponseList from "../valuation-response/ValuationResponseList";
 import "./style.scss";
 
-export default function MyValuationRequest({ id }) {
+export default function MyValuationRequest() {
+  const id = JSON.parse(localStorage.getItem("account")).memberId;
+
   const [valuationRequests, setValuationRequests] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
