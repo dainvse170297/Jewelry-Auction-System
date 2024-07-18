@@ -69,6 +69,7 @@ public class MemberController {
         List<MemberDTO> memberDTO = memberService.getAllMembers();
         return ResponseEntity.ok().body(memberDTO);
     }
+    
     @PostMapping("/account/delete/{id}")
     public ResponseEntity<Map<String, Object>> deleteAccount(@PathVariable("id") Integer id) { //acccount id chu ko phai staff id
         return ResponseEntity.ok().body(accountService.deleteAccount(id));
