@@ -45,4 +45,7 @@ public class Account {
 
     @OneToOne(cascade = CascadeType.ALL, optional = true)
     private Manager manager;
+
+    @Column(name="is_active")
+    private boolean isActive;
 }
