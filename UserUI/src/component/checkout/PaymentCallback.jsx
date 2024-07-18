@@ -14,13 +14,6 @@ const PaymentCallback = () => {
 
 
             try {
-                // const response = await axios.get('http://localhost:8080/api/payment/callback', {
-                //     params: {
-                //         vnp_ResponseCode,
-                //         auctionRegisterIds
-                //     },
-                // })
-                // const data = response.data
                 const response = await getPaymentCallback(vnp_ResponseCode, auctionRegisterIds)
                 if (response && response.data.code === '00') {
                     navigate('/payment-success')
