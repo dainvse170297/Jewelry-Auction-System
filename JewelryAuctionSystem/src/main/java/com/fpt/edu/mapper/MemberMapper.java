@@ -11,22 +11,19 @@ public class MemberMapper {
     public static MemberDTO mapToMemberDTO(Member member, Integer id){
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setId(id);
-        if (member.getCreditCard() != null){
-            memberDTO.setCreditCard(creditCardMapper.mapToCreditCardDTO(member.getCreditCard()));
-        }
-        memberDTO.setFinancialProofAmount(member.getFinancialProofAmount());
-        memberDTO.setEmail(member.getEmail());
-        memberDTO.setFullname(member.getFullname());
-        memberDTO.setAddress(member.getAddress());
-        memberDTO.setPhone(member.getPhone());
-        return memberDTO;
+        return getMemberDTO(member, memberDTO);
     }
 
     public static MemberDTO toMemberDTO(Member member){
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setId(member.getId());
-        if (member.getCreditCard() != null)
+        return getMemberDTO(member, memberDTO);
+    }
+
+    private static MemberDTO getMemberDTO(Member member, MemberDTO memberDTO) {
+        if (member.getCreditCard() != null){
             memberDTO.setCreditCard(creditCardMapper.mapToCreditCardDTO(member.getCreditCard()));
+        }
         memberDTO.setFinancialProofAmount(member.getFinancialProofAmount());
         memberDTO.setEmail(member.getEmail());
         memberDTO.setFullname(member.getFullname());
