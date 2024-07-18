@@ -264,7 +264,9 @@ public class AuctionSessionService implements IAuctionSessionService {
 
     @Scheduled(fixedRate = 10000) // This will run the method every 10 seconds
     public void updateSessionStatusPast() {
-        List<AuctionSession> upcomingSessions = getAuctionSessions(AuctionSessionStatus.LIVE);
+        List<AuctionSession> liveSessions = getAuctionSessions(AuctionSessionStatus.LIVE);
+        List<AuctionSession> upcomingSessions = getAuctionSessions(AuctionSessionStatus.UPCOMING);
+        upcomingSessions.addAll(liveSessions);
         LocalDateTime now = LocalDateTime.now();
         for (AuctionSession session : upcomingSessions) {
             if (session.getEndTime().isBefore(now)) { // if the current time is after the end time

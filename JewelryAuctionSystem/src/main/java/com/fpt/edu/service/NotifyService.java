@@ -49,4 +49,5 @@ public class NotifyService implements INotifyService{
         iNotifyRepository.save(thisNotify);
         return NotifyMapper.toNotifyDTO(thisNotify);
     }
+
 }
