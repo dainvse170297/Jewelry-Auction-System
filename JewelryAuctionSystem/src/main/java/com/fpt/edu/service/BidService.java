@@ -100,7 +100,7 @@ public class BidService implements IBidService {
 
             Notify notify = new Notify();
             notify.setMember(member);
-            notify.setTitle("# You have won the auction: " + lot.getProduct().getName());
+            notify.setTitle("You have won the auction: " + lot.getProduct().getName());
             notify.setDescription("You have won the auction" + lot.getProduct().getName() + " with price $" + buyNowPrice);
             notify.setDate(LocalDateTime.now());
             notify.setIsRead(false);
