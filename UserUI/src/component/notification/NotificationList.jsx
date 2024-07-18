@@ -50,7 +50,7 @@ const NotificationList = () => {
         {notifications.map((notification, index) => (
           <Card className="mb-2" key={index}>
             <div className="row mx-auto">
-              <div className="col-lg-10">
+              <div className="col-lg-9">
                 <CardContent>
                   {notification.isRead === false ? (
                     <Typography variant="caption" color="error">
@@ -63,7 +63,7 @@ const NotificationList = () => {
                   </Typography>
                 </CardContent>
               </div>
-              <div className="col-2 d-flex justify-content-center align-items-center">
+              <div className="col-lg-3 d-flex justify-content-center align-items-center">
                 <NotificationMap notification={notification} />
               </div>
             </div>
