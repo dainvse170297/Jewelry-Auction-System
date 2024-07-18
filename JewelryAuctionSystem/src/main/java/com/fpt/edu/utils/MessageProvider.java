@@ -69,7 +69,7 @@ public class MessageProvider {
         public static final String sellerPaymentSuccessDescription = "We have done the payment for your jewelry. Please check your account for the payment.";
 
         public static final String timeoutWinnerPaymentTitle = "Your payment has been canceled";
-        public static final String timeoutWinnerPaymentDescription = "Your payment has been cancelled due to non-payment.Your payment has been cancelled due to non-payment. Your account is going to be terminated.";
+        public static final String timeoutWinnerPaymentDescription = "Your payment has been cancelled due to non-payment. Your account is going to be terminated.";
 
     }
 

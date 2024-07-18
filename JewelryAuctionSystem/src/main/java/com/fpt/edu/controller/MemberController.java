@@ -3,12 +3,14 @@ package com.fpt.edu.controller;
 import com.fpt.edu.dto.CreditCardRequestDTO;
 import com.fpt.edu.dto.MemberDTO;
 import com.fpt.edu.entity.Member;
+import com.fpt.edu.service.AccountService;
 import com.fpt.edu.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -17,6 +19,7 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final AccountService accountService;
 
     @GetMapping("/info")
     public ResponseEntity<MemberDTO> getInfo(){
@@ -65,5 +68,9 @@ public class MemberController {
     public ResponseEntity<List<MemberDTO>> getAllMembers(){
         List<MemberDTO> memberDTO = memberService.getAllMembers();
         return ResponseEntity.ok().body(memberDTO);
+    }
+    @PostMapping("/account/delete/{id}")
+    public ResponseEntity<Map<String, Object>> deleteAccount(@PathVariable("id") Integer id) { //acccount id chu ko phai staff id
+        return ResponseEntity.ok().body(accountService.deleteAccount(id));
     }
 }
