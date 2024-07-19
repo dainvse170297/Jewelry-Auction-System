@@ -114,11 +114,10 @@ const ViewFinancialProof = () => {
               ).format("DD/MM/YYYY HH:mm:ss")}
             </p>
             <p
-              className={`card-text ${
-                financialProof?.financialProofRequest?.status === "AVAILABLE"
-                  ? "text-success"
-                  : "text-muted"
-              }`}
+              className={`card-text ${financialProof?.financialProofRequest?.status === "AVAILABLE"
+                ? "text-success"
+                : "text-muted"
+                }`}
             >
               <strong className="stt">Status:</strong>{" "}
               {financialProof?.financialProofRequest?.status || "Processing"}
@@ -162,8 +161,8 @@ const ViewFinancialProof = () => {
   );
 };
 
-ViewFinancialProof.propTypes = {
-  id: PropTypes.string.isRequired,
-};
+// ViewFinancialProof.propTypes = {
+//   id: PropTypes.string.isRequired,
+// };
 
 export default ViewFinancialProof;

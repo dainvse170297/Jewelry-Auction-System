@@ -1,6 +1,7 @@
 package com.fpt.edu.controller;
 
 import com.fpt.edu.dto.PaymentDTO;
+import com.fpt.edu.dto.PaymentInfoDTO;
 import com.fpt.edu.entity.AuctionRegister;
 import com.fpt.edu.entity.PaymentInfo;
 import com.fpt.edu.security.response.ResponseObject;
@@ -59,7 +60,7 @@ public class PaymentController {
     }
 
     @GetMapping("/get-by-winner/{winnerId}")
-    public ResponseEntity<List<PaymentInfo>> getPaymentInfoByWinnerId(@PathVariable Integer winnerId){
+    public ResponseEntity<List<PaymentInfoDTO>> getPaymentInfoByWinnerId(@PathVariable Integer winnerId){
         return ResponseEntity.ok(paymentInfoService.findByWinnerId(winnerId));
     }
 }

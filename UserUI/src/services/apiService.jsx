@@ -46,6 +46,7 @@ export {
   putEditCreditCard,
   getAuctionRegisterHistory,
   postChangePassword,
+  getTransactionHistory,
 
   //Notification
   postNotifications,
@@ -239,4 +240,8 @@ const postChangePassword = async (memberId, oldPassword, newPassword) => {
   formData.append("oldPassword", oldPassword);
   formData.append("newPassword", newPassword);
   return axios.post(`account/id/${memberId}/change-password`, formData);
+}
+
+const getTransactionHistory = async (memberId) => {
+  return axios.get(`api/payment/get-by-winner/${memberId}`);
 }

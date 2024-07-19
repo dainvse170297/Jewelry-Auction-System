@@ -1,6 +1,8 @@
 package com.fpt.edu.service;
 
+import com.fpt.edu.dto.PaymentInfoDTO;
 import com.fpt.edu.entity.PaymentInfo;
+import com.fpt.edu.mapper.PaymentInfoMapper;
 import com.fpt.edu.repository.IPaymentInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,8 @@ public class PaymentInfoService implements IPaymentInfoService{
     }
 
     @Override
-    public List<PaymentInfo> findByWinnerId(Integer winnerId) {
-        return paymentInfoRepository.findByWinnerId(winnerId);
+    public List<PaymentInfoDTO> findByWinnerId(Integer winnerId) {
+        List<PaymentInfo> list = paymentInfoRepository.findByWinnerId(winnerId);
+        return PaymentInfoMapper.mapPaymentInfoListToDTOList(list);
     }
 }

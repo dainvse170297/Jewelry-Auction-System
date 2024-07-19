@@ -200,9 +200,9 @@ const ProfileSidebar = ({ onMobileClose, openMobile }) => {
             strokeLinejoin="round"
             strokeWidth="2"
           >
-            <polyline points="21 8 21 21 3 21 3 8" />
-            <rect height="5" width="22" x="1" y="3" />
-            <line x1="10" x2="14" y1="12" y2="12" />
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+            <path d="M12 12 L6 14 L12 10 L12 16 L18 14 L12 12" />
           </svg>
 
           <span>Transaction History</span>
