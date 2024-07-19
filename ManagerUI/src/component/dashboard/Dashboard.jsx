@@ -358,6 +358,7 @@ const Dashboard = () => {
 
         {/* Monthly Account Data Chart */}
         <Grid item xs={12} md={6}>
+          <h3 className="text-center mt-5">Account Data Over Month </h3>
           <div className="chart-container">
             <BarChart
               width={600}
@@ -394,6 +395,9 @@ const Dashboard = () => {
         </Grid>
 
         <Grid item xs={12} md={6}>
+          <h3 className="text-center mt-5">
+            Valuation Request Data Over Month{" "}
+          </h3>
           <div className="chart-container">
             <LineChart
               width={600}
