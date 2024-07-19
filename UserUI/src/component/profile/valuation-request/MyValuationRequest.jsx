@@ -2,6 +2,7 @@ import {
   Button,
   FormControl,
   InputLabel,
+  LinearProgress,
   MenuItem,
   Select,
 } from "@mui/material";
@@ -23,14 +24,18 @@ export default function MyValuationRequest() {
   const [sortOrder, setSortOrder] = useState("");
   const [valuationStatus, setValuationStatus] = useState("");
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const [showModal, setShowModal] = useState(false);
   const [selectedRequestId, setSelectedRequestId] = useState(null);
 
   useEffect(() => {
+    setIsLoading(true);
     const getInfo = async () => {
       try {
         const result = await getSentValuationRequest(id);
         setValuationRequests(result);
+        setIsLoading(false);
       } catch (error) {
         console.log("Error:", error.message);
         setErrorMsg("Error fetching data from server");
@@ -182,6 +187,7 @@ export default function MyValuationRequest() {
               ))}
             </tbody>
           </table>
+          {isLoading && <LinearProgress color="error" />}
           <div className="flex align-items-center justify-content-center">
             <Paginator
               currentPage={currentPage}

@@ -7,6 +7,7 @@ import moment from "moment/moment";
 import { getFinancialProof } from "../../../services/apiService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { Typography } from "@mui/material";
 
 const ViewFinancialProof = () => {
   const id = JSON.parse(localStorage.getItem("account")).memberId;
@@ -41,7 +42,9 @@ const ViewFinancialProof = () => {
       <div className="col-md-6">
         <div className="mb-3">
           <div className="card-body">
-            <h6 className="card-title">Member Information</h6>
+            <Typography variant="h6" gutterBottom color={'#b23842'}>
+              Member Information
+            </Typography>
             <p className="card-text text-muted">
               <strong>Full Name:</strong> {financialProof.fullname}
             </p>
@@ -72,7 +75,9 @@ const ViewFinancialProof = () => {
       <div className="col-md-6">
         <div className="mb-3">
           <div className="card-body">
-            <h6 className="card-title">Financial Proof Information</h6>
+            <Typography variant="h6" gutterBottom color={'#b23842'}>
+              Financial Proof Information
+            </Typography>
             <p className="card-text">
               <strong>Amount Available: </strong>
               {showAvailableAmount ? (
@@ -106,7 +111,9 @@ const ViewFinancialProof = () => {
       <div className="col-md-12">
         <div className="mb-3">
           <div className="card-body">
-            <h6 className="card-title">Financial Proof Request Information</h6>
+            <Typography variant="h6" gutterBottom color={'#b23842'}>
+              Financial Proof Request Information
+            </Typography>
             <p className="card-text text-muted">
               <strong>Time Request:</strong>{" "}
               {moment(

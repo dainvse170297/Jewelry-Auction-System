@@ -10,6 +10,7 @@ import {
   postAddCreditCard,
   putEditCreditCard,
 } from "../../../services/apiService";
+import { LinearProgress, TextField } from "@mui/material";
 
 const ProfileDetail = () => {
   const memberId = JSON.parse(localStorage.getItem("account")).memberId;
@@ -42,7 +43,10 @@ const ProfileDetail = () => {
     "SCB",
   ];
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
+    setIsLoading(true);
     const getMemberInfo = async () => {
       try {
         const response = await getProfileDetail(memberId);
@@ -54,6 +58,7 @@ const ProfileDetail = () => {
             bankNumber: response.creditCard.bankNumber,
           });
         }
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
       }
@@ -172,8 +177,9 @@ const ProfileDetail = () => {
       <ToastContainer />
       <h6>YOUR PROFILE INFORMATION</h6>
       <hr />
+      {isLoading && <LinearProgress color="error" />}
       <form>
-        <div className="form-group">
+        {/* <div className="form-group">
           <label htmlFor="fullName">Full Name</label>
           <input
             type="text"
@@ -183,8 +189,22 @@ const ProfileDetail = () => {
             defaultValue={profile.fullname}
             readOnly
           />
-        </div>
-        <div className="form-group">
+        </div> */}
+
+        <TextField
+          className="mt-3"
+          id="fullName"
+          label="Full Name"
+          defaultValue="Full Name"
+          value={profile.fullname}
+          InputProps={{
+            readOnly: true,
+          }}
+          variant="standard"
+          sx={{ width: "60%" }}
+        />
+
+        {/* <div className="form-group">
           <label htmlFor="bio">Address</label>
           <textarea
             className="form-control autosize"
@@ -199,8 +219,22 @@ const ProfileDetail = () => {
             defaultValue={profile.address}
             readOnly
           />
-        </div>
-        <div className="form-group">
+        </div> */}
+
+        <TextField
+          className="mt-3"
+          id="filled-read-only-input"
+          label="Address"
+          defaultValue="Address"
+          value={profile.address}
+          InputProps={{
+            readOnly: true,
+          }}
+          variant="standard"
+          sx={{ width: "60%" }}
+        />
+
+        {/* <div className="form-group">
           <label htmlFor="url">Phone Number</label>
           <input
             type="text"
@@ -210,8 +244,22 @@ const ProfileDetail = () => {
             defaultValue={profile.phone}
             readOnly
           />
-        </div>
-        <div className="form-group">
+        </div> */}
+
+        <TextField
+          className="mt-3"
+          id="filled-read-only-input"
+          label="Phone Number"
+          defaultValue="Phone Number"
+          value={profile.phone}
+          InputProps={{
+            readOnly: true,
+          }}
+          variant="standard"
+          sx={{ width: "60%" }}
+        />
+
+        {/* <div className="form-group">
           <label htmlFor="location">Email Address</label>
           <input
             type="text"
@@ -221,15 +269,28 @@ const ProfileDetail = () => {
             defaultValue={profile.email}
             readOnly
           />
-        </div>
+        </div> */}
+
+        <TextField
+          className="mt-3"
+          id="filled-read-only-input"
+          label="Email Address"
+          defaultValue="Email Address"
+          value={profile.email}
+          InputProps={{
+            readOnly: true,
+          }}
+          variant="standard"
+          sx={{ width: "60%" }}
+        />
       </form>
 
-      <h6 className="mt-3">BANK INFORMATION</h6>
+      <h6 className="mt-5">BANK INFORMATION</h6>
       <hr />
       {profile.creditCard ? (
         <>
           <form>
-            <div className="form-group">
+            {/* <div className="form-group">
               <label htmlFor="accountHolder">Account Holder</label>
               <input
                 type="text"
@@ -239,8 +300,22 @@ const ProfileDetail = () => {
                 defaultValue={profile.creditCard.accountHolder}
                 readOnly
               />
-            </div>
-            <div className="form-group">
+            </div> */}
+
+            <TextField
+              className="mb-3"
+              id="accountHolder"
+              label="Account Holder"
+              defaultValue="Account Holder"
+              value={profile.creditCard.accountHolder}
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+              sx={{ width: "60%" }}
+            />
+
+            <div className="form-group" style={{ width: '60%' }}>
               <label htmlFor="bankName">Bank Name</label>
               <select
                 className="form-control"
@@ -261,7 +336,8 @@ const ProfileDetail = () => {
                 <small className="text-danger">{bankNameError}</small>
               )}
             </div>
-            <div className="form-group">
+
+            {/* <div className="form-group">
               <label htmlFor="bankNumber">Bank Number</label>
               <input
                 type="text"
@@ -274,24 +350,44 @@ const ProfileDetail = () => {
               {bankNumberError && (
                 <small className="text-danger">{bankNumberError}</small>
               )}
+            </div> */}
+
+            <TextField
+              className="mt-3"
+              id="bankNumber"
+              label="Bank Number"
+              defaultValue="Bank Number"
+              value={newCreditCard.bankNumber}
+              onChange={handleInputChange}
+              variant="outlined"
+              sx={{ width: "60%" }}
+            />
+            <div className="">
+              {bankNumberError && (
+                <small className="text-danger">{bankNumberError}</small>
+              )}
             </div>
-            <button
-              type="button"
-              className="btn btn-primary mt-3 me-3"
-              onClick={() => {
-                setIsEditing(true);
-                setShowCreditCardForm(true);
-              }}
-            >
-              Edit Credit Card
-            </button>
-            <button
-              type="button"
-              className="btn btn-danger mt-3 me-3"
-              onClick={() => setShowDeleteConfirmation(true)}
-            >
-              Delete Credit Card
-            </button>
+
+
+            <div className="">
+              <button
+                type="button"
+                className="btn btn-primary mt-3 me-3"
+                onClick={() => {
+                  setIsEditing(true);
+                  setShowCreditCardForm(true);
+                }}
+              >
+                Edit Credit Card
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger mt-3 me-3"
+                onClick={() => setShowDeleteConfirmation(true)}
+              >
+                Delete Credit Card
+              </button>
+            </div>
           </form>
         </>
       ) : (
