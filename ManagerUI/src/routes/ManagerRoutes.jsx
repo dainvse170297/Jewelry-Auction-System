@@ -20,6 +20,7 @@ import SetupProductInfo from "../component/product/SetupProductInfo";
 import Export from "../component/export/Export";
 import MemberManage from "../component/account/MemberManage";
 import TransactionHistory from "../component/manager/transaction/TransactionHistory";
+import AllLots from "../component/manager/Lot/AllLots";
 
 const ManagerRoutes = [
   {
@@ -99,6 +100,10 @@ const ManagerRoutes = [
   {
     path: "/user-manage",
     element: <MemberManage />,
+  },
+  {
+    path: "/lots",
+    element: <AllLots />,
   },
 ];
 

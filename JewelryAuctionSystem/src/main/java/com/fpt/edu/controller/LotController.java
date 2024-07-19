@@ -49,4 +49,15 @@ public class LotController {
     public ResponseEntity<List<LotDTO>> getLotsBySession(@PathVariable int sessionId) {
         return ResponseEntity.ok(lotMapper.toLotDTOS(lotService.getLotsBySession(sessionId)));
     }
+
+    @GetMapping("/all-lots")
+    public ResponseEntity<List<Lot>> getAllLots() {
+        return ResponseEntity.ok(lotService.getAllLots());
+    }
+
+    @GetMapping("/{lotId}")
+    public ResponseEntity<Lot> getAllLotById(@PathVariable Integer lotId) {
+        return ResponseEntity.ok(lotService.viewLotDetailById(lotId));
+    }
+
 }
