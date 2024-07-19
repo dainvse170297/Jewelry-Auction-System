@@ -47,5 +47,5 @@ public class SellerPaymentController {
     @GetMapping("/get-member/{sellerPaymentId}")
     public ResponseEntity<Member> getMemberBySellerPaymentId(@PathVariable int sellerPaymentId) {
         return ResponseEntity.ok(sellerPaymentService.getMemberBySellerPaymentId(sellerPaymentId));
-    }
+    }   
 }

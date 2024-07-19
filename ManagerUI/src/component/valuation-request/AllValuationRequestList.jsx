@@ -419,7 +419,7 @@ const ProductReceivedList = () => {
       <div className="row  d-flex justify-content-center">
         <div className="col-lg-10">
           <div className="row">
-            <h2 className="text-center">Pending Approval List</h2>
+            <h2 className="text-center">Ready to setup jewelries</h2>
           </div>
           <div className="row text-center">
             <table className="table">

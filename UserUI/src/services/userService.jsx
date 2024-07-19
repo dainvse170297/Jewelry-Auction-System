@@ -17,7 +17,6 @@ const postRegister = async (
   email,
   address
 ) => {
-  console.log(username, password, fullName, phone, email, address);
   const formData = new FormData();
   formData.append("username", username);
   formData.append("password", password);
