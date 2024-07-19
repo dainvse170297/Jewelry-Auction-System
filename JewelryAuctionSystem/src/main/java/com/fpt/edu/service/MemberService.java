@@ -141,8 +141,7 @@ public class MemberService implements IMemberService{
     @Override
     public List<MemberDTO> getAllMembers() {
         List<Member> members = iMemberRepository.findAll();
-        List<MemberDTO> memberDTO = memberMapper.toMemberDTOs(members);
-        return memberDTO;
+        return MemberMapper.toMemberDTOs(members);
     }
 
 

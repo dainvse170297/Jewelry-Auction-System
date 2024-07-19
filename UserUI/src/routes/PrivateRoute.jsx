@@ -16,6 +16,7 @@ import ProfileDetail from "../component/profile/ProfileDetail/ProfileDetail";
 import ViewFinancialProof from "../component/profile/FinancialProof/ViewFinancialProof";
 import ChangePassword from "../component/profile/ChangePassword/ChangePassword";
 import AuctionRegisterHistoryList from "../component/profile/AuctionRegisterHistory/AuctionRegisterHistoryList";
+import TransactionHistory from "../component/profile/TransactionHistory/TransactionHistory";
 const privateRoutes = [
   {
     path: "/create-valuation",
@@ -48,6 +49,10 @@ const privateRoutes = [
       {
         path: "auction-register",
         element: <AuctionRegisterHistoryList />,
+      },
+      {
+        path: "transaction-history",
+        element: <TransactionHistory />,
       },
     ],
   },

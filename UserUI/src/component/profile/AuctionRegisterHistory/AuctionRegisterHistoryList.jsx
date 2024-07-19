@@ -4,6 +4,7 @@ import "./AuctionRegisterHistoryList.scss";
 import { useNavigate } from "react-router-dom";
 import Paginator from "../../common/Paginator";
 import { getAuctionRegisterHistory } from "../../../services/apiService";
+import { LinearProgress } from "@mui/material";
 
 const AuctionRegisterHistoryList = () => {
   const id = JSON.parse(localStorage.getItem("account")).memberId;
@@ -12,7 +13,7 @@ const AuctionRegisterHistoryList = () => {
   const [auctionRegisterHistoryList, setAuctionRegisterHistoryList] = useState(
     []
   );
-
+  const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
 
@@ -34,10 +35,12 @@ const AuctionRegisterHistoryList = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const getAuctionRegisterHistoryList = async () => {
       try {
         const response = await getAuctionRegisterHistory(id);
         setAuctionRegisterHistoryList(response);
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
       }
@@ -57,6 +60,7 @@ const AuctionRegisterHistoryList = () => {
     <>
       <h6>AUCTION REGISTER HISTORY LIST</h6>
       <hr />
+
       <div className="container">
         <div className="row">
           <table className="table">
@@ -121,6 +125,7 @@ const AuctionRegisterHistoryList = () => {
               ))}
             </tbody>
           </table>
+          {isLoading && <LinearProgress color="error" />}
           <div className="flex align-items-center justify-content-center">
             <Paginator
               currentPage={currentPage}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { postChangePassword } from "../../../services/apiService";
+import { TextField } from "@mui/material";
 
 const ChangePassword = () => {
   const memberId = JSON.parse(localStorage.getItem("account")).memberId;
@@ -51,38 +52,39 @@ const ChangePassword = () => {
       <h6>PASSWORD SETTINGS</h6>
       <hr />
       <form onSubmit={handleFormSubmit}>
-        <div className="form-group">
-          <label className="d-block">Change Password</label>
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Enter your old password"
-            id="oldPassword"
-            name="oldPassword"
-            value={oldPassword}
-            onChange={(e) => setOldPassword(e.target.value)}
-          />
-          <input
-            type="password"
-            className="form-control mt-1"
-            placeholder="New password"
-            id="newPassword"
-            name="newPassword"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-          <input
-            type="password"
-            className="form-control mt-1"
-            placeholder="Confirm new password"
-            id="confirmNewPassword"
-            name="confirmNewPassword"
-            onKeyUp={checkPassword}
-          />
-          <p>
-            <span id="passwordMsg" className="msg"></span>
-          </p>
-        </div>
+        <TextField
+          required
+          type="password"
+          label="Enter old password"
+          className="form-control"
+          placeholder="Enter your old password"
+          id="oldPassword"
+          name="oldPassword"
+          value={oldPassword}
+          onChange={(e) => setOldPassword(e.target.value)}
+        />
+
+        <TextField
+          type="password"
+          label="Enter new password"
+          className="form-control mt-3"
+          placeholder="New password"
+          id="newPassword"
+          name="newPassword"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+        />
+
+        <TextField
+          required
+          label="Confirm new password"
+          type="password"
+          className="form-control mt-3"
+          placeholder="Confirm new password"
+          id="confirmNewPassword"
+          name="confirmNewPassword"
+          onKeyUp={checkPassword}
+        />
         <hr />
         <div className="">
           <button type="submit" className="btn btn-danger me-3">

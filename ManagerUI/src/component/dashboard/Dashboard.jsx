@@ -30,7 +30,7 @@ const Dashboard = () => {
   const [accountData, setAccountData] = useState({});
   // month
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
-  const [selectedMonth, setSelectedMonth] = useState(1); // Default to January
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1); // Default to January
 
   useEffect(() => {
     const fetchRevenueData = async (year) => {
@@ -304,66 +304,76 @@ const Dashboard = () => {
         {/* Account Data Over Years Bar Chart */}
         <Grid item xs={12} md={6}>
           <div className="chart-container">
-            <h3 className="text-center mt-5">Account Data Over Years</h3>
-            <BarChart
-              width={500}
-              height={300}
-              data={accountChartData}
-              margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="year" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar
-                dataKey="totalAccounts"
-                fill="#8884d8"
-                name="Total Accounts"
-              />
-              <Bar
-                dataKey="totalCustomers"
-                fill="#82ca9d"
-                name="Total Customers"
-              />
-              <Bar dataKey="totalStaffs" fill="#DC0083" name="Total Staffs" />
-              {/* <Bar
+            <div className="row">
+              <h3 className="text-center mt-5">Account Data Over Years</h3>
+            </div>
+            <div className="row d-flex justify-content-center">
+              <BarChart
+                width={600}
+                height={400}
+                data={accountChartData}
+                margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="year" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar
+                  dataKey="totalAccounts"
+                  fill="#8884d8"
+                  name="Total Accounts"
+                />
+                <Bar
+                  dataKey="totalCustomers"
+                  fill="#82ca9d"
+                  name="Total Customers"
+                />
+                <Bar dataKey="totalStaffs" fill="#DC0083" name="Total Staffs" />
+                {/* <Bar
                 dataKey="totalManagers"
                 fill="#ffc658"
                 name="Total Managers"
               /> */}
-            </BarChart>
+              </BarChart>
+            </div>
           </div>
         </Grid>
 
         {/* Participation Rate Over Years Line Chart */}
         <Grid item xs={12} md={6}>
           <div className="chart-container">
-            <h3 className="text-center mt-5">Participation Rate Over Years</h3>
-            <LineChart
-              width={500}
-              height={300}
-              data={accountChartData}
-              margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="year" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="totalCusParticipatedAuction"
-                name="Total Customer Participated Auction"
-                stroke="#8884d8"
-              />
-              <Line
-                type="monotone"
-                dataKey="totalCusParticipatedSelling"
-                name="Total Customer Participated Selling"
-                stroke="#82ca9d"
-              />
-            </LineChart>
+            <div className="row">
+              <h3 className="text-center mt-5">
+                Participation Rate Over Years
+              </h3>
+            </div>
+            <div className="row d-flex justify-content-center">
+              <LineChart
+                width={600}
+                height={400}
+                data={accountChartData}
+                margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="year" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="totalCusParticipatedAuction"
+                  name="Total Customer Participated Auction"
+                  stroke="#8884d8"
+                />
+                <Line
+                  type="monotone"
+                  dataKey="totalCusParticipatedSelling"
+                  name="Total Customer Participated Selling"
+                  stroke="#82ca9d"
+                />
+              </LineChart>
+            </div>
           </div>
         </Grid>
       </Grid>
