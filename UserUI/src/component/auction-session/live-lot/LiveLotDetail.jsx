@@ -135,7 +135,7 @@ export default function LiveLotDetail() {
             currentUser.memberId
           );
           if (placeBid) {
-            toast.success(`Successfully placed bid at $${calculatedAmount}`, {
+            toast.success(`Successfully placed bid at $${calculatedAmount > productInfo.buyNowPrice ? productInfo.buyNowPrice : calculatedAmount}`, {
               autoClose: 2500,
             });
             setProductInfo((prevInfo) => ({
