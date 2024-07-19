@@ -1,4 +1,3 @@
-import "./avatar.scss";
 import "../../../../public/profile/images/avatar_02.jpg";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 

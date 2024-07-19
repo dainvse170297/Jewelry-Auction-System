@@ -674,7 +674,7 @@ const EditMemberAccount = ({ memberId }) => {
                   onChange={handleCreditCardInfoChange}
                 />
 
-                <BankSelector className="m-0" onBankSelect={handleBankSelect} />
+                <BankSelector  onBankSelect={handleBankSelect} />
               </div>
             </div>
           </div>
