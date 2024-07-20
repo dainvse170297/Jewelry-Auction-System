@@ -35,12 +35,7 @@ public class DashboardService implements IDashboardService {
         return auctionSessionRepository
                 .findByStatusAndDateRange(AuctionSessionStatus.PAST, startDate, endDate);
     }
-    private List<Account> getListAccount(int year) {
-        LocalDateTime startDate = LocalDateTime.of(year, 1, 1, 0, 0);
-        LocalDateTime endDate = LocalDateTime.of(year, 12, 31, 23, 59);
 
-        return accountRepository.findByCreationDateBetween(startDate, endDate);
-    }
     @Override
     public DashboardDTO getRevenueEachMonthOfYear(int year) {
         DashboardDTO dashboardDTO = new DashboardDTO();
@@ -108,57 +103,58 @@ public class DashboardService implements IDashboardService {
     }
 
 
+    private List<ValuationRequest> getListValuationRequest(int year) {
+        LocalDateTime startDate = LocalDateTime.of(year, 1, 1, 0, 0);
+        LocalDateTime endDate = LocalDateTime.of(year, 12, 31, 23, 59);
 
+        return valuationRequestRepository.findByTimeRequestBetween(startDate, endDate, ValuationRequestStatus.MEMBER_ACCEPTED);
+    }
+    private List<Account> getListAccount(int year) {
+        LocalDateTime startDate = LocalDateTime.of(year, 1, 1, 0, 0);
+        LocalDateTime endDate = LocalDateTime.of(year, 12, 31, 23, 59);
 
+        return accountRepository.findByCreationDateBetween(startDate, endDate);
+    }
     @Override
     public DashboardAccountDTO getAccountInfo(int year) {
         DashboardAccountDTO dashboardAccountDTO = new DashboardAccountDTO();
         List<Account> accounts = getListAccount(year);
 
-        int totalAccount = accounts.size();
-        int totalCustomers = 0;
-        int totalStaffs = 0;
-        int totalManagers = 0;
-
-        int totalCusParticipatedAuction = 0;
-        int totalCusParticipatedSelling = 0;
-
-
         for (Account account : accounts) {
+            LocalDateTime creationDate = account.getCreateDate();
+            int month = creationDate.getMonthValue() - 1;
+
+            dashboardAccountDTO.getTotalAccounts()[month]++;
+
             if (account.getRole().getId() == 1) {
-                totalCustomers++;
+                dashboardAccountDTO.getTotalCustomers()[month]++;
             } else if (account.getRole().getId() == 2) {
-                totalStaffs++;
+                dashboardAccountDTO.getTotalStaffs()[month]++;
             } else if (account.getRole().getId() == 3) {
-                totalManagers++;
+                dashboardAccountDTO.getTotalManagers()[month]++;
             }
-
-            if (account.getRole().getId() == 1) {
-                List<AuctionRegister> auctionRegisters =
-                        auctionRegisterRepository.findByMemberId(account.getMembers().getId());
-               if(!auctionRegisters.isEmpty()){
-                     totalCusParticipatedAuction ++;
-               }
-                List<ValuationRequest> valuationRequests =
-                        valuationRequestRepository.findByValuationStatusAndMemberId
-                                (ValuationRequestStatus.MEMBER_ACCEPTED,account.getMembers().getId());
-               if(!valuationRequests.isEmpty()){
-                   totalCusParticipatedSelling ++;
-               }
-            }
-
-
         }
-         dashboardAccountDTO.setYear(year);
-        dashboardAccountDTO.setTotalAccounts(totalAccount);
-        dashboardAccountDTO.setTotalCustomers(totalCustomers);
-        dashboardAccountDTO.setTotalStaffs(totalStaffs);
-        dashboardAccountDTO.setTotalManagers(totalManagers);
-        dashboardAccountDTO.setTotalCusParticipatedAuction(totalCusParticipatedAuction);
-        dashboardAccountDTO.setTotalCusParticipatedSelling(totalCusParticipatedSelling);
+
+        int[] totalCusParticipatedAuction = new int[12];
+        Arrays.fill(totalCusParticipatedAuction, 0); // Initialize all elements to 0
+        int[] totalParticipatedSelling = new int[12];
+        Arrays.fill(totalParticipatedSelling, 0); // Initialize all elements to 0
 
 
 
+        List<ValuationRequest> valuationRequests =getListValuationRequest(year);
+        for (ValuationRequest valuationRequest : valuationRequests) {
+            LocalDateTime valuationDate = valuationRequest.getTimeRequest();
+            log.info("valuationDate: " + valuationDate);
+            int month = valuationDate.getMonthValue() - 1;
+            totalParticipatedSelling[month]++;
+        }
+
+
+
+
+        dashboardAccountDTO.setTotalParticipatedSelling(totalParticipatedSelling);
+        dashboardAccountDTO.setYear(year);
         return dashboardAccountDTO;
     }
 

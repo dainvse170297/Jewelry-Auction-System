@@ -47,4 +47,11 @@ public class StaffController {
     public ResponseEntity<Map<String, Object>> deleteAccount(@PathVariable("id") Integer id) { //acccount id chu ko phai staff id
         return ResponseEntity.ok().body(accountService.deleteAccount(id));
     }
+
+    @PostMapping("/account/update/{id}")
+    public ResponseEntity<Account> updateStaffAccount(@PathVariable("id") Integer id,
+                                                                 @RequestParam("password") String password,
+                                                                 @RequestParam("fullName") String fullName) {
+        return ResponseEntity.ok().body(accountService.updateStaffAccount(id, password, fullName));
+    }
 }
