@@ -9,6 +9,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Typography } from "@mui/material";
 
+// Formatter function for currency
+const formatCurrency = (amount) => {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 1,
+  }).format(amount);
+};
+
 const ViewFinancialProof = () => {
   const id = JSON.parse(localStorage.getItem("account")).memberId;
 
@@ -42,7 +51,7 @@ const ViewFinancialProof = () => {
       <div className="col-md-6">
         <div className="mb-3">
           <div className="card-body">
-            <Typography variant="h6" gutterBottom color={'#b23842'}>
+            <Typography variant="h6" gutterBottom color={"#b23842"}>
               Member Information
             </Typography>
             <p className="card-text text-muted">
@@ -75,14 +84,14 @@ const ViewFinancialProof = () => {
       <div className="col-md-6">
         <div className="mb-3">
           <div className="card-body">
-            <Typography variant="h6" gutterBottom color={'#b23842'}>
+            <Typography variant="h6" gutterBottom color={"#b23842"}>
               Financial Proof Information
             </Typography>
             <p className="card-text">
               <strong>Amount Available: </strong>
               {showAvailableAmount ? (
                 <span className="financial-proof-amount">
-                  ${financialProof.financialProofAmount}
+                  {formatCurrency(financialProof.financialProofAmount)}
                 </span>
               ) : (
                 <span className="financial-proof-amount-hidden">****</span>
@@ -111,7 +120,7 @@ const ViewFinancialProof = () => {
       <div className="col-md-12">
         <div className="mb-3">
           <div className="card-body">
-            <Typography variant="h6" gutterBottom color={'#b23842'}>
+            <Typography variant="h6" gutterBottom color={"#b23842"}>
               Financial Proof Request Information
             </Typography>
             <p className="card-text text-muted">
@@ -121,10 +130,11 @@ const ViewFinancialProof = () => {
               ).format("DD/MM/YYYY HH:mm:ss")}
             </p>
             <p
-              className={`card-text ${financialProof?.financialProofRequest?.status === "AVAILABLE"
-                ? "text-success"
-                : "text-muted"
-                }`}
+              className={`card-text ${
+                financialProof?.financialProofRequest?.status === "AVAILABLE"
+                  ? "text-success"
+                  : "text-muted"
+              }`}
             >
               <strong className="stt">Status:</strong>{" "}
               {financialProof?.financialProofRequest?.status || "Processing"}
@@ -134,8 +144,9 @@ const ViewFinancialProof = () => {
                 <strong>Financial Proof Amount: </strong>
                 {showRequestAmount ? (
                   <span className="financial-proof-amount">
-                    $
-                    {financialProof.financialProofRequest?.financialProofAmount}
+                    {formatCurrency(
+                      financialProof.financialProofRequest?.financialProofAmount
+                    )}
                   </span>
                 ) : (
                   <span className="financial-proof-amount-hidden">****</span>
