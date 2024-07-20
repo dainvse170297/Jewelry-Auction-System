@@ -29,4 +29,6 @@ public interface IAuctionRegisterService  {
     List<AuctionRegister> getDeliveredAuctionRegister();
 
     AuctionRegister getDeliveredAuctionRegisterById(Integer id);
+
+    List<AuctionRegister> getMembersInLot(Integer lotId);
 }

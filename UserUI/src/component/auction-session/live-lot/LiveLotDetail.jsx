@@ -206,6 +206,12 @@ export default function LiveLotDetail() {
     }
   }, [productInfo.currentPrice]);
 
+  const maskName = (name) => {
+    const [firstName] = name.split(" ");
+    const maskedPart = '*'.repeat(7);
+    return `${firstName} ${maskedPart}`;
+  }
+
   return (
     <div className="container">
       {isSold ? (
@@ -289,6 +295,7 @@ export default function LiveLotDetail() {
                             {bidHistory.slice(0, 6).map((item, index) => (
                               <div key={index} className="">
                                 <p className="mb-1 pb-1">
+                                  {maskName(item.memberName)} -
                                   ${item.price}{" "}
                                   <span>
                                     {moment(item.bidTime).format(

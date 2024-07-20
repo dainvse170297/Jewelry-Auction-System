@@ -75,4 +75,9 @@ public class AuctionRegisterController {
         return ResponseEntity.ok(auctionRegisterService.getDeliveredAuctionRegisterById(id));
     }
 
+    @GetMapping("/get-members-in-lot/{lotId}")
+    public ResponseEntity<List<AuctionRegister>> getMembersInLot(@PathVariable("lotId") Integer lotId) {
+        return ResponseEntity.ok(auctionRegisterService.getMembersInLot(lotId));
+    }
+
 }

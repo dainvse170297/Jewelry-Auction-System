@@ -18,7 +18,11 @@ import "./LiveLotDetail.scss";
 import ImageGallery from "../../../views/image/ImageGallery";
 const SoldLot = ({ productInfo, bidHistory, goBack, winningMessage }) => {
 
-
+    const maskName = (name) => {
+        const [firstName] = name.split(" ");
+        const maskedPart = '*'.repeat(7);
+        return `${firstName} ${maskedPart}`;
+    }
 
     return (
         <>
@@ -80,6 +84,7 @@ const SoldLot = ({ productInfo, bidHistory, goBack, winningMessage }) => {
                                         {bidHistory.slice(0, 6).map((item, index) => (
                                             <div key={index} className="">
                                                 <p className="mb-1 pb-1">
+                                                    {maskName(item.memberName)} -
                                                     ${item.price}{" "}
                                                     <span>
                                                         {moment(item.bidTime).format(

@@ -49,6 +49,7 @@ export {
   getDeliveredLots,
   getAllLots,
   getLotDetail,
+  getMembersInLot,
 
   //Account
   getAllMemberAccounts,
@@ -374,4 +375,8 @@ const getAllLots = async () => {
 
 const getLotDetail = async (lotId) => {
   return axios.get(`lot/${lotId}`);
+}
+
+const getMembersInLot = async (lotId) => {
+  return axios.get(`auction-register/get-members-in-lot/${lotId}`);
 }

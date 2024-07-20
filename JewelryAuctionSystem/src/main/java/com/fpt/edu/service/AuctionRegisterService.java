@@ -165,5 +165,11 @@ public class AuctionRegisterService implements IAuctionRegisterService {
         }
     }
 
+    @Override
+    public List<AuctionRegister> getMembersInLot(Integer lotId) {
+
+        return auctionRegisterRepository.findByLotId(lotId);
+    }
+
 
 }
