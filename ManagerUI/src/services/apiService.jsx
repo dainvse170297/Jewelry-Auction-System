@@ -47,6 +47,8 @@ export {
   postAddLotToSession,
   postCreateSession,
   getDeliveredLots,
+  getAllLots,
+  getLotDetail,
 
   //Account
   getAllMemberAccounts,
@@ -364,4 +366,12 @@ const getAllSellerPayment = async () => {
 
 const getMemberBySellerPaymentId = async (sellerPaymentId) => {
   return axios.get(`seller-payment/get-member/${sellerPaymentId}`);
+}
+
+const getAllLots = async () => {
+  return axios.get(`lot/all-lots`);
+}
+
+const getLotDetail = async (lotId) => {
+  return axios.get(`lot/${lotId}`);
 }

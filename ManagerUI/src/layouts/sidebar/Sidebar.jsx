@@ -96,6 +96,10 @@ const managerNavigation = [
         name: "View Delivered Lot",
         href: "/auction/delivered-lot",
       },
+      {
+        name: "All Lots",
+        href: "/lots",
+      },
     ],
   },
   {

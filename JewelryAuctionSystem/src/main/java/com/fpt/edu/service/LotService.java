@@ -125,6 +125,11 @@ public class LotService implements ILotService {
         return lots;
     }
 
+    @Override
+    public List<Lot> getAllLots() {
+        return lotRepository.findAll();
+    }
+
     @Scheduled(fixedRate = 60 * 60 * 24 * 1000) //1 day
     public void updateLotStatus() {
         List<AuctionRegister> auctionRegisters = auctionRegisterRepository.findByStatus(AuctionRegisterStatus.PENDING_PAYMENT);

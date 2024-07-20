@@ -19,4 +19,7 @@ public interface ILotService {
     List<LotDTO> getLotsByDeliveredAuctionRegister();
 
     List<Lot> getLotsBySession(int sessionId);
+
+    List<Lot> getAllLots();
+
 }

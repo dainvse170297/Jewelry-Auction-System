@@ -1,10 +1,9 @@
 import React from 'react'
 import './checkout.scss'
+import { Link } from '@mui/material'
 
 const PaymentFailure = () => {
-    setTimeout(() => {
-        window.location.href = '/home'
-    }, 2000)
+
     return (
         <center>
             <div className='container mt-5'>
@@ -28,7 +27,18 @@ const PaymentFailure = () => {
 
                         <h2>Payment Failure !</h2>
                         <p>Please try again.</p>
+                        <div className="d-flex justify-content-center">
+
+                            <Link href="/home" underline="hover" className="me-5">
+                                Home
+                            </Link>
+                            <Link href="/CheckOut" underline="hover">
+                                Try Again!
+                            </Link>
+
+                        </div>
                     </div>
+
                     <div className="col-lg-3"></div>
                 </div>
             </div>
