@@ -27,7 +27,7 @@ import static com.fpt.edu.mapper.MemberMapper.mapToMemberDTO;
 
 @Service
 @RequiredArgsConstructor
-public class MemberService implements IMemberService{
+public class MemberService implements IMemberService {
     private static final Logger log = LoggerFactory.getLogger(MemberService.class);
     private final IMemberRepository iMemberRepository;
     private final IAccountRepository iAccountRepository;
@@ -35,12 +35,13 @@ public class MemberService implements IMemberService{
     private final IFinancialProofRequestRepository iFinancialProofRequestRepository;
     private final ICreditCardRepository iCreditCardRepository;
     private final MemberMapper memberMapper;
-    public MemberDTO getMyInfo(){
+
+    public MemberDTO getMyInfo() {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         log.info("Username: {}", name);
         Optional<Account> account = iAccountRepository.findByUsername(name);
 
-        if(account.isPresent()){
+        if (account.isPresent()) {
             Member member = account.get().getMembers();
             Integer id = member.getId();
             return mapToMemberDTO(member, id);
@@ -52,19 +53,20 @@ public class MemberService implements IMemberService{
     @Override
     public Member getMemberById(Integer id) {
         Optional<Member> member = iMemberRepository.findById(id);
-        if(member.isPresent()){
+        if (member.isPresent()) {
             return member.get();
         }
         return null;
     }
+
     @Override
     public MemberDTO getMemberByProductId(Integer productId) {
-        ValuationRequest valuationRequest =  iValuationRequestRepository.findByProductId(productId);
+        ValuationRequest valuationRequest = iValuationRequestRepository.findByProductId(productId);
         log.info("ValuationRequest: {}", valuationRequest.getId());
 
         CreditCard creditCard = valuationRequest.getMember().getCreditCard();
         CreditCardDTO creditCardDTO = new CreditCardDTO();
-        if(creditCard != null){
+        if (creditCard != null) {
             creditCardDTO.setId(creditCard.getId());
             creditCardDTO.setAccountHolder(creditCard.getAccountHolder());
             creditCardDTO.setBankName(creditCard.getBankName());
@@ -77,11 +79,11 @@ public class MemberService implements IMemberService{
     }
 
     @Override
-    public Member addCreditCard(Integer memberId, CreditCardRequestDTO creditCardDto){
+    public Member addCreditCard(Integer memberId, CreditCardRequestDTO creditCardDto) {
         log.info("MemberId: {}", memberId);
         Member member = iMemberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("Member not found"));
-        if(member.getCreditCard()!= null){
+        if (member.getCreditCard() != null) {
             throw new RuntimeException("Credit card already  ADD");
         }
 
@@ -120,6 +122,7 @@ public class MemberService implements IMemberService{
         iMemberRepository.save(member);
         return member;
     }
+
     @Override
     public boolean deleteCreditCard(Integer memberId) {
         Optional<Member> member = iMemberRepository.findById(memberId);
@@ -146,7 +149,7 @@ public class MemberService implements IMemberService{
 
 
     @Override
-    public MemberDTO getMyInfoFinancialProof(Integer memberId){
+    public MemberDTO getMyInfoFinancialProof(Integer memberId) {
         Optional<Member> member = iMemberRepository.findById(memberId);
 
         CreditCard creditCard = member.get().getCreditCard();
@@ -155,7 +158,7 @@ public class MemberService implements IMemberService{
         log.info("MemberId: {}", memberId);
         log.info("MemberId: {}", creditCard);
 
-        if(creditCard != null){
+        if (creditCard != null) {
             creditCardDTO.setId(creditCard.getId());
             creditCardDTO.setAccountHolder(creditCard.getAccountHolder());
             creditCardDTO.setBankName(creditCard.getBankName());
@@ -173,8 +176,8 @@ public class MemberService implements IMemberService{
 
 
         FinancialProofRequestDTO financialProofRequestDTO = new FinancialProofRequestDTO();
-      //  FinancialProofRequest  financialProofRequest1 = financialProofRequest.get(0);
-        if(financialProofRequest != null){
+        //  FinancialProofRequest  financialProofRequest1 = financialProofRequest.get(0);
+        if (financialProofRequest != null) {
             financialProofRequestDTO.setFinancialProofAmount(financialProofRequest.getFinancialProofAmount());
             financialProofRequestDTO.setStatus(financialProofRequest.getStatus());
             financialProofRequestDTO.setTimeRequest(financialProofRequest.getTimeRequest());
@@ -183,5 +186,36 @@ public class MemberService implements IMemberService{
         memberDTO.setFinancialProofRequest(financialProofRequestDTO);
 
         return memberDTO;
+    }
+
+    @Override
+    public Member updateMemberAccount(Integer id, String fullName, String email, String phone, String address) {
+        Member member = iMemberRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Member not found")
+        );
+        member.setFullname(fullName);
+        member.setEmail(email);
+        member.setPhone(phone);
+        member.setAddress(address);
+        iMemberRepository.save(member);
+        return member;
+    }
+
+    @Override
+    public Member updateMemberCreditCard(Integer id, String accountHolder, String bankName, String bankNumber) {
+        Member member = iMemberRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Member not found")
+        );
+        CreditCard creditCard = member.getCreditCard();
+        if (creditCard == null) {
+            creditCard = new CreditCard();
+        }
+        creditCard.setAccountHolder(accountHolder);
+        creditCard.setBankName(bankName);
+        creditCard.setBankNumber(bankNumber);
+        iCreditCardRepository.save(creditCard);
+        member.setCreditCard(creditCard);
+        iMemberRepository.save(member);
+        return member;
     }
 }

@@ -18,4 +18,7 @@ public interface IMemberService {
     public Member editCreditCard(Integer memberId, CreditCardRequestDTO creditCardDto);
     public boolean deleteCreditCard(Integer memberId);
     List<MemberDTO> getAllMembers();
+    Member updateMemberAccount(Integer id, String fullName, String email, String phone, String address);
+
+    Member updateMemberCreditCard(Integer id, String accountHolder, String bankName, String bankNumber);
 }
