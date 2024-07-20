@@ -35,16 +35,33 @@ const RevenueExportComponent = () => {
   const exportToExcel = () => {
     const currentYearFile = new Date().getFullYear();
     if (revenueData) {
-      const mappedData = revenueData.map((item, index) => ({
-        Year: (item.year || currentYearFile - index).toString(),
-        "Total Revenue": item.totalRevenue + item.totalRevenue * 0.2 || 0,
-        "Total Profit": item.totalRevenue * 0.2 || 0,
-        "Total Auction Session": item.totalAuctionSession || 0,
-        "Total Auction Lots": item.totalAuctionLots || 0,
-        "Total Auction Lots Pending Payment":
-          item.totalAuctionLotsPendingPayment || 0,
-        "Total Auction Lots Payment Success": item.totalAuctionLotsSold || 0,
-      }));
+      const mappedData = revenueData.map((item, index) => {
+        const year = item.year || currentYearFile - index;
+        const months = item.revenue || Array(12).fill(0);
+
+        return {
+          Year: year.toString(),
+          "January ": months[0] + months[0] * 0.2,
+          "February ": months[1] + months[1] * 0.2,
+          "March ": months[2] + months[2] * 0.2,
+          "April ": months[3] + months[3] * 0.2,
+          "May ": months[4] + months[4] * 0.2,
+          "June ": months[5] + months[5] * 0.2,
+          "July ": months[6] + months[6] * 0.2,
+          "August ": months[7] + months[7] * 0.2,
+          "September ": months[8] + months[8] * 0.2,
+          "October ": months[9] + months[9] * 0.2,
+          "November ": months[10] + months[10] * 0.2,
+          "December ": months[11] + months[11] * 0.2,
+          "Total Revenue ": item.totalRevenue + item.totalRevenue * 0.2 || 0,
+          "Total Profit": item.totalRevenue * 0.2 || 0,
+          "Total Auction Session": item.totalAuctionSession || 0,
+          "Total Auction Lots": item.totalAuctionLots || 0,
+          "Total Auction Lots Pending Payment":
+            item.totalAuctionLotsPendingPayment || 0,
+          "Total Auction Lots Payment Success": item.totalAuctionLotsSold || 0,
+        };
+      });
 
       const ws = XLSX.utils.json_to_sheet(mappedData);
       const wb = XLSX.utils.book_new();
@@ -57,7 +74,6 @@ const RevenueExportComponent = () => {
     }
   };
 
-  // Function to get default year based on current year
   // Fetch revenue data on component mount
   useEffect(() => {
     fetchRevenueData();

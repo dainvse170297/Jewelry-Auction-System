@@ -11,12 +11,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DashboardAccountDTO {
     private int year;
-    private int totalAccounts;
-    private int totalCustomers;
-    private int totalStaffs;
-    private int totalManagers;
-    private int totalCusParticipatedAuction;
-    private int totalCusParticipatedSelling;
+    private int[] totalAccounts = new int[12];
+    private int[] totalCustomers = new int[12];
+    private int[] totalStaffs = new int[12];
+    private int[] totalManagers = new int[12];
+  //  private int[] totalCusParticipatedAuction = new int[12];
+    private int[] totalParticipatedSelling = new int[12];
 
 
 }

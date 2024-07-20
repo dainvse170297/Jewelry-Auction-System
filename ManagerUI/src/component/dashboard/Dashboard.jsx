@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ChartComponent from "../dashboard/data/ChartComponent";
 import StatisticsCard from "../dashboard/data/StatisticsCard";
-import { Grid, MenuItem, Select } from "@mui/material";
+import { Grid, MenuItem, Select, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 import {
   getRevenueByYear,
   getDataAccountByYear,
@@ -30,8 +31,8 @@ const Dashboard = () => {
   const [accountData, setAccountData] = useState({});
   // month
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1); // Default to January
-
+  const [selectedMonth, setSelectedMonth] = useState(1); // Default to January
+  // revenue
   useEffect(() => {
     const fetchRevenueData = async (year) => {
       try {
@@ -48,7 +49,7 @@ const Dashboard = () => {
       }
     });
   }, [years, revenueData]);
-
+  //account
   useEffect(() => {
     const fetchAccountData = async (year) => {
       try {
@@ -73,13 +74,14 @@ const Dashboard = () => {
   const handleChangeMonth = (event) => {
     setSelectedMonth(event.target.value);
   };
-
+  // caculate %
   const calculatePercentageChange = (current, previous) => {
     if (previous === 0) {
       return current > 0 ? 100 : 0;
     }
     return ((current - previous) / previous) * 100;
   };
+
   //year handle
   const selectedData = revenueData[selectedYear] || {};
   const otherYearData = revenueData[selectedYear - 1] || {};
@@ -100,58 +102,76 @@ const Dashboard = () => {
   );
   const isRevenueIncrease = percentageRevenueChange >= 0;
 
+  //Total Auction Session %
   const percentageAuctionSessionChange = calculatePercentageChange(
     selectedData.totalAuctionSession || 0,
     otherYearData.totalAuctionSession || 0
   );
+  // Total Auction Session Increase
   const isAuctionSessionIncrease = percentageAuctionSessionChange >= 0;
 
+  //  Total Auction Lots %
   const percentageAuctionLotsChange = calculatePercentageChange(
     selectedData.totalAuctionLots || 0,
     otherYearData.totalAuctionLots || 0
   );
+  // Total Auction Lots Increase
   const isAuctionLotsIncrease = percentageAuctionLotsChange >= 0;
 
+  // total lot payment success %
   const percentageAuctionLotsSoldChange = calculatePercentageChange(
     selectedData.totalAuctionLotsSold || 0,
     otherYearData.totalAuctionLotsSold || 0
   );
+  // Total Lot Payment Success Increase
   const isAuctionLotsSoldIncrease = percentageAuctionLotsSoldChange >= 0;
 
+  // Total  = 20% of total revenue
   const totalProfit = totalSelectedRevenue * 0.2 || 0; // 20% profit of Payment method
+  // % of total profit
   const profitPercentage = calculatePercentageChange(
     totalProfit,
     totalOtherYearRevenue * 0.2
   );
+  // Total Profit Increase
   const isProfitIncrease = profitPercentage >= 0;
 
+  // Total Lot Pending Payment
   const totalLotPendingPayment =
     selectedData.totalAuctionLotsPendingPayment || 0;
 
+  // Total Lot Pending Payment %
   const totalLotPendingPaymentPercentage = calculatePercentageChange(
     totalLotPendingPayment,
     otherYearData.totalAuctionLotsPendingPayment || 0
   );
+  // Total Lot Pending Payment Increase
   const isTotalLotPendingPaymentIncrease =
     totalLotPendingPaymentPercentage >= 0;
 
-  // month handle
+  // ----month handle---
   const monthlyRevenue = selectedData.revenue || [];
-  const totalSelectedMonthRevenue = monthlyRevenue[selectedMonth - 1] || 0; // Adjust for month index
+  //Total Revenue By Month
+  const totalSelectedMonthRevenue = monthlyRevenue[selectedMonth - 1] || 0; // -1 for index
+  // Total Revenue By before Month
   const totalOtherMonthRevenue = monthlyRevenue[selectedMonth - 2] || 0; // revenue of month in other year
 
-  const totalProfitByMonth = totalSelectedMonthRevenue * 0.2 || 0; // 20% profit of Payment method
-
+  // % of total revenue  By Month
   const revenuePercentageMonth = calculatePercentageChange(
     totalSelectedMonthRevenue,
     totalOtherMonthRevenue
   );
+  // Total Profit Increase By Month
   const isRevenueIncreaseMonth = revenuePercentageMonth >= 0;
 
+  // Total profit By Month
+  const totalProfitByMonth = totalSelectedMonthRevenue * 0.2 || 0; // 20% profit of Payment method
+  // % of total profit By Month
   const profitPercentageMonth = calculatePercentageChange(
     totalProfitByMonth,
     totalOtherMonthRevenue * 0.2
   );
+  // Total Profit Increase By Month
   const isProfitIncreaseMonth = profitPercentageMonth >= 0;
 
   // Convert category data for jewelry pie chart
@@ -179,11 +199,46 @@ const Dashboard = () => {
 
   const accountChartData = convertToChartData(accountData);
 
+  // Convert monthly data for charts
+  const convertMonthlyDataToChartData = (data, selectedYear) => {
+    const yearData = data[selectedYear] || {};
+    return months.map((month, index) => ({
+      month,
+      totalAccounts: yearData.totalAccounts ? yearData.totalAccounts[index] : 0,
+      totalCustomers: yearData.totalCustomers
+        ? yearData.totalCustomers[index]
+        : 0,
+      totalStaffs: yearData.totalStaffs ? yearData.totalStaffs[index] : 0,
+      totalManagers: yearData.totalManagers ? yearData.totalManagers[index] : 0,
+      totalCusParticipatedAuction: yearData.totalCusParticipatedAuction
+        ? yearData.totalCusParticipatedAuction[index]
+        : 0,
+      totalParticipatedSelling: yearData.totalParticipatedSelling
+        ? yearData.totalParticipatedSelling[index]
+        : 0,
+    }));
+  };
+
+  const monthlyAccountChartData = convertMonthlyDataToChartData(
+    accountData,
+    selectedYear
+  );
+
   return (
     <div className="home">
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <h1 className="text-center">Dashboard</h1>
+          <div className="mb-2">
+            <Button
+              variant="contained"
+              color="primary"
+              component={Link}
+              to="/export"
+            >
+              Go to Export
+            </Button>
+          </div>
           <Select
             value={selectedYear}
             onChange={handleChangeYear}
@@ -301,79 +356,82 @@ const Dashboard = () => {
           />
         </Grid>
 
-        {/* Account Data Over Years Bar Chart */}
+        {/* Monthly Account Data Chart */}
         <Grid item xs={12} md={6}>
+          <h3 className="text-center mt-5">Account Data Over Month </h3>
           <div className="chart-container">
-            <div className="row">
-              <h3 className="text-center mt-5">Account Data Over Years</h3>
-            </div>
-            <div className="row d-flex justify-content-center">
-              <BarChart
-                width={600}
-                height={400}
-                data={accountChartData}
-                margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="year" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar
-                  dataKey="totalAccounts"
-                  fill="#8884d8"
-                  name="Total Accounts"
-                />
-                <Bar
-                  dataKey="totalCustomers"
-                  fill="#82ca9d"
-                  name="Total Customers"
-                />
-                <Bar dataKey="totalStaffs" fill="#DC0083" name="Total Staffs" />
-                {/* <Bar
-                dataKey="totalManagers"
-                fill="#ffc658"
-                name="Total Managers"
-              /> */}
-              </BarChart>
-            </div>
+            <BarChart
+              width={600}
+              height={300}
+              data={monthlyAccountChartData}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar
+                dataKey="totalAccounts"
+                fill="#8884d8"
+                name="Total Accounts"
+              />
+              <Bar
+                dataKey="totalCustomers"
+                fill="#82ca9d"
+                name="Total Customers"
+              />
+              <Bar dataKey="totalStaffs" fill="#ffc658" name="Total Staffs" />
+              {/* <Bar dataKey="totalManagers" fill="#ff8042" />
+              <Bar dataKey="totalCusParticipatedAuction" fill="#8dd1e1" />
+              <Bar dataKey="totalCusParticipatedSelling" fill="#a4de6c" /> */}
+            </BarChart>
           </div>
         </Grid>
 
-        {/* Participation Rate Over Years Line Chart */}
         <Grid item xs={12} md={6}>
+          <h3 className="text-center mt-5">
+            Valuation Request Data Over Month{" "}
+          </h3>
           <div className="chart-container">
-            <div className="row">
-              <h3 className="text-center mt-5">
-                Participation Rate Over Years
-              </h3>
-            </div>
-            <div className="row d-flex justify-content-center">
-              <LineChart
-                width={600}
-                height={400}
-                data={accountChartData}
-                margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="year" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="totalCusParticipatedAuction"
-                  name="Total Customer Participated Auction"
-                  stroke="#8884d8"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="totalCusParticipatedSelling"
-                  name="Total Customer Participated Selling"
-                  stroke="#82ca9d"
-                />
-              </LineChart>
-            </div>
+            <LineChart
+              width={600}
+              height={300}
+              data={monthlyAccountChartData}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              {/* <Line type="monotone" dataKey="totalAccounts" stroke="#8884d8" />
+              <Line type="monotone" dataKey="totalCustomers" stroke="#82ca9d" />
+              <Line type="monotone" dataKey="totalStaffs" stroke="#ffc658" />
+              <Line type="monotone" dataKey="totalManagers" stroke="#ff8042" /> */}
+              {/* <Line
+                type="monotone"
+                name="Total Customer Participated Auction"
+                dataKey="totalCusParticipatedAuction"
+                stroke="#8dd1e1"
+              /> */}
+              <Line
+                type="monotone"
+                name="Total Participated Selling"
+                dataKey="totalParticipatedSelling"
+                stroke="#a4de6c"
+              />
+            </LineChart>
           </div>
         </Grid>
       </Grid>
