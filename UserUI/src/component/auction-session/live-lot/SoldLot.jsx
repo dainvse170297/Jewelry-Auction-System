@@ -64,9 +64,7 @@ const SoldLot = ({ productInfo, bidHistory, goBack, winningMessage }) => {
                             <div className="d-flex align-items-center">
                                 <h6 className="buy_now_price">
                                     SOLD FOR : ${" "}
-                                    {productInfo.buyNowPrice === null
-                                        ? 0
-                                        : productInfo.buyNowPrice}
+                                    {productInfo.currentPrice}
                                 </h6>
                             </div>
                         </div>
