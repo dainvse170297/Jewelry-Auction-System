@@ -3,10 +3,15 @@ import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
+// Function to check if all values are zero
+const hasNonZeroData = (data) => {
+  return data.some((entry) => entry.revenue > 0);
+};
+
 const JewelryPieChart = ({ data }) => {
   return (
     <div style={{ textAlign: "center" }}>
-      {data && data.length > 0 ? (
+      {data && data.length > 0 && hasNonZeroData(data) ? (
         <PieChart width={400} height={400}>
           <Pie
             data={data}

@@ -20,6 +20,6 @@ public class DashboardDTO {
    private Integer totalAuctionLots;
    private Integer totalAuctionLotsSold;
     private Integer totalAuctionLotsPendingPayment;
-    private  List<Map<String, Integer>> getProfitByCategory;
+    private  Map<String, Integer>[] getProfitByCategory = new Map[12];
 }
 

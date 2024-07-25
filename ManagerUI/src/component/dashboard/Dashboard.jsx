@@ -26,12 +26,13 @@ const Dashboard = () => {
   const currentYear = new Date().getFullYear();
   // year
   const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
-  const [revenueData, setRevenueData] = useState({});
-  const [selectedYear, setSelectedYear] = useState(currentYear);
-  const [accountData, setAccountData] = useState({});
   // month
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
   const [selectedMonth, setSelectedMonth] = useState(1); // Default to January
+  const [revenueData, setRevenueData] = useState({});
+  const [selectedYear, setSelectedYear] = useState(currentYear);
+  const [accountData, setAccountData] = useState({});
+
   // revenue
   useEffect(() => {
     const fetchRevenueData = async (year) => {
@@ -175,6 +176,13 @@ const Dashboard = () => {
   const isProfitIncreaseMonth = profitPercentageMonth >= 0;
 
   // Convert category data for jewelry pie chart
+
+  const monthlyRevenueCategory = selectedData.getProfitByCategory || [];
+  const SelectedMonthCategoryData =
+    monthlyRevenueCategory[selectedMonth - 1] || {}; // -1 for index
+
+  console.log(">>> SelectedMonthCategoryData", SelectedMonthCategoryData);
+
   const convertCategoryData = (categoryData) => {
     return Object.entries(categoryData).map(([name, revenue]) => ({
       name,
@@ -182,22 +190,7 @@ const Dashboard = () => {
     }));
   };
 
-  const jewelryData = convertCategoryData(
-    selectedData.getProfitByCategory &&
-      selectedData.getProfitByCategory.length > 0
-      ? selectedData.getProfitByCategory[0]
-      : {}
-  );
-
-  // Convert account data for bar and line charts
-  const convertToChartData = (data) => {
-    return Object.keys(data).map((year) => ({
-      year: year,
-      ...data[year],
-    }));
-  };
-
-  const accountChartData = convertToChartData(accountData);
+  const jewelryData = convertCategoryData(SelectedMonthCategoryData);
 
   // Convert monthly data for charts
   const convertMonthlyDataToChartData = (data, selectedYear) => {
@@ -393,7 +386,7 @@ const Dashboard = () => {
             </BarChart>
           </div>
         </Grid>
-
+        {/*  Valuation Request Data Over Month */}
         <Grid item xs={12} md={6}>
           <h3 className="text-center mt-5">
             Valuation Request Data Over Month{" "}

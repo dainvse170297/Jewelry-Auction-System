@@ -6,7 +6,7 @@ import { saveAs } from "file-saver";
 import axios from "axios";
 
 const RevenueExportCategoryComponent = () => {
-  const [revenueData, setRevenueData] = useState(null);
+  const [revenueData, setRevenueData] = useState([]);
 
   // Function to fetch revenue data for the last five years
   const fetchRevenueData = async () => {
@@ -17,14 +17,15 @@ const RevenueExportCategoryComponent = () => {
         (_, index) => currentYear - index
       );
 
-      const promises = years.map(async (year) => {
-        const response = await axios.get(
-          `https://fuja.azurewebsites.net/dashboard/dataRevenue/${year}`
-        );
-        return response.data;
-      });
+      const responses = await Promise.all(
+        years.map((year) =>
+          axios.get(
+            `https://fuja.azurewebsites.net/dashboard/dataRevenue/${year}`
+          )
+        )
+      );
 
-      const data = await Promise.all(promises);
+      const data = responses.map((response) => response.data);
       setRevenueData(data);
     } catch (error) {
       console.error("Error fetching revenue data:", error);
@@ -32,52 +33,66 @@ const RevenueExportCategoryComponent = () => {
   };
 
   const exportToExcel = () => {
-    const currentYearFile = new Date().getFullYear();
-    if (revenueData) {
-      const mappedData = revenueData.map((item, index) => {
-        const earringsProfit =
-          item.getProfitByCategory && item.getProfitByCategory.length > 0
-            ? Math.round(
-                (item.getProfitByCategory[0]?.Earrings || 0) * 0.2 * 100
-              ) / 100
-            : 0;
-        const necklacesProfit =
-          item.getProfitByCategory && item.getProfitByCategory.length > 0
-            ? Math.round(
-                (item.getProfitByCategory[0]?.Necklaces || 0) * 0.2 * 100
-              ) / 100
-            : 0;
-        const braceletsProfit =
-          item.getProfitByCategory && item.getProfitByCategory.length > 0
-            ? Math.round(
-                (item.getProfitByCategory[0]?.Bracelets || 0) * 0.2 * 100
-              ) / 100
-            : 0;
-        const ringsProfit =
-          item.getProfitByCategory && item.getProfitByCategory.length > 0
-            ? Math.round(
-                (item.getProfitByCategory[0]?.Rings || 0) * 0.2 * 100
-              ) / 100
-            : 0;
+    if (revenueData.length > 0) {
+      // Create a new workbook
+      const wb = XLSX.utils.book_new();
 
-        return {
-          Year: (item.year || currentYearFile - index).toString(),
-          "Total Revenue":
-            Math.round(
-              (item.totalRevenue + item.totalRevenue * 0.2 || 0) * 100
-            ) / 100,
-          "Total Profit":
-            Math.round((item.totalRevenue * 0.2 || 0) * 100) / 100,
-          "Profit Earrings": earringsProfit,
-          "Profit Necklaces": necklacesProfit,
-          "Profit Bracelets": braceletsProfit,
-          "Profit Rings": ringsProfit,
-        };
+      revenueData.forEach((item) => {
+        const monthlyData = item.getProfitByCategory || [];
+
+        // Prepare monthly data rows
+        const monthlyRows = monthlyData.map((monthData, i) => ({
+          Month: new Date(0, i).toLocaleString("en-US", { month: "long" }),
+          "Profit Earrings":
+            Math.round((monthData.Earrings || 0) * 0.2 * 100) / 100,
+          "Profit Necklaces":
+            Math.round((monthData.Necklaces || 0) * 0.2 * 100) / 100,
+          "Profit Bracelets":
+            Math.round((monthData.Bracelets || 0) * 0.2 * 100) / 100,
+          "Profit Rings": Math.round((monthData.Rings || 0) * 0.2 * 100) / 100,
+        }));
+
+        // Calculate yearly totals
+        const yearlyTotals = monthlyData.reduce(
+          (acc, monthData) => {
+            acc["Profit Earrings"] +=
+              Math.round((monthData.Earrings || 0) * 0.2 * 100) / 100;
+            acc["Profit Necklaces"] +=
+              Math.round((monthData.Necklaces || 0) * 0.2 * 100) / 100;
+            acc["Profit Bracelets"] +=
+              Math.round((monthData.Bracelets || 0) * 0.2 * 100) / 100;
+            acc["Profit Rings"] +=
+              Math.round((monthData.Rings || 0) * 0.2 * 100) / 100;
+            return acc;
+          },
+          {
+            Month: "Total",
+            "Profit Earrings": 0,
+            "Profit Necklaces": 0,
+            "Profit Bracelets": 0,
+            "Profit Rings": 0,
+          }
+        );
+
+        // Combine monthly data and yearly total
+        const sheetData = [...monthlyRows, yearlyTotals];
+
+        // Convert the combined data to a sheet
+        const ws = XLSX.utils.json_to_sheet(sheetData, {
+          header: [
+            "Month",
+            "Profit Earrings",
+            "Profit Necklaces",
+            "Profit Bracelets",
+            "Profit Rings",
+          ],
+        });
+
+        // Append sheet to workbook
+        XLSX.utils.book_append_sheet(wb, ws, `RevenueData ${item.year}`);
       });
 
-      const ws = XLSX.utils.json_to_sheet(mappedData);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "RevenueData");
+      // Write the Excel file and save it
       const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
       const dataBlob = new Blob([excelBuffer], {
         type: "application/octet-stream",
@@ -85,6 +100,7 @@ const RevenueExportCategoryComponent = () => {
       saveAs(dataBlob, `RevenueCategoryData.xlsx`);
     }
   };
+
   // Fetch revenue data on component mount
   useEffect(() => {
     fetchRevenueData();
