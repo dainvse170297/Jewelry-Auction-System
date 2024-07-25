@@ -42,6 +42,10 @@ public class AuctionRegisterService implements IAuctionRegisterService {
     @Override
     public AuctionRegister placeToBid(Integer lotId,Integer memberId, BigDecimal price) {
 
+        AuctionRegister isRegistered = auctionRegisterRepository.findByLotIdAndMemberId(lotId, memberId);
+        if(isRegistered != null){
+            throw new RuntimeException("You have already registered to bid this jewelry");
+        }
         if(price == null){
             price = BigDecimal.ZERO;
         }
