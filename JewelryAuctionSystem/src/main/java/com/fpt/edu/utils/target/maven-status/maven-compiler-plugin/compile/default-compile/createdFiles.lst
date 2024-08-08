@@ -1,0 +1,6 @@
+com\fpt\edu\utils\MessageProvider$PaymentService.class
+com\fpt\edu\utils\MessageProvider$FinancialProofService.class
+com\fpt\edu\utils\MessageProvider$BidService.class
+com\fpt\edu\controller\HelloController.class
+com\fpt\edu\utils\MessageProvider$ValuationRequestService.class
+com\fpt\edu\utils\MessageProvider.class

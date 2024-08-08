@@ -1,0 +1,5 @@
+# Created at 2024-07-12T09:00:23.605
+Boot Manifest-JAR contains absolute paths in classpath 'D:\FPTU-SU24\SWP391\work-space\Group06-Jewelry-Auction-System\JewelryAuctionSystem\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
